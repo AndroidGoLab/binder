@@ -91,14 +91,14 @@ var _ binder.TransactionReceiver = (*SendMgmtFrameEventStub)(nil)
 func (s *SendMgmtFrameEventStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISendMgmtFrameEventOnAck:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_elapsedTimeMs, _err := data.ReadInt32()
+		_arg_elapsedTimeMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -106,10 +106,10 @@ func (s *SendMgmtFrameEventStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISendMgmtFrameEventOnFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -176,14 +176,14 @@ var _ binder.TransactionReceiver = (*MediaContainerServiceStub)(nil)
 func (s *MediaContainerServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaContainerServiceCopyPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packagePath, _err := data.ReadString16()
+		_arg_packagePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -198,18 +198,18 @@ func (s *MediaContainerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMediaContainerServiceGetMinimalPackageInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packagePath, _err := data.ReadString16()
+		_arg_packagePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_abiOverride, _err := data.ReadString16()
+		_arg_abiOverride, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -223,10 +223,10 @@ func (s *MediaContainerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaContainerServiceGetObbInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_filename, _err := data.ReadString16()
+		_arg_filename, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -240,14 +240,14 @@ func (s *MediaContainerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaContainerServiceCalculateInstalledSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packagePath, _err := data.ReadString16()
+		_arg_packagePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_abiOverride, _err := data.ReadString16()
+		_arg_abiOverride, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

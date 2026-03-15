@@ -175,14 +175,14 @@ var _ binder.TransactionReceiver = (*DrmPluginListenerStub)(nil)
 func (s *DrmPluginListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDrmPluginListenerOnEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_eventType, _err := data.ReadInt32()
+		_raw_eventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -197,13 +197,13 @@ func (s *DrmPluginListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDrmPluginListenerOnExpirationUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
 		_ = _arg_sessionId
-		_arg_expiryTimeInMS, _err := data.ReadInt64()
+		_arg_expiryTimeInMS, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -211,7 +211,7 @@ func (s *DrmPluginListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDrmPluginListenerOnKeysChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -220,7 +220,7 @@ func (s *DrmPluginListenerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyStatusList []KeyStatus
 		_ = _arg_keyStatusList
-		_arg_hasNewUsableKey, _err := data.ReadBool()
+		_arg_hasNewUsableKey, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -228,7 +228,7 @@ func (s *DrmPluginListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDrmPluginListenerOnSessionLostState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

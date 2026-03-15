@@ -388,44 +388,44 @@ var _ binder.TransactionReceiver = (*AlarmManagerStub)(nil)
 func (s *AlarmManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAlarmManagerSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_triggerAtTime, _err := data.ReadInt64()
+		_arg_triggerAtTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_windowLength, _err := data.ReadInt64()
+		_arg_windowLength, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_interval, _err := data.ReadInt64()
+		_arg_interval, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_operation PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_operation.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_operation.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -433,19 +433,19 @@ func (s *AlarmManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IAlarmListener
 		_ = _arg_listener
-		_arg_listenerTag, _err := data.ReadString16()
+		_arg_listenerTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_workSource interface{}
 		var _arg_alarmClock AlarmManagerAlarmClockInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_alarmClock.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_alarmClock.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -459,10 +459,10 @@ func (s *AlarmManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAlarmManagerSetTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_millis, _err := data.ReadInt64()
+		_arg_millis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -476,10 +476,10 @@ func (s *AlarmManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAlarmManagerSetTimeZone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_zone, _err := data.ReadString16()
+		_arg_zone, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -492,17 +492,17 @@ func (s *AlarmManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAlarmManagerRemove:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_operation PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_operation.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_operation.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -519,10 +519,10 @@ func (s *AlarmManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAlarmManagerRemoveAll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -535,7 +535,7 @@ func (s *AlarmManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAlarmManagerGetNextWakeFromIdleTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNextWakeFromIdleTime(ctx)
@@ -548,10 +548,10 @@ func (s *AlarmManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAlarmManagerGetNextAlarmClock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNextAlarmClock(ctx)
@@ -567,10 +567,10 @@ func (s *AlarmManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAlarmManagerCanScheduleExactAlarms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -584,14 +584,14 @@ func (s *AlarmManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAlarmManagerHasScheduleExactAlarm:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasScheduleExactAlarm(ctx, _arg_packageName)
@@ -604,7 +604,7 @@ func (s *AlarmManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAlarmManagerGetConfigVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetConfigVersion(ctx)

@@ -261,11 +261,11 @@ var _ binder.TransactionReceiver = (*ClientInterfaceStub)(nil)
 func (s *ClientInterfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIClientInterfaceGetPacketCounters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPacketCounters(ctx)
@@ -279,7 +279,7 @@ func (s *ClientInterfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIClientInterfaceSignalPoll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SignalPoll(ctx)
@@ -293,7 +293,7 @@ func (s *ClientInterfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIClientInterfaceGetMacAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMacAddress(ctx)
@@ -307,7 +307,7 @@ func (s *ClientInterfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIClientInterfaceGetInterfaceName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInterfaceName(ctx)
@@ -320,7 +320,7 @@ func (s *ClientInterfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIClientInterfaceGetWifiScannerImpl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWifiScannerImpl(ctx)
@@ -334,7 +334,7 @@ func (s *ClientInterfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIClientInterfaceSendMgmtFrame:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -343,7 +343,7 @@ func (s *ClientInterfaceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISendMgmtFrameEvent
 		_ = _arg_callback
-		_arg_mcs, _err := data.ReadInt32()
+		_arg_mcs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

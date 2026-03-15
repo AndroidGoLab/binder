@@ -630,34 +630,34 @@ var _ binder.TransactionReceiver = (*TextToSpeechServiceStub)(nil)
 func (s *TextToSpeechServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITextToSpeechServiceSpeak:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callingInstance binder.IBinder
 		_ = _arg_callingInstance
 		var _arg_text interface{}
-		_arg_queueMode, _err := data.ReadInt32()
+		_arg_queueMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_params os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -671,30 +671,30 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceSynthesizeToFileDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callingInstance binder.IBinder
 		_ = _arg_callingInstance
 		var _arg_text interface{}
-		_arg_fileDescriptor, _err := data.ReadFileDescriptor()
+		_arg_fileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_params os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -708,7 +708,7 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServicePlayAudio:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -716,33 +716,33 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_ = _arg_callingInstance
 		var _arg_audioUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_audioUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_audioUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_queueMode, _err := data.ReadInt32()
+		_arg_queueMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_params os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -756,21 +756,21 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServicePlaySilence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callingInstance binder.IBinder
 		_ = _arg_callingInstance
-		_arg_duration, _err := data.ReadInt64()
+		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_queueMode, _err := data.ReadInt32()
+		_arg_queueMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -784,7 +784,7 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceIsSpeaking:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSpeaking(ctx)
@@ -797,7 +797,7 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -813,7 +813,7 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetLanguage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLanguage(ctx)
@@ -827,7 +827,7 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetClientDefaultLanguage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetClientDefaultLanguage(ctx)
@@ -841,18 +841,18 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITextToSpeechServiceIsLanguageAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lang, _err := data.ReadString16()
+		_arg_lang, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_country, _err := data.ReadString16()
+		_arg_country, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_variant, _err := data.ReadString16()
+		_arg_variant, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -866,18 +866,18 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetFeaturesForLanguage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lang, _err := data.ReadString16()
+		_arg_lang, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_country, _err := data.ReadString16()
+		_arg_country, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_variant, _err := data.ReadString16()
+		_arg_variant, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -892,21 +892,21 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITextToSpeechServiceLoadLanguage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller binder.IBinder
 		_ = _arg_caller
-		_arg_lang, _err := data.ReadString16()
+		_arg_lang, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_country, _err := data.ReadString16()
+		_arg_country, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_variant, _err := data.ReadString16()
+		_arg_variant, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -920,7 +920,7 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -938,7 +938,7 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetVoices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVoices(ctx)
@@ -952,13 +952,13 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITextToSpeechServiceLoadVoice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller binder.IBinder
 		_ = _arg_caller
-		_arg_voiceName, _err := data.ReadString16()
+		_arg_voiceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -972,18 +972,18 @@ func (s *TextToSpeechServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITextToSpeechServiceGetDefaultVoiceNameFor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lang, _err := data.ReadString16()
+		_arg_lang, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_country, _err := data.ReadString16()
+		_arg_country, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_variant, _err := data.ReadString16()
+		_arg_variant, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

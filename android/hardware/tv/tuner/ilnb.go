@@ -218,11 +218,11 @@ var _ binder.TransactionReceiver = (*LnbStub)(nil)
 func (s *LnbStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionILnbSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -237,10 +237,10 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbSetVoltage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_voltage, _err := data.ReadInt32()
+		_raw_voltage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -254,10 +254,10 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbSetTone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_tone, _err := data.ReadInt32()
+		_raw_tone, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -271,10 +271,10 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbSetSatellitePosition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_position, _err := data.ReadInt32()
+		_raw_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -288,7 +288,7 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbSendDiseqcMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -303,7 +303,7 @@ func (s *LnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILnbClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)

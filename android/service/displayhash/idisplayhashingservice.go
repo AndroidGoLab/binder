@@ -167,11 +167,11 @@ var _ binder.TransactionReceiver = (*DisplayHashingServiceStub)(nil)
 func (s *DisplayHashingServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDisplayHashingServiceGenerateDisplayHash:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -180,28 +180,28 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 		var _arg_buffer interface{}
 		var _arg_bounds graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bounds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_hashAlgorithm, _err := data.ReadString16()
+		_arg_hashAlgorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -210,7 +210,7 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayHashingServiceVerifyDisplayHash:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -218,24 +218,24 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 		_ = _arg_salt
 		var _arg_displayHash viewDisplayhash.DisplayHash
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_displayHash.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_displayHash.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -244,17 +244,17 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayHashingServiceGetDisplayHashAlgorithms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -263,17 +263,17 @@ func (s *DisplayHashingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayHashingServiceGetIntervalBetweenRequestsMillis:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

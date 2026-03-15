@@ -110,21 +110,21 @@ var _ binder.TransactionReceiver = (*HostapdCallbackStub)(nil)
 func (s *HostapdCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHostapdCallbackOnApInstanceInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_apInfo ApInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_apInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_apInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -133,17 +133,17 @@ func (s *HostapdCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHostapdCallbackOnConnectedClientsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_clientInfo ClientInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_clientInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_clientInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -152,14 +152,14 @@ func (s *HostapdCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHostapdCallbackOnFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifaceName, _err := data.ReadString16()
+		_arg_ifaceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_instanceName, _err := data.ReadString16()
+		_arg_instanceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

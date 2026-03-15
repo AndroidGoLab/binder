@@ -120,11 +120,11 @@ var _ binder.TransactionReceiver = (*InlineSuggestionRenderServiceStub)(nil)
 func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInlineSuggestionRenderServiceRenderSuggestion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -132,35 +132,35 @@ func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 		_ = _arg_callback
 		var _arg_presentation InlinePresentation
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_presentation.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_presentation.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hostInputToken binder.IBinder
 		_ = _arg_hostInputToken
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -168,7 +168,7 @@ func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionRenderServiceGetInlineSuggestionsRendererInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -176,13 +176,13 @@ func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionRenderServiceDestroySuggestionViews:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

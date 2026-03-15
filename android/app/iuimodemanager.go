@@ -882,11 +882,11 @@ var _ binder.TransactionReceiver = (*UiModeManagerStub)(nil)
 func (s *UiModeManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUiModeManagerAddCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -901,18 +901,18 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerEnableCarMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_priority, _err := data.ReadInt32()
+		_arg_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.EnableCarMode(ctx, _arg_flags, _arg_priority)
@@ -924,10 +924,10 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerDisableCarMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -940,14 +940,14 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerDisableCarModeByCallingPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DisableCarModeByCallingPackage(ctx, _arg_flags)
@@ -959,7 +959,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetCurrentModeType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentModeType(ctx)
@@ -972,10 +972,10 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetNightMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -988,7 +988,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetNightMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNightMode(ctx)
@@ -1001,10 +1001,10 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetNightModeCustomType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nightModeCustomType, _err := data.ReadInt32()
+		_arg_nightModeCustomType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1017,7 +1017,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetNightModeCustomType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNightModeCustomType(ctx)
@@ -1030,10 +1030,10 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetAttentionModeThemeOverlay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_attentionModeThemeOverlayType, _err := data.ReadInt32()
+		_arg_attentionModeThemeOverlayType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1046,7 +1046,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetAttentionModeThemeOverlay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAttentionModeThemeOverlay(ctx)
@@ -1059,10 +1059,10 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetApplicationNightMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1075,7 +1075,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerIsUiModeLocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUiModeLocked(ctx)
@@ -1088,7 +1088,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerIsNightModeLocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsNightModeLocked(ctx)
@@ -1101,14 +1101,14 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetNightModeActivatedForCustomMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nightModeCustom, _err := data.ReadInt32()
+		_arg_nightModeCustom, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1122,10 +1122,10 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetNightModeActivated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1139,7 +1139,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerGetCustomNightModeStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCustomNightModeStart(ctx)
@@ -1152,10 +1152,10 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetCustomNightModeStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_time, _err := data.ReadInt64()
+		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1168,7 +1168,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetCustomNightModeEnd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCustomNightModeEnd(ctx)
@@ -1181,10 +1181,10 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerSetCustomNightModeEnd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_time, _err := data.ReadInt64()
+		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1197,17 +1197,17 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerRequestProjection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_binder_ binder.IBinder
 		_ = _arg_binder_
-		_arg_projectionType, _err := data.ReadInt32()
+		_arg_projectionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RequestProjection(ctx, _arg_binder_, _arg_projectionType)
@@ -1220,14 +1220,14 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerReleaseProjection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_projectionType, _err := data.ReadInt32()
+		_arg_projectionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ReleaseProjection(ctx, _arg_projectionType)
@@ -1240,13 +1240,13 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerAddOnProjectionStateChangedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnProjectionStateChangedListener
 		_ = _arg_listener
-		_arg_projectionType, _err := data.ReadInt32()
+		_arg_projectionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1259,7 +1259,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerRemoveOnProjectionStateChangedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1274,10 +1274,10 @@ func (s *UiModeManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiModeManagerGetProjectingPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_projectionType, _err := data.ReadInt32()
+		_arg_projectionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1292,7 +1292,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUiModeManagerGetActiveProjectionTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveProjectionTypes(ctx)
@@ -1305,7 +1305,7 @@ func (s *UiModeManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUiModeManagerGetContrast:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetContrast(ctx)

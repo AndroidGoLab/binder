@@ -791,18 +791,18 @@ var _ binder.TransactionReceiver = (*InCallAdapterStub)(nil)
 func (s *InCallAdapterStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInCallAdapterAnswerCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_videoState, _err := data.ReadInt32()
+		_arg_videoState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -810,21 +810,21 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterDeflectCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_address net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_address.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_address.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -833,18 +833,18 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterRejectCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rejectWithMessage, _err := data.ReadBool()
+		_arg_rejectWithMessage, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_textMessage, _err := data.ReadString16()
+		_arg_textMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -852,14 +852,14 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterRejectCallWithReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rejectReason, _err := data.ReadInt32()
+		_arg_rejectReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -867,26 +867,26 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterTransferCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_targetNumber net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_targetNumber.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_targetNumber.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isConfirmationRequired, _err := data.ReadBool()
+		_arg_isConfirmationRequired, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -894,14 +894,14 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterConsultativeTransfer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_otherCallId, _err := data.ReadString16()
+		_arg_otherCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -909,10 +909,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterDisconnectCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -920,10 +920,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterHoldCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -931,10 +931,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterUnholdCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -942,10 +942,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterMute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_shouldMute, _err := data.ReadBool()
+		_arg_shouldMute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -953,14 +953,14 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterSetAudioRoute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_route, _err := data.ReadInt32()
+		_arg_route, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bluetoothAddress, _err := data.ReadString16()
+		_arg_bluetoothAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -968,29 +968,29 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterRequestCallEndpointChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_endpoint androidTelecom.CallEndpoint
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_endpoint.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_endpoint.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -999,10 +999,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterEnterBackgroundAudioProcessing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1010,14 +1010,14 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterExitBackgroundAudioProcessing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldRing, _err := data.ReadBool()
+		_arg_shouldRing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1025,14 +1025,14 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterPlayDtmfTone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_digit, _err := data.ReadInt32()
+		_raw_digit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1041,10 +1041,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterStopDtmfTone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1052,14 +1052,14 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterPostDialContinue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proceed, _err := data.ReadBool()
+		_arg_proceed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1067,26 +1067,26 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterPhoneAccountSelected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_accountHandle androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_setDefault, _err := data.ReadBool()
+		_arg_setDefault, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1094,14 +1094,14 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_otherCallId, _err := data.ReadString16()
+		_arg_otherCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1109,10 +1109,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterSplitFromConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1120,10 +1120,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterMergeConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1131,10 +1131,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterSwapConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1142,10 +1142,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterAddConferenceParticipants:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1156,17 +1156,17 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterTurnOnProximitySensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.TurnOnProximitySensor(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterTurnOffProximitySensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_screenOnImmediately, _err := data.ReadBool()
+		_arg_screenOnImmediately, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1174,10 +1174,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterPullExternalCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1185,29 +1185,29 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterSendCallEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadString16()
+		_arg_event, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVer, _err := data.ReadInt32()
+		_arg_targetSdkVer, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1216,21 +1216,21 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterPutExtras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1239,10 +1239,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterRemoveExtras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1253,10 +1253,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterSendRttRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1264,18 +1264,18 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterRespondToRttRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accept, _err := data.ReadBool()
+		_arg_accept, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1283,10 +1283,10 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterStopRtt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1294,14 +1294,14 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterSetRttMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1309,37 +1309,37 @@ func (s *InCallAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInCallAdapterHandoverTo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_destAcct androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_destAcct.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_destAcct.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_videoState, _err := data.ReadInt32()
+		_arg_videoState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

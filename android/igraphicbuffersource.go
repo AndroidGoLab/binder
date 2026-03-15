@@ -360,17 +360,17 @@ var _ binder.TransactionReceiver = (*GraphicBufferSourceStub)(nil)
 func (s *GraphicBufferSourceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGraphicBufferSourceConfigure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_omxNode IOMXNode
 		_ = _arg_omxNode
-		_arg_dataSpace, _err := data.ReadInt32()
+		_arg_dataSpace, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -383,14 +383,14 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetSuspend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_suspend, _err := data.ReadBool()
+		_arg_suspend, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_suspendTimeUs, _err := data.ReadInt64()
+		_arg_suspendTimeUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -403,10 +403,10 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetRepeatPreviousFrameDelayUs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_repeatAfterUs, _err := data.ReadInt64()
+		_arg_repeatAfterUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -419,10 +419,10 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetMaxFps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_maxFps, _err := data.ReadFloat32()
+		_arg_maxFps, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -435,14 +435,14 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetTimeLapseConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fps, _err := data.ReadFloat64()
+		_arg_fps, _err := _data.ReadFloat64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_captureFps, _err := data.ReadFloat64()
+		_arg_captureFps, _err := _data.ReadFloat64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -455,10 +455,10 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetStartTimeUs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_startTimeUs, _err := data.ReadInt64()
+		_arg_startTimeUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -471,10 +471,10 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetStopTimeUs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_stopTimeUs, _err := data.ReadInt64()
+		_arg_stopTimeUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -487,7 +487,7 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceGetStopTimeOffsetUs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetStopTimeOffsetUs(ctx)
@@ -500,10 +500,10 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetColorAspects:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_aspects, _err := data.ReadInt32()
+		_arg_aspects, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -516,10 +516,10 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSetTimeOffsetUs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeOffsetsUs, _err := data.ReadInt64()
+		_arg_timeOffsetsUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -532,7 +532,7 @@ func (s *GraphicBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGraphicBufferSourceSignalEndOfInputStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SignalEndOfInputStream(ctx)

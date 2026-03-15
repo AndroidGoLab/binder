@@ -557,11 +557,11 @@ var _ binder.TransactionReceiver = (*PackageManagerNativeStub)(nil)
 func (s *PackageManagerNativeStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPackageManagerNativeGetNamesForUids:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -578,18 +578,18 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetPackageUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString()
+		_arg_packageName, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPackageUid(ctx, _arg_packageName, _arg_flags)
@@ -602,10 +602,10 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetInstallerForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -619,10 +619,10 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetVersionCodeForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -636,7 +636,7 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeIsAudioPlaybackCaptureAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -653,10 +653,10 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetLocationFlags:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString()
+		_arg_packageName, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -670,10 +670,10 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetTargetSdkVersionForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -687,7 +687,7 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetModuleMetadataPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetModuleMetadataPackageName(ctx)
@@ -700,10 +700,10 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeHasSha256SigningCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString()
+		_arg_packageName, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -720,10 +720,10 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeIsPackageDebuggable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -737,14 +737,14 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeHasSystemFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_featureName, _err := data.ReadString16()
+		_arg_featureName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_version, _err := data.ReadInt32()
+		_arg_version, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -758,7 +758,7 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNativeRegisterStagedApexObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -773,7 +773,7 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerNativeUnregisterStagedApexObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -788,7 +788,7 @@ func (s *PackageManagerNativeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerNativeGetStagedApexInfos:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetStagedApexInfos(ctx)

@@ -544,14 +544,14 @@ var _ binder.TransactionReceiver = (*SystemUiProxyStub)(nil)
 func (s *SystemUiProxyStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISystemUiProxyStartScreenPinning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -559,10 +559,10 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyOnOverviewShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fromHome, _err := data.ReadBool()
+		_arg_fromHome, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -570,17 +570,17 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyOnStatusBarTouchEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event common.MotionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -589,10 +589,10 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyOnAssistantProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_progress, _err := data.ReadFloat32()
+		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -600,10 +600,10 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyOnAssistantGestureCompletion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_velocity, _err := data.ReadFloat32()
+		_arg_velocity, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -611,17 +611,17 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyStartAssistant:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_bundle os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bundle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bundle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -630,7 +630,7 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxySetAssistantOverridesRequested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -640,10 +640,10 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyNotifyAccessibilityButtonClicked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -651,24 +651,24 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyNotifyAccessibilityButtonLongClicked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyAccessibilityButtonLongClicked(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyStopScreenPinning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopScreenPinning(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyNotifyPrioritizedRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rotation, _err := data.ReadInt32()
+		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -676,24 +676,24 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyExpandNotificationPanel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ExpandNotificationPanel(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyOnBackEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_keyEvent view.KeyEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_keyEvent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -702,10 +702,10 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxySetHomeRotationEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -713,14 +713,14 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyNotifyTaskbarStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stashed, _err := data.ReadBool()
+		_arg_stashed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -728,10 +728,10 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyNotifyTaskbarAutohideSuspend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_suspend, _err := data.ReadBool()
+		_arg_suspend, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -739,31 +739,31 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyOnImeSwitcherPressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnImeSwitcherPressed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyToggleNotificationPanel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ToggleNotificationPanel(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyTakeScreenshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request util.ScreenshotRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -772,17 +772,17 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyOnStatusBarTrackpadEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event common.MotionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -791,18 +791,18 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyAnimateNavBarLongPress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isTouchDown, _err := data.ReadBool()
+		_arg_isTouchDown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shrink, _err := data.ReadBool()
+		_arg_shrink, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_durationMs, _err := data.ReadInt64()
+		_arg_durationMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -810,18 +810,18 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxySetOverrideHomeButtonLongPress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_duration, _err := data.ReadInt64()
+		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_slopMultiplier, _err := data.ReadFloat32()
+		_arg_slopMultiplier, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_haptic, _err := data.ReadBool()
+		_arg_haptic, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -829,28 +829,28 @@ func (s *SystemUiProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyToggleQuickSettingsPanel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ToggleQuickSettingsPanel(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyOnImeSwitcherLongPress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnImeSwitcherLongPress(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISystemUiProxyUpdateContextualEduStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isTrackpadGesture, _err := data.ReadBool()
+		_arg_isTrackpadGesture, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_gestureType, _err := data.ReadString16()
+		_arg_gestureType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

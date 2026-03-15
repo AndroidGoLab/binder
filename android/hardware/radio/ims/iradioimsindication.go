@@ -118,30 +118,30 @@ var _ binder.TransactionReceiver = (*RadioImsIndicationStub)(nil)
 func (s *RadioImsIndicationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRadioImsIndicationOnConnectionSetupFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_info ConnectionFailureInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -150,25 +150,25 @@ func (s *RadioImsIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioImsIndicationNotifyAnbr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_mediaType, _err := data.ReadInt32()
+		_raw_mediaType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_mediaType := ImsStreamType(_raw_mediaType)
-		_raw_direction, _err := data.ReadInt32()
+		_raw_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_direction := ImsStreamDirection(_raw_direction)
-		_arg_bitsPerSecond, _err := data.ReadInt32()
+		_arg_bitsPerSecond, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -176,15 +176,15 @@ func (s *RadioImsIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioImsIndicationTriggerImsDeregistration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_reason, _err := data.ReadInt32()
+		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

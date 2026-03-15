@@ -287,15 +287,15 @@ var _ binder.TransactionReceiver = (*OnAppsChangedListenerStub)(nil)
 func (s *OnAppsChangedListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOnAppsChangedListenerOnPackageRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -303,11 +303,11 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnAppsChangedListenerOnPackageAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -315,11 +315,11 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnAppsChangedListenerOnPackageChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -327,14 +327,14 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnAppsChangedListenerOnPackagesAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
 		_ = _arg_packageNames
-		_arg_replacing, _err := data.ReadBool()
+		_arg_replacing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -342,14 +342,14 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnAppsChangedListenerOnPackagesUnavailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
 		_ = _arg_packageNames
-		_arg_replacing, _err := data.ReadBool()
+		_arg_replacing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -357,7 +357,7 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnAppsChangedListenerOnPackagesSuspended:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
@@ -369,7 +369,7 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnAppsChangedListenerOnPackagesUnsuspended:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
@@ -380,22 +380,22 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnAppsChangedListenerOnShortcutChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_shortcuts ParceledListSlice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_shortcuts.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_shortcuts.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -404,15 +404,15 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnAppsChangedListenerOnPackageLoadingProgressChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_progress, _err := data.ReadFloat32()
+		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -420,17 +420,17 @@ func (s *OnAppsChangedListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnAppsChangedListenerOnUserConfigChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_launcherUserInfo LauncherUserInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_launcherUserInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_launcherUserInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

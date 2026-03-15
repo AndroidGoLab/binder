@@ -226,11 +226,11 @@ var _ binder.TransactionReceiver = (*ImsRegistrationStub)(nil)
 func (s *ImsRegistrationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsRegistrationGetRegistrationTechnology:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRegistrationTechnology(ctx)
@@ -243,7 +243,7 @@ func (s *ImsRegistrationStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsRegistrationAddRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -253,7 +253,7 @@ func (s *ImsRegistrationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationRemoveRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -263,7 +263,7 @@ func (s *ImsRegistrationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationAddEmergencyRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -273,7 +273,7 @@ func (s *ImsRegistrationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationRemoveEmergencyRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -283,14 +283,14 @@ func (s *ImsRegistrationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationTriggerFullNetworkRegistration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sipCode, _err := data.ReadInt32()
+		_arg_sipCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sipReason, _err := data.ReadString16()
+		_arg_sipReason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -298,24 +298,24 @@ func (s *ImsRegistrationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationTriggerUpdateSipDelegateRegistration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.TriggerUpdateSipDelegateRegistration(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationTriggerSipDelegateDeregistration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.TriggerSipDelegateDeregistration(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationTriggerDeregistration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

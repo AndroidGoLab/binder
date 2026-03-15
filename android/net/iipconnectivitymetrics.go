@@ -215,21 +215,21 @@ var _ binder.TransactionReceiver = (*IpConnectivityMetricsStub)(nil)
 func (s *IpConnectivityMetricsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIpConnectivityMetricsLogEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event ConnectivityMetricsEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -244,10 +244,10 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIpConnectivityMetricsLogDefaultNetworkValidity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_valid, _err := data.ReadBool()
+		_arg_valid, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -260,22 +260,22 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIpConnectivityMetricsLogDefaultNetworkEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_defaultNetwork interface{}
-		_arg_score, _err := data.ReadInt32()
+		_arg_score, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_validated, _err := data.ReadBool()
+		_arg_validated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_lp interface{}
 		var _arg_nc interface{}
 		var _arg_previousDefaultNetwork interface{}
-		_arg_previousScore, _err := data.ReadInt32()
+		_arg_previousScore, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -290,10 +290,10 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIpConnectivityMetricsAddNetdEventCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerType, _err := data.ReadInt32()
+		_arg_callerType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -310,10 +310,10 @@ func (s *IpConnectivityMetricsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIpConnectivityMetricsRemoveNetdEventCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerType, _err := data.ReadInt32()
+		_arg_callerType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

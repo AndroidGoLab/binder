@@ -193,33 +193,33 @@ var _ binder.TransactionReceiver = (*SmartspaceManagerStub)(nil)
 func (s *SmartspaceManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISmartspaceManagerCreateSmartspaceSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config SmartspaceConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sessionId SmartspaceSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -231,29 +231,29 @@ func (s *SmartspaceManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISmartspaceManagerNotifySmartspaceEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId SmartspaceSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_event SmartspaceTargetEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -262,17 +262,17 @@ func (s *SmartspaceManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISmartspaceManagerRequestSmartspaceUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId SmartspaceSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -281,17 +281,17 @@ func (s *SmartspaceManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISmartspaceManagerRegisterSmartspaceUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId SmartspaceSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -303,17 +303,17 @@ func (s *SmartspaceManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISmartspaceManagerUnregisterSmartspaceUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId SmartspaceSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -325,17 +325,17 @@ func (s *SmartspaceManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISmartspaceManagerDestroySmartspaceSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId SmartspaceSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

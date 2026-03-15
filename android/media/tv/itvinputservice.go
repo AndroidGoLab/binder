@@ -360,11 +360,11 @@ var _ binder.TransactionReceiver = (*TvInputServiceStub)(nil)
 func (s *TvInputServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITvInputServiceRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -374,7 +374,7 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputServiceUnregisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -384,17 +384,17 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputServiceCreateSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_channel view.InputChannel
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_channel.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_channel.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -402,22 +402,22 @@ func (s *TvInputServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputSessionCallback
 		_ = _arg_callback
-		_arg_inputId, _err := data.ReadString16()
+		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_tvAppAttributionSource content.AttributionSource
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_tvAppAttributionSource.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_tvAppAttributionSource.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -426,17 +426,17 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputServiceCreateRecordingSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInputSessionCallback
 		_ = _arg_callback
-		_arg_inputId, _err := data.ReadString16()
+		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -444,7 +444,7 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputServiceGetAvailableExtensionInterfaceNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailableExtensionInterfaceNames(ctx)
@@ -458,10 +458,10 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITvInputServiceGetExtensionInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -476,10 +476,10 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITvInputServiceGetExtensionInterfacePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -493,17 +493,17 @@ func (s *TvInputServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITvInputServiceNotifyHardwareAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hardwareInfo TvInputHardwareInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hardwareInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hardwareInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -512,17 +512,17 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputServiceNotifyHardwareRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hardwareInfo TvInputHardwareInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hardwareInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hardwareInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -531,17 +531,17 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputServiceNotifyHdmiDeviceAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_deviceInfo hdmi.HdmiDeviceInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_deviceInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_deviceInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -550,17 +550,17 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputServiceNotifyHdmiDeviceRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_deviceInfo hdmi.HdmiDeviceInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_deviceInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_deviceInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -569,17 +569,17 @@ func (s *TvInputServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputServiceNotifyHdmiDeviceUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_deviceInfo hdmi.HdmiDeviceInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_deviceInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_deviceInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

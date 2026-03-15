@@ -114,11 +114,11 @@ var _ binder.TransactionReceiver = (*LocationListenerStub)(nil)
 func (s *LocationListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionILocationListenerOnLocationChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -129,14 +129,14 @@ func (s *LocationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionILocationListenerOnProviderEnabledChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -144,10 +144,10 @@ func (s *LocationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionILocationListenerOnFlushComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

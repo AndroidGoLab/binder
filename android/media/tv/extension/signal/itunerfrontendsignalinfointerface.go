@@ -112,14 +112,14 @@ var _ binder.TransactionReceiver = (*TunerFrontendSignalInfoInterfaceStub)(nil)
 func (s *TunerFrontendSignalInfoInterfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerFrontendSignalInfoInterfaceGetFrontendSignalInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -136,7 +136,7 @@ func (s *TunerFrontendSignalInfoInterfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerFrontendSignalInfoInterfaceSetFrontendSignalInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

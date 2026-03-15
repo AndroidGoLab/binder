@@ -487,25 +487,25 @@ var _ binder.TransactionReceiver = (*SliceManagerStub)(nil)
 func (s *SliceManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISliceManagerPinSlice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -525,21 +525,21 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerUnpinSlice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -556,10 +556,10 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerHasSliceAccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -573,22 +573,22 @@ func (s *SliceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISliceManagerGetPinnedSpecs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -603,10 +603,10 @@ func (s *SliceManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISliceManagerGetPinnedSlices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -621,10 +621,10 @@ func (s *SliceManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISliceManagerGetBackupPayload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_user, _err := data.ReadInt32()
+		_arg_user, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -639,13 +639,13 @@ func (s *SliceManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISliceManagerApplyRestore:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_payload []byte
 		_ = _arg_payload
-		_arg_user, _err := data.ReadInt32()
+		_arg_user, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -658,25 +658,25 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerGrantSlicePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_toPkg, _err := data.ReadString16()
+		_arg_toPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -690,25 +690,25 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerRevokeSlicePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_toPkg, _err := data.ReadString16()
+		_arg_toPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -722,30 +722,30 @@ func (s *SliceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISliceManagerCheckSlicePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -762,30 +762,30 @@ func (s *SliceManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISliceManagerGrantPermissionFromUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allSlices, _err := data.ReadBool()
+		_arg_allSlices, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

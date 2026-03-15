@@ -277,25 +277,25 @@ var _ binder.TransactionReceiver = (*CallControlStub)(nil)
 func (s *CallControlStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICallControlSetActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -304,25 +304,25 @@ func (s *CallControlStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallControlAnswer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_videoState, _err := data.ReadInt32()
+		_arg_videoState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -331,21 +331,21 @@ func (s *CallControlStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallControlSetInactive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -354,33 +354,33 @@ func (s *CallControlStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallControlDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_disconnectCause androidTelecom.DisconnectCause
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_disconnectCause.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_disconnectCause.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -389,21 +389,21 @@ func (s *CallControlStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallControlStartCallStreaming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -412,29 +412,29 @@ func (s *CallControlStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallControlRequestCallEndpointChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callEndpoint androidTelecom.CallEndpoint
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callEndpoint.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callEndpoint.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -443,21 +443,21 @@ func (s *CallControlStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallControlSetMuteState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isMuted, _err := data.ReadBool()
+		_arg_isMuted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -466,25 +466,25 @@ func (s *CallControlStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallControlSendEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadString16()
+		_arg_event, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -493,25 +493,25 @@ func (s *CallControlStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallControlRequestVideoState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_videoState, _err := data.ReadInt32()
+		_arg_videoState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

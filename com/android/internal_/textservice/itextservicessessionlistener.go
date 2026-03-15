@@ -64,11 +64,11 @@ var _ binder.TransactionReceiver = (*TextServicesSessionListenerStub)(nil)
 func (s *TextServicesSessionListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITextServicesSessionListenerOnServiceConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

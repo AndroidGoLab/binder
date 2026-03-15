@@ -132,14 +132,14 @@ var _ binder.TransactionReceiver = (*ExecutionStub)(nil)
 func (s *ExecutionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIExecutionExecuteSynchronously:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deadlineNs, _err := data.ReadInt64()
+		_arg_deadlineNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -156,17 +156,17 @@ func (s *ExecutionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIExecutionExecuteFenced:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_waitFor []int32
 		_ = _arg_waitFor
-		_arg_deadlineNs, _err := data.ReadInt64()
+		_arg_deadlineNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_durationNs, _err := data.ReadInt64()
+		_arg_durationNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

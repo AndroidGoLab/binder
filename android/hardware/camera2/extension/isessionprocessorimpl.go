@@ -390,17 +390,17 @@ var _ binder.TransactionReceiver = (*SessionProcessorImplStub)(nil)
 func (s *SessionProcessorImplStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISessionProcessorImplInitSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -409,36 +409,36 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		_ = _arg_charsMap
 		var _arg_previewSurface OutputSurface
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_previewSurface.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_previewSurface.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_imageCaptureSurface OutputSurface
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imageCaptureSurface.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imageCaptureSurface.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_postviewSurface OutputSurface
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_postviewSurface.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_postviewSurface.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -456,7 +456,7 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISessionProcessorImplDeInitSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -471,13 +471,13 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplOnCaptureSessionStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_requestProcessor IRequestProcessorImpl
 		_ = _arg_requestProcessor
-		_arg_statsKey, _err := data.ReadString16()
+		_arg_statsKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -490,7 +490,7 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplOnCaptureSessionEnd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnCaptureSessionEnd(ctx)
@@ -502,7 +502,7 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplStartRepeating:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -518,7 +518,7 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISessionProcessorImplStopRepeating:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopRepeating(ctx)
@@ -530,13 +530,13 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplStartCapture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICaptureCallback
 		_ = _arg_callback
-		_arg_isPostviewRequested, _err := data.ReadBool()
+		_arg_isPostviewRequested, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -550,17 +550,17 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISessionProcessorImplSetParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_captureRequest device.CaptureRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_captureRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_captureRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -574,17 +574,17 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionProcessorImplStartTrigger:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_captureRequest device.CaptureRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_captureRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_captureRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -602,7 +602,7 @@ func (s *SessionProcessorImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISessionProcessorImplGetRealtimeCaptureLatency:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRealtimeCaptureLatency(ctx)

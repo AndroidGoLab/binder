@@ -106,22 +106,22 @@ var _ binder.TransactionReceiver = (*ObbBackupServiceStub)(nil)
 func (s *ObbBackupServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIObbBackupServiceBackupObbs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadFileDescriptor()
+		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -132,38 +132,38 @@ func (s *ObbBackupServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIObbBackupServiceRestoreObbFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkgName, _err := data.ReadString16()
+		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadFileDescriptor()
+		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fileSize, _err := data.ReadInt64()
+		_arg_fileSize, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString16()
+		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt64()
+		_arg_mode, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mtime, _err := data.ReadInt64()
+		_arg_mtime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

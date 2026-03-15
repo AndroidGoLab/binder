@@ -1892,11 +1892,11 @@ var _ binder.TransactionReceiver = (*HdmiControlServiceStub)(nil)
 func (s *HdmiControlServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHdmiControlServiceGetSupportedTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedTypes(ctx)
@@ -1910,7 +1910,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetActiveSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveSource(ctx)
@@ -1926,7 +1926,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIHdmiControlServiceOneTouchPlay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1941,7 +1941,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceToggleAndFollowTvPower:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ToggleAndFollowTvPower(ctx)
@@ -1953,7 +1953,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceShouldHandleTvPowerKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ShouldHandleTvPowerKey(ctx)
@@ -1966,7 +1966,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceQueryDisplayStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1981,7 +1981,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddHdmiControlStatusChangeListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1996,7 +1996,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveHdmiControlStatusChangeListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2011,7 +2011,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddHdmiCecVolumeControlFeatureListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2026,7 +2026,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveHdmiCecVolumeControlFeatureListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2041,7 +2041,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddHotplugEventListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2056,7 +2056,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveHotplugEventListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2071,7 +2071,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddDeviceEventListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2086,10 +2086,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceDeviceSelect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2105,10 +2105,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServicePortSelect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2124,18 +2124,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendKeyEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceType, _err := data.ReadInt32()
+		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_keyCode, _err := data.ReadInt32()
+		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isPressed, _err := data.ReadBool()
+		_arg_isPressed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2148,18 +2148,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendVolumeKeyEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceType, _err := data.ReadInt32()
+		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_keyCode, _err := data.ReadInt32()
+		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isPressed, _err := data.ReadBool()
+		_arg_isPressed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2172,7 +2172,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetPortInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPortInfo(ctx)
@@ -2186,7 +2186,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHdmiControlServiceCanChangeSystemAudioMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CanChangeSystemAudioMode(ctx)
@@ -2199,7 +2199,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetSystemAudioMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemAudioMode(ctx)
@@ -2212,7 +2212,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetPhysicalAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPhysicalAddress(ctx)
@@ -2225,10 +2225,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetSystemAudioMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2244,7 +2244,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddSystemAudioModeChangeListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2259,7 +2259,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveSystemAudioModeChangeListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2274,10 +2274,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetArcMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2290,10 +2290,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetProhibitMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2306,18 +2306,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetSystemAudioVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_oldIndex, _err := data.ReadInt32()
+		_arg_oldIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newIndex, _err := data.ReadInt32()
+		_arg_newIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxIndex, _err := data.ReadInt32()
+		_arg_maxIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2330,10 +2330,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetSystemAudioMute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mute, _err := data.ReadBool()
+		_arg_mute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2346,7 +2346,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetInputChangeListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2361,7 +2361,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetInputDevices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInputDevices(ctx)
@@ -2375,7 +2375,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetDeviceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeviceList(ctx)
@@ -2389,14 +2389,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHdmiControlServicePowerOffRemoteDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_logicalAddress, _err := data.ReadInt32()
+		_arg_logicalAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_powerStatus, _err := data.ReadInt32()
+		_arg_powerStatus, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2409,14 +2409,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServicePowerOnRemoteDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_logicalAddress, _err := data.ReadInt32()
+		_arg_logicalAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_powerStatus, _err := data.ReadInt32()
+		_arg_powerStatus, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2429,10 +2429,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAskRemoteDeviceToBecomeActiveSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_physicalAddress, _err := data.ReadInt32()
+		_arg_physicalAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2445,21 +2445,21 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendVendorCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceType, _err := data.ReadInt32()
+		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetAddress, _err := data.ReadInt32()
+		_arg_targetAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_params []byte
 		_ = _arg_params
-		_arg_hasVendorId, _err := data.ReadBool()
+		_arg_hasVendorId, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2472,13 +2472,13 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddVendorCommandListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IHdmiVendorCommandListener
 		_ = _arg_listener
-		_arg_vendorId, _err := data.ReadInt32()
+		_arg_vendorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2491,14 +2491,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendStandby:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceType, _err := data.ReadInt32()
+		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2511,7 +2511,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetHdmiRecordListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2526,10 +2526,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceStartOneTouchRecord:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recorderAddress, _err := data.ReadInt32()
+		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2545,10 +2545,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceStopOneTouchRecord:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recorderAddress, _err := data.ReadInt32()
+		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2561,14 +2561,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceStartTimerRecording:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recorderAddress, _err := data.ReadInt32()
+		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sourceType, _err := data.ReadInt32()
+		_arg_sourceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2584,14 +2584,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceClearTimerRecording:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recorderAddress, _err := data.ReadInt32()
+		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sourceType, _err := data.ReadInt32()
+		_arg_sourceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2607,18 +2607,18 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSendMhlVendorCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_offset, _err := data.ReadInt32()
+		_arg_offset, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_length, _err := data.ReadInt32()
+		_arg_length, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2634,7 +2634,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddHdmiMhlVendorCommandListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2649,10 +2649,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetStandbyMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isStandbyModeOn, _err := data.ReadBool()
+		_arg_isStandbyModeOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2665,22 +2665,22 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceReportAudioStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceType, _err := data.ReadInt32()
+		_arg_deviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_volume, _err := data.ReadInt32()
+		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxVolume, _err := data.ReadInt32()
+		_arg_maxVolume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isMute, _err := data.ReadBool()
+		_arg_isMute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2693,7 +2693,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetSystemAudioModeOnForAudioOnlySource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetSystemAudioModeOnForAudioOnlySource(ctx)
@@ -2705,10 +2705,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetMessageHistorySize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newSize, _err := data.ReadInt32()
+		_arg_newSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2722,7 +2722,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetMessageHistorySize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMessageHistorySize(ctx)
@@ -2735,10 +2735,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceAddCecSettingChangeListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2754,10 +2754,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceRemoveCecSettingChangeListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2773,7 +2773,7 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetUserCecSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserCecSettings(ctx)
@@ -2787,10 +2787,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetAllowedCecSettingStringValues:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2805,10 +2805,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetAllowedCecSettingIntValues:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2823,10 +2823,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetCecSettingStringValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2840,14 +2840,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetCecSettingStringValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2860,10 +2860,10 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiControlServiceGetCecSettingIntValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2877,14 +2877,14 @@ func (s *HdmiControlServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHdmiControlServiceSetCecSettingIntValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

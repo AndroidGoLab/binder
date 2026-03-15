@@ -111,27 +111,27 @@ var _ binder.TransactionReceiver = (*VirtualCameraCallbackStub)(nil)
 func (s *VirtualCameraCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVirtualCameraCallbackOnStreamConfigured:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_surface interface{}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_format, _err := data.ReadInt32()
+		_arg_format, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -139,14 +139,14 @@ func (s *VirtualCameraCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVirtualCameraCallbackOnProcessCaptureRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_frameId, _err := data.ReadInt64()
+		_arg_frameId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -154,10 +154,10 @@ func (s *VirtualCameraCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVirtualCameraCallbackOnStreamClosed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

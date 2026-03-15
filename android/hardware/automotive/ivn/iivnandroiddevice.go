@@ -266,11 +266,11 @@ var _ binder.TransactionReceiver = (*IvnAndroidDeviceStub)(nil)
 func (s *IvnAndroidDeviceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIvnAndroidDeviceGetMyDeviceId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMyDeviceId(ctx)
@@ -283,7 +283,7 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetOtherDeviceIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOtherDeviceIds(ctx)
@@ -297,10 +297,10 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetDeviceIdForOccupantZone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_zoneId, _err := data.ReadInt32()
+		_arg_zoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -314,10 +314,10 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetOccupantZonesForDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_androidDeviceId, _err := data.ReadInt32()
+		_arg_androidDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -332,7 +332,7 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetMyEndpointInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMyEndpointInfo(ctx)
@@ -348,10 +348,10 @@ func (s *IvnAndroidDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIIvnAndroidDeviceGetEndpointInfoForDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_androidDeviceId, _err := data.ReadInt32()
+		_arg_androidDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

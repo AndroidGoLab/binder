@@ -142,21 +142,21 @@ var _ binder.TransactionReceiver = (*SpellCheckerSessionStub)(nil)
 func (s *SpellCheckerSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISpellCheckerSessionOnGetSuggestionsMultiple:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_textInfos []viewTextservice.TextInfo
 		_ = _arg_textInfos
-		_arg_suggestionsLimit, _err := data.ReadInt32()
+		_arg_suggestionsLimit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_multipleWords, _err := data.ReadBool()
+		_arg_multipleWords, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -164,13 +164,13 @@ func (s *SpellCheckerSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISpellCheckerSessionOnGetSentenceSuggestionsMultiple:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_textInfos []viewTextservice.TextInfo
 		_ = _arg_textInfos
-		_arg_suggestionsLimit, _err := data.ReadInt32()
+		_arg_suggestionsLimit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -178,14 +178,14 @@ func (s *SpellCheckerSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISpellCheckerSessionOnCancel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnCancel(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISpellCheckerSessionOnClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnClose(ctx)

@@ -156,11 +156,11 @@ var _ binder.TransactionReceiver = (*DeviceSettingsProviderServiceStub)(nil)
 func (s *DeviceSettingsProviderServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDeviceSettingsProviderServiceGetServiceStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServiceStatus(ctx)
@@ -176,17 +176,17 @@ func (s *DeviceSettingsProviderServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceSettingsProviderServiceRegisterDeviceSettingsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device DeviceInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -198,17 +198,17 @@ func (s *DeviceSettingsProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDeviceSettingsProviderServiceUnregisterDeviceSettingsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device DeviceInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -220,29 +220,29 @@ func (s *DeviceSettingsProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDeviceSettingsProviderServiceUpdateDeviceSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device DeviceInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_params DeviceSettingState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

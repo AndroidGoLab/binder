@@ -102,18 +102,18 @@ var _ binder.TransactionReceiver = (*InlineContentProviderStub)(nil)
 func (s *InlineContentProviderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInlineContentProviderProvideContent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -124,14 +124,14 @@ func (s *InlineContentProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInlineContentProviderRequestSurfacePackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RequestSurfacePackage(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInlineContentProviderOnSurfacePackageReleased:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSurfacePackageReleased(ctx)

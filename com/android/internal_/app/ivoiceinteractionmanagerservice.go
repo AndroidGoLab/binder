@@ -1713,19 +1713,19 @@ var _ binder.TransactionReceiver = (*VoiceInteractionManagerServiceStub)(nil)
 func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVoiceInteractionManagerServiceShowSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionArgs interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowSession(ctx, _arg_sessionArgs, _arg_flags)
@@ -1737,7 +1737,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceDeliverNewSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1757,18 +1757,18 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceShowSessionFromSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
 		var _arg_sessionArgs interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ShowSessionFromSession(ctx, _arg_token, _arg_sessionArgs, _arg_flags)
@@ -1781,7 +1781,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceHideSessionFromSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1797,18 +1797,18 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceStartVoiceActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartVoiceActivity(ctx, _arg_token, _arg_intent, _arg_resolvedType)
@@ -1821,18 +1821,18 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceStartAssistantActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_bundle interface{}
@@ -1846,13 +1846,13 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceSetKeepAwake:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_keepAwake, _err := data.ReadBool()
+		_arg_keepAwake, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1865,7 +1865,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceCloseSystemDialogs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1880,7 +1880,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceFinish:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1895,10 +1895,10 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceSetDisabledShowContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1911,7 +1911,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceGetDisabledShowContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDisabledShowContext(ctx)
@@ -1924,7 +1924,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceGetUserDisabledShowContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserDisabledShowContext(ctx)
@@ -1937,14 +1937,14 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceGetKeyphraseSoundModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyphraseId, _err := data.ReadInt32()
+		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bcp47Locale, _err := data.ReadString16()
+		_arg_bcp47Locale, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1961,17 +1961,17 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceUpdateKeyphraseSoundModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_model soundtrigger.SoundTriggerKeyphraseSoundModel
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_model.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_model.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1986,14 +1986,14 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceDeleteKeyphraseSoundModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyphraseId, _err := data.ReadInt32()
+		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bcp47Locale, _err := data.ReadString16()
+		_arg_bcp47Locale, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2007,10 +2007,10 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceSetModelDatabaseForTestEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2026,14 +2026,14 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceIsEnrolledForKeyphrase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyphraseId, _err := data.ReadInt32()
+		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bcp47Locale, _err := data.ReadString16()
+		_arg_bcp47Locale, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2047,14 +2047,14 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceGetEnrolledKeyphraseMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyphrase, _err := data.ReadString16()
+		_arg_keyphrase, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bcp47Locale, _err := data.ReadString16()
+		_arg_bcp47Locale, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2071,7 +2071,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceGetActiveServiceComponentName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveServiceComponentName(ctx)
@@ -2084,15 +2084,15 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceShowSessionForActiveService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args interface{}
-		_arg_sourceFlags, _err := data.ReadInt32()
+		_arg_sourceFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2111,7 +2111,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceHideCurrentSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.HideCurrentSession(ctx)
@@ -2123,7 +2123,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceLaunchVoiceAssistFromKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.LaunchVoiceAssistFromKeyguard(ctx)
@@ -2135,7 +2135,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceIsSessionRunning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSessionRunning(ctx)
@@ -2148,7 +2148,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceActiveServiceSupportsAssist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ActiveServiceSupportsAssist(ctx)
@@ -2161,7 +2161,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceActiveServiceSupportsLaunchFromKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ActiveServiceSupportsLaunchFromKeyguard(ctx)
@@ -2174,7 +2174,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceOnLockscreenShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnLockscreenShown(ctx)
@@ -2186,7 +2186,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceRegisterVoiceInteractionSessionListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2201,7 +2201,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceGetActiveServiceSupportedActions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2219,7 +2219,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceSetUiHints:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hints interface{}
@@ -2232,13 +2232,13 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceRequestDirectActions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2256,18 +2256,18 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServicePerformDirectAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_actionId, _err := data.ReadString16()
+		_arg_actionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_arguments interface{}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2285,10 +2285,10 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceSetDisabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_disabled, _err := data.ReadBool()
+		_arg_disabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2301,7 +2301,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceCreateSoundTriggerSessionAsOriginator:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_originatorIdentity interface{}
@@ -2310,12 +2310,12 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_ = _arg_client
 		var _arg_moduleProperties soundtrigger.SoundTriggerModuleProperties
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_moduleProperties.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_moduleProperties.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2331,7 +2331,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceListModuleProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_originatorIdentity interface{}
@@ -2346,7 +2346,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceUpdateState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_options interface{}
@@ -2363,7 +2363,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceInitAndVerifyDetector:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_originatorIdentity interface{}
@@ -2375,7 +2375,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IHotwordRecognitionStatusCallback
 		_ = _arg_callback
-		_arg_detectorType, _err := data.ReadInt32()
+		_arg_detectorType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2388,7 +2388,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceDestroyDetector:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2403,7 +2403,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceShutdownHotwordDetectionService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShutdownHotwordDetectionService(ctx)
@@ -2415,7 +2415,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceSubscribeVisualQueryRecognitionStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2430,7 +2430,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceEnableVisualQueryDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2445,7 +2445,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceDisableVisualQueryDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisableVisualQueryDetection(ctx)
@@ -2457,7 +2457,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceStartPerceiving:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -2470,7 +2470,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceStopPerceiving:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopPerceiving(ctx)
@@ -2482,7 +2482,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceStartListeningFromMic:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_audioFormat interface{}
@@ -2496,7 +2496,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceStopListeningFromMic:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopListeningFromMic(ctx)
@@ -2508,10 +2508,10 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceStartListeningFromExternalSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_audioStream, _err := data.ReadFileDescriptor()
+		_arg_audioStream, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2530,17 +2530,17 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceTriggerHardwareRecognitionEventForTest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event soundtrigger.SoundTriggerKeyphraseRecognitionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2557,7 +2557,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceStartListeningVisibleActivityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2572,7 +2572,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceStopListeningVisibleActivityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2587,13 +2587,13 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceSetSessionWindowVisible:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2606,13 +2606,13 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceNotifyActivityEventChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
 		_ = _arg_activityToken
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2620,7 +2620,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionManagerServiceGetAccessibilityDetectionEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAccessibilityDetectionEnabled(ctx)
@@ -2633,7 +2633,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionManagerServiceRegisterAccessibilityDetectionSettingsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2643,7 +2643,7 @@ func (s *VoiceInteractionManagerServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionManagerServiceUnregisterAccessibilityDetectionSettingsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

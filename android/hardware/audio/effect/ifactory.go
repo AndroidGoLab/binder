@@ -190,11 +190,11 @@ var _ binder.TransactionReceiver = (*FactoryStub)(nil)
 func (s *FactoryStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIFactoryQueryEffects:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_type_ *interface{}
@@ -211,7 +211,7 @@ func (s *FactoryStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFactoryQueryProcessing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_type_ *interface{}
@@ -226,7 +226,7 @@ func (s *FactoryStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFactoryCreateEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_implUuid interface{}
@@ -241,7 +241,7 @@ func (s *FactoryStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFactoryDestroyEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

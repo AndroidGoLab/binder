@@ -92,11 +92,11 @@ var _ binder.TransactionReceiver = (*UwbClientCallbackStub)(nil)
 func (s *UwbClientCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUwbClientCallbackOnUciMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -106,15 +106,15 @@ func (s *UwbClientCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUwbClientCallbackOnHalEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_event, _err := data.ReadInt32()
+		_raw_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_event := UwbEvent(_raw_event)
-		_raw_status, _err := data.ReadInt32()
+		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

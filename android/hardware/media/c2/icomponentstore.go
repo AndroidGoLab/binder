@@ -340,33 +340,33 @@ var _ binder.TransactionReceiver = (*ComponentStoreStub)(nil)
 func (s *ComponentStoreStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIComponentStoreCopyBuffer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_src Buffer
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_src.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_src.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_dst Buffer
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dst.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dst.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -380,10 +380,10 @@ func (s *ComponentStoreStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentStoreCreateComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -404,10 +404,10 @@ func (s *ComponentStoreStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComponentStoreCreateInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -422,7 +422,7 @@ func (s *ComponentStoreStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComponentStoreGetConfigurable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetConfigurable(ctx)
@@ -436,7 +436,7 @@ func (s *ComponentStoreStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComponentStoreGetPoolClientManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPoolClientManager(ctx)
@@ -450,7 +450,7 @@ func (s *ComponentStoreStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComponentStoreGetStructDescriptors:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -467,7 +467,7 @@ func (s *ComponentStoreStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComponentStoreListComponents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListComponents(ctx)
@@ -481,7 +481,7 @@ func (s *ComponentStoreStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComponentStoreCreateInputSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateInputSurface(ctx)

@@ -85,14 +85,14 @@ var _ binder.TransactionReceiver = (*PinnedTaskListenerStub)(nil)
 func (s *PinnedTaskListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPinnedTaskListenerOnMovementBoundsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fromImeAdjustment, _err := data.ReadBool()
+		_arg_fromImeAdjustment, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -100,14 +100,14 @@ func (s *PinnedTaskListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPinnedTaskListenerOnImeVisibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_imeVisible, _err := data.ReadBool()
+		_arg_imeVisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_imeHeight, _err := data.ReadInt32()
+		_arg_imeHeight, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

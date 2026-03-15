@@ -238,11 +238,11 @@ var _ binder.TransactionReceiver = (*OpaqueKeyStub)(nil)
 func (s *OpaqueKeyStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOpaqueKeyExportWrappedKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -259,7 +259,7 @@ func (s *OpaqueKeyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIOpaqueKeyGetKeyPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetKeyPolicy(ctx)
@@ -275,7 +275,7 @@ func (s *OpaqueKeyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOpaqueKeyGetPublicKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPublicKey(ctx)
@@ -289,7 +289,7 @@ func (s *OpaqueKeyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIOpaqueKeyGetShareableToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -305,7 +305,7 @@ func (s *OpaqueKeyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIOpaqueKeySetProtectionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_protectionId interface{}

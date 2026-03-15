@@ -178,14 +178,14 @@ var _ binder.TransactionReceiver = (*HdmiRecordListenerStub)(nil)
 func (s *HdmiRecordListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHdmiRecordListenerGetOneTouchRecordSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recorderAddress, _err := data.ReadInt32()
+		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -200,14 +200,14 @@ func (s *HdmiRecordListenerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHdmiRecordListenerOnOneTouchRecordResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recorderAddress, _err := data.ReadInt32()
+		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -220,14 +220,14 @@ func (s *HdmiRecordListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiRecordListenerOnTimerRecordingResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recorderAddress, _err := data.ReadInt32()
+		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -240,14 +240,14 @@ func (s *HdmiRecordListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHdmiRecordListenerOnClearTimerRecordingResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recorderAddress, _err := data.ReadInt32()
+		_arg_recorderAddress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

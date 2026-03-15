@@ -188,14 +188,14 @@ var _ binder.TransactionReceiver = (*BluetoothChannelSoundingSessionCallbackStub
 func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnOpened:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_reason, _err := data.ReadInt32()
+		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -209,10 +209,10 @@ func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnOpenFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_reason, _err := data.ReadInt32()
+		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -226,17 +226,17 @@ func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result RangingResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -250,10 +250,10 @@ func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_reason, _err := data.ReadInt32()
+		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -267,10 +267,10 @@ func (s *BluetoothChannelSoundingSessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionCallbackOnCloseFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_reason, _err := data.ReadInt32()
+		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

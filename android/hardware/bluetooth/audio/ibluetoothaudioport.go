@@ -252,11 +252,11 @@ var _ binder.TransactionReceiver = (*BluetoothAudioPortStub)(nil)
 func (s *BluetoothAudioPortStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothAudioPortGetPresentationPosition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPresentationPosition(ctx)
@@ -272,10 +272,10 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBluetoothAudioPortStartStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isLowLatency, _err := data.ReadBool()
+		_arg_isLowLatency, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -288,7 +288,7 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortStopStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopStream(ctx)
@@ -300,7 +300,7 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortSuspendStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SuspendStream(ctx)
@@ -312,17 +312,17 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortUpdateSourceMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sourceMetadata common.SourceMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sourceMetadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sourceMetadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -336,17 +336,17 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortUpdateSinkMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sinkMetadata common.SinkMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sinkMetadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sinkMetadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -360,10 +360,10 @@ func (s *BluetoothAudioPortStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioPortSetLatencyMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_latencyMode, _err := data.ReadInt32()
+		_raw_latencyMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -798,14 +798,14 @@ var _ binder.TransactionReceiver = (*ImsRcsControllerStub)(nil)
 func (s *ImsRcsControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsRcsControllerRegisterImsRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -821,10 +821,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterImsRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -840,10 +840,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerGetImsRcsRegistrationState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -859,10 +859,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerGetImsRcsRegistrationTransportType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -878,10 +878,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRegisterRcsAvailabilityCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -897,10 +897,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterRcsAvailabilityCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -916,18 +916,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerIsCapable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_radioTech, _err := data.ReadInt32()
+		_arg_radioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -941,18 +941,18 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerIsAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_radioTech, _err := data.ReadInt32()
+		_arg_radioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -966,17 +966,17 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerRequestCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -994,27 +994,27 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRequestAvailability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_contactNumber net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_contactNumber.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_contactNumber.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1031,10 +1031,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerGetUcePublishState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1048,17 +1048,17 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerIsUceSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUceSettingEnabled(ctx, _arg_subId)
@@ -1071,14 +1071,14 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerSetUceSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1091,10 +1091,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRegisterUcePublishStateCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1110,10 +1110,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterUcePublishStateCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1129,10 +1129,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerIsSipDelegateSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1146,26 +1146,26 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsRcsControllerCreateSipDelegate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request ims.DelegateRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1184,17 +1184,17 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerDestroySipDelegate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection ISipDelegate
 		_ = _arg_connection
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1207,21 +1207,21 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerTriggerNetworkRegistration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection ISipDelegate
 		_ = _arg_connection
-		_arg_sipCode, _err := data.ReadInt32()
+		_arg_sipCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sipReason, _err := data.ReadString16()
+		_arg_sipReason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1234,10 +1234,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRegisterSipDialogStateCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1251,10 +1251,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterSipDialogStateCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1268,10 +1268,10 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerRegisterRcsFeatureCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1287,7 +1287,7 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsRcsControllerUnregisterImsFeatureCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

@@ -81,14 +81,14 @@ var _ binder.TransactionReceiver = (*S2LevelCallbackStub)(nil)
 func (s *S2LevelCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIS2LevelCallbackOnResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_s2Level, _err := data.ReadInt32()
+		_arg_s2Level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -96,7 +96,7 @@ func (s *S2LevelCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIS2LevelCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnError(ctx)

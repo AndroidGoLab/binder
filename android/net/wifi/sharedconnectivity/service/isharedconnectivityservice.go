@@ -414,11 +414,11 @@ var _ binder.TransactionReceiver = (*SharedConnectivityServiceStub)(nil)
 func (s *SharedConnectivityServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISharedConnectivityServiceRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -433,7 +433,7 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISharedConnectivityServiceUnregisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -448,17 +448,17 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISharedConnectivityServiceConnectHotspotNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_network app.HotspotNetwork
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_network.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_network.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -472,17 +472,17 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISharedConnectivityServiceDisconnectHotspotNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_network app.HotspotNetwork
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_network.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_network.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -496,17 +496,17 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISharedConnectivityServiceConnectKnownNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_network app.KnownNetwork
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_network.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_network.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -520,17 +520,17 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISharedConnectivityServiceForgetKnownNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_network app.KnownNetwork
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_network.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_network.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -544,7 +544,7 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISharedConnectivityServiceGetHotspotNetworks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHotspotNetworks(ctx)
@@ -558,7 +558,7 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISharedConnectivityServiceGetKnownNetworks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetKnownNetworks(ctx)
@@ -572,7 +572,7 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISharedConnectivityServiceGetSettingsState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSettingsState(ctx)
@@ -588,7 +588,7 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISharedConnectivityServiceGetHotspotNetworkConnectionStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHotspotNetworkConnectionStatus(ctx)
@@ -604,7 +604,7 @@ func (s *SharedConnectivityServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISharedConnectivityServiceGetKnownNetworkConnectionStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetKnownNetworkConnectionStatus(ctx)

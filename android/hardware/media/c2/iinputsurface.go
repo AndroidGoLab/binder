@@ -138,11 +138,11 @@ var _ binder.TransactionReceiver = (*InputSurfaceStub)(nil)
 func (s *InputSurfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputSurfaceGetSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSurface(ctx)
@@ -155,7 +155,7 @@ func (s *InputSurfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputSurfaceGetConfigurable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetConfigurable(ctx)
@@ -169,7 +169,7 @@ func (s *InputSurfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputSurfaceConnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

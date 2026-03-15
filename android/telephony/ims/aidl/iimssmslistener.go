@@ -155,30 +155,30 @@ var _ binder.TransactionReceiver = (*ImsSmsListenerStub)(nil)
 func (s *ImsSmsListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsSmsListenerOnSendSmsResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_messageRef, _err := data.ReadInt32()
+		_arg_messageRef, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_networkErrorCode, _err := data.ReadInt32()
+		_arg_networkErrorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -186,14 +186,14 @@ func (s *ImsSmsListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsSmsListenerOnSmsStatusReportReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_format, _err := data.ReadString16()
+		_arg_format, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -204,14 +204,14 @@ func (s *ImsSmsListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsSmsListenerOnSmsReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_format, _err := data.ReadString16()
+		_arg_format, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -222,18 +222,18 @@ func (s *ImsSmsListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsSmsListenerOnMemoryAvailableResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_networkErrorCode, _err := data.ReadInt32()
+		_arg_networkErrorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

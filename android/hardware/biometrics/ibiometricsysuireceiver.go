@@ -162,14 +162,14 @@ var _ binder.TransactionReceiver = (*BiometricSysuiReceiverStub)(nil)
 func (s *BiometricSysuiReceiverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBiometricSysuiReceiverOnDialogDismissed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -180,24 +180,24 @@ func (s *BiometricSysuiReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricSysuiReceiverOnTryAgainPressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnTryAgainPressed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricSysuiReceiverOnDeviceCredentialPressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDeviceCredentialPressed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricSysuiReceiverOnSystemEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -205,10 +205,10 @@ func (s *BiometricSysuiReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricSysuiReceiverOnDialogAnimatedIn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_startFingerprintNow, _err := data.ReadBool()
+		_arg_startFingerprintNow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -216,7 +216,7 @@ func (s *BiometricSysuiReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricSysuiReceiverOnStartFingerprintNow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStartFingerprintNow(ctx)

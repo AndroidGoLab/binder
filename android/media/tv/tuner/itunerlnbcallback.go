@@ -109,14 +109,14 @@ var _ binder.TransactionReceiver = (*TunerLnbCallbackStub)(nil)
 func (s *TunerLnbCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerLnbCallbackOnEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_lnbEventType, _err := data.ReadInt32()
+		_raw_lnbEventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -130,7 +130,7 @@ func (s *TunerLnbCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbCallbackOnDiseqcMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

@@ -326,18 +326,18 @@ var _ binder.TransactionReceiver = (*TvInputStub)(nil)
 func (s *TvInputStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITvInputCloseStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -350,10 +350,10 @@ func (s *TvInputStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputGetStreamConfigurations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -368,14 +368,14 @@ func (s *TvInputStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITvInputOpenStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -392,7 +392,7 @@ func (s *TvInputStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITvInputSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -407,23 +407,23 @@ func (s *TvInputStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputSetTvMessageEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := TvMessageEventType(_raw_type_)
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -436,18 +436,19 @@ func (s *TvInputStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputGetTvMessageQueueDesc:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		var _arg_queue fmq.MQDescriptor
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.GetTvMessageQueueDesc(ctx, _arg_deviceId, _arg_streamId)
+		_err = s.Impl.GetTvMessageQueueDesc(ctx, _arg_queue, _arg_deviceId, _arg_streamId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -456,18 +457,18 @@ func (s *TvInputStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputSetPictureProfileId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_profileId, _err := data.ReadInt64()
+		_arg_profileId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -480,18 +481,18 @@ func (s *TvInputStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInputSetSoundProfileId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_profileId, _err := data.ReadInt64()
+		_arg_profileId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

@@ -216,11 +216,11 @@ var _ binder.TransactionReceiver = (*OtaDexoptStub)(nil)
 func (s *OtaDexoptStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOtaDexoptPrepare:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Prepare(ctx)
@@ -232,7 +232,7 @@ func (s *OtaDexoptStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOtaDexoptCleanup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Cleanup(ctx)
@@ -244,7 +244,7 @@ func (s *OtaDexoptStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOtaDexoptIsDone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDone(ctx)
@@ -257,7 +257,7 @@ func (s *OtaDexoptStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOtaDexoptGetProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProgress(ctx)
@@ -270,7 +270,7 @@ func (s *OtaDexoptStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIOtaDexoptDexoptNextPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DexoptNextPackage(ctx)
@@ -282,7 +282,7 @@ func (s *OtaDexoptStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOtaDexoptNextDexoptCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.NextDexoptCommand(ctx)

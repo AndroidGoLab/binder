@@ -166,41 +166,41 @@ var _ binder.TransactionReceiver = (*NetdEventCallbackStub)(nil)
 func (s *NetdEventCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINetdEventCallbackOnDnsEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_netId, _err := data.ReadInt32()
+		_arg_netId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_eventType, _err := data.ReadInt32()
+		_arg_eventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_returnCode, _err := data.ReadInt32()
+		_arg_returnCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hostname, _err := data.ReadString16()
+		_arg_hostname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ipAddresses []string
 		_ = _arg_ipAddresses
-		_arg_ipAddressesCount, _err := data.ReadInt32()
+		_arg_ipAddressesCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -208,22 +208,22 @@ func (s *NetdEventCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetdEventCallbackOnNat64PrefixEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_netId, _err := data.ReadInt32()
+		_arg_netId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_added, _err := data.ReadBool()
+		_arg_added, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_prefixString, _err := data.ReadString16()
+		_arg_prefixString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_prefixLength, _err := data.ReadInt32()
+		_arg_prefixLength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -231,22 +231,22 @@ func (s *NetdEventCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetdEventCallbackOnPrivateDnsValidationEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_netId, _err := data.ReadInt32()
+		_arg_netId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ipAddress, _err := data.ReadString16()
+		_arg_ipAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hostname, _err := data.ReadString16()
+		_arg_hostname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_validated, _err := data.ReadBool()
+		_arg_validated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -254,22 +254,22 @@ func (s *NetdEventCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetdEventCallbackOnConnectEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ipAddr, _err := data.ReadString16()
+		_arg_ipAddr, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_port, _err := data.ReadInt32()
+		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

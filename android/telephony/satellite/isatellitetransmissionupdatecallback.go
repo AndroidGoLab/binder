@@ -134,26 +134,26 @@ var _ binder.TransactionReceiver = (*SatelliteTransmissionUpdateCallbackStub)(ni
 func (s *SatelliteTransmissionUpdateCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_datagramType, _err := data.ReadInt32()
+		_arg_datagramType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sendPendingCount, _err := data.ReadInt32()
+		_arg_sendPendingCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -161,18 +161,18 @@ func (s *SatelliteTransmissionUpdateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteTransmissionUpdateCallbackOnReceiveDatagramStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_receivePendingCount, _err := data.ReadInt32()
+		_arg_receivePendingCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -180,17 +180,17 @@ func (s *SatelliteTransmissionUpdateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteTransmissionUpdateCallbackOnSatellitePositionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pointingInfo PointingInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pointingInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pointingInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -199,10 +199,10 @@ func (s *SatelliteTransmissionUpdateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteTransmissionUpdateCallbackOnSendDatagramRequested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_datagramType, _err := data.ReadInt32()
+		_arg_datagramType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

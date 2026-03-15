@@ -132,11 +132,11 @@ var _ binder.TransactionReceiver = (*RestoreObserverStub)(nil)
 func (s *RestoreObserverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRestoreObserverRestoreSetsAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -146,10 +146,10 @@ func (s *RestoreObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRestoreObserverRestoreStarting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_numPackages, _err := data.ReadInt32()
+		_arg_numPackages, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -157,14 +157,14 @@ func (s *RestoreObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRestoreObserverOnUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nowBeingRestored, _err := data.ReadInt32()
+		_arg_nowBeingRestored, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_curentPackage, _err := data.ReadString16()
+		_arg_curentPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -172,10 +172,10 @@ func (s *RestoreObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRestoreObserverRestoreFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

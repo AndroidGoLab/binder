@@ -233,11 +233,11 @@ var _ binder.TransactionReceiver = (*SoundTriggerMiddlewareServiceStub)(nil)
 func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISoundTriggerMiddlewareServiceListModulesAsOriginator:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_identity interface{}
@@ -252,7 +252,7 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISoundTriggerMiddlewareServiceListModulesAsMiddleman:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_middlemanIdentity interface{}
@@ -268,10 +268,10 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISoundTriggerMiddlewareServiceAttachAsOriginator:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -290,10 +290,10 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISoundTriggerMiddlewareServiceAttachAsMiddleman:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -302,7 +302,7 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISoundTriggerCallback
 		_ = _arg_callback
-		_arg_isTrusted, _err := data.ReadBool()
+		_arg_isTrusted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -317,7 +317,7 @@ func (s *SoundTriggerMiddlewareServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISoundTriggerMiddlewareServiceAttachFakeHalInjection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

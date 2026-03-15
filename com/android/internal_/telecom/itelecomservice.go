@@ -2599,21 +2599,21 @@ var _ binder.TransactionReceiver = (*TelecomServiceStub)(nil)
 func (s *TelecomServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITelecomServiceShowInCallScreen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_showDialpad, _err := data.ReadBool()
+		_arg_showDialpad, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ShowInCallScreen(ctx, _arg_showDialpad)
@@ -2625,17 +2625,17 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceGetDefaultOutgoingPhoneAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uriScheme, _err := data.ReadString16()
+		_arg_uriScheme, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultOutgoingPhoneAccount(ctx, _arg_uriScheme)
@@ -2651,10 +2651,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetUserSelectedOutgoingPhoneAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserSelectedOutgoingPhoneAccount(ctx)
@@ -2670,17 +2670,17 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceSetUserSelectedOutgoingPhoneAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2694,20 +2694,20 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceGetCallCapablePhoneAccounts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_includeDisabledAccounts, _err := data.ReadBool()
+		_arg_includeDisabledAccounts, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_acrossProfiles, _err := data.ReadBool()
+		_arg_acrossProfiles, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2724,13 +2724,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetSelfManagedPhoneAccounts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSelfManagedPhoneAccounts(ctx)
@@ -2746,13 +2746,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetOwnSelfManagedPhoneAccounts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOwnSelfManagedPhoneAccounts(ctx)
@@ -2768,14 +2768,14 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetPhoneAccountsSupportingScheme:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uriScheme, _err := data.ReadString16()
+		_arg_uriScheme, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPhoneAccountsSupportingScheme(ctx, _arg_uriScheme)
@@ -2791,10 +2791,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetPhoneAccountsForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2811,22 +2811,22 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetPhoneAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPhoneAccount(ctx, _arg_account)
@@ -2842,13 +2842,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetRegisteredPhoneAccounts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRegisteredPhoneAccounts(ctx)
@@ -2864,7 +2864,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetAllPhoneAccountsCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllPhoneAccountsCount(ctx)
@@ -2877,7 +2877,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetAllPhoneAccounts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllPhoneAccounts(ctx)
@@ -2893,7 +2893,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetAllPhoneAccountHandles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllPhoneAccountHandles(ctx)
@@ -2909,14 +2909,14 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetSimCallManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSimCallManager(ctx, _arg_subId)
@@ -2932,13 +2932,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetSimCallManagerForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSimCallManagerForUser(ctx)
@@ -2954,22 +2954,22 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceRegisterPhoneAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_metadata androidTelecom.PhoneAccount
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_metadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_metadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RegisterPhoneAccount(ctx, _arg_metadata)
@@ -2981,22 +2981,22 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceUnregisterPhoneAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnregisterPhoneAccount(ctx, _arg_account)
@@ -3008,10 +3008,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceClearAccounts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3024,29 +3024,29 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceIsVoiceMailNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accountHandle androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsVoiceMailNumber(ctx, _arg_accountHandle, _arg_number)
@@ -3059,25 +3059,25 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetVoiceMailNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accountHandle androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVoiceMailNumber(ctx, _arg_accountHandle)
@@ -3090,25 +3090,25 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetLine1Number:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accountHandle androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLine1Number(ctx, _arg_accountHandle)
@@ -3121,7 +3121,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetDefaultPhoneApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultPhoneApp(ctx)
@@ -3137,10 +3137,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceGetDefaultDialerPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultDialerPackage(ctx)
@@ -3153,10 +3153,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetDefaultDialerPackageForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultDialerPackageForUser(ctx)
@@ -3169,10 +3169,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetSystemDialerPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemDialerPackage(ctx)
@@ -3185,7 +3185,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelecomServiceDumpCallAnalytics:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.DumpCallAnalytics(ctx)
@@ -3201,10 +3201,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceSilenceRinger:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SilenceRinger(ctx)
@@ -3216,13 +3216,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceIsInCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInCall(ctx)
@@ -3235,10 +3235,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceHasManageOngoingCallsPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasManageOngoingCallsPermission(ctx)
@@ -3251,13 +3251,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceIsInManagedCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInManagedCall(ctx)
@@ -3270,10 +3270,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceIsRinging:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRinging(ctx)
@@ -3286,7 +3286,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetCallState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCallState(ctx)
@@ -3299,13 +3299,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetCallStateUsingPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCallStateUsingPackage(ctx)
@@ -3318,10 +3318,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelecomServiceEndCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.EndCall(ctx)
@@ -3334,10 +3334,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceAcceptRingingCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AcceptRingingCall(ctx)
@@ -3349,13 +3349,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceAcceptRingingCallWithVideoState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_videoState, _err := data.ReadInt32()
+		_arg_videoState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3368,10 +3368,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceCancelMissedCallsNotification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CancelMissedCallsNotification(ctx)
@@ -3383,14 +3383,14 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceHandlePinMmi:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dialString, _err := data.ReadString16()
+		_arg_dialString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HandlePinMmi(ctx, _arg_dialString)
@@ -3403,26 +3403,26 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceHandlePinMmiForPhoneAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accountHandle androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_dialString, _err := data.ReadString16()
+		_arg_dialString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HandlePinMmiForPhoneAccount(ctx, _arg_accountHandle, _arg_dialString)
@@ -3435,22 +3435,22 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetAdnUriForPhoneAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accountHandle androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAdnUriForPhoneAccount(ctx, _arg_accountHandle)
@@ -3466,13 +3466,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceIsTtySupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsTtySupported(ctx)
@@ -3485,13 +3485,13 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceGetCurrentTtyMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentTtyMode(ctx)
@@ -3504,34 +3504,34 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelecomServiceAddNewIncomingCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_phoneAccount androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_phoneAccount.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_phoneAccount.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddNewIncomingCall(ctx, _arg_phoneAccount, _arg_extras)
@@ -3543,34 +3543,34 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceAddNewIncomingConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_phoneAccount androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_phoneAccount.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_phoneAccount.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddNewIncomingConference(ctx, _arg_phoneAccount, _arg_extras)
@@ -3582,29 +3582,29 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceAddNewUnknownCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_phoneAccount androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_phoneAccount.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_phoneAccount.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3618,7 +3618,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceStartConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3626,17 +3626,17 @@ func (s *TelecomServiceStub) OnTransaction(
 		_ = _arg_participants
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartConference(ctx, _arg_participants, _arg_extras)
@@ -3648,37 +3648,37 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServicePlaceCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_handle net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_handle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_handle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.PlaceCall(ctx, _arg_handle, _arg_extras)
@@ -3690,22 +3690,22 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceEnablePhoneAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accountHandle androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3719,10 +3719,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceSetDefaultDialer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3736,7 +3736,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceStopBlockSuppression:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopBlockSuppression(ctx)
@@ -3748,10 +3748,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceCreateManageBlockedNumbersIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateManageBlockedNumbersIntent(ctx)
@@ -3767,10 +3767,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceCreateLaunchEmergencyDialerIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3787,22 +3787,22 @@ func (s *TelecomServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelecomServiceIsIncomingCallPermitted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_phoneAccountHandle androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_phoneAccountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_phoneAccountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsIncomingCallPermitted(ctx, _arg_phoneAccountHandle)
@@ -3815,22 +3815,22 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceIsOutgoingCallPermitted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_phoneAccountHandle androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_phoneAccountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_phoneAccountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsOutgoingCallPermitted(ctx, _arg_phoneAccountHandle)
@@ -3843,7 +3843,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceWaitOnHandlers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.WaitOnHandlers(ctx)
@@ -3855,38 +3855,38 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceAcceptHandover:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_srcAddr net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_srcAddr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_srcAddr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_videoState, _err := data.ReadInt32()
+		_arg_videoState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_destAcct androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_destAcct.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_destAcct.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AcceptHandover(ctx, _arg_srcAddr, _arg_videoState, _arg_destAcct)
@@ -3898,10 +3898,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceSetTestEmergencyPhoneAccountPackageNameFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3914,7 +3914,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceIsInEmergencyCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInEmergencyCall(ctx)
@@ -3927,22 +3927,22 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceHandleCallIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent content.Intent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_callingPackageProxy, _err := data.ReadString16()
+		_arg_callingPackageProxy, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3955,7 +3955,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceCleanupStuckCalls:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CleanupStuckCalls(ctx)
@@ -3967,7 +3967,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceCleanupOrphanPhoneAccounts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CleanupOrphanPhoneAccounts(ctx)
@@ -3980,10 +3980,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelecomServiceIsNonUiInCallServiceBound:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3997,7 +3997,7 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceResetCarMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetCarMode(ctx)
@@ -4009,10 +4009,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceSetTestDefaultCallRedirectionApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4025,10 +4025,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceRequestLogMark:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4041,21 +4041,21 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceSetTestPhoneAcctSuggestionComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flattenedComponentName, _err := data.ReadString16()
+		_arg_flattenedComponentName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_userHandle os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_userHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4069,10 +4069,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceSetTestDefaultCallScreeningApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4085,14 +4085,14 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceAddOrRemoveTestCallCompanionApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isAdded, _err := data.ReadBool()
+		_arg_isAdded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4105,17 +4105,17 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceSetSystemDialer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_testComponentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_testComponentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_testComponentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4129,10 +4129,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceSetTestDefaultDialer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4145,10 +4145,10 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceSetTestCallDiagnosticService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4161,26 +4161,26 @@ func (s *TelecomServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelecomServiceIsInSelfManagedCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_userHandle os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_userHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInSelfManagedCall(ctx, _arg_packageName, _arg_userHandle)
@@ -4193,17 +4193,17 @@ func (s *TelecomServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelecomServiceAddCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callAttributes androidTelecom.CallAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callAttributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callAttributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4211,11 +4211,11 @@ func (s *TelecomServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICallEventCallback
 		_ = _arg_callback
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AddCall(ctx, _arg_callAttributes, _arg_callback, _arg_callId)

@@ -64,14 +64,14 @@ var _ binder.TransactionReceiver = (*LongConsumerStub)(nil)
 func (s *LongConsumerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionILongConsumerAccept:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt64()
+		_arg_result, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

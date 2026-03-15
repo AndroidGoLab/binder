@@ -121,11 +121,11 @@ var _ binder.TransactionReceiver = (*TransportSelectorCallbackStub)(nil)
 func (s *TransportSelectorCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITransportSelectorCallbackOnCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -135,10 +135,10 @@ func (s *TransportSelectorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITransportSelectorCallbackOnWlanSelected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_useEmergencyPdn, _err := data.ReadBool()
+		_arg_useEmergencyPdn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -146,7 +146,7 @@ func (s *TransportSelectorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITransportSelectorCallbackOnWwanSelectedAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -156,10 +156,10 @@ func (s *TransportSelectorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITransportSelectorCallbackOnSelectionTerminated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cause, _err := data.ReadInt32()
+		_arg_cause, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

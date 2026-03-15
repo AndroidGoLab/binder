@@ -564,22 +564,22 @@ var _ binder.TransactionReceiver = (*RadioMessagingStub)(nil)
 func (s *RadioMessagingStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRadioMessagingAcknowledgeIncomingGsmSmsWithPdu:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_success, _err := data.ReadBool()
+		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ackPdu, _err := data.ReadString16()
+		_arg_ackPdu, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -587,21 +587,21 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingAcknowledgeLastIncomingCdmaSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_smsAck CdmaSmsAck
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_smsAck.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_smsAck.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -610,18 +610,18 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingAcknowledgeLastIncomingGsmSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_success, _err := data.ReadBool()
+		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_cause, _err := data.ReadInt32()
+		_raw_cause, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -630,14 +630,14 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingDeleteSmsOnRuim:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -645,14 +645,14 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingDeleteSmsOnSim:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -660,10 +660,10 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingGetCdmaBroadcastConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -671,10 +671,10 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingGetGsmBroadcastConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -682,10 +682,10 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingGetSmscAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -693,14 +693,14 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingReportSmsMemoryStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_available, _err := data.ReadBool()
+		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -708,28 +708,28 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingResponseAcknowledgement:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResponseAcknowledgement(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSendCdmaSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sms CdmaSmsMessage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sms.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sms.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -738,21 +738,21 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSendCdmaSmsExpectMore:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sms CdmaSmsMessage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sms.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sms.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -761,21 +761,21 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSendImsSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_message ImsSmsMessage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_message.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -784,21 +784,21 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSendSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_message GsmSmsMessage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_message.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -807,21 +807,21 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSendSmsExpectMore:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_message GsmSmsMessage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_message.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -830,14 +830,14 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSetCdmaBroadcastActivation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_activate, _err := data.ReadBool()
+		_arg_activate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -845,10 +845,10 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSetCdmaBroadcastConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -859,14 +859,14 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSetGsmBroadcastActivation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_activate, _err := data.ReadBool()
+		_arg_activate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -874,10 +874,10 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSetGsmBroadcastConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -888,7 +888,7 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSetResponseFunctions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -901,14 +901,14 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingSetSmscAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_smsc, _err := data.ReadString16()
+		_arg_smsc, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -916,21 +916,21 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingWriteSmsToRuim:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cdmaSms CdmaSmsWriteArgs
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cdmaSms.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cdmaSms.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -939,21 +939,21 @@ func (s *RadioMessagingStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioMessagingWriteSmsToSim:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_smsWriteArgs SmsWriteArgs
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_smsWriteArgs.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_smsWriteArgs.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

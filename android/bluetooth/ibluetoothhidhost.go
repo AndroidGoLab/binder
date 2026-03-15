@@ -711,21 +711,21 @@ var _ binder.TransactionReceiver = (*BluetoothHidHostStub)(nil)
 func (s *BluetoothHidHostStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothHidHostConnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -741,17 +741,17 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -767,7 +767,7 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostGetConnectedDevices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
@@ -782,7 +782,7 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothHidHostGetDevicesMatchingConnectionStates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -800,17 +800,17 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothHidHostGetConnectionState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -826,22 +826,22 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostSetConnectionPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_connectionPolicy, _err := data.ReadInt32()
+		_arg_connectionPolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -856,17 +856,17 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostGetConnectionPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -882,22 +882,22 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostSetPreferredTransport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_transport, _err := data.ReadInt32()
+		_arg_transport, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -912,17 +912,17 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostGetPreferredTransport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -938,17 +938,17 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostGetProtocolMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -964,17 +964,17 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostVirtualUnplug:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -990,22 +990,22 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostSetProtocolMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_protocolMode, _err := data.ReadInt32()
+		_arg_protocolMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1020,30 +1020,30 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostGetReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_reportType, _err := data.ReadPaddedByte()
+		_arg_reportType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reportId, _err := data.ReadPaddedByte()
+		_arg_reportId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bufferSize, _err := data.ReadInt32()
+		_arg_bufferSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1058,26 +1058,26 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostSetReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_reportType, _err := data.ReadPaddedByte()
+		_arg_reportType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_report, _err := data.ReadString16()
+		_arg_report, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1092,22 +1092,22 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostSendData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_report, _err := data.ReadString16()
+		_arg_report, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1122,17 +1122,17 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostGetIdleTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1148,22 +1148,22 @@ func (s *BluetoothHidHostStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothHidHostSetIdleTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_idleTime, _err := data.ReadPaddedByte()
+		_arg_idleTime, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}

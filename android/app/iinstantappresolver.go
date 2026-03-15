@@ -85,15 +85,15 @@ var _ binder.TransactionReceiver = (*InstantAppResolverStub)(nil)
 func (s *InstantAppResolverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInstantAppResolverGetInstantAppResolveInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request interface{}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -102,7 +102,7 @@ func (s *InstantAppResolverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInstantAppResolverGetInstantAppIntentFilterList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request interface{}

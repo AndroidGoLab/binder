@@ -246,14 +246,14 @@ var _ binder.TransactionReceiver = (*RadioImsStub)(nil)
 func (s *RadioImsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRadioImsSetSrvccCallInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -264,21 +264,21 @@ func (s *RadioImsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioImsUpdateImsRegistrationInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_imsRegistration ImsRegistration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imsRegistration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imsRegistration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -287,28 +287,28 @@ func (s *RadioImsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioImsStartImsTraffic:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_imsTrafficType, _err := data.ReadInt32()
+		_raw_imsTrafficType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_imsTrafficType := ImsTrafficType(_raw_imsTrafficType)
-		_raw_accessNetworkType, _err := data.ReadInt32()
+		_raw_accessNetworkType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_accessNetworkType := radio.AccessNetwork(_raw_accessNetworkType)
-		_raw_trafficDirection, _err := data.ReadInt32()
+		_raw_trafficDirection, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -317,14 +317,14 @@ func (s *RadioImsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioImsStopImsTraffic:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -332,14 +332,14 @@ func (s *RadioImsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioImsTriggerEpsFallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_reason, _err := data.ReadInt32()
+		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -348,7 +348,7 @@ func (s *RadioImsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioImsSetResponseFunctions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -361,24 +361,24 @@ func (s *RadioImsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioImsSendAnbrQuery:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_mediaType, _err := data.ReadInt32()
+		_raw_mediaType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_mediaType := ImsStreamType(_raw_mediaType)
-		_raw_direction, _err := data.ReadInt32()
+		_raw_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_direction := ImsStreamDirection(_raw_direction)
-		_arg_bitsPerSecond, _err := data.ReadInt32()
+		_arg_bitsPerSecond, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -386,10 +386,10 @@ func (s *RadioImsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioImsUpdateImsCallStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

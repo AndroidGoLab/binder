@@ -596,29 +596,29 @@ var _ binder.TransactionReceiver = (*ImsServiceStub)(nil)
 func (s *ImsServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsServiceOpen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceClass, _err := data.ReadInt32()
+		_arg_serviceClass, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_incomingCallIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_incomingCallIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_incomingCallIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -636,10 +636,10 @@ func (s *ImsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsServiceClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -652,18 +652,18 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceIsConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceType, _err := data.ReadInt32()
+		_arg_serviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callType, _err := data.ReadInt32()
+		_arg_callType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -677,10 +677,10 @@ func (s *ImsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsServiceIsOpened:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -694,10 +694,10 @@ func (s *ImsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsServiceSetRegistrationListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -713,14 +713,14 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceAddRegistrationListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceClass, _err := data.ReadInt32()
+		_arg_serviceClass, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -736,18 +736,18 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceCreateCallProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceType, _err := data.ReadInt32()
+		_arg_serviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callType, _err := data.ReadInt32()
+		_arg_callType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -764,21 +764,21 @@ func (s *ImsServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsServiceCreateCallSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profile ims.ImsCallProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -797,14 +797,14 @@ func (s *ImsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsServiceGetPendingCallSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -819,10 +819,10 @@ func (s *ImsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsServiceGetUtInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -837,10 +837,10 @@ func (s *ImsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsServiceGetConfigInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -855,10 +855,10 @@ func (s *ImsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsServiceTurnOnIms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -871,10 +871,10 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceTurnOffIms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -887,10 +887,10 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceGetEcbmInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -905,25 +905,25 @@ func (s *ImsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsServiceSetUiTTYMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uiTtyMode, _err := data.ReadInt32()
+		_arg_uiTtyMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_onComplete contexthub.Message
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_onComplete.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_onComplete.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -937,10 +937,10 @@ func (s *ImsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceGetMultiEndpointInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadInt32()
+		_arg_serviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

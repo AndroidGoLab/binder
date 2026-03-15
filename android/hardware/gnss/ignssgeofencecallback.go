@@ -249,34 +249,34 @@ var _ binder.TransactionReceiver = (*GnssGeofenceCallbackStub)(nil)
 func (s *GnssGeofenceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGnssGeofenceCallbackGnssGeofenceTransitionCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_geofenceId, _err := data.ReadInt32()
+		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_location GnssLocation
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_transition, _err := data.ReadInt32()
+		_arg_transition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestampMillis, _err := data.ReadInt64()
+		_arg_timestampMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -289,21 +289,21 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofenceStatusCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_availability, _err := data.ReadInt32()
+		_arg_availability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_lastLocation GnssLocation
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_lastLocation.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_lastLocation.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -317,14 +317,14 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofenceAddCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_geofenceId, _err := data.ReadInt32()
+		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -337,14 +337,14 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofenceRemoveCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_geofenceId, _err := data.ReadInt32()
+		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -357,14 +357,14 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofencePauseCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_geofenceId, _err := data.ReadInt32()
+		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -377,14 +377,14 @@ func (s *GnssGeofenceCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGeofenceCallbackGnssGeofenceResumeCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_geofenceId, _err := data.ReadInt32()
+		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -732,22 +732,22 @@ var _ binder.TransactionReceiver = (*AutoFillManagerStub)(nil)
 func (s *AutoFillManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAutoFillManagerAddClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAutoFillManagerClient
 		_ = _arg_client
 		var _arg_componentName interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
-		_arg_credmanRequested, _err := data.ReadBool()
+		_arg_credmanRequested, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -755,20 +755,20 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerRemoveClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAutoFillManagerClient
 		_ = _arg_client
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveClient(ctx, _arg_client)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerStartSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -779,53 +779,53 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _arg_appCallback
 		var _arg_autoFillId AutofillId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_autoFillId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_autoFillId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_bounds graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bounds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_value AutofillValue
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_value.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_value.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_hasCallback, _err := data.ReadBool()
+		_arg_hasCallback, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName interface{}
-		_arg_compatMode, _err := data.ReadBool()
+		_arg_compatMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -834,7 +834,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerGetFillEventHistory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -842,10 +842,10 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerRestoreSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -860,122 +860,122 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerUpdateSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_id AutofillId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_id.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_bounds graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bounds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_value AutofillValue
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_value.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_value.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_action, _err := data.ReadInt32()
+		_arg_action, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UpdateSession(ctx, _arg_sessionId, _arg_id, _arg_bounds, _arg_value, _arg_action, _arg_flags)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerSetAutofillFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []AutofillId
 		_ = _arg_ids
-		_arg_isRefill, _err := data.ReadBool()
+		_arg_isRefill, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetAutofillFailure(ctx, _arg_sessionId, _arg_ids, _arg_isRefill)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerSetViewAutofilled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_id AutofillId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_id.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_id.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetViewAutofilled(ctx, _arg_sessionId, _arg_id)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerFinishSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_commitReason, _err := data.ReadInt32()
+		_arg_commitReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -983,50 +983,50 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerCancelSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CancelSession(ctx, _arg_sessionId)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerSetAuthenticationResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_data interface{}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authenticationId, _err := data.ReadInt32()
+		_arg_authenticationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetAuthenticationResult(ctx, _arg_data, _arg_sessionId, _arg_authenticationId)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerSetHasCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_hasIt, _err := data.ReadBool()
+		_arg_hasIt, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1034,20 +1034,20 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerDisableOwnedAutofillServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisableOwnedAutofillServices(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerIsServiceSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -1055,13 +1055,13 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerIsServiceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1070,10 +1070,10 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerOnPendingSaveUi:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_operation, _err := data.ReadInt32()
+		_arg_operation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1084,7 +1084,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerGetUserData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -1092,7 +1092,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerGetUserDataId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -1100,7 +1100,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerSetUserData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_userData interface{}
@@ -1108,7 +1108,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerIsFieldClassificationEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -1116,7 +1116,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerGetAutofillServiceComponentName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -1124,7 +1124,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerGetAvailableFieldClassificationAlgorithms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -1132,7 +1132,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerGetDefaultFieldClassificationAlgorithm:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -1140,7 +1140,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerSetAugmentedAutofillWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1154,81 +1154,81 @@ func (s *AutoFillManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerNotifyNotExpiringResponseDuringAuth:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyNotExpiringResponseDuringAuth(ctx, _arg_sessionId)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerNotifyViewEnteredIgnoredDuringAuthCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyViewEnteredIgnoredDuringAuthCount(ctx, _arg_sessionId)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerSetAutofillIdsAttemptedForRefill:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []AutofillId
 		_ = _arg_ids
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetAutofillIdsAttemptedForRefill(ctx, _arg_sessionId, _arg_ids)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerNotifyImeAnimationStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_startTimeMs, _err := data.ReadInt64()
+		_arg_startTimeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyImeAnimationStart(ctx, _arg_sessionId, _arg_startTimeMs)
 		_ = _err
 		return nil, nil
 	case TransactionIAutoFillManagerNotifyImeAnimationEnd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_endTimeMs, _err := data.ReadInt64()
+		_arg_endTimeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyImeAnimationEnd(ctx, _arg_sessionId, _arg_endTimeMs)

@@ -66,18 +66,18 @@ var _ binder.TransactionReceiver = (*PackageDataObserverStub)(nil)
 func (s *PackageDataObserverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPackageDataObserverOnRemoveCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_succeeded, _err := data.ReadBool()
+		_arg_succeeded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

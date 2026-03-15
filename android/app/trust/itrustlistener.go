@@ -158,35 +158,35 @@ var _ binder.TransactionReceiver = (*TrustListenerStub)(nil)
 func (s *TrustListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITrustListenerOnEnabledTrustAgentsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnEnabledTrustAgentsChanged(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITrustListenerOnTrustChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newlyUnlocked, _err := data.ReadBool()
+		_arg_newlyUnlocked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -197,21 +197,21 @@ func (s *TrustListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustListenerOnTrustManagedChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_managed, _err := data.ReadBool()
+		_arg_managed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTrustManagedChanged(ctx, _arg_managed)
 		_ = _err
 		return nil, nil
 	case TransactionITrustListenerOnTrustError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_message interface{}
@@ -219,14 +219,14 @@ func (s *TrustListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustListenerOnIsActiveUnlockRunningChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isRunning, _err := data.ReadBool()
+		_arg_isRunning, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnIsActiveUnlockRunningChanged(ctx, _arg_isRunning)

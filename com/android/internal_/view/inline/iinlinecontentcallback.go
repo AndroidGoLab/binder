@@ -106,30 +106,30 @@ var _ binder.TransactionReceiver = (*InlineContentCallbackStub)(nil)
 func (s *InlineContentCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInlineContentCallbackOnContent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_content view.SurfaceControlViewHostSurfacePackage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_content.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_content.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -137,14 +137,14 @@ func (s *InlineContentCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInlineContentCallbackOnClick:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnClick(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInlineContentCallbackOnLongClick:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnLongClick(ctx)

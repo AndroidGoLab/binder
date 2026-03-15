@@ -70,26 +70,26 @@ var _ binder.TransactionReceiver = (*OnMediaKeyEventDispatchedListenerStub)(nil)
 func (s *OnMediaKeyEventDispatchedListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOnMediaKeyEventDispatchedListenerOnMediaKeyEventDispatched:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event interface{}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionToken MediaSessionToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

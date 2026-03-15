@@ -122,11 +122,11 @@ var _ binder.TransactionReceiver = (*StreamingResponseCallbackStub)(nil)
 func (s *StreamingResponseCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStreamingResponseCallbackOnNewContent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_processedResult interface{}
@@ -134,7 +134,7 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStreamingResponseCallbackOnSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -142,14 +142,14 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStreamingResponseCallbackOnFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_errorMessage, _err := data.ReadString16()
+		_arg_errorMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -158,7 +158,7 @@ func (s *StreamingResponseCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStreamingResponseCallbackOnDataAugmentRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_processedContent interface{}

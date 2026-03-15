@@ -1139,14 +1139,14 @@ var _ binder.TransactionReceiver = (*PackageInstallerSessionStub)(nil)
 func (s *PackageInstallerSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPackageInstallerSessionSetClientProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_progress, _err := data.ReadFloat32()
+		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1159,10 +1159,10 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionAddClientProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_progress, _err := data.ReadFloat32()
+		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1175,7 +1175,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNames(ctx)
@@ -1189,18 +1189,18 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageInstallerSessionOpenWrite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_offsetBytes, _err := data.ReadInt64()
+		_arg_offsetBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lengthBytes, _err := data.ReadInt64()
+		_arg_lengthBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1214,10 +1214,10 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionOpenRead:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1231,22 +1231,22 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionWrite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_offsetBytes, _err := data.ReadInt64()
+		_arg_offsetBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lengthBytes, _err := data.ReadInt64()
+		_arg_lengthBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1259,10 +1259,10 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionStageViaHardLink:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_target, _err := data.ReadString16()
+		_arg_target, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1275,10 +1275,10 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionSetChecksums:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1297,18 +1297,18 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRequestChecksums:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_optional, _err := data.ReadInt32()
+		_arg_optional, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_required, _err := data.ReadInt32()
+		_arg_required, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1327,10 +1327,10 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRemoveSplit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_splitName, _err := data.ReadString16()
+		_arg_splitName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1343,7 +1343,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -1355,11 +1355,11 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionCommit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_statusReceiver interface{}
-		_arg_forTransferred, _err := data.ReadBool()
+		_arg_forTransferred, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1372,10 +1372,10 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionTransfer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1388,7 +1388,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionAbandon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Abandon(ctx)
@@ -1400,7 +1400,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionSeal:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Seal(ctx)
@@ -1412,7 +1412,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionFetchPackageNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.FetchPackageNames(ctx)
@@ -1426,7 +1426,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetDataLoaderParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDataLoaderParams(ctx)
@@ -1442,18 +1442,18 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerSessionAddFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_location, _err := data.ReadInt32()
+		_arg_location, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lengthBytes, _err := data.ReadInt64()
+		_arg_lengthBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1472,14 +1472,14 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRemoveFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_location, _err := data.ReadInt32()
+		_arg_location, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1492,7 +1492,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionIsMultiPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsMultiPackage(ctx)
@@ -1505,7 +1505,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetChildSessionIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetChildSessionIds(ctx)
@@ -1519,10 +1519,10 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageInstallerSessionAddChildSessionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1535,10 +1535,10 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRemoveChildSessionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1551,7 +1551,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetParentSessionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetParentSessionId(ctx)
@@ -1564,7 +1564,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionIsStaged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsStaged(ctx)
@@ -1577,7 +1577,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetInstallFlags:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstallFlags(ctx)
@@ -1590,17 +1590,17 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRequestUserPreapproval:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_details PackageInstallerPreapprovalDetails
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_details.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_details.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1615,7 +1615,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionIsApplicationEnabledSettingPersistent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsApplicationEnabledSettingPersistent(ctx)
@@ -1628,7 +1628,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionIsRequestUpdateOwnership:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRequestUpdateOwnership(ctx)
@@ -1641,7 +1641,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetAppMetadataFd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppMetadataFd(ctx)
@@ -1654,7 +1654,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionOpenWriteAppMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OpenWriteAppMetadata(ctx)
@@ -1667,7 +1667,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionRemoveAppMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveAppMetadata(ctx)
@@ -1679,7 +1679,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionSetPreVerifiedDomains:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_preVerifiedDomains interface{}
@@ -1692,7 +1692,7 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSessionGetPreVerifiedDomains:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPreVerifiedDomains(ctx)

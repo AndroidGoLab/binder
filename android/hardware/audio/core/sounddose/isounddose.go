@@ -138,14 +138,14 @@ var _ binder.TransactionReceiver = (*SoundDoseStub)(nil)
 func (s *SoundDoseStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISoundDoseSetOutputRs2UpperBound:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rs2ValueDbA, _err := data.ReadFloat32()
+		_arg_rs2ValueDbA, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -158,7 +158,7 @@ func (s *SoundDoseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundDoseGetOutputRs2UpperBound:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOutputRs2UpperBound(ctx)
@@ -171,7 +171,7 @@ func (s *SoundDoseStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionISoundDoseRegisterSoundDoseCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

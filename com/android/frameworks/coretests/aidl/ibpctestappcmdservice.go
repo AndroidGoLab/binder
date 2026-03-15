@@ -240,14 +240,14 @@ var _ binder.TransactionReceiver = (*BpcTestAppCmdServiceStub)(nil)
 func (s *BpcTestAppCmdServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBpcTestAppCmdServiceCreateSystemBinders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_count, _err := data.ReadInt32()
+		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -260,10 +260,10 @@ func (s *BpcTestAppCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestAppCmdServiceReleaseSystemBinders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_count, _err := data.ReadInt32()
+		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -276,10 +276,10 @@ func (s *BpcTestAppCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestAppCmdServiceCreateTestBinders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_count, _err := data.ReadInt32()
+		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -292,10 +292,10 @@ func (s *BpcTestAppCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestAppCmdServiceReleaseTestBinders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_count, _err := data.ReadInt32()
+		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -308,7 +308,7 @@ func (s *BpcTestAppCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestAppCmdServiceReleaseAllBinders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ReleaseAllBinders(ctx)
@@ -320,7 +320,7 @@ func (s *BpcTestAppCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestAppCmdServiceBindToTestService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.BindToTestService(ctx)
@@ -333,7 +333,7 @@ func (s *BpcTestAppCmdServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBpcTestAppCmdServiceUnbindFromTestService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnbindFromTestService(ctx)

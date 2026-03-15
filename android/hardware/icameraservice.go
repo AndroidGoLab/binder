@@ -954,19 +954,19 @@ var _ binder.TransactionReceiver = (*CameraServiceStub)(nil)
 func (s *CameraServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICameraServiceGetNumberOfCameras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -980,19 +980,19 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraServiceGetCameraInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadInt32()
+		_arg_cameraId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rotationOverride, _err := data.ReadInt32()
+		_arg_rotationOverride, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1006,30 +1006,30 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceConnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client ICameraClient
 		_ = _arg_client
-		_arg_cameraId, _err := data.ReadInt32()
+		_arg_cameraId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rotationOverride, _err := data.ReadInt32()
+		_arg_rotationOverride, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_forceSlowJpegMode, _err := data.ReadBool()
+		_arg_forceSlowJpegMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1044,32 +1044,32 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceConnectDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callbacks interface{}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_oomScoreOffset, _err := data.ReadInt32()
+		_arg_oomScoreOffset, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rotationOverride, _err := data.ReadInt32()
+		_arg_rotationOverride, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sharedMode, _err := data.ReadBool()
+		_arg_sharedMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1083,7 +1083,7 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceAddListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1100,7 +1100,7 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceGetConcurrentCameraIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetConcurrentCameraIds(ctx)
@@ -1114,18 +1114,18 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceIsConcurrentSessionConfigurationSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessions []interface{}
 		_ = _arg_sessions
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1139,10 +1139,10 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraServiceInjectSessionParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1156,7 +1156,7 @@ func (s *CameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraServiceRemoveListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1171,23 +1171,23 @@ func (s *CameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraServiceGetCameraCharacteristics:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rotationOverride, _err := data.ReadInt32()
+		_arg_rotationOverride, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1201,7 +1201,7 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceGetCameraVendorTagDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCameraVendorTagDescriptor(ctx)
@@ -1214,7 +1214,7 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceGetCameraVendorTagCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCameraVendorTagCache(ctx)
@@ -1227,10 +1227,10 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceGetLegacyParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadInt32()
+		_arg_cameraId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1244,14 +1244,14 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionICameraServiceSupportsCameraApi:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_apiVersion, _err := data.ReadInt32()
+		_arg_apiVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1265,10 +1265,10 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraServiceIsHiddenPhysicalCamera:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1282,18 +1282,18 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraServiceInjectCamera:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_internalCamId, _err := data.ReadString16()
+		_arg_internalCamId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_externalCamId, _err := data.ReadString16()
+		_arg_externalCamId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1309,14 +1309,14 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceSetTorchMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1324,7 +1324,7 @@ func (s *CameraServiceStub) OnTransaction(
 		var _arg_clientBinder binder.IBinder
 		_ = _arg_clientBinder
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1337,14 +1337,14 @@ func (s *CameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraServiceTurnOnTorchWithStrengthLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_strengthLevel, _err := data.ReadInt32()
+		_arg_strengthLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1352,7 +1352,7 @@ func (s *CameraServiceStub) OnTransaction(
 		var _arg_clientBinder binder.IBinder
 		_ = _arg_clientBinder
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1365,15 +1365,15 @@ func (s *CameraServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraServiceGetTorchStrengthLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1387,10 +1387,10 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraServiceNotifySystemEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_eventId, _err := data.ReadInt32()
+		_arg_eventId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1401,17 +1401,17 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceNotifyDisplayConfigurationChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyDisplayConfigurationChange(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceNotifyDeviceStateChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newState, _err := data.ReadInt64()
+		_arg_newState, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1419,17 +1419,17 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceReportExtensionSessionStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_stats CameraExtensionSessionStats
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_stats.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_stats.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1444,19 +1444,19 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionICameraServiceCreateDefaultRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_templateId, _err := data.ReadInt32()
+		_arg_templateId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1470,20 +1470,20 @@ func (s *CameraServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceIsSessionConfigurationWithParametersSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionConfiguration interface{}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1497,24 +1497,24 @@ func (s *CameraServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraServiceGetSessionCharacteristics:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rotationOverride, _err := data.ReadInt32()
+		_arg_rotationOverride, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionConfiguration interface{}
 		var _arg_clientAttribution interface{}
-		_arg_devicePolicy, _err := data.ReadInt32()
+		_arg_devicePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

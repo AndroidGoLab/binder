@@ -79,18 +79,18 @@ var _ binder.TransactionReceiver = (*VisualQueryRecognitionStatusListenerStub)(n
 func (s *VisualQueryRecognitionStatusListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVisualQueryRecognitionStatusListenerOnStartPerceiving:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStartPerceiving(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVisualQueryRecognitionStatusListenerOnStopPerceiving:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStopPerceiving(ctx)

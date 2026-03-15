@@ -147,14 +147,14 @@ var _ binder.TransactionReceiver = (*DumpstateListenerStub)(nil)
 func (s *DumpstateListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDumpstateListenerOnProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_progress, _err := data.ReadInt32()
+		_arg_progress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -162,10 +162,10 @@ func (s *DumpstateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDumpstateListenerOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -173,10 +173,10 @@ func (s *DumpstateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDumpstateListenerOnFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bugreportFile, _err := data.ReadString16()
+		_arg_bugreportFile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -184,10 +184,10 @@ func (s *DumpstateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDumpstateListenerOnScreenshotTaken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_success, _err := data.ReadBool()
+		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -195,7 +195,7 @@ func (s *DumpstateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDumpstateListenerOnUiIntensiveBugreportDumpsFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnUiIntensiveBugreportDumpsFinished(ctx)

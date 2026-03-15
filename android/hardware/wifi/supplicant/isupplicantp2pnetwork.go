@@ -391,11 +391,11 @@ var _ binder.TransactionReceiver = (*SupplicantP2pNetworkStub)(nil)
 func (s *SupplicantP2pNetworkStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISupplicantP2pNetworkGetBssid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBssid(ctx)
@@ -409,7 +409,7 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetClientList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetClientList(ctx)
@@ -423,7 +423,7 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetId(ctx)
@@ -436,7 +436,7 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetInterfaceName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInterfaceName(ctx)
@@ -449,7 +449,7 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetSsid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSsid(ctx)
@@ -463,7 +463,7 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkGetType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetType(ctx)
@@ -476,7 +476,7 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkIsCurrent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCurrent(ctx)
@@ -489,7 +489,7 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkIsGroupOwner:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsGroupOwner(ctx)
@@ -502,7 +502,7 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkIsPersistent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPersistent(ctx)
@@ -515,7 +515,7 @@ func (s *SupplicantP2pNetworkStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantP2pNetworkSetClientList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

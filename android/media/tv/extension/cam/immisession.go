@@ -155,14 +155,14 @@ var _ binder.TransactionReceiver = (*MmiSessionStub)(nil)
 func (s *MmiSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMmiSessionSetMenuListAnswer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_response, _err := data.ReadInt32()
+		_arg_response, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -175,14 +175,14 @@ func (s *MmiSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMmiSessionSetEnquiryAnswer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_answerId, _err := data.ReadInt32()
+		_arg_answerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_answer, _err := data.ReadString16()
+		_arg_answer, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -195,7 +195,7 @@ func (s *MmiSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMmiSessionCloseMmi:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CloseMmi(ctx)
@@ -207,7 +207,7 @@ func (s *MmiSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMmiSessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)

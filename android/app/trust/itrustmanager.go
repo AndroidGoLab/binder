@@ -596,18 +596,18 @@ var _ binder.TransactionReceiver = (*TrustManagerStub)(nil)
 func (s *TrustManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITrustManagerReportUnlockAttempt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_successful, _err := data.ReadBool()
+		_arg_successful, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportUnlockAttempt(ctx, _arg_successful)
@@ -619,13 +619,13 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportUserRequestedUnlock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_dismissKeyguard, _err := data.ReadBool()
+		_arg_dismissKeyguard, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -638,10 +638,10 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportUserMayRequestUnlock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ReportUserMayRequestUnlock(ctx)
@@ -653,14 +653,14 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportUnlockLockout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutMs, _err := data.ReadInt32()
+		_arg_timeoutMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportUnlockLockout(ctx, _arg_timeoutMs)
@@ -672,10 +672,10 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportEnabledTrustAgentsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ReportEnabledTrustAgentsChanged(ctx)
@@ -687,7 +687,7 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerRegisterTrustListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -702,7 +702,7 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerUnregisterTrustListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -717,7 +717,7 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerReportKeyguardShowingChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ReportKeyguardShowingChanged(ctx)
@@ -729,13 +729,13 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerSetDeviceLockedForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_locked, _err := data.ReadBool()
+		_arg_locked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -748,13 +748,13 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerIsDeviceLocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -768,13 +768,13 @@ func (s *TrustManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITrustManagerIsDeviceSecure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -788,10 +788,10 @@ func (s *TrustManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITrustManagerIsTrustUsuallyManaged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsTrustUsuallyManaged(ctx)
@@ -804,20 +804,20 @@ func (s *TrustManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITrustManagerUnlockedByBiometricForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_source biometrics.BiometricSourceType
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_source.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -831,22 +831,22 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerClearAllBiometricRecognized:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_target biometrics.BiometricSourceType
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_target.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_target.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_unlockedUser, _err := data.ReadInt32()
+		_arg_unlockedUser, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -859,10 +859,10 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerIsActiveUnlockRunning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsActiveUnlockRunning(ctx)
@@ -875,7 +875,7 @@ func (s *TrustManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITrustManagerIsInSignificantPlace:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInSignificantPlace(ctx)
@@ -888,13 +888,13 @@ func (s *TrustManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITrustManagerRegisterDeviceLockedStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener policy.IDeviceLockedStateListener
 		_ = _arg_listener
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -907,7 +907,7 @@ func (s *TrustManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITrustManagerUnregisterDeviceLockedStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

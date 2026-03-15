@@ -288,17 +288,17 @@ var _ binder.TransactionReceiver = (*ImsUtListenerStub)(nil)
 func (s *ImsUtListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsUtListenerUtConfigurationUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
 		_ = _arg_ut
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -306,24 +306,24 @@ func (s *ImsUtListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsUtListenerUtConfigurationUpdateFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
 		_ = _arg_ut
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_error_ ims.ImsReasonInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_error_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_error_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -332,24 +332,24 @@ func (s *ImsUtListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsUtListenerUtConfigurationQueried:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
 		_ = _arg_ut
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_ssInfo os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ssInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ssInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -358,24 +358,24 @@ func (s *ImsUtListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsUtListenerUtConfigurationQueryFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
 		_ = _arg_ut
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_error_ ims.ImsReasonInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_error_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_error_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -384,21 +384,21 @@ func (s *ImsUtListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsUtListenerLineIdentificationSupplementaryServiceResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_config ims.ImsSsInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -407,13 +407,13 @@ func (s *ImsUtListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsUtListenerUtConfigurationCallBarringQueried:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
 		_ = _arg_ut
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -424,13 +424,13 @@ func (s *ImsUtListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsUtListenerUtConfigurationCallForwardQueried:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
 		_ = _arg_ut
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -441,13 +441,13 @@ func (s *ImsUtListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsUtListenerUtConfigurationCallWaitingQueried:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_ut IImsUt
 		_ = _arg_ut
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -458,17 +458,17 @@ func (s *ImsUtListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsUtListenerOnSupplementaryServiceIndication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ssData ims.ImsSsData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ssData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ssData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

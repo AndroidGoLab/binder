@@ -122,11 +122,11 @@ var _ binder.TransactionReceiver = (*ClientManagerStub)(nil)
 func (s *ClientManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIClientManagerRegisterSender:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -145,7 +145,7 @@ func (s *ClientManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIClientManagerRegisterPassiveSender:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

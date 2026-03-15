@@ -265,11 +265,11 @@ var _ binder.TransactionReceiver = (*OemLockServiceStub)(nil)
 func (s *OemLockServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOemLockServiceGetLockName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLockName(ctx)
@@ -282,10 +282,10 @@ func (s *OemLockServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIOemLockServiceSetOemUnlockAllowedByCarrier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_allowed, _err := data.ReadBool()
+		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -301,7 +301,7 @@ func (s *OemLockServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOemLockServiceIsOemUnlockAllowedByCarrier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsOemUnlockAllowedByCarrier(ctx)
@@ -314,10 +314,10 @@ func (s *OemLockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOemLockServiceSetOemUnlockAllowedByUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_allowed, _err := data.ReadBool()
+		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -330,7 +330,7 @@ func (s *OemLockServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOemLockServiceIsOemUnlockAllowedByUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsOemUnlockAllowedByUser(ctx)
@@ -343,7 +343,7 @@ func (s *OemLockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOemLockServiceIsOemUnlockAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsOemUnlockAllowed(ctx)
@@ -356,7 +356,7 @@ func (s *OemLockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIOemLockServiceIsDeviceOemUnlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDeviceOemUnlocked(ctx)

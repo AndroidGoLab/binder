@@ -67,18 +67,18 @@ var _ binder.TransactionReceiver = (*ServiceConnectionStub)(nil)
 func (s *ServiceConnectionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIServiceConnectionConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_name interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_service binder.IBinder
 		_ = _arg_service
-		_arg_dead, _err := data.ReadBool()
+		_arg_dead, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

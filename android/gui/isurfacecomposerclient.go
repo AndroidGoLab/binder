@@ -284,18 +284,18 @@ var _ binder.TransactionReceiver = (*SurfaceComposerClientStub)(nil)
 func (s *SurfaceComposerClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISurfaceComposerClientCreateSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -316,7 +316,7 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerClientClearLayerFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -331,7 +331,7 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerClientGetLayerFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -350,7 +350,7 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerClientMirrorSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -369,10 +369,10 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerClientMirrorDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt64()
+		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -389,7 +389,7 @@ func (s *SurfaceComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerClientGetSchedulingPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSchedulingPolicy(ctx)

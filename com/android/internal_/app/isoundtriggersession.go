@@ -604,11 +604,11 @@ var _ binder.TransactionReceiver = (*SoundTriggerSessionStub)(nil)
 func (s *SoundTriggerSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISoundTriggerSessionGetSoundModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
@@ -625,17 +625,17 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISoundTriggerSessionUpdateSoundModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModel soundtrigger.SoundTriggerGenericSoundModel
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_soundModel.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -649,7 +649,7 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerSessionDeleteSoundModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
@@ -662,17 +662,17 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISoundTriggerSessionStartRecognition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModel soundtrigger.SoundTriggerGenericSoundModel
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_soundModel.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -682,17 +682,17 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_ = _arg_callback
 		var _arg_config soundtrigger.SoundTriggerRecognitionConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_runInBatterySaver, _err := data.ReadBool()
+		_arg_runInBatterySaver, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -706,7 +706,7 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionStopRecognition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
@@ -723,17 +723,17 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionLoadGenericSoundModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModel soundtrigger.SoundTriggerGenericSoundModel
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_soundModel.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -748,17 +748,17 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionLoadKeyphraseSoundModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModel soundtrigger.SoundTriggerKeyphraseSoundModel
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_soundModel.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_soundModel.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -773,7 +773,7 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionStartRecognitionForService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
@@ -781,12 +781,12 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		var _arg_callbackIntent interface{}
 		var _arg_config soundtrigger.SoundTriggerRecognitionConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -801,7 +801,7 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionStopRecognitionForService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
@@ -815,7 +815,7 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionUnloadSoundModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
@@ -829,7 +829,7 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionIsRecognitionActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_parcelUuid interface{}
@@ -843,7 +843,7 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionGetModelState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
@@ -857,7 +857,7 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionGetModuleProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetModuleProperties(ctx)
@@ -873,16 +873,16 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISoundTriggerSessionSetParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
-		_raw_modelParam, _err := data.ReadInt32()
+		_raw_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_modelParam := soundtrigger.ModelParams(_raw_modelParam)
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -896,11 +896,11 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionGetParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
-		_raw_modelParam, _err := data.ReadInt32()
+		_raw_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -915,11 +915,11 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISoundTriggerSessionQueryParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
-		_raw_modelParam, _err := data.ReadInt32()
+		_raw_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

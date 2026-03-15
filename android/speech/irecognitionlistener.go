@@ -270,11 +270,11 @@ var _ binder.TransactionReceiver = (*RecognitionListenerStub)(nil)
 func (s *RecognitionListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRecognitionListenerOnReadyForSpeech:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params interface{}
@@ -282,17 +282,17 @@ func (s *RecognitionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnBeginningOfSpeech:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnBeginningOfSpeech(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnRmsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rmsdB, _err := data.ReadFloat32()
+		_arg_rmsdB, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -300,7 +300,7 @@ func (s *RecognitionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnBufferReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -310,17 +310,17 @@ func (s *RecognitionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnEndOfSpeech:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnEndOfSpeech(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -328,7 +328,7 @@ func (s *RecognitionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnResults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_results interface{}
@@ -336,7 +336,7 @@ func (s *RecognitionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnPartialResults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_results interface{}
@@ -344,7 +344,7 @@ func (s *RecognitionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnSegmentResults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_results interface{}
@@ -352,14 +352,14 @@ func (s *RecognitionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnEndOfSegmentedSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnEndOfSegmentedSession(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnLanguageDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_results interface{}
@@ -367,10 +367,10 @@ func (s *RecognitionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionListenerOnEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_eventType, _err := data.ReadInt32()
+		_arg_eventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

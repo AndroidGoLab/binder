@@ -161,21 +161,21 @@ var _ binder.TransactionReceiver = (*OnBackInvokedCallbackStub)(nil)
 func (s *OnBackInvokedCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOnBackInvokedCallbackOnBackStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_backMotionEvent BackMotionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_backMotionEvent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_backMotionEvent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -184,17 +184,17 @@ func (s *OnBackInvokedCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnBackInvokedCallbackOnBackProgressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_backMotionEvent BackMotionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_backMotionEvent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_backMotionEvent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -203,24 +203,24 @@ func (s *OnBackInvokedCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnBackInvokedCallbackOnBackCancelled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnBackCancelled(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIOnBackInvokedCallbackOnBackInvoked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnBackInvoked(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIOnBackInvokedCallbackSetTriggerBack:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_triggerBack, _err := data.ReadBool()
+		_arg_triggerBack, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -228,7 +228,7 @@ func (s *OnBackInvokedCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnBackInvokedCallbackSetHandoffHandler:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

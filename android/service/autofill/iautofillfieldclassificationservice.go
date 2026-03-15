@@ -110,11 +110,11 @@ var _ binder.TransactionReceiver = (*AutofillFieldClassificationServiceStub)(nil
 func (s *AutofillFieldClassificationServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAutofillFieldClassificationServiceCalculateScores:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -127,7 +127,7 @@ func (s *AutofillFieldClassificationServiceStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_categoryIds []string
 		_ = _arg_categoryIds
-		_arg_defaultAlgorithm, _err := data.ReadString16()
+		_arg_defaultAlgorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

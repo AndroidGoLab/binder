@@ -2170,22 +2170,22 @@ var _ binder.TransactionReceiver = (*LockSettingsStub)(nil)
 func (s *LockSettingsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionILockSettingsSetBoolean:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadBool()
+		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetBoolean(ctx, _arg_key, _arg_value)
@@ -2197,18 +2197,18 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetLong:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt64()
+		_arg_value, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetLong(ctx, _arg_key, _arg_value)
@@ -2220,18 +2220,18 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetString(ctx, _arg_key, _arg_value)
@@ -2243,18 +2243,18 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetBoolean:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_defaultValue, _err := data.ReadBool()
+		_arg_defaultValue, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBoolean(ctx, _arg_key, _arg_defaultValue)
@@ -2267,18 +2267,18 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetLong:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_defaultValue, _err := data.ReadInt64()
+		_arg_defaultValue, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLong(ctx, _arg_key, _arg_defaultValue)
@@ -2291,18 +2291,18 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_defaultValue, _err := data.ReadString16()
+		_arg_defaultValue, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetString(ctx, _arg_key, _arg_defaultValue)
@@ -2315,34 +2315,34 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsSetLockCredential:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_credential LockscreenCredential
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_credential.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_credential.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_savedCredential LockscreenCredential
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_savedCredential.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_savedCredential.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetLockCredential(ctx, _arg_credential, _arg_savedCredential)
@@ -2355,10 +2355,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsResetKeyStore:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetKeyStore(ctx)
@@ -2370,22 +2370,22 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsCheckCredential:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_credential LockscreenCredential
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_credential.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_credential.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2404,25 +2404,25 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsVerifyCredential:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_credential LockscreenCredential
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_credential.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_credential.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2439,25 +2439,25 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsVerifyTiedProfileChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_credential LockscreenCredential
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_credential.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_credential.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2474,18 +2474,18 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsVerifyGatekeeperPasswordHandle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_gatekeeperPasswordHandle, _err := data.ReadInt64()
+		_arg_gatekeeperPasswordHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_challenge, _err := data.ReadInt64()
+		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.VerifyGatekeeperPasswordHandle(ctx, _arg_gatekeeperPasswordHandle, _arg_challenge)
@@ -2501,10 +2501,10 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsRemoveGatekeeperPasswordHandle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_gatekeeperPasswordHandle, _err := data.ReadInt64()
+		_arg_gatekeeperPasswordHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2517,10 +2517,10 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetCredentialType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCredentialType(ctx)
@@ -2533,10 +2533,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetPinLength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPinLength(ctx)
@@ -2549,10 +2549,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILockSettingsRefreshStoredPinLength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RefreshStoredPinLength(ctx)
@@ -2565,22 +2565,22 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetHashFactor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_currentCredential LockscreenCredential
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_currentCredential.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_currentCredential.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHashFactor(ctx, _arg_currentCredential)
@@ -2594,24 +2594,24 @@ func (s *LockSettingsStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILockSettingsSetSeparateProfileChallengeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_managedUserPassword LockscreenCredential
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_managedUserPassword.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_managedUserPassword.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2625,10 +2625,10 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetSeparateProfileChallengeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSeparateProfileChallengeEnabled(ctx)
@@ -2641,7 +2641,7 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsRegisterStrongAuthTracker:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2656,7 +2656,7 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsUnregisterStrongAuthTracker:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2671,14 +2671,14 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsRequireStrongAuth:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strongAuthReason, _err := data.ReadInt32()
+		_arg_strongAuthReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequireStrongAuth(ctx, _arg_strongAuthReason)
@@ -2690,14 +2690,14 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsReportSuccessfulBiometricUnlock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isStrongBiometric, _err := data.ReadBool()
+		_arg_isStrongBiometric, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportSuccessfulBiometricUnlock(ctx, _arg_isStrongBiometric)
@@ -2709,10 +2709,10 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsScheduleNonStrongBiometricIdleTimeout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleNonStrongBiometricIdleTimeout(ctx)
@@ -2724,7 +2724,7 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSystemReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SystemReady(ctx)
@@ -2736,10 +2736,10 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsUserPresent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UserPresent(ctx)
@@ -2751,10 +2751,10 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetStrongAuthForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetStrongAuthForUser(ctx)
@@ -2767,10 +2767,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILockSettingsHasPendingEscrowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasPendingEscrowToken(ctx)
@@ -2783,10 +2783,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsInitRecoveryServiceWithSigFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rootCertificateAlias, _err := data.ReadString16()
+		_arg_rootCertificateAlias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2805,7 +2805,7 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetKeyChainSnapshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetKeyChainSnapshot(ctx)
@@ -2821,10 +2821,10 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsGenerateKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2838,10 +2838,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsGenerateKeyWithMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2858,10 +2858,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsImportKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2878,10 +2878,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsImportKeyWithMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2901,10 +2901,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsGetKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2918,10 +2918,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILockSettingsRemoveKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2934,17 +2934,17 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetSnapshotCreatedPendingIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2958,7 +2958,7 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetServerParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2973,14 +2973,14 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsSetRecoveryStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2993,7 +2993,7 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetRecoveryStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRecoveryStatus(ctx)
@@ -3007,7 +3007,7 @@ func (s *LockSettingsStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILockSettingsSetRecoverySecretTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3022,7 +3022,7 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsGetRecoverySecretTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRecoverySecretTypes(ctx)
@@ -3036,25 +3036,25 @@ func (s *LockSettingsStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILockSettingsStartRecoverySessionWithCertPath:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rootCertificateAlias, _err := data.ReadString16()
+		_arg_rootCertificateAlias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_verifierCertPath recovery.RecoveryCertPath
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_verifierCertPath.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_verifierCertPath.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3079,10 +3079,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILockSettingsRecoverKeyChainSnapshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3103,10 +3103,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILockSettingsCloseSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3119,7 +3119,7 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsStartRemoteLockscreenValidation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartRemoteLockscreenValidation(ctx)
@@ -3135,7 +3135,7 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsValidateRemoteLockscreen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3154,7 +3154,7 @@ func (s *LockSettingsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILockSettingsHasSecureLockScreen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasSecureLockScreen(ctx)
@@ -3167,10 +3167,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsTryUnlockWithCachedUnifiedChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.TryUnlockWithCachedUnifiedChallenge(ctx)
@@ -3183,10 +3183,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsRemoveCachedUnifiedChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveCachedUnifiedChallenge(ctx)
@@ -3198,7 +3198,7 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsRegisterWeakEscrowTokenRemovedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3214,7 +3214,7 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsUnregisterWeakEscrowTokenRemovedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3230,13 +3230,13 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsAddWeakEscrowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3252,14 +3252,14 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionILockSettingsRemoveWeakEscrowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt64()
+		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RemoveWeakEscrowToken(ctx, _arg_handle)
@@ -3272,14 +3272,14 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsIsWeakEscrowTokenActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt64()
+		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsWeakEscrowTokenActive(ctx, _arg_handle)
@@ -3292,17 +3292,17 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsIsWeakEscrowTokenValid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt64()
+		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsWeakEscrowTokenValid(ctx, _arg_handle, _arg_token)
@@ -3315,10 +3315,10 @@ func (s *LockSettingsStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILockSettingsUnlockUserKeyIfUnsecured:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnlockUserKeyIfUnsecured(ctx)
@@ -3330,10 +3330,10 @@ func (s *LockSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILockSettingsWriteRepairModeCredential:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.WriteRepairModeCredential(ctx)

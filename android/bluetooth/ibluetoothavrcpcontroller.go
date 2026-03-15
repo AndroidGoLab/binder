@@ -283,11 +283,11 @@ var _ binder.TransactionReceiver = (*BluetoothAvrcpControllerStub)(nil)
 func (s *BluetoothAvrcpControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothAvrcpControllerGetConnectedDevices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
@@ -302,7 +302,7 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothAvrcpControllerGetDevicesMatchingConnectionStates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -320,17 +320,17 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothAvrcpControllerGetConnectionState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -346,17 +346,17 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothAvrcpControllerGetPlayerSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -375,17 +375,17 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBluetoothAvrcpControllerSetPlayerApplicationSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_plAppSetting BluetoothAvrcpPlayerSettings
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_plAppSetting.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_plAppSetting.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -400,26 +400,26 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAvrcpControllerSendGroupNavigationCmd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_keyCode, _err := data.ReadInt32()
+		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_keyState, _err := data.ReadInt32()
+		_arg_keyState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

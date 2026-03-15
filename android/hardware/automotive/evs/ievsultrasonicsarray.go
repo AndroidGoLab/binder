@@ -194,21 +194,21 @@ var _ binder.TransactionReceiver = (*EvsUltrasonicsArrayStub)(nil)
 func (s *EvsUltrasonicsArrayStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEvsUltrasonicsArrayDoneWithDataFrame:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_dataFrameDesc UltrasonicsDataFrameDesc
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dataFrameDesc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dataFrameDesc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -222,7 +222,7 @@ func (s *EvsUltrasonicsArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsUltrasonicsArrayGetUltrasonicArrayInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUltrasonicArrayInfo(ctx)
@@ -238,10 +238,10 @@ func (s *EvsUltrasonicsArrayStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsUltrasonicsArraySetMaxFramesInFlight:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bufferCount, _err := data.ReadInt32()
+		_arg_bufferCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -254,7 +254,7 @@ func (s *EvsUltrasonicsArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsUltrasonicsArrayStartStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -269,7 +269,7 @@ func (s *EvsUltrasonicsArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsUltrasonicsArrayStopStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopStream(ctx)

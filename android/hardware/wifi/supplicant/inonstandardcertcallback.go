@@ -131,14 +131,14 @@ var _ binder.TransactionReceiver = (*NonStandardCertCallbackStub)(nil)
 func (s *NonStandardCertCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINonStandardCertCallbackGetBlob:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -153,10 +153,10 @@ func (s *NonStandardCertCallbackStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionINonStandardCertCallbackListAliases:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_prefix, _err := data.ReadString16()
+		_arg_prefix, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

@@ -100,14 +100,14 @@ var _ binder.TransactionReceiver = (*DataShareReadAdapterStub)(nil)
 func (s *DataShareReadAdapterStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDataShareReadAdapterStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -115,10 +115,10 @@ func (s *DataShareReadAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataShareReadAdapterError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -126,7 +126,7 @@ func (s *DataShareReadAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataShareReadAdapterFinish:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Finish(ctx)

@@ -265,28 +265,28 @@ var _ binder.TransactionReceiver = (*ContentSuggestionsManagerStub)(nil)
 func (s *ContentSuggestionsManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContentSuggestionsManagerProvideContextImage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_imageContextRequestExtras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imageContextRequestExtras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imageContextRequestExtras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -295,32 +295,32 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentSuggestionsManagerProvideContextBitmap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_bitmap graphics.Bitmap
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bitmap.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bitmap.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_imageContextRequestExtras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imageContextRequestExtras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imageContextRequestExtras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -329,20 +329,20 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentSuggestionsManagerSuggestContentSelections:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request SelectionsRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -354,20 +354,20 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentSuggestionsManagerClassifyContentSelections:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request ClassificationsRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -379,24 +379,24 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentSuggestionsManagerNotifyInteraction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadString16()
+		_arg_requestId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_interaction os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_interaction.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_interaction.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -405,10 +405,10 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentSuggestionsManagerIsEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -418,27 +418,27 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentSuggestionsManagerResetTemporaryService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetTemporaryService(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIContentSuggestionsManagerSetTemporaryService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceName, _err := data.ReadString16()
+		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_duration, _err := data.ReadInt32()
+		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -446,13 +446,13 @@ func (s *ContentSuggestionsManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentSuggestionsManagerSetDefaultServiceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

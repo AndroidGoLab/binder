@@ -140,18 +140,18 @@ var _ binder.TransactionReceiver = (*FocusListenerStub)(nil)
 func (s *FocusListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIFocusListenerAbandonAudioFocus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_usage, _err := data.ReadString16()
+		_arg_usage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_zoneId, _err := data.ReadInt32()
+		_arg_zoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -159,18 +159,18 @@ func (s *FocusListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFocusListenerRequestAudioFocus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_usage, _err := data.ReadString16()
+		_arg_usage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_zoneId, _err := data.ReadInt32()
+		_arg_zoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_focusGain, _err := data.ReadInt32()
+		_raw_focusGain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -179,22 +179,22 @@ func (s *FocusListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFocusListenerAbandonAudioFocusWithMetaData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_playbackMetaData common.PlaybackTrackMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_playbackMetaData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_playbackMetaData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_zoneId, _err := data.ReadInt32()
+		_arg_zoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -202,26 +202,26 @@ func (s *FocusListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFocusListenerRequestAudioFocusWithMetaData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_playbackMetaData common.PlaybackTrackMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_playbackMetaData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_playbackMetaData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_zoneId, _err := data.ReadInt32()
+		_arg_zoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_focusGain, _err := data.ReadInt32()
+		_raw_focusGain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

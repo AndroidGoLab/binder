@@ -192,11 +192,11 @@ var _ binder.TransactionReceiver = (*BinderWorkSourceServiceStub)(nil)
 func (s *BinderWorkSourceServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBinderWorkSourceServiceGetIncomingWorkSourceUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetIncomingWorkSourceUid(ctx)
@@ -209,7 +209,7 @@ func (s *BinderWorkSourceServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBinderWorkSourceServiceGetBinderCallingUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBinderCallingUid(ctx)
@@ -222,7 +222,7 @@ func (s *BinderWorkSourceServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBinderWorkSourceServiceGetThreadLocalWorkSourceUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetThreadLocalWorkSourceUid(ctx)
@@ -235,10 +235,10 @@ func (s *BinderWorkSourceServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBinderWorkSourceServiceSetWorkSourceProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -251,7 +251,7 @@ func (s *BinderWorkSourceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderWorkSourceServiceClearWorkSourceProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearWorkSourceProvider(ctx)

@@ -205,11 +205,11 @@ var _ binder.TransactionReceiver = (*AppTaskStub)(nil)
 func (s *AppTaskStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAppTaskFinishAndRemoveTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FinishAndRemoveTask(ctx)
@@ -221,7 +221,7 @@ func (s *AppTaskStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppTaskGetTaskInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTaskInfo(ctx)
@@ -237,13 +237,13 @@ func (s *AppTaskStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppTaskMoveToFront:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_appThread IApplicationThread
 		_ = _arg_appThread
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.MoveToFront(ctx, _arg_appThread)
@@ -255,20 +255,20 @@ func (s *AppTaskStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppTaskStartActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_whoThread binder.IBinder
 		_ = _arg_whoThread
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -283,10 +283,10 @@ func (s *AppTaskStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppTaskSetExcludeFromRecents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_exclude, _err := data.ReadBool()
+		_arg_exclude, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

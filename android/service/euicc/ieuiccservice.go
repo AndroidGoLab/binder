@@ -426,49 +426,49 @@ var _ binder.TransactionReceiver = (*EuiccServiceStub)(nil)
 func (s *EuiccServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEuiccServiceDownloadSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_portIndex, _err := data.ReadInt32()
+		_arg_portIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_subscription telephonyEuicc.DownloadableSubscription
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_subscription.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_subscription.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_switchAfterDownload, _err := data.ReadBool()
+		_arg_switchAfterDownload, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_forceDeactivateSim, _err := data.ReadBool()
+		_arg_forceDeactivateSim, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_resolvedBundle os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resolvedBundle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resolvedBundle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -480,34 +480,34 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceGetDownloadableSubscriptionMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_portIndex, _err := data.ReadInt32()
+		_arg_portIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_subscription telephonyEuicc.DownloadableSubscription
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_subscription.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_subscription.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_switchAfterDownload, _err := data.ReadBool()
+		_arg_switchAfterDownload, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_forceDeactivateSim, _err := data.ReadBool()
+		_arg_forceDeactivateSim, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -518,10 +518,10 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceGetEid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -532,10 +532,10 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceGetOtaStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -546,10 +546,10 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceStartOtaIfNecessary:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -560,10 +560,10 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceGetEuiccProfileInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -574,14 +574,14 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceGetDefaultDownloadableSubscriptionList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_forceDeactivateSim, _err := data.ReadBool()
+		_arg_forceDeactivateSim, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -592,10 +592,10 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceGetEuiccInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -606,14 +606,14 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceDeleteSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iccid, _err := data.ReadString16()
+		_arg_iccid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -624,29 +624,29 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceSwitchToSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_portIndex, _err := data.ReadInt32()
+		_arg_portIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iccid, _err := data.ReadString16()
+		_arg_iccid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_forceDeactivateSim, _err := data.ReadBool()
+		_arg_forceDeactivateSim, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISwitchToSubscriptionCallback
 		_ = _arg_callback
-		_arg_useLegacyApi, _err := data.ReadBool()
+		_arg_useLegacyApi, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -654,18 +654,18 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceUpdateSubscriptionNickname:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iccid, _err := data.ReadString16()
+		_arg_iccid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nickname, _err := data.ReadString16()
+		_arg_nickname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -676,10 +676,10 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceEraseSubscriptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -690,14 +690,14 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceEraseSubscriptionsWithOptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_options, _err := data.ReadInt32()
+		_arg_options, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -708,10 +708,10 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceRetainSubscriptionsForFactoryReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -722,7 +722,7 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceDump:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -732,10 +732,10 @@ func (s *EuiccServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccServiceGetAvailableMemoryInBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

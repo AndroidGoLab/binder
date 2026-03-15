@@ -138,11 +138,11 @@ var _ binder.TransactionReceiver = (*TradeInModeStub)(nil)
 func (s *TradeInModeStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITradeInModeStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Start(ctx)
@@ -155,7 +155,7 @@ func (s *TradeInModeStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITradeInModeIsEvaluationModeAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsEvaluationModeAllowed(ctx)
@@ -168,7 +168,7 @@ func (s *TradeInModeStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITradeInModeEnterEvaluationMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.EnterEvaluationMode(ctx)

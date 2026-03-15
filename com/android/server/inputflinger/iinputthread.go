@@ -125,11 +125,11 @@ var _ binder.TransactionReceiver = (*InputThreadStub)(nil)
 func (s *InputThreadStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputThreadFinish:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Finish(ctx)
@@ -141,7 +141,7 @@ func (s *InputThreadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputThreadWake:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Wake(ctx)
@@ -153,10 +153,10 @@ func (s *InputThreadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputThreadSleepUntil:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_whenNanos, _err := data.ReadInt64()
+		_arg_whenNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

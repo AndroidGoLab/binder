@@ -2231,34 +2231,34 @@ var _ binder.TransactionReceiver = (*PowerManagerStub)(nil)
 func (s *PowerManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPowerManagerAcquireWakeLock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_lock binder.IBinder
 		_ = _arg_lock
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tag, _err := data.ReadString16()
+		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_ws interface{}
-		_arg_historyTag, _err := data.ReadString16()
+		_arg_historyTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2274,29 +2274,29 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerAcquireWakeLockWithUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_lock binder.IBinder
 		_ = _arg_lock
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tag, _err := data.ReadString16()
+		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uidtoblame, _err := data.ReadInt32()
+		_arg_uidtoblame, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2312,13 +2312,13 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerReleaseWakeLock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_lock binder.IBinder
 		_ = _arg_lock
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2331,7 +2331,7 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerUpdateWakeLockUids:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2349,14 +2349,14 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerSetPowerBoost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_boost, _err := data.ReadInt32()
+		_arg_boost, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_durationMs, _err := data.ReadInt32()
+		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2364,14 +2364,14 @@ func (s *PowerManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerManagerSetPowerMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2379,14 +2379,14 @@ func (s *PowerManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerManagerSetPowerModeChecked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2400,14 +2400,14 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerUpdateWakeLockWorkSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_lock binder.IBinder
 		_ = _arg_lock
 		var _arg_ws interface{}
-		_arg_historyTag, _err := data.ReadString16()
+		_arg_historyTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2420,7 +2420,7 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerUpdateWakeLockCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2438,10 +2438,10 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerIsWakeLockLevelSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_level, _err := data.ReadInt32()
+		_arg_level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2455,14 +2455,14 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsWakeLockLevelSupportedWithDisplayId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_level, _err := data.ReadInt32()
+		_arg_level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2476,22 +2476,22 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerUserActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_time, _err := data.ReadInt64()
+		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2504,22 +2504,22 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerWakeUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_time, _err := data.ReadInt64()
+		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_details, _err := data.ReadString16()
+		_arg_details, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.WakeUp(ctx, _arg_time, _arg_reason, _arg_details)
@@ -2531,25 +2531,25 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerWakeUpWithDisplayId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_time, _err := data.ReadInt64()
+		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_details, _err := data.ReadString16()
+		_arg_details, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2562,18 +2562,18 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerGoToSleep:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_time, _err := data.ReadInt64()
+		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2586,22 +2586,22 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerGoToSleepWithDisplayId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_time, _err := data.ReadInt64()
+		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2614,10 +2614,10 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerNap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_time, _err := data.ReadInt64()
+		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2630,14 +2630,14 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerGetBrightnessConstraint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_constraint, _err := data.ReadInt32()
+		_arg_constraint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2651,7 +2651,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsInteractive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInteractive(ctx)
@@ -2664,10 +2664,10 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsDisplayInteractive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2681,7 +2681,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerAreAutoPowerSaveModesEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.AreAutoPowerSaveModesEnabled(ctx)
@@ -2694,7 +2694,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsPowerSaveMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPowerSaveMode(ctx)
@@ -2707,10 +2707,10 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerGetPowerSaveState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceType, _err := data.ReadInt32()
+		_arg_serviceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2724,10 +2724,10 @@ func (s *PowerManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPowerManagerSetPowerSaveModeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadBool()
+		_arg_mode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2741,7 +2741,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsBatterySaverSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsBatterySaverSupported(ctx)
@@ -2754,7 +2754,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerGetFullPowerSavePolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFullPowerSavePolicy(ctx)
@@ -2767,7 +2767,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPowerManagerSetFullPowerSavePolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config interface{}
@@ -2781,14 +2781,14 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerSetDynamicPowerSaveHint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_powerSaveHint, _err := data.ReadBool()
+		_arg_powerSaveHint, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_disableThreshold, _err := data.ReadInt32()
+		_arg_disableThreshold, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2802,7 +2802,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerSetAdaptivePowerSavePolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config interface{}
@@ -2816,10 +2816,10 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerSetAdaptivePowerSaveEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2833,7 +2833,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerGetPowerSaveModeTrigger:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPowerSaveModeTrigger(ctx)
@@ -2846,11 +2846,11 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPowerManagerSetBatteryDischargePrediction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_timeRemaining interface{}
-		_arg_isCustomized, _err := data.ReadBool()
+		_arg_isCustomized, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2863,7 +2863,7 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerGetBatteryDischargePrediction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBatteryDischargePrediction(ctx)
@@ -2876,7 +2876,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPowerManagerIsBatteryDischargePredictionPersonalized:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsBatteryDischargePredictionPersonalized(ctx)
@@ -2889,7 +2889,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsDeviceIdleMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDeviceIdleMode(ctx)
@@ -2902,7 +2902,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsLightDeviceIdleMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsLightDeviceIdleMode(ctx)
@@ -2915,7 +2915,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsLowPowerStandbySupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsLowPowerStandbySupported(ctx)
@@ -2928,7 +2928,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsLowPowerStandbyEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsLowPowerStandbyEnabled(ctx)
@@ -2941,10 +2941,10 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerSetLowPowerStandbyEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2957,10 +2957,10 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerSetLowPowerStandbyActiveDuringMaintenance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activeDuringMaintenance, _err := data.ReadBool()
+		_arg_activeDuringMaintenance, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2973,10 +2973,10 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerForceLowPowerStandbyActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2989,17 +2989,17 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerSetLowPowerStandbyPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_policy *osIPowerManager.LowPowerStandbyPolicy
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_policy.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_policy.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3013,7 +3013,7 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerGetLowPowerStandbyPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLowPowerStandbyPolicy(ctx)
@@ -3029,7 +3029,7 @@ func (s *PowerManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPowerManagerIsExemptFromLowPowerStandby:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsExemptFromLowPowerStandby(ctx)
@@ -3042,10 +3042,10 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsReasonAllowedInLowPowerStandby:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3059,10 +3059,10 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsFeatureAllowedInLowPowerStandby:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadString16()
+		_arg_feature, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3076,7 +3076,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerAcquireLowPowerStandbyPorts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3094,7 +3094,7 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerReleaseLowPowerStandbyPorts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3109,7 +3109,7 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerGetActiveLowPowerStandbyPorts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveLowPowerStandbyPorts(ctx)
@@ -3123,18 +3123,18 @@ func (s *PowerManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPowerManagerReboot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_confirm, _err := data.ReadBool()
+		_arg_confirm, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_wait, _err := data.ReadBool()
+		_arg_wait, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3147,14 +3147,14 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerRebootSafeMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_confirm, _err := data.ReadBool()
+		_arg_confirm, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_wait, _err := data.ReadBool()
+		_arg_wait, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3167,18 +3167,18 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerShutdown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_confirm, _err := data.ReadBool()
+		_arg_confirm, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_wait, _err := data.ReadBool()
+		_arg_wait, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3191,10 +3191,10 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerCrash:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3207,7 +3207,7 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerGetLastShutdownReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLastShutdownReason(ctx)
@@ -3220,7 +3220,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPowerManagerGetLastSleepReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLastSleepReason(ctx)
@@ -3233,10 +3233,10 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPowerManagerSetStayOnSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_val, _err := data.ReadInt32()
+		_arg_val, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3249,10 +3249,10 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerBoostScreenBrightness:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_time, _err := data.ReadInt64()
+		_arg_time, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3265,26 +3265,26 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerAcquireWakeLockAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_lock binder.IBinder
 		_ = _arg_lock
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tag, _err := data.ReadString16()
+		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_ws interface{}
-		_arg_historyTag, _err := data.ReadString16()
+		_arg_historyTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3292,13 +3292,13 @@ func (s *PowerManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerManagerReleaseWakeLockAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_lock binder.IBinder
 		_ = _arg_lock
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3306,7 +3306,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerManagerUpdateWakeLockUidsAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3319,7 +3319,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerManagerIsScreenBrightnessBoosted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsScreenBrightnessBoosted(ctx)
@@ -3332,14 +3332,14 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerSetAttentionLight:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_on, _err := data.ReadBool()
+		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_color, _err := data.ReadInt32()
+		_arg_color, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3352,10 +3352,10 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerSetDozeAfterScreenOff:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_on, _err := data.ReadBool()
+		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3368,7 +3368,7 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerIsAmbientDisplayAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAmbientDisplayAvailable(ctx)
@@ -3381,14 +3381,14 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerSuppressAmbientDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadString16()
+		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_suppress, _err := data.ReadBool()
+		_arg_suppress, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3401,10 +3401,10 @@ func (s *PowerManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerManagerIsAmbientDisplaySuppressedForToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadString16()
+		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3418,7 +3418,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsAmbientDisplaySuppressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAmbientDisplaySuppressed(ctx)
@@ -3431,14 +3431,14 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerIsAmbientDisplaySuppressedForTokenByApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadString16()
+		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAmbientDisplaySuppressedForTokenByApp(ctx, _arg_token)
@@ -3451,7 +3451,7 @@ func (s *PowerManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerManagerForceSuspend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ForceSuspend(ctx)

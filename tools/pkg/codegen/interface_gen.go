@@ -25,10 +25,10 @@ func GenerateInterface(
 	f := NewGoFile(pkg)
 	typeRef := opts.newTypeRefResolver(f)
 	f.AddImport("github.com/xaionaro-go/binder/binder", "")
-	if len(decl.Methods) > 0 {
-		f.AddImport("context", "")
-		f.AddImport("github.com/xaionaro-go/binder/parcel", "")
-	}
+	// The stub's OnTransaction method always references context.Context and
+	// *parcel.Parcel, so these imports are needed even for method-less interfaces.
+	f.AddImport("context", "")
+	f.AddImport("github.com/xaionaro-go/binder/parcel", "")
 
 	interfaceName := AIDLToGoName(decl.IntfName)
 	proxyName := deriveProxyName(interfaceName)
@@ -117,15 +117,32 @@ func writeStubType(
 	f.P("var _ binder.TransactionReceiver = (*%s)(nil)", stubName)
 	f.P("")
 
-	// OnTransaction method.
+	// OnTransaction method. The parcel parameter is named _data (with
+	// underscore) to avoid colliding with import aliases such as
+	// "data" for android.hardware.radio.data.
 	f.P("func (s *%s) OnTransaction(", stubName)
 	f.P("\tctx context.Context,")
 	f.P("\tcode binder.TransactionCode,")
-	f.P("\tdata *parcel.Parcel,")
+	f.P("\t_data *parcel.Parcel,")
 	f.P(") (*parcel.Parcel, error) {")
 	f.P("\tswitch code {")
 
+	// Track transaction codes to skip duplicate cases. Two AIDL methods
+	// can resolve to the same transaction code when one overrides another
+	// across AIDL versions; only the first occurrence is generated.
+	usedCodes := map[int]bool{}
+	counter := 0
 	for _, m := range decl.Methods {
+		code := counter
+		if m.TransactionID != 0 {
+			code = m.TransactionID - 1
+		}
+		if usedCodes[code] {
+			counter = code + 1
+			continue
+		}
+		usedCodes[code] = true
+		counter = code + 1
 		writeStubCase(f, interfaceName, descriptorConst, m, decl.Oneway, opts, typeRef)
 	}
 
@@ -154,7 +171,7 @@ func writeStubCase(
 	f.P("\tcase %s:", constName)
 
 	// Read the interface token (always the first thing in the data parcel).
-	f.P("\t\tif _, _err := data.ReadString16(); _err != nil {")
+	f.P("\t\tif _, _err := _data.ReadString16(); _err != nil {")
 	f.P("\t\t\treturn nil, _err")
 	f.P("\t\t}")
 
@@ -166,8 +183,12 @@ func writeStubCase(
 
 	for _, param := range m.Params {
 		if param.Direction == parser.DirectionOut {
-			// Out-only params are not read from data; they are written in
-			// the reply. Skip for v1 stub generation.
+			// Out-only params are not read from data; declare a zero
+			// value to pass to the implementation.
+			varName := "_arg_" + sanitizeGoIdent(param.ParamName)
+			goType := resolveTypeRef(typeRef, param.Type)
+			f.P("\t\tvar %s %s", varName, goType)
+			paramVarNames = append(paramVarNames, varName)
 			continue
 		}
 
@@ -190,9 +211,6 @@ func writeStubCase(
 	paramIdx := 0
 	for _, param := range m.Params {
 		if identityFieldForParam(param) != "" {
-			continue
-		}
-		if param.Direction == parser.DirectionOut {
 			continue
 		}
 		if paramIdx < len(paramVarNames) {
@@ -304,12 +322,12 @@ func writeStubReadParam(
 		// multiple parcelable params.
 		f.P("\t\tvar %s %s", varName, goType)
 		f.P("\t\t{")
-		f.P("\t\t\t_nullInd, _err := data.ReadInt32()")
+		f.P("\t\t\t_nullInd, _err := _data.ReadInt32()")
 		f.P("\t\t\tif _err != nil {")
 		f.P("\t\t\t\treturn nil, _err")
 		f.P("\t\t\t}")
 		f.P("\t\t\tif _nullInd != 0 {")
-		f.P("\t\t\t\tif _err = %s.UnmarshalParcel(data); _err != nil {", varName)
+		f.P("\t\t\t\tif _err = %s.UnmarshalParcel(_data); _err != nil {", varName)
 		f.P("\t\t\t\t\treturn nil, _err")
 		f.P("\t\t\t\t}")
 		f.P("\t\t\t}")
@@ -342,6 +360,19 @@ func writeStubReadParam(
 		} else {
 			f.P("\t\t%s := %s(%s)", varName, goType, rawVar)
 		}
+		return true
+	}
+
+	goType := resolveTypeRef(typeRef, param.Type)
+	if isNullable && len(goType) > 0 && goType[0] == '*' {
+		// Nullable non-cast type: read value, then take its address
+		// to match the pointer-typed interface parameter.
+		rawVar := "_raw_" + sanitizeGoIdent(param.ParamName)
+		f.P("\t\t%s, _err := %s", rawVar, readExpr)
+		f.P("\t\tif _err != nil {")
+		f.P("\t\t\treturn nil, _err")
+		f.P("\t\t}")
+		f.P("\t\t%s := &%s", varName, rawVar)
 		return true
 	}
 
@@ -403,12 +434,12 @@ func writeStubWriteReturn(
 }
 
 // stubDataReadExpr converts a MarshalInfo ReadExpr (which references _reply)
-// to read from the data parcel instead.
+// to read from the _data parcel parameter instead.
 func stubDataReadExpr(readExpr string) string {
 	if readExpr == "" {
 		return ""
 	}
-	return strings.ReplaceAll(readExpr, "_reply", "data")
+	return strings.ReplaceAll(readExpr, "_reply", "_data")
 }
 
 // stubReplyWriteExpr converts a MarshalInfo WriteExpr (which references _data)
@@ -1279,6 +1310,11 @@ var goReservedIdents = map[string]bool{
 	"error": true, "string": true,
 	// Proxy methods use "p" and stub methods use "s" as receiver names.
 	"p": true, "s": true,
+	// Built-in functions that must not be shadowed by parameter names.
+	"len": true, "cap": true, "make": true, "new": true, "append": true,
+	"copy": true, "close": true, "delete": true, "panic": true, "recover": true,
+	"print": true, "println": true, "complex": true, "real": true, "imag": true,
+	"clear": true, "min": true, "max": true,
 }
 
 func sanitizeGoIdent(name string) string {

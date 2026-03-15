@@ -278,11 +278,11 @@ var _ binder.TransactionReceiver = (*RemotelyProvisionedComponentStub)(nil)
 func (s *RemotelyProvisionedComponentStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRemotelyProvisionedComponentGetHardwareInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHardwareInfo(ctx)
@@ -298,14 +298,15 @@ func (s *RemotelyProvisionedComponentStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRemotelyProvisionedComponentGenerateEcdsaP256KeyPair:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_testMode, _err := data.ReadBool()
+		_arg_testMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GenerateEcdsaP256KeyPair(ctx, _arg_testMode)
+		var _arg_macedPublicKey MacedPublicKey
+		_result, _err := s.Impl.GenerateEcdsaP256KeyPair(ctx, _arg_testMode, _arg_macedPublicKey)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -316,10 +317,10 @@ func (s *RemotelyProvisionedComponentStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIRemotelyProvisionedComponentGenerateCertificateRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_testMode, _err := data.ReadBool()
+		_arg_testMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -332,7 +333,9 @@ func (s *RemotelyProvisionedComponentStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_challenge []byte
 		_ = _arg_challenge
-		_result, _err := s.Impl.GenerateCertificateRequest(ctx, _arg_testMode, _arg_keysToSign, _arg_endpointEncryptionCertChain, _arg_challenge)
+		var _arg_deviceInfo DeviceInfo
+		var _arg_protectedData ProtectedData
+		_result, _err := s.Impl.GenerateCertificateRequest(ctx, _arg_testMode, _arg_keysToSign, _arg_endpointEncryptionCertChain, _arg_challenge, _arg_deviceInfo, _arg_protectedData)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -343,7 +346,7 @@ func (s *RemotelyProvisionedComponentStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIRemotelyProvisionedComponentGenerateCertificateRequestV2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

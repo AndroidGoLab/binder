@@ -250,11 +250,11 @@ var _ binder.TransactionReceiver = (*CamMonitoringServiceStub)(nil)
 func (s *CamMonitoringServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICamMonitoringServiceAddCamInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -269,7 +269,7 @@ func (s *CamMonitoringServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICamMonitoringServiceRemoveCamInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -284,10 +284,10 @@ func (s *CamMonitoringServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICamMonitoringServiceGetCamInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -304,10 +304,10 @@ func (s *CamMonitoringServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICamMonitoringServiceGetSlotInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -324,7 +324,7 @@ func (s *CamMonitoringServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICamMonitoringServiceGetSlotIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSlotIds(ctx)
@@ -338,7 +338,7 @@ func (s *CamMonitoringServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICamMonitoringServiceIsCamSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCamSupported(ctx)

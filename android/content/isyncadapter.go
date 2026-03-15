@@ -106,11 +106,11 @@ var _ binder.TransactionReceiver = (*SyncAdapterStub)(nil)
 func (s *SyncAdapterStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISyncAdapterOnUnsyncableAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -120,13 +120,13 @@ func (s *SyncAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISyncAdapterStartSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_syncContext ISyncContext
 		_ = _arg_syncContext
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -136,7 +136,7 @@ func (s *SyncAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISyncAdapterCancelSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

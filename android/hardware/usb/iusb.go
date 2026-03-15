@@ -220,22 +220,22 @@ var _ binder.TransactionReceiver = (*UsbStub)(nil)
 func (s *UsbStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUsbEnableContaminantPresenceDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -243,18 +243,18 @@ func (s *UsbStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbEnableUsbData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -262,14 +262,14 @@ func (s *UsbStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbEnableUsbDataWhileDocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -277,10 +277,10 @@ func (s *UsbStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbQueryPortStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -288,7 +288,7 @@ func (s *UsbStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -298,26 +298,26 @@ func (s *UsbStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbSwitchRole:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_role PortRole
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_role.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_role.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -325,18 +325,18 @@ func (s *UsbStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbLimitPowerTransfer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_limit, _err := data.ReadBool()
+		_arg_limit, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -344,14 +344,14 @@ func (s *UsbStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbResetUsbPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

@@ -358,33 +358,33 @@ var _ binder.TransactionReceiver = (*PredictionManagerStub)(nil)
 func (s *PredictionManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPredictionManagerCreatePredictionSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ AppPredictionContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sessionId AppPredictionSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -401,29 +401,29 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerNotifyAppTargetEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId AppPredictionSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_event AppTargetEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -437,33 +437,33 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerNotifyLaunchLocationShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId AppPredictionSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_launchLocation, _err := data.ReadString16()
+		_arg_launchLocation, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_targetIds pm.ParceledListSlice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_targetIds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_targetIds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -477,29 +477,29 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerSortAppTargets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId AppPredictionSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_targets pm.ParceledListSlice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_targets.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_targets.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -516,17 +516,17 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerRegisterPredictionUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId AppPredictionSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -543,17 +543,17 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerUnregisterPredictionUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId AppPredictionSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -570,17 +570,17 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerRequestPredictionUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId AppPredictionSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -594,17 +594,17 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerOnDestroyPredictionSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId AppPredictionSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -618,17 +618,17 @@ func (s *PredictionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPredictionManagerRequestServiceFeatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionId AppPredictionSessionId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

@@ -228,26 +228,26 @@ var _ binder.TransactionReceiver = (*ImsMediaSessionListenerStub)(nil)
 func (s *ImsMediaSessionListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsMediaSessionListenerOnModifySessionResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config RtpConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_raw_error_, _err := data.ReadInt32()
+		_raw_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -256,17 +256,17 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionListenerOnFirstMediaPacketReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config RtpConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -275,7 +275,7 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionListenerOnHeaderExtensionReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -285,17 +285,17 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionListenerNotifyMediaQualityStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_quality MediaQualityStatus
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_quality.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_quality.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -304,17 +304,17 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionListenerTriggerAnbrQuery:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config RtpConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -323,15 +323,15 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionListenerOnDtmfReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_dtmfDigit, _err := data.ReadInt32()
+		_raw_dtmfDigit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_dtmfDigit := uint16(_raw_dtmfDigit)
-		_arg_durationMs, _err := data.ReadInt32()
+		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -339,17 +339,17 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionListenerOnCallQualityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callQuality CallQuality
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callQuality.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callQuality.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -358,17 +358,17 @@ func (s *ImsMediaSessionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionListenerNotifyRtpReceptionStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_stats RtpReceptionStats
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_stats.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_stats.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

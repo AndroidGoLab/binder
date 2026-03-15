@@ -180,14 +180,14 @@ var _ binder.TransactionReceiver = (*VolumeControllerStub)(nil)
 func (s *VolumeControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVolumeControllerDisplaySafeVolumeWarning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -195,14 +195,14 @@ func (s *VolumeControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVolumeControllerVolumeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamType, _err := data.ReadInt32()
+		_arg_streamType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -210,10 +210,10 @@ func (s *VolumeControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVolumeControllerMasterMuteChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -221,10 +221,10 @@ func (s *VolumeControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVolumeControllerSetLayoutDirection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_layoutDirection, _err := data.ReadInt32()
+		_arg_layoutDirection, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -232,17 +232,17 @@ func (s *VolumeControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVolumeControllerDismiss:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Dismiss(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVolumeControllerSetA11yMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -250,14 +250,14 @@ func (s *VolumeControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVolumeControllerDisplayCsdWarning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_warning, _err := data.ReadInt32()
+		_arg_warning, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayDurationMs, _err := data.ReadInt32()
+		_arg_displayDurationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

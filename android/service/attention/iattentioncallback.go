@@ -85,18 +85,18 @@ var _ binder.TransactionReceiver = (*AttentionCallbackStub)(nil)
 func (s *AttentionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAttentionCallbackOnSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -104,10 +104,10 @@ func (s *AttentionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAttentionCallbackOnFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

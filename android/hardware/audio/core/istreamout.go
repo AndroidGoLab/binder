@@ -509,11 +509,11 @@ var _ binder.TransactionReceiver = (*StreamOutStub)(nil)
 func (s *StreamOutStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStreamOutGetStreamCommon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetStreamCommon(ctx)
@@ -527,17 +527,17 @@ func (s *StreamOutStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStreamOutUpdateMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sourceMetadata common.SourceMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sourceMetadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sourceMetadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -551,17 +551,17 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutUpdateOffloadMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_offloadMetadata common.AudioOffloadMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_offloadMetadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_offloadMetadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -575,7 +575,7 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetHwVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHwVolume(ctx)
@@ -589,7 +589,7 @@ func (s *StreamOutStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStreamOutSetHwVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -604,7 +604,7 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetAudioDescriptionMixLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAudioDescriptionMixLevel(ctx)
@@ -617,10 +617,10 @@ func (s *StreamOutStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIStreamOutSetAudioDescriptionMixLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_leveldB, _err := data.ReadFloat32()
+		_arg_leveldB, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -633,7 +633,7 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetDualMonoMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDualMonoMode(ctx)
@@ -646,10 +646,10 @@ func (s *StreamOutStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIStreamOutSetDualMonoMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_mode, _err := data.ReadInt32()
+		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -663,7 +663,7 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetRecommendedLatencyModes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRecommendedLatencyModes(ctx)
@@ -677,10 +677,10 @@ func (s *StreamOutStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStreamOutSetLatencyMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_mode, _err := data.ReadPaddedByte()
+		_raw_mode, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -694,7 +694,7 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutGetPlaybackRateParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPlaybackRateParameters(ctx)
@@ -710,17 +710,17 @@ func (s *StreamOutStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStreamOutSetPlaybackRateParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_playbackRate audioCommon.AudioPlaybackRate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_playbackRate.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_playbackRate.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -734,14 +734,14 @@ func (s *StreamOutStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamOutSelectPresentation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_presentationId, _err := data.ReadInt32()
+		_arg_presentationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_programId, _err := data.ReadInt32()
+		_arg_programId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

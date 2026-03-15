@@ -426,11 +426,11 @@ var _ binder.TransactionReceiver = (*BluetoothScanStub)(nil)
 func (s *BluetoothScanStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothScanRegisterScanner:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -445,10 +445,10 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanUnregisterScanner:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_scannerId, _err := data.ReadInt32()
+		_arg_scannerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -462,10 +462,10 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanStartScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_scannerId, _err := data.ReadInt32()
+		_arg_scannerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -483,7 +483,7 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanStartScanForIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
@@ -501,10 +501,10 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanStopScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_scannerId, _err := data.ReadInt32()
+		_arg_scannerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -518,7 +518,7 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanStopScanForIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
@@ -532,10 +532,10 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanFlushPendingBatchResults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_scannerId, _err := data.ReadInt32()
+		_arg_scannerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -549,15 +549,15 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanRegisterSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_scanResult interface{}
-		_arg_skip, _err := data.ReadInt32()
+		_arg_skip, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeout, _err := data.ReadInt32()
+		_arg_timeout, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -572,7 +572,7 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanUnregisterSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -586,26 +586,26 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanTransferSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_bda BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bda.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bda.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_serviceData, _err := data.ReadInt32()
+		_arg_serviceData, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_syncHandle, _err := data.ReadInt32()
+		_arg_syncHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -619,26 +619,26 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanTransferSetInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_bda BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bda.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bda.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_serviceData, _err := data.ReadInt32()
+		_arg_serviceData, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_advertisingHandle, _err := data.ReadInt32()
+		_arg_advertisingHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -653,7 +653,7 @@ func (s *BluetoothScanStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothScanNumHwTrackFiltersAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}

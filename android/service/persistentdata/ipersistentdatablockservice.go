@@ -477,11 +477,11 @@ var _ binder.TransactionReceiver = (*PersistentDataBlockServiceStub)(nil)
 func (s *PersistentDataBlockServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPersistentDataBlockServiceWrite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -497,7 +497,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceRead:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Read(ctx)
@@ -511,7 +511,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceWipe:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Wipe(ctx)
@@ -523,7 +523,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetDataBlockSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDataBlockSize(ctx)
@@ -536,7 +536,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetMaximumDataBlockSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMaximumDataBlockSize(ctx)
@@ -549,10 +549,10 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceSetOemUnlockEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -565,7 +565,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetOemUnlockEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOemUnlockEnabled(ctx)
@@ -578,7 +578,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetFlashLockState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFlashLockState(ctx)
@@ -591,7 +591,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceHasFrpCredentialHandle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasFrpCredentialHandle(ctx)
@@ -604,7 +604,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceGetPersistentDataPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPersistentDataPackageName(ctx)
@@ -617,7 +617,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceIsFactoryResetProtectionActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsFactoryResetProtectionActive(ctx)
@@ -630,7 +630,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceDeactivateFactoryResetProtection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -646,7 +646,7 @@ func (s *PersistentDataBlockServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPersistentDataBlockServiceSetFactoryResetProtectionSecret:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

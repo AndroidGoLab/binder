@@ -169,18 +169,19 @@ var _ binder.TransactionReceiver = (*ScanBackgroundServiceUpdateListenerStub)(ni
 func (s *ScanBackgroundServiceUpdateListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIScanBackgroundServiceUpdateListenerOnChannelListUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnChannelListUpdate(ctx, _arg_sessionToken)
+		var _arg_updateInfos []os.Bundle
+		_err = s.Impl.OnChannelListUpdate(ctx, _arg_sessionToken, _arg_updateInfos)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -189,14 +190,15 @@ func (s *ScanBackgroundServiceUpdateListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIScanBackgroundServiceUpdateListenerOnNetworkListUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnNetworkListUpdate(ctx, _arg_sessionToken)
+		var _arg_updateInfos []os.Bundle
+		_err = s.Impl.OnNetworkListUpdate(ctx, _arg_sessionToken, _arg_updateInfos)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -205,14 +207,15 @@ func (s *ScanBackgroundServiceUpdateListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIScanBackgroundServiceUpdateListenerOnTransportStreamingListUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.OnTransportStreamingListUpdate(ctx, _arg_sessionToken)
+		var _arg_updateInfos []os.Bundle
+		_err = s.Impl.OnTransportStreamingListUpdate(ctx, _arg_sessionToken, _arg_updateInfos)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)

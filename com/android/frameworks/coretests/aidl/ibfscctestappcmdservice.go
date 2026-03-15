@@ -114,11 +114,11 @@ var _ binder.TransactionReceiver = (*BfsccTestAppCmdServiceStub)(nil)
 func (s *BfsccTestAppCmdServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBfsccTestAppCmdServiceListenTo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -133,7 +133,7 @@ func (s *BfsccTestAppCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBfsccTestAppCmdServiceWaitAndConsumeNotifications:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.WaitAndConsumeNotifications(ctx)

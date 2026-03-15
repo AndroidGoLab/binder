@@ -388,11 +388,11 @@ var _ binder.TransactionReceiver = (*WifiScannerImplStub)(nil)
 func (s *WifiScannerImplStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWifiScannerImplGetScanResults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetScanResults(ctx)
@@ -406,7 +406,7 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiScannerImplGetPnoScanResults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPnoScanResults(ctx)
@@ -420,7 +420,7 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiScannerImplGetMaxSsidsPerScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMaxSsidsPerScan(ctx)
@@ -433,7 +433,7 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_scanSettings interface{}
@@ -447,7 +447,7 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplScanRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_scanSettings interface{}
@@ -461,7 +461,7 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplSubscribeScanEvents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -471,14 +471,14 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWifiScannerImplUnsubscribeScanEvents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnsubscribeScanEvents(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIWifiScannerImplSubscribePnoScanEvents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -488,14 +488,14 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWifiScannerImplUnsubscribePnoScanEvents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnsubscribePnoScanEvents(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIWifiScannerImplStartPnoScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pnoSettings interface{}
@@ -509,7 +509,7 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplStopPnoScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StopPnoScan(ctx)
@@ -522,7 +522,7 @@ func (s *WifiScannerImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWifiScannerImplAbortScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AbortScan(ctx)

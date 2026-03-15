@@ -778,11 +778,11 @@ var _ binder.TransactionReceiver = (*WifiNanIfaceStub)(nil)
 func (s *WifiNanIfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWifiNanIfaceGetName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetName(ctx)
@@ -795,34 +795,34 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIWifiNanIfaceConfigRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg1 NanConfigRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg1.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg1.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_msg2 NanConfigRequestSupplemental
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg2.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg2.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -836,15 +836,15 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceCreateDataInterfaceRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
-		_arg_ifaceName, _err := data.ReadString16()
+		_arg_ifaceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -857,15 +857,15 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceDeleteDataInterfaceRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
-		_arg_ifaceName, _err := data.ReadString16()
+		_arg_ifaceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -878,10 +878,10 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceDisableRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -895,34 +895,34 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceEnableRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg1 NanEnableRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg1.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg1.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_msg2 NanConfigRequestSupplemental
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg2.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg2.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -936,10 +936,10 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceGetCapabilitiesRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -953,22 +953,22 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceInitiateDataPathRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg NanInitiateDataPathRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -982,7 +982,7 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceRegisterEventCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -997,22 +997,22 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceRespondToDataPathIndicationRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg NanRespondToDataPathIndicationRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1026,22 +1026,22 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceStartPublishRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg NanPublishRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1055,22 +1055,22 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceStartSubscribeRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg NanSubscribeRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1084,15 +1084,15 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceStopPublishRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
-		_arg_sessionId, _err := data.ReadPaddedByte()
+		_arg_sessionId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1105,15 +1105,15 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceStopSubscribeRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
-		_arg_sessionId, _err := data.ReadPaddedByte()
+		_arg_sessionId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1126,15 +1126,15 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceTerminateDataPathRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
-		_arg_ndpInstanceId, _err := data.ReadInt32()
+		_arg_ndpInstanceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1147,15 +1147,15 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceSuspendRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
-		_arg_sessionId, _err := data.ReadPaddedByte()
+		_arg_sessionId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1168,15 +1168,15 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceResumeRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
-		_arg_sessionId, _err := data.ReadPaddedByte()
+		_arg_sessionId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1189,22 +1189,22 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceTransmitFollowupRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg NanTransmitFollowupRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1218,22 +1218,22 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceInitiatePairingRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg NanPairingRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1247,22 +1247,22 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceRespondToPairingIndicationRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg NanRespondToPairingIndicationRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1276,22 +1276,22 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceInitiateBootstrappingRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg NanBootstrappingRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1305,22 +1305,22 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceRespondToBootstrappingIndicationRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
 		var _arg_msg NanBootstrappingResponse
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1334,15 +1334,15 @@ func (s *WifiNanIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiNanIfaceTerminatePairingRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_cmdId, _err := data.ReadInt32()
+		_raw_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_cmdId := uint16(_raw_cmdId)
-		_arg_pairingInstanceId, _err := data.ReadInt32()
+		_arg_pairingInstanceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -384,11 +384,11 @@ var _ binder.TransactionReceiver = (*BootControlStub)(nil)
 func (s *BootControlStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBootControlGetActiveBootSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveBootSlot(ctx)
@@ -401,7 +401,7 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBootControlGetCurrentSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentSlot(ctx)
@@ -414,7 +414,7 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBootControlGetNumberSlots:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNumberSlots(ctx)
@@ -427,7 +427,7 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBootControlGetSnapshotMergeStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSnapshotMergeStatus(ctx)
@@ -440,10 +440,10 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIBootControlGetSuffix:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slot, _err := data.ReadInt32()
+		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -457,10 +457,10 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBootControlIsSlotBootable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slot, _err := data.ReadInt32()
+		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -474,10 +474,10 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBootControlIsSlotMarkedSuccessful:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slot, _err := data.ReadInt32()
+		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -491,7 +491,7 @@ func (s *BootControlStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBootControlMarkBootSuccessful:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.MarkBootSuccessful(ctx)
@@ -503,10 +503,10 @@ func (s *BootControlStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBootControlSetActiveBootSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slot, _err := data.ReadInt32()
+		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -519,10 +519,10 @@ func (s *BootControlStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBootControlSetSlotAsUnbootable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slot, _err := data.ReadInt32()
+		_arg_slot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -535,10 +535,10 @@ func (s *BootControlStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBootControlSetSnapshotMergeStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_status, _err := data.ReadInt32()
+		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

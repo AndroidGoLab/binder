@@ -244,11 +244,11 @@ var _ binder.TransactionReceiver = (*CallDiagnosticServiceStub)(nil)
 func (s *CallDiagnosticServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICallDiagnosticServiceSetAdapter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -258,17 +258,17 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceInitializeDiagnosticCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_call androidTelecom.ParcelableCall
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_call.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_call.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -277,17 +277,17 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceUpdateCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_call androidTelecom.ParcelableCall
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_call.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_call.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -296,17 +296,17 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceUpdateCallAudioState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callAudioState androidTelecom.CallAudioState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callAudioState.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callAudioState.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -315,10 +315,10 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceRemoveDiagnosticCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -326,18 +326,18 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceReceiveDeviceToDeviceMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadInt32()
+		_arg_message, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -345,21 +345,21 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceCallQualityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callQuality media.CallQuality
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callQuality.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callQuality.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -368,17 +368,17 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceReceiveBluetoothCallQualityReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_qualityReport androidTelecom.BluetoothCallQualityReport
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_qualityReport.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_qualityReport.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -387,21 +387,21 @@ func (s *CallDiagnosticServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceNotifyCallDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_disconnectCause androidTelecom.DisconnectCause
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_disconnectCause.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_disconnectCause.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

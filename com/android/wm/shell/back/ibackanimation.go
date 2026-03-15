@@ -135,11 +135,11 @@ var _ binder.TransactionReceiver = (*BackAnimationStub)(nil)
 func (s *BackAnimationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBackAnimationSetBackToLauncherCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -157,7 +157,7 @@ func (s *BackAnimationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackAnimationClearBackToLauncherCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearBackToLauncherCallback(ctx)
@@ -169,17 +169,17 @@ func (s *BackAnimationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackAnimationCustomizeStatusBarAppearance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_appearance internalView.AppearanceRegion
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_appearance.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_appearance.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

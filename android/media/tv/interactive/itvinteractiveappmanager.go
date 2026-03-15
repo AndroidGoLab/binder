@@ -2056,14 +2056,14 @@ var _ binder.TransactionReceiver = (*TvInteractiveAppManagerStub)(nil)
 func (s *TvInteractiveAppManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITvInteractiveAppManagerGetTvInteractiveAppServiceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTvInteractiveAppServiceList(ctx)
@@ -2077,10 +2077,10 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerGetAppLinkInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppLinkInfoList(ctx)
@@ -2094,26 +2094,26 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerRegisterAppLinkInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tiasId, _err := data.ReadString16()
+		_arg_tiasId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_info AppLinkInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RegisterAppLinkInfo(ctx, _arg_tiasId, _arg_info)
@@ -2125,26 +2125,26 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerUnregisterAppLinkInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tiasId, _err := data.ReadString16()
+		_arg_tiasId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_info AppLinkInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UnregisterAppLinkInfo(ctx, _arg_tiasId, _arg_info)
@@ -2156,26 +2156,26 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendAppLinkCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tiasId, _err := data.ReadString16()
+		_arg_tiasId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_command os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_command.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_command.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendAppLinkCommand(ctx, _arg_tiasId, _arg_command)
@@ -2187,13 +2187,13 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerStartInteractiveApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartInteractiveApp(ctx, _arg_sessionToken)
@@ -2205,13 +2205,13 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerStopInteractiveApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopInteractiveApp(ctx, _arg_sessionToken)
@@ -2223,13 +2223,13 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerResetInteractiveApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetInteractiveApp(ctx, _arg_sessionToken)
@@ -2241,7 +2241,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerCreateBiInteractiveApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2249,29 +2249,29 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_biIAppUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_biIAppUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_biIAppUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_params os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CreateBiInteractiveApp(ctx, _arg_sessionToken, _arg_biIAppUri, _arg_params)
@@ -2283,17 +2283,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerDestroyBiInteractiveApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_biIAppId, _err := data.ReadString16()
+		_arg_biIAppId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DestroyBiInteractiveApp(ctx, _arg_sessionToken, _arg_biIAppId)
@@ -2305,17 +2305,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSetTeletextAppEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetTeletextAppEnabled(ctx, _arg_sessionToken, _arg_enable)
@@ -2327,7 +2327,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendCurrentVideoBounds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2335,17 +2335,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_bounds graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bounds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SendCurrentVideoBounds(ctx, _arg_sessionToken, _arg_bounds)
@@ -2357,7 +2357,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendCurrentChannelUri:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2365,17 +2365,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_channelUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_channelUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SendCurrentChannelUri(ctx, _arg_sessionToken, _arg_channelUri)
@@ -2387,17 +2387,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendCurrentChannelLcn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_lcn, _err := data.ReadInt32()
+		_arg_lcn, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendCurrentChannelLcn(ctx, _arg_sessionToken, _arg_lcn)
@@ -2409,17 +2409,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendStreamVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_volume, _err := data.ReadFloat32()
+		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendStreamVolume(ctx, _arg_sessionToken, _arg_volume)
@@ -2431,7 +2431,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendTrackInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2440,7 +2440,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tracks []tv.TvTrackInfo
 		_ = _arg_tracks
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SendTrackInfoList(ctx, _arg_sessionToken, _arg_tracks)
@@ -2452,17 +2452,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendCurrentTvInputId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_inputId, _err := data.ReadString16()
+		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendCurrentTvInputId(ctx, _arg_sessionToken, _arg_inputId)
@@ -2474,17 +2474,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendTimeShiftMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendTimeShiftMode(ctx, _arg_sessionToken, _arg_mode)
@@ -2496,7 +2496,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendAvailableSpeeds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2505,7 +2505,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_speeds []float32
 		_ = _arg_speeds
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SendAvailableSpeeds(ctx, _arg_sessionToken, _arg_speeds)
@@ -2517,20 +2517,20 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendSigningResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_signingId, _err := data.ReadString16()
+		_arg_signingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_result []byte
 		_ = _arg_result
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendSigningResult(ctx, _arg_sessionToken, _arg_signingId, _arg_result)
@@ -2542,33 +2542,33 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_host, _err := data.ReadString16()
+		_arg_host, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_port, _err := data.ReadInt32()
+		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_certBundle os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_certBundle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_certBundle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SendCertificate(ctx, _arg_sessionToken, _arg_host, _arg_port, _arg_certBundle)
@@ -2580,7 +2580,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendTvRecordingInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2588,17 +2588,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_recordingInfo tv.TvRecordingInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_recordingInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_recordingInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SendTvRecordingInfo(ctx, _arg_sessionToken, _arg_recordingInfo)
@@ -2610,7 +2610,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendTvRecordingInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2619,7 +2619,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_recordingInfoList []tv.TvRecordingInfo
 		_ = _arg_recordingInfoList
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SendTvRecordingInfoList(ctx, _arg_sessionToken, _arg_recordingInfoList)
@@ -2631,29 +2631,29 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_errMsg, _err := data.ReadString16()
+		_arg_errMsg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_params os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyError(ctx, _arg_sessionToken, _arg_errMsg, _arg_params)
@@ -2665,7 +2665,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyTimeShiftPlaybackParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2673,17 +2673,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_params media.PlaybackParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyTimeShiftPlaybackParams(ctx, _arg_sessionToken, _arg_params)
@@ -2695,21 +2695,21 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyTimeShiftStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_inputId, _err := data.ReadString16()
+		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyTimeShiftStatusChanged(ctx, _arg_sessionToken, _arg_inputId, _arg_status)
@@ -2721,21 +2721,21 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyTimeShiftStartPositionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_inputId, _err := data.ReadString16()
+		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeMs, _err := data.ReadInt64()
+		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyTimeShiftStartPositionChanged(ctx, _arg_sessionToken, _arg_inputId, _arg_timeMs)
@@ -2747,21 +2747,21 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyTimeShiftCurrentPositionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_inputId, _err := data.ReadString16()
+		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeMs, _err := data.ReadInt64()
+		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyTimeShiftCurrentPositionChanged(ctx, _arg_sessionToken, _arg_inputId, _arg_timeMs)
@@ -2773,21 +2773,21 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyRecordingConnectionFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_recordingId, _err := data.ReadString16()
+		_arg_recordingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_inputId, _err := data.ReadString16()
+		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyRecordingConnectionFailed(ctx, _arg_sessionToken, _arg_recordingId, _arg_inputId)
@@ -2799,21 +2799,21 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyRecordingDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_recordingId, _err := data.ReadString16()
+		_arg_recordingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_inputId, _err := data.ReadString16()
+		_arg_inputId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyRecordingDisconnected(ctx, _arg_sessionToken, _arg_recordingId, _arg_inputId)
@@ -2825,29 +2825,29 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyRecordingTuned:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_recordingId, _err := data.ReadString16()
+		_arg_recordingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_channelUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_channelUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyRecordingTuned(ctx, _arg_sessionToken, _arg_recordingId, _arg_channelUri)
@@ -2859,21 +2859,21 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyRecordingError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_recordingId, _err := data.ReadString16()
+		_arg_recordingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_err, _err := data.ReadInt32()
+		_arg_err, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyRecordingError(ctx, _arg_sessionToken, _arg_recordingId, _arg_err)
@@ -2885,21 +2885,21 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyRecordingScheduled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_recordingId, _err := data.ReadString16()
+		_arg_recordingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadString16()
+		_arg_requestId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyRecordingScheduled(ctx, _arg_sessionToken, _arg_recordingId, _arg_requestId)
@@ -2911,25 +2911,25 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerCreateSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client ITvInteractiveAppClient
 		_ = _arg_client
-		_arg_iAppServiceId, _err := data.ReadString16()
+		_arg_iAppServiceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CreateSession(ctx, _arg_client, _arg_iAppServiceId, _arg_type_, _arg_seq)
@@ -2941,13 +2941,13 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerReleaseSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ReleaseSession(ctx, _arg_sessionToken)
@@ -2959,7 +2959,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyTuned:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2967,17 +2967,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_channelUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_channelUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyTuned(ctx, _arg_sessionToken, _arg_channelUri)
@@ -2989,21 +2989,21 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyTrackSelected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_trackId, _err := data.ReadString16()
+		_arg_trackId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyTrackSelected(ctx, _arg_sessionToken, _arg_type_, _arg_trackId)
@@ -3015,7 +3015,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyTracksChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3024,7 +3024,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tracks []tv.TvTrackInfo
 		_ = _arg_tracks
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyTracksChanged(ctx, _arg_sessionToken, _arg_tracks)
@@ -3036,13 +3036,13 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyVideoAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyVideoAvailable(ctx, _arg_sessionToken)
@@ -3054,17 +3054,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyVideoUnavailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyVideoUnavailable(ctx, _arg_sessionToken, _arg_reason)
@@ -3076,17 +3076,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyVideoFreezeUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_isFrozen, _err := data.ReadBool()
+		_arg_isFrozen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyVideoFreezeUpdated(ctx, _arg_sessionToken, _arg_isFrozen)
@@ -3098,13 +3098,13 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyContentAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyContentAllowed(ctx, _arg_sessionToken)
@@ -3116,17 +3116,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyContentBlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_rating, _err := data.ReadString16()
+		_arg_rating, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyContentBlocked(ctx, _arg_sessionToken, _arg_rating)
@@ -3138,17 +3138,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifySignalStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_stength, _err := data.ReadInt32()
+		_arg_stength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifySignalStrength(ctx, _arg_sessionToken, _arg_stength)
@@ -3160,21 +3160,21 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyRecordingStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_recordingId, _err := data.ReadString16()
+		_arg_recordingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadString16()
+		_arg_requestId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyRecordingStarted(ctx, _arg_sessionToken, _arg_recordingId, _arg_requestId)
@@ -3186,17 +3186,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyRecordingStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_recordingId, _err := data.ReadString16()
+		_arg_recordingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyRecordingStopped(ctx, _arg_sessionToken, _arg_recordingId)
@@ -3208,29 +3208,29 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyTvMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_data os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyTvMessage(ctx, _arg_sessionToken, _arg_type_, _arg_data)
@@ -3242,14 +3242,14 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSetSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
 		var _arg_surface interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetSurface(ctx, _arg_sessionToken, _arg_surface)
@@ -3261,25 +3261,25 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerDispatchSurfaceChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		_arg_format, _err := data.ReadInt32()
+		_arg_format, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DispatchSurfaceChanged(ctx, _arg_sessionToken, _arg_format, _arg_width, _arg_height)
@@ -3291,7 +3291,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyBroadcastInfoResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3299,17 +3299,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_response tv.BroadcastInfoResponse
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_response.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_UserId, _err := data.ReadInt32()
+		_arg_UserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3322,7 +3322,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyAdResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3330,17 +3330,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_response tv.AdResponse
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_response.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_UserId, _err := data.ReadInt32()
+		_arg_UserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3353,7 +3353,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerNotifyAdBufferConsumed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3361,17 +3361,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_buffer tv.AdBuffer
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_buffer.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_buffer.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyAdBufferConsumed(ctx, _arg_sessionToken, _arg_buffer)
@@ -3383,7 +3383,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerSendSelectedTrackInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3392,7 +3392,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_tracks []tv.TvTrackInfo
 		_ = _arg_tracks
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SendSelectedTrackInfo(ctx, _arg_sessionToken, _arg_tracks)
@@ -3404,7 +3404,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerCreateMediaView:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3415,17 +3415,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_windowToken
 		var _arg_frame graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_frame.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_frame.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CreateMediaView(ctx, _arg_sessionToken, _arg_windowToken, _arg_frame)
@@ -3437,7 +3437,7 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerRelayoutMediaView:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3445,17 +3445,17 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		_ = _arg_sessionToken
 		var _arg_frame graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_frame.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_frame.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RelayoutMediaView(ctx, _arg_sessionToken, _arg_frame)
@@ -3467,13 +3467,13 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerRemoveMediaView:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionToken binder.IBinder
 		_ = _arg_sessionToken
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveMediaView(ctx, _arg_sessionToken)
@@ -3485,13 +3485,13 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInteractiveAppManagerCallback
 		_ = _arg_callback
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
@@ -3503,13 +3503,13 @@ func (s *TvInteractiveAppManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITvInteractiveAppManagerUnregisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITvInteractiveAppManagerCallback
 		_ = _arg_callback
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback)

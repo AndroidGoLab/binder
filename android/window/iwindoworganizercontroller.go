@@ -485,21 +485,21 @@ var _ binder.TransactionReceiver = (*WindowOrganizerControllerStub)(nil)
 func (s *WindowOrganizerControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWindowOrganizerControllerApplyTransaction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_t WindowContainerTransaction
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -513,17 +513,17 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerApplySyncTransaction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_t WindowContainerTransaction
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -541,21 +541,21 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerStartNewTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_t *WindowContainerTransaction
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -571,7 +571,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerStartTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -579,12 +579,12 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_ = _arg_transitionToken
 		var _arg_t *WindowContainerTransaction
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -598,10 +598,10 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerStartLegacyTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -611,12 +611,12 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_ = _arg_syncCallback
 		var _arg_t WindowContainerTransaction
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -631,7 +631,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerFinishTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -639,12 +639,12 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_ = _arg_transitionToken
 		var _arg_t *WindowContainerTransaction
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -658,7 +658,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetTaskOrganizerController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTaskOrganizerController(ctx)
@@ -672,7 +672,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetDisplayAreaOrganizerController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDisplayAreaOrganizerController(ctx)
@@ -686,7 +686,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetTaskFragmentOrganizerController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTaskFragmentOrganizerController(ctx)
@@ -700,7 +700,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerRegisterTransitionPlayer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -715,7 +715,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerUnregisterTransitionPlayer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -730,7 +730,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetTransitionMetricsReporter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTransitionMetricsReporter(ctx)
@@ -744,7 +744,7 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowOrganizerControllerGetApplyToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetApplyToken(ctx)

@@ -206,11 +206,11 @@ var _ binder.TransactionReceiver = (*MediaRouter2Stub)(nil)
 func (s *MediaRouter2Stub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaRouter2NotifyRouterRegistered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -218,12 +218,12 @@ func (s *MediaRouter2Stub) OnTransaction(
 		_ = _arg_currentRoutes
 		var _arg_currentSystemSessionInfo RoutingSessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_currentSystemSessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_currentSystemSessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -232,7 +232,7 @@ func (s *MediaRouter2Stub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRouter2NotifyRoutesUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -242,21 +242,21 @@ func (s *MediaRouter2Stub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRouter2NotifySessionCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo *RoutingSessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -265,17 +265,17 @@ func (s *MediaRouter2Stub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRouter2NotifySessionInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo RoutingSessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -284,17 +284,17 @@ func (s *MediaRouter2Stub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRouter2NotifySessionReleased:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo RoutingSessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -303,33 +303,33 @@ func (s *MediaRouter2Stub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRouter2RequestCreateSessionByManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uniqueRequestId, _err := data.ReadInt64()
+		_arg_uniqueRequestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_oldSession RoutingSessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_oldSession.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_oldSession.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

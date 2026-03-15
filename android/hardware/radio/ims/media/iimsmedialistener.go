@@ -106,14 +106,14 @@ var _ binder.TransactionReceiver = (*ImsMediaListenerStub)(nil)
 func (s *ImsMediaListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsMediaListenerOnOpenSessionSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -124,14 +124,14 @@ func (s *ImsMediaListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaListenerOnOpenSessionFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_error_, _err := data.ReadInt32()
+		_raw_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -140,10 +140,10 @@ func (s *ImsMediaListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaListenerOnSessionClosed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

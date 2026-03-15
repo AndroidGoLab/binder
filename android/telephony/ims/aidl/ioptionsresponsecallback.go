@@ -94,14 +94,14 @@ var _ binder.TransactionReceiver = (*OptionsResponseCallbackStub)(nil)
 func (s *OptionsResponseCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOptionsResponseCallbackOnCommandError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -109,14 +109,14 @@ func (s *OptionsResponseCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOptionsResponseCallbackOnNetworkResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

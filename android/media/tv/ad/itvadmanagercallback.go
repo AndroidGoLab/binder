@@ -102,14 +102,14 @@ var _ binder.TransactionReceiver = (*TvAdManagerCallbackStub)(nil)
 func (s *TvAdManagerCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITvAdManagerCallbackOnAdServiceAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadString16()
+		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -117,10 +117,10 @@ func (s *TvAdManagerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdManagerCallbackOnAdServiceRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadString16()
+		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -128,10 +128,10 @@ func (s *TvAdManagerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdManagerCallbackOnAdServiceUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadString16()
+		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

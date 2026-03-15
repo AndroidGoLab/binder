@@ -192,21 +192,21 @@ var _ binder.TransactionReceiver = (*QuickAccessWalletServiceStub)(nil)
 func (s *QuickAccessWalletServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIQuickAccessWalletServiceOnWalletCardsRequested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request GetWalletCardsRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -218,17 +218,17 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIQuickAccessWalletServiceOnWalletCardSelected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request SelectWalletCardRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -237,24 +237,24 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIQuickAccessWalletServiceOnWalletDismissed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnWalletDismissed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIQuickAccessWalletServiceRegisterWalletServiceEventListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request WalletServiceEventListenerRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -266,17 +266,17 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIQuickAccessWalletServiceUnregisterWalletServiceEventListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request WalletServiceEventListenerRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -285,7 +285,7 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIQuickAccessWalletServiceOnTargetActivityIntentRequested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -295,7 +295,7 @@ func (s *QuickAccessWalletServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIQuickAccessWalletServiceOnGestureTargetActivityIntentRequested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

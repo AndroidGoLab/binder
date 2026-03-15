@@ -330,14 +330,14 @@ var _ binder.TransactionReceiver = (*DemuxStub)(nil)
 func (s *DemuxStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDemuxSetFrontendDataSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendId, _err := data.ReadInt32()
+		_arg_frontendId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -350,22 +350,22 @@ func (s *DemuxStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDemuxOpenFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_type_ DemuxFilterType
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_type_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_type_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_bufferSize, _err := data.ReadInt32()
+		_arg_bufferSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -383,7 +383,7 @@ func (s *DemuxStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDemuxOpenTimeFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OpenTimeFilter(ctx)
@@ -397,7 +397,7 @@ func (s *DemuxStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDemuxGetAvSyncHwId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -413,10 +413,10 @@ func (s *DemuxStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDemuxGetAvSyncTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_avSyncHwId, _err := data.ReadInt32()
+		_arg_avSyncHwId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -430,7 +430,7 @@ func (s *DemuxStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDemuxClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -442,15 +442,15 @@ func (s *DemuxStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDemuxOpenDvr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadPaddedByte()
+		_raw_type_, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := DvrType(_raw_type_)
-		_arg_bufferSize, _err := data.ReadInt32()
+		_arg_bufferSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -468,10 +468,10 @@ func (s *DemuxStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDemuxConnectCiCam:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ciCamId, _err := data.ReadInt32()
+		_arg_ciCamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -484,7 +484,7 @@ func (s *DemuxStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDemuxDisconnectCiCam:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisconnectCiCam(ctx)

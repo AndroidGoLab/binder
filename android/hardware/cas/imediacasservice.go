@@ -221,14 +221,14 @@ var _ binder.TransactionReceiver = (*MediaCasServiceStub)(nil)
 func (s *MediaCasServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaCasServiceCreateDescrambler:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_CA_system_id, _err := data.ReadInt32()
+		_arg_CA_system_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -243,10 +243,10 @@ func (s *MediaCasServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaCasServiceCreatePlugin:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_CA_system_id, _err := data.ReadInt32()
+		_arg_CA_system_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -264,7 +264,7 @@ func (s *MediaCasServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaCasServiceEnumeratePlugins:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.EnumeratePlugins(ctx)
@@ -278,10 +278,10 @@ func (s *MediaCasServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaCasServiceIsDescramblerSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_CA_system_id, _err := data.ReadInt32()
+		_arg_CA_system_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -295,10 +295,10 @@ func (s *MediaCasServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaCasServiceIsSystemIdSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_CA_system_id, _err := data.ReadInt32()
+		_arg_CA_system_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

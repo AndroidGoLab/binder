@@ -64,14 +64,14 @@ var _ binder.TransactionReceiver = (*BrightnessListenerStub)(nil)
 func (s *BrightnessListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBrightnessListenerOnBrightnessChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_brightness, _err := data.ReadFloat32()
+		_arg_brightness, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}

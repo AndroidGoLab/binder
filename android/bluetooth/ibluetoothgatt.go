@@ -1291,11 +1291,11 @@ var _ binder.TransactionReceiver = (*BluetoothGattStub)(nil)
 func (s *BluetoothGattStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothGattGetDevicesMatchingConnectionStates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1313,14 +1313,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothGattRegisterClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_appId interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBluetoothGattCallback
 		_ = _arg_callback
-		_arg_eatt_support, _err := data.ReadBool()
+		_arg_eatt_support, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1334,10 +1334,10 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattUnregisterClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1351,34 +1351,34 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattClientConnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_addressType, _err := data.ReadInt32()
+		_arg_addressType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isDirect, _err := data.ReadBool()
+		_arg_isDirect, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadInt32()
+		_arg_transport, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_opportunistic, _err := data.ReadBool()
+		_arg_opportunistic, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_phy, _err := data.ReadInt32()
+		_arg_phy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1392,14 +1392,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattClientDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1413,26 +1413,26 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattClientSetPreferredPhy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_txPhy, _err := data.ReadInt32()
+		_arg_txPhy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rxPhy, _err := data.ReadInt32()
+		_arg_rxPhy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_phyOptions, _err := data.ReadInt32()
+		_arg_phyOptions, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1446,14 +1446,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattClientReadPhy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1467,14 +1467,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattRefreshDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1488,14 +1488,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattDiscoverServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1509,14 +1509,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattDiscoverServiceByUuid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1531,22 +1531,22 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattReadCharacteristic:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authReq, _err := data.ReadInt32()
+		_arg_authReq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1560,27 +1560,27 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattReadUsingCharacteristicUuid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid interface{}
-		_arg_startHandle, _err := data.ReadInt32()
+		_arg_startHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_endHandle, _err := data.ReadInt32()
+		_arg_endHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authReq, _err := data.ReadInt32()
+		_arg_authReq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1594,26 +1594,26 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattWriteCharacteristic:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_writeType, _err := data.ReadInt32()
+		_arg_writeType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authReq, _err := data.ReadInt32()
+		_arg_authReq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1631,22 +1631,22 @@ func (s *BluetoothGattStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothGattReadDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authReq, _err := data.ReadInt32()
+		_arg_authReq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1660,22 +1660,22 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattWriteDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authReq, _err := data.ReadInt32()
+		_arg_authReq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1693,22 +1693,22 @@ func (s *BluetoothGattStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothGattRegisterForNotification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1722,14 +1722,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattBeginReliableWrite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1743,18 +1743,18 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattEndReliableWrite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_execute, _err := data.ReadBool()
+		_arg_execute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1768,14 +1768,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattReadRemoteRssi:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1789,18 +1789,18 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattConfigureMTU:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mtu, _err := data.ReadInt32()
+		_arg_mtu, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1814,18 +1814,18 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattConnectionParameterUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_connectionPriority, _err := data.ReadInt32()
+		_arg_connectionPriority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1839,38 +1839,38 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattLeConnectionUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_minInterval, _err := data.ReadInt32()
+		_arg_minInterval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxInterval, _err := data.ReadInt32()
+		_arg_maxInterval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_peripheralLatency, _err := data.ReadInt32()
+		_arg_peripheralLatency, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_supervisionTimeout, _err := data.ReadInt32()
+		_arg_supervisionTimeout, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_minConnectionEventLen, _err := data.ReadInt32()
+		_arg_minConnectionEventLen, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxConnectionEventLen, _err := data.ReadInt32()
+		_arg_maxConnectionEventLen, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1884,14 +1884,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattRegisterServer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_appId interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBluetoothGattServerCallback
 		_ = _arg_callback
-		_arg_eatt_support, _err := data.ReadBool()
+		_arg_eatt_support, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1905,10 +1905,10 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattUnregisterServer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serverIf, _err := data.ReadInt32()
+		_arg_serverIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1922,26 +1922,26 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattServerConnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serverIf, _err := data.ReadInt32()
+		_arg_serverIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_addressType, _err := data.ReadInt32()
+		_arg_addressType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isDirect, _err := data.ReadBool()
+		_arg_isDirect, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadInt32()
+		_arg_transport, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1955,14 +1955,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattServerDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serverIf, _err := data.ReadInt32()
+		_arg_serverIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1976,26 +1976,26 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattServerSetPreferredPhy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_txPhy, _err := data.ReadInt32()
+		_arg_txPhy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rxPhy, _err := data.ReadInt32()
+		_arg_rxPhy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_phyOptions, _err := data.ReadInt32()
+		_arg_phyOptions, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2009,14 +2009,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattServerReadPhy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2030,21 +2030,21 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattAddService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serverIf, _err := data.ReadInt32()
+		_arg_serverIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_service BluetoothGattService
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_service.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_service.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2059,14 +2059,14 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattRemoveService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serverIf, _err := data.ReadInt32()
+		_arg_serverIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2080,10 +2080,10 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattClearServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serverIf, _err := data.ReadInt32()
+		_arg_serverIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2097,26 +2097,26 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattSendResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serverIf, _err := data.ReadInt32()
+		_arg_serverIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_offset, _err := data.ReadInt32()
+		_arg_offset, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2133,22 +2133,22 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattSendNotification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serverIf, _err := data.ReadInt32()
+		_arg_serverIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_confirm, _err := data.ReadBool()
+		_arg_confirm, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2166,7 +2166,7 @@ func (s *BluetoothGattStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothGattDisconnectAll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
@@ -2179,26 +2179,26 @@ func (s *BluetoothGattStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothGattSubrateModeRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientIf, _err := data.ReadInt32()
+		_arg_clientIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_subrateMode, _err := data.ReadInt32()
+		_arg_subrateMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

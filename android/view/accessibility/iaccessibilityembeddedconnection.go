@@ -133,17 +133,17 @@ var _ binder.TransactionReceiver = (*AccessibilityEmbeddedConnectionStub)(nil)
 func (s *AccessibilityEmbeddedConnectionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAccessibilityEmbeddedConnectionAssociateEmbeddedHierarchy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hostToken binder.IBinder
 		_ = _arg_hostToken
-		_arg_sourceId, _err := data.ReadInt32()
+		_arg_sourceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -158,7 +158,7 @@ func (s *AccessibilityEmbeddedConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityEmbeddedConnectionDisassociateEmbeddedHierarchy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisassociateEmbeddedHierarchy(ctx)
@@ -170,7 +170,7 @@ func (s *AccessibilityEmbeddedConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityEmbeddedConnectionSetWindowMatrix:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

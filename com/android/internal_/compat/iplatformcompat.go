@@ -794,25 +794,25 @@ var _ binder.TransactionReceiver = (*PlatformCompatStub)(nil)
 func (s *PlatformCompatStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPlatformCompatReportChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_changeId, _err := data.ReadInt64()
+		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_appInfo pm.ApplicationInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_appInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_appInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -826,18 +826,18 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatReportChangeByPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_changeId, _err := data.ReadInt64()
+		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReportChangeByPackageName(ctx, _arg_changeId, _arg_packageName)
@@ -849,14 +849,14 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatReportChangeByUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_changeId, _err := data.ReadInt64()
+		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -869,21 +869,21 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatIsChangeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_changeId, _err := data.ReadInt64()
+		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_appInfo pm.ApplicationInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_appInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_appInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -898,18 +898,18 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatIsChangeEnabledByPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_changeId, _err := data.ReadInt64()
+		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsChangeEnabledByPackageName(ctx, _arg_changeId, _arg_packageName)
@@ -922,14 +922,14 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatIsChangeEnabledByUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_changeId, _err := data.ReadInt64()
+		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -943,22 +943,22 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatSetOverrides:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_overrides CompatibilityChangeConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_overrides.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_overrides.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -971,17 +971,17 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatPutAllOverridesOnReleaseBuilds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_overridesByPackage CompatibilityOverridesByPackageConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_overridesByPackage.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_overridesByPackage.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -995,22 +995,22 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatPutOverridesOnReleaseBuilds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_overrides CompatibilityOverrideConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_overrides.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_overrides.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1023,22 +1023,22 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatSetOverridesForTest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_overrides CompatibilityChangeConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_overrides.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_overrides.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1051,14 +1051,14 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatClearOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_changeId, _err := data.ReadInt64()
+		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1072,14 +1072,14 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatClearOverrideForTest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_changeId, _err := data.ReadInt64()
+		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1093,17 +1093,17 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatRemoveAllOverridesOnReleaseBuilds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_overridesToRemoveByPackage CompatibilityOverridesToRemoveByPackageConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_overridesToRemoveByPackage.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_overridesToRemoveByPackage.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1117,22 +1117,22 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatRemoveOverridesOnReleaseBuilds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_overridesToRemove CompatibilityOverridesToRemoveConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_overridesToRemove.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_overridesToRemove.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1145,14 +1145,14 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatEnableTargetSdkChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1166,14 +1166,14 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatDisableTargetSdkChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1187,10 +1187,10 @@ func (s *PlatformCompatStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPlatformCompatClearOverrides:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1203,10 +1203,10 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatClearOverridesForTest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1219,17 +1219,17 @@ func (s *PlatformCompatStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPlatformCompatGetAppConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_appInfo pm.ApplicationInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_appInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_appInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1247,7 +1247,7 @@ func (s *PlatformCompatStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPlatformCompatListAllChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListAllChanges(ctx)
@@ -1261,7 +1261,7 @@ func (s *PlatformCompatStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPlatformCompatListUIChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListUIChanges(ctx)
@@ -1275,7 +1275,7 @@ func (s *PlatformCompatStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPlatformCompatGetOverrideValidator:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOverrideValidator(ctx)

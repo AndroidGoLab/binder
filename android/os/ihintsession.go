@@ -211,14 +211,14 @@ var _ binder.TransactionReceiver = (*HintSessionStub)(nil)
 func (s *HintSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHintSessionUpdateTargetWorkDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_targetDurationNanos, _err := data.ReadInt64()
+		_arg_targetDurationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -226,7 +226,7 @@ func (s *HintSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHintSessionReportActualWorkDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -239,17 +239,17 @@ func (s *HintSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHintSessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIHintSessionSendHint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hint, _err := data.ReadInt32()
+		_arg_hint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -257,14 +257,14 @@ func (s *HintSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHintSessionSetMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -272,7 +272,7 @@ func (s *HintSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHintSessionReportActualWorkDuration2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -282,7 +282,7 @@ func (s *HintSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHintSessionAssociateToLayers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

@@ -468,11 +468,11 @@ var _ binder.TransactionReceiver = (*ThermalStub)(nil)
 func (s *ThermalStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIThermalGetCoolingDevices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCoolingDevices(ctx)
@@ -486,10 +486,10 @@ func (s *ThermalStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIThermalGetCoolingDevicesWithType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -505,7 +505,7 @@ func (s *ThermalStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIThermalGetTemperatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTemperatures(ctx)
@@ -519,10 +519,10 @@ func (s *ThermalStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIThermalGetTemperaturesWithType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -538,7 +538,7 @@ func (s *ThermalStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIThermalGetTemperatureThresholds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTemperatureThresholds(ctx)
@@ -552,10 +552,10 @@ func (s *ThermalStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIThermalGetTemperatureThresholdsWithType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -571,7 +571,7 @@ func (s *ThermalStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIThermalRegisterThermalChangedCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -586,13 +586,13 @@ func (s *ThermalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIThermalRegisterThermalChangedCallbackWithType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IThermalChangedCallback
 		_ = _arg_callback
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -606,7 +606,7 @@ func (s *ThermalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIThermalUnregisterThermalChangedCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -621,13 +621,13 @@ func (s *ThermalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIThermalRegisterCoolingDeviceChangedCallbackWithType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ICoolingDeviceChangedCallback
 		_ = _arg_callback
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -641,7 +641,7 @@ func (s *ThermalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIThermalUnregisterCoolingDeviceChangedCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -656,10 +656,10 @@ func (s *ThermalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIThermalForecastSkinTemperature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_forecastSeconds, _err := data.ReadInt32()
+		_arg_forecastSeconds, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

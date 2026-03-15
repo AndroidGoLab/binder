@@ -208,11 +208,11 @@ var _ binder.TransactionReceiver = (*AGnssRilStub)(nil)
 func (s *AGnssRilStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAGnssRilSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -227,17 +227,17 @@ func (s *AGnssRilStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssRilSetRefLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_agnssReflocation gnssIAGnssRil.AGnssRefLocation
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_agnssReflocation.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_agnssReflocation.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -251,15 +251,15 @@ func (s *AGnssRilStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssRilSetSetId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := gnssIAGnssRil.SetIdType(_raw_type_)
-		_arg_setid, _err := data.ReadString()
+		_arg_setid, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -272,17 +272,17 @@ func (s *AGnssRilStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssRilUpdateNetworkState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributes gnssIAGnssRil.NetworkAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -296,13 +296,13 @@ func (s *AGnssRilStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssRilInjectNiSuplMessageData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_msgData []byte
 		_ = _arg_msgData
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

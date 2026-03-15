@@ -103,11 +103,11 @@ var _ binder.TransactionReceiver = (*ContextHubEndpointDiscoveryCallbackStub)(ni
 func (s *ContextHubEndpointDiscoveryCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContextHubEndpointDiscoveryCallbackOnEndpointsStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -117,13 +117,13 @@ func (s *ContextHubEndpointDiscoveryCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContextHubEndpointDiscoveryCallbackOnEndpointsStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hubEndpointInfoList []HubEndpointInfo
 		_ = _arg_hubEndpointInfoList
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

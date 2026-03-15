@@ -3707,21 +3707,21 @@ var _ binder.TransactionReceiver = (*AudioPolicyServiceStub)(nil)
 func (s *AudioPolicyServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAudioPolicyServiceOnNewAudioModulesAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnNewAudioModulesAvailable(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyServiceSetDeviceConnectionState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_state, _err := data.ReadInt32()
+		_raw_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3737,7 +3737,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetDeviceConnectionState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
@@ -3751,11 +3751,11 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIAudioPolicyServiceHandleDeviceConfigChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
-		_arg_deviceName, _err := data.ReadString16()
+		_arg_deviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3769,11 +3769,11 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetPhoneState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_state interface{}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3786,15 +3786,15 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetForceUse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_usage, _err := data.ReadInt32()
+		_raw_usage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_usage := AudioPolicyForceUse(_raw_usage)
-		_raw_config, _err := data.ReadInt32()
+		_raw_config, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3808,10 +3808,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetForceUse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_usage, _err := data.ReadInt32()
+		_raw_usage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3826,10 +3826,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetOutput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stream, _err := data.ReadInt32()
+		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3844,28 +3844,28 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetOutputForAttr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_session, _err := data.ReadInt32()
+		_arg_session, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
 		var _arg_config interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3885,10 +3885,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioPolicyServiceStartOutput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3901,10 +3901,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceStopOutput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3917,10 +3917,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceReleaseOutput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3933,40 +3933,40 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetInputForAttr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_input, _err := data.ReadInt32()
+		_arg_input, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_riid, _err := data.ReadInt32()
+		_arg_riid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_session, _err := data.ReadInt32()
+		_arg_session, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
 		var _arg_config interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_selectedDeviceId, _err := data.ReadInt32()
+		_arg_selectedDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3983,10 +3983,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioPolicyServiceStartInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3999,10 +3999,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceStopInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4015,10 +4015,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceReleaseInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4031,15 +4031,15 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetDeviceAbsoluteVolumeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_streamToDriveAbs, _err := data.ReadInt32()
+		_raw_streamToDriveAbs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4053,19 +4053,19 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceInitStreamVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stream, _err := data.ReadInt32()
+		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_stream := tuner.AudioStreamType(_raw_stream)
-		_arg_indexMin, _err := data.ReadInt32()
+		_arg_indexMin, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_indexMax, _err := data.ReadInt32()
+		_arg_indexMax, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4078,20 +4078,20 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetStreamVolumeIndex:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stream, _err := data.ReadInt32()
+		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_stream := tuner.AudioStreamType(_raw_stream)
 		var _arg_device interface{}
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_muted, _err := data.ReadBool()
+		_arg_muted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4104,10 +4104,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetStreamVolumeIndex:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stream, _err := data.ReadInt32()
+		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4123,27 +4123,27 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetVolumeIndexForAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_device interface{}
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_muted, _err := data.ReadBool()
+		_arg_muted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4156,17 +4156,17 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetVolumeIndexForAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4182,17 +4182,17 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetMaxVolumeIndexForAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4207,17 +4207,17 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetMinVolumeIndexForAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4232,10 +4232,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetStrategyForStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stream, _err := data.ReadInt32()
+		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4250,22 +4250,22 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetDevicesForAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_forVolume, _err := data.ReadBool()
+		_arg_forVolume, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4280,17 +4280,17 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetOutputForEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_desc EffectDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_desc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_desc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4305,34 +4305,34 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRegisterEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_desc EffectDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_desc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_desc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_io, _err := data.ReadInt32()
+		_arg_io, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_strategy, _err := data.ReadInt32()
+		_arg_strategy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_session, _err := data.ReadInt32()
+		_arg_session, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4345,10 +4345,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceUnregisterEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4361,14 +4361,14 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetEffectEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4381,13 +4381,13 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceMoveEffectsToIo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ids []int32
 		_ = _arg_ids
-		_arg_io, _err := data.ReadInt32()
+		_arg_io, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4400,15 +4400,15 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceIsStreamActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stream, _err := data.ReadInt32()
+		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_stream := tuner.AudioStreamType(_raw_stream)
-		_arg_inPastMs, _err := data.ReadInt32()
+		_arg_inPastMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4422,15 +4422,15 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceIsStreamActiveRemotely:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stream, _err := data.ReadInt32()
+		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_stream := tuner.AudioStreamType(_raw_stream)
-		_arg_inPastMs, _err := data.ReadInt32()
+		_arg_inPastMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4444,7 +4444,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceIsSourceActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_source interface{}
@@ -4458,10 +4458,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceQueryDefaultPreProcessing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_audioSession, _err := data.ReadInt32()
+		_arg_audioSession, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4477,15 +4477,15 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceAddSourceDefaultEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_type_ interface{}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid interface{}
-		_arg_priority, _err := data.ReadInt32()
+		_arg_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4500,15 +4500,15 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceAddStreamDefaultEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_type_ interface{}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid interface{}
-		_arg_priority, _err := data.ReadInt32()
+		_arg_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4523,10 +4523,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRemoveSourceDefaultEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4539,10 +4539,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRemoveStreamDefaultEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4555,7 +4555,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetSupportedSystemUsages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -4570,14 +4570,14 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetAllowedCapturePolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capturePolicy, _err := data.ReadInt32()
+		_arg_capturePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4590,7 +4590,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetOffloadSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info interface{}
@@ -4604,18 +4604,18 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIAudioPolicyServiceIsDirectOutputSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config interface{}
 		var _arg_attributes AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4630,21 +4630,22 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceListAudioPorts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_role := AudioPortRole(_raw_role)
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := AudioPortType(_raw_type_)
 		var _arg_count interface{}
-		_result, _err := s.Impl.ListAudioPorts(ctx, _arg_role, _arg_type_, _arg_count)
+		var _arg_ports []AudioPortFw
+		_result, _err := s.Impl.ListAudioPorts(ctx, _arg_role, _arg_type_, _arg_count, _arg_ports)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4654,10 +4655,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceListDeclaredDevicePorts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4673,10 +4674,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetAudioPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4693,22 +4694,22 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioPolicyServiceCreateAudioPatch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_patch AudioPatchFw
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_patch.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_patch.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4722,10 +4723,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceReleaseAudioPatch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4738,11 +4739,12 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceListAudioPatches:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_count interface{}
-		_result, _err := s.Impl.ListAudioPatches(ctx, _arg_count)
+		var _arg_patches []AudioPatchFw
+		_result, _err := s.Impl.ListAudioPatches(ctx, _arg_count, _arg_patches)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4752,17 +4754,17 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetAudioPortConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config AudioPortConfigFw
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4776,7 +4778,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRegisterClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4791,10 +4793,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetAudioPortCallbacksEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4807,10 +4809,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetAudioVolumeGroupCallbacksEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4823,7 +4825,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceAcquireSoundTriggerSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.AcquireSoundTriggerSession(ctx)
@@ -4839,10 +4841,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioPolicyServiceReleaseSoundTriggerSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_session, _err := data.ReadInt32()
+		_arg_session, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4855,7 +4857,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetPhoneState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPhoneState(ctx)
@@ -4868,13 +4870,13 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRegisterPolicyMixes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_mixes []AudioMix
 		_ = _arg_mixes
-		_arg_registration, _err := data.ReadBool()
+		_arg_registration, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4887,7 +4889,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetRegisteredPolicyMixes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRegisteredPolicyMixes(ctx)
@@ -4901,7 +4903,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceUpdatePolicyMixes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -4916,10 +4918,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetUidDeviceAffinities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4935,10 +4937,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRemoveUidDeviceAffinities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4951,10 +4953,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetUserIdDeviceAffinities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -4969,10 +4971,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRemoveUserIdDeviceAffinities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveUserIdDeviceAffinities(ctx)
@@ -4984,29 +4986,29 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceStartAudioSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_source AudioPortConfigFw
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_source.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_attributes AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -5021,10 +5023,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceStopAudioSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5037,10 +5039,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetMasterMono:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mono, _err := data.ReadBool()
+		_arg_mono, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5053,7 +5055,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetMasterMono:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMasterMono(ctx)
@@ -5066,15 +5068,15 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetStreamVolumeDB:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_stream, _err := data.ReadInt32()
+		_raw_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_stream := tuner.AudioStreamType(_raw_stream)
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5089,11 +5091,13 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetSurroundFormats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_count interface{}
-		_err := s.Impl.GetSurroundFormats(ctx, _arg_count)
+		var _arg_formats []interface{}
+		var _arg_formatsEnabled []bool
+		_err := s.Impl.GetSurroundFormats(ctx, _arg_count, _arg_formats, _arg_formatsEnabled)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -5102,11 +5106,12 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetReportedSurroundFormats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_count interface{}
-		_err := s.Impl.GetReportedSurroundFormats(ctx, _arg_count)
+		var _arg_formats []interface{}
+		_err := s.Impl.GetReportedSurroundFormats(ctx, _arg_count, _arg_formats)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -5115,7 +5120,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetHwOffloadFormatsSupportedForBluetoothMedia:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
@@ -5130,11 +5135,11 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetSurroundFormatEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_audioFormat interface{}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5147,7 +5152,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetAssistantServicesUids:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -5162,7 +5167,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetActiveAssistantServicesUids:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -5177,7 +5182,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetA11yServicesUids:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -5192,10 +5197,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetCurrentImeUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5208,7 +5213,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceIsHapticPlaybackSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHapticPlaybackSupported(ctx)
@@ -5221,7 +5226,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceIsUltrasoundSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUltrasoundSupported(ctx)
@@ -5234,10 +5239,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceIsHotwordStreamSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lookbackAudio, _err := data.ReadBool()
+		_arg_lookbackAudio, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5251,7 +5256,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceListAudioProductStrategies:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListAudioProductStrategies(ctx)
@@ -5265,22 +5270,22 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetProductStrategyFromAudioAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_aa AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_aa.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_aa.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_fallbackOnDefault, _err := data.ReadBool()
+		_arg_fallbackOnDefault, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5294,7 +5299,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceListAudioVolumeGroups:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListAudioVolumeGroups(ctx)
@@ -5308,22 +5313,22 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetVolumeGroupFromAudioAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_aa AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_aa.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_aa.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_fallbackOnDefault, _err := data.ReadBool()
+		_arg_fallbackOnDefault, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5337,10 +5342,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetRttEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5353,7 +5358,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceIsCallScreenModeSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCallScreenModeSupported(ctx)
@@ -5366,14 +5371,14 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetDevicesRoleForStrategy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strategy, _err := data.ReadInt32()
+		_arg_strategy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5390,14 +5395,14 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRemoveDevicesRoleForStrategy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strategy, _err := data.ReadInt32()
+		_arg_strategy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5414,14 +5419,14 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceClearDevicesRoleForStrategy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strategy, _err := data.ReadInt32()
+		_arg_strategy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5435,14 +5440,14 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetDevicesForRoleAndStrategy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strategy, _err := data.ReadInt32()
+		_arg_strategy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5458,11 +5463,11 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetDevicesRoleForCapturePreset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_audioSource interface{}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5479,11 +5484,11 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceAddDevicesRoleForCapturePreset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_audioSource interface{}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5500,11 +5505,11 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRemoveDevicesRoleForCapturePreset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_audioSource interface{}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5521,11 +5526,11 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceClearDevicesRoleForCapturePreset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_audioSource interface{}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5539,11 +5544,11 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetDevicesForRoleAndCapturePreset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_audioSource interface{}
-		_raw_role, _err := data.ReadInt32()
+		_raw_role, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5559,7 +5564,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceRegisterSoundTriggerCaptureStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5575,7 +5580,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetSpatializer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5594,17 +5599,17 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioPolicyServiceCanBeSpatialized:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr *AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -5623,17 +5628,17 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetDirectPlaybackSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -5649,17 +5654,17 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetDirectProfilesForAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -5675,10 +5680,10 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetSupportedMixerAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5693,37 +5698,37 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceSetPreferredMixerAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_mixerAttr AudioMixerAttributesInternal
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_mixerAttr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_mixerAttr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -5737,22 +5742,22 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetPreferredMixerAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5769,26 +5774,26 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioPolicyServiceClearPreferredMixerAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5801,7 +5806,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetPermissionController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPermissionController(ctx)
@@ -5815,7 +5820,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetMmapPolicyInfos:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_policyType interface{}
@@ -5830,7 +5835,7 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioPolicyServiceGetMmapPolicyForDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_policyType interface{}

@@ -198,14 +198,14 @@ var _ binder.TransactionReceiver = (*SessionControllerCallbackStub)(nil)
 func (s *SessionControllerCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISessionControllerCallbackOnEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadString16()
+		_arg_event, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -214,24 +214,24 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionControllerCallbackOnSessionDestroyed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSessionDestroyed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISessionControllerCallbackOnPlaybackStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_state PlaybackState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_state.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_state.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -240,7 +240,7 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionControllerCallbackOnMetadataChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_metadata interface{}
@@ -248,7 +248,7 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionControllerCallbackOnQueueChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_queue interface{}
@@ -256,7 +256,7 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionControllerCallbackOnQueueTitleChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_title interface{}
@@ -264,7 +264,7 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionControllerCallbackOnExtrasChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_extras interface{}
@@ -272,17 +272,17 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionControllerCallbackOnVolumeInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info MediaControllerPlaybackInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

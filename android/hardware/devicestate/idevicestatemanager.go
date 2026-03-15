@@ -263,11 +263,11 @@ var _ binder.TransactionReceiver = (*DeviceStateManagerStub)(nil)
 func (s *DeviceStateManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDeviceStateManagerGetDeviceStateInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeviceStateInfo(ctx)
@@ -283,7 +283,7 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceStateManagerRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -302,17 +302,17 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceStateManagerRequestState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -325,7 +325,7 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceStateManagerCancelStateRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CancelStateRequest(ctx)
@@ -337,17 +337,17 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceStateManagerRequestBaseStateOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -360,7 +360,7 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceStateManagerCancelBaseStateOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CancelBaseStateOverride(ctx)
@@ -372,10 +372,10 @@ func (s *DeviceStateManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceStateManagerOnStateRequestOverlayDismissed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCancelRequest, _err := data.ReadBool()
+		_arg_shouldCancelRequest, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

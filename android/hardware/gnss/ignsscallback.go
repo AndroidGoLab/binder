@@ -384,14 +384,14 @@ var _ binder.TransactionReceiver = (*GnssCallbackStub)(nil)
 func (s *GnssCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGnssCallbackGnssSetCapabilitiesCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capabilities, _err := data.ReadInt32()
+		_arg_capabilities, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -404,7 +404,7 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssStatusCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_status interface{}
@@ -417,7 +417,7 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssSvStatusCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -432,17 +432,17 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssLocationCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_location GnssLocation
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -456,14 +456,14 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssNmeaCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nmea, _err := data.ReadString()
+		_arg_nmea, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -476,7 +476,7 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssAcquireWakelockCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.GnssAcquireWakelockCb(ctx)
@@ -488,7 +488,7 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssReleaseWakelockCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.GnssReleaseWakelockCb(ctx)
@@ -500,7 +500,7 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssSetSystemInfoCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info interface{}
@@ -513,7 +513,7 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssRequestTimeCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.GnssRequestTimeCb(ctx)
@@ -525,14 +525,14 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssRequestLocationCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_independentFromGnss, _err := data.ReadBool()
+		_arg_independentFromGnss, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isUserEmergency, _err := data.ReadBool()
+		_arg_isUserEmergency, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -545,7 +545,7 @@ func (s *GnssCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssCallbackGnssSetSignalTypeCapabilitiesCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

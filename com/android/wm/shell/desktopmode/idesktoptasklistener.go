@@ -144,18 +144,18 @@ var _ binder.TransactionReceiver = (*DesktopTaskListenerStub)(nil)
 func (s *DesktopTaskListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDesktopTaskListenerOnTasksVisibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_visibleTasksCount, _err := data.ReadInt32()
+		_arg_visibleTasksCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -163,14 +163,14 @@ func (s *DesktopTaskListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDesktopTaskListenerOnStashedChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stashed, _err := data.ReadBool()
+		_arg_stashed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -178,10 +178,10 @@ func (s *DesktopTaskListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDesktopTaskListenerOnTaskbarCornerRoundingUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hasTasksRequiringTaskbarRounding, _err := data.ReadBool()
+		_arg_hasTasksRequiringTaskbarRounding, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -189,10 +189,10 @@ func (s *DesktopTaskListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDesktopTaskListenerOnEnterDesktopModeTransitionStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_transitionDuration, _err := data.ReadInt32()
+		_arg_transitionDuration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -200,10 +200,10 @@ func (s *DesktopTaskListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDesktopTaskListenerOnExitDesktopModeTransitionStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_transitionDuration, _err := data.ReadInt32()
+		_arg_transitionDuration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

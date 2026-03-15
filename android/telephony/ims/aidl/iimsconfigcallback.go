@@ -87,18 +87,18 @@ var _ binder.TransactionReceiver = (*ImsConfigCallbackStub)(nil)
 func (s *ImsConfigCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsConfigCallbackOnIntConfigChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -106,14 +106,14 @@ func (s *ImsConfigCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsConfigCallbackOnStringConfigChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

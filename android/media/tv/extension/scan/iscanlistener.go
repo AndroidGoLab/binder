@@ -130,21 +130,21 @@ var _ binder.TransactionReceiver = (*ScanListenerStub)(nil)
 func (s *ScanListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIScanListenerOnEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_eventArgs os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_eventArgs.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_eventArgs.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -153,21 +153,21 @@ func (s *ScanListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIScanListenerOnScanProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_scanProgress, _err := data.ReadString16()
+		_arg_scanProgress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_scanProgressInfo os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_scanProgressInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_scanProgressInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -176,10 +176,10 @@ func (s *ScanListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIScanListenerOnScanCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_scanResult, _err := data.ReadInt32()
+		_arg_scanResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -187,10 +187,10 @@ func (s *ScanListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIScanListenerOnStoreCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storeResult, _err := data.ReadInt32()
+		_arg_storeResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

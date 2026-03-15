@@ -304,28 +304,28 @@ var _ binder.TransactionReceiver = (*ImsRegistrationListenerStub)(nil)
 func (s *ImsRegistrationListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsRegistrationListenerRegistrationConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RegistrationConnected(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationProgressing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RegistrationProgressing(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationConnectedWithRadioTech:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_imsRadioTech, _err := data.ReadInt32()
+		_arg_imsRadioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -333,10 +333,10 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationProgressingWithRadioTech:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_imsRadioTech, _err := data.ReadInt32()
+		_arg_imsRadioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -344,17 +344,17 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_imsReasonInfo ims.ImsReasonInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imsReasonInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imsReasonInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -363,28 +363,28 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationResumed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RegistrationResumed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationSuspended:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RegistrationSuspended(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationServiceCapabilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceClass, _err := data.ReadInt32()
+		_arg_serviceClass, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -392,10 +392,10 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationFeatureCapabilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceClass, _err := data.ReadInt32()
+		_arg_serviceClass, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -409,10 +409,10 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerVoiceMessageCountUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_count, _err := data.ReadInt32()
+		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -420,7 +420,7 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationAssociatedUriChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -430,21 +430,21 @@ func (s *ImsRegistrationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationListenerRegistrationChangeFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_targetAccessTech, _err := data.ReadInt32()
+		_arg_targetAccessTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_imsReasonInfo ims.ImsReasonInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imsReasonInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imsReasonInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

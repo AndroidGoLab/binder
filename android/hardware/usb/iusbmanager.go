@@ -1575,14 +1575,15 @@ var _ binder.TransactionReceiver = (*UsbManagerStub)(nil)
 func (s *UsbManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUsbManagerGetDeviceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err := s.Impl.GetDeviceList(ctx)
+		var _arg_devices interface{}
+		_err := s.Impl.GetDeviceList(ctx, _arg_devices)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1591,14 +1592,14 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerOpenDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceName, _err := data.ReadString16()
+		_arg_deviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1612,7 +1613,7 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetCurrentAccessory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentAccessory(ctx)
@@ -1628,17 +1629,17 @@ func (s *UsbManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsbManagerOpenAccessory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accessory UsbAccessory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accessory.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accessory.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1653,26 +1654,26 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIUsbManagerSetDevicePackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device UsbDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetDevicePackage(ctx, _arg_device, _arg_packageName)
@@ -1684,26 +1685,26 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetAccessoryPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accessory UsbAccessory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accessory.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accessory.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetAccessoryPackage(ctx, _arg_accessory, _arg_packageName)
@@ -1715,17 +1716,17 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerAddDevicePackagesToPreferenceDenied:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device UsbDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1743,17 +1744,17 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerAddAccessoryPackagesToPreferenceDenied:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accessory UsbAccessory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accessory.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accessory.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1771,17 +1772,17 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerRemoveDevicePackagesFromPreferenceDenied:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device UsbDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1799,17 +1800,17 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerRemoveAccessoryPackagesFromPreferenceDenied:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device UsbAccessory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1827,27 +1828,27 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetDevicePersistentPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device UsbDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
-		_arg_shouldBeGranted, _err := data.ReadBool()
+		_arg_shouldBeGranted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1860,27 +1861,27 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetAccessoryPersistentPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accessory UsbAccessory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accessory.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accessory.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
-		_arg_shouldBeGranted, _err := data.ReadBool()
+		_arg_shouldBeGranted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1893,22 +1894,22 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerHasDevicePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device UsbDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1922,30 +1923,30 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerHasDevicePermissionWithIdentity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device UsbDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1959,17 +1960,17 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerHasAccessoryPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accessory UsbAccessory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accessory.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accessory.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1984,26 +1985,26 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerHasAccessoryPermissionWithIdentity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accessory UsbAccessory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accessory.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accessory.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2017,22 +2018,22 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerRequestDevicePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device UsbDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2046,22 +2047,22 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerRequestAccessoryPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accessory UsbAccessory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accessory.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accessory.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2075,22 +2076,22 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGrantDevicePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device UsbDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2103,22 +2104,22 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGrantAccessoryPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accessory UsbAccessory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accessory.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accessory.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2131,14 +2132,14 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerHasDefaults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasDefaults(ctx, _arg_packageName)
@@ -2151,14 +2152,14 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerClearDefaults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ClearDefaults(ctx, _arg_packageName)
@@ -2170,10 +2171,10 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerIsFunctionEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_function, _err := data.ReadString16()
+		_arg_function, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2187,14 +2188,14 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerSetCurrentFunctions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_functions, _err := data.ReadInt64()
+		_arg_functions, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt32()
+		_arg_operationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2207,18 +2208,18 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetCurrentFunction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_function, _err := data.ReadString16()
+		_arg_function, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_usbDataUnlocked, _err := data.ReadBool()
+		_arg_usbDataUnlocked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt32()
+		_arg_operationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2231,7 +2232,7 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGetCurrentFunctions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentFunctions(ctx)
@@ -2244,7 +2245,7 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetCurrentUsbSpeed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentUsbSpeed(ctx)
@@ -2257,7 +2258,7 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetGadgetHalVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGadgetHalVersion(ctx)
@@ -2270,10 +2271,10 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUsbManagerSetScreenUnlockedFunctions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_functions, _err := data.ReadInt64()
+		_arg_functions, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2286,7 +2287,7 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGetScreenUnlockedFunctions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetScreenUnlockedFunctions(ctx)
@@ -2299,7 +2300,7 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUsbManagerResetUsbGadget:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetUsbGadget(ctx)
@@ -2311,14 +2312,14 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerResetUsbPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadString16()
+		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt32()
+		_arg_operationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2334,18 +2335,18 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerEnableUsbData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadString16()
+		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt32()
+		_arg_operationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2362,14 +2363,14 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerEnableUsbDataWhileDocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadString16()
+		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt32()
+		_arg_operationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2385,7 +2386,7 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerGetUsbHalVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUsbHalVersion(ctx)
@@ -2398,10 +2399,10 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetControlFd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_function, _err := data.ReadInt64()
+		_arg_function, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2415,7 +2416,7 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIUsbManagerGetPorts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPorts(ctx)
@@ -2429,10 +2430,10 @@ func (s *UsbManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUsbManagerGetPortStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadString16()
+		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2449,10 +2450,10 @@ func (s *UsbManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUsbManagerIsModeChangeSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadString16()
+		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2466,18 +2467,18 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerSetPortRoles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadString16()
+		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_powerRole, _err := data.ReadInt32()
+		_arg_powerRole, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dataRole, _err := data.ReadInt32()
+		_arg_dataRole, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2490,18 +2491,18 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerEnableLimitPowerTransfer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadString16()
+		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_limit, _err := data.ReadBool()
+		_arg_limit, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt32()
+		_arg_operationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2517,14 +2518,14 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerEnableContaminantDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadString16()
+		_arg_portId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2537,7 +2538,7 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerSetUsbDeviceConnectionHandler:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_usbDeviceConnectionHandler interface{}
@@ -2550,7 +2551,7 @@ func (s *UsbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUsbManagerRegisterForDisplayPortEvents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2566,7 +2567,7 @@ func (s *UsbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUsbManagerUnregisterForDisplayPortEvents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

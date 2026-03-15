@@ -203,15 +203,15 @@ var _ binder.TransactionReceiver = (*DisplayWindowInsetsControllerStub)(nil)
 func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDisplayWindowInsetsControllerTopFocusedWindowChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_component interface{}
-		_arg_requestedVisibleTypes, _err := data.ReadInt32()
+		_arg_requestedVisibleTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -219,17 +219,17 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowInsetsControllerInsetsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_insetsState InsetsState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_insetsState.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_insetsState.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -238,17 +238,17 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowInsetsControllerInsetsControlChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_insetsState InsetsState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_insetsState.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_insetsState.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -260,25 +260,25 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowInsetsControllerShowInsets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_types, _err := data.ReadInt32()
+		_arg_types, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fromIme, _err := data.ReadBool()
+		_arg_fromIme, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken *inputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -287,25 +287,25 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowInsetsControllerHideInsets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_types, _err := data.ReadInt32()
+		_arg_types, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fromIme, _err := data.ReadBool()
+		_arg_fromIme, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken *inputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -314,21 +314,21 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowInsetsControllerSetImeInputTargetRequestedVisibility:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken inputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

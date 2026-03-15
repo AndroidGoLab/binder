@@ -283,34 +283,34 @@ var _ binder.TransactionReceiver = (*ImeTrackerStub)(nil)
 func (s *ImeTrackerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImeTrackerOnStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tag, _err := data.ReadString16()
+		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_origin, _err := data.ReadInt32()
+		_arg_origin, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fromUser, _err := data.ReadBool()
+		_arg_fromUser, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -327,13 +327,13 @@ func (s *ImeTrackerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImeTrackerOnProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_binder_ binder.IBinder
 		_ = _arg_binder_
-		_arg_phase, _err := data.ReadInt32()
+		_arg_phase, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -341,22 +341,22 @@ func (s *ImeTrackerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImeTrackerOnFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_phase, _err := data.ReadInt32()
+		_arg_phase, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -364,22 +364,22 @@ func (s *ImeTrackerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImeTrackerOnCancelled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_phase, _err := data.ReadInt32()
+		_arg_phase, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -387,17 +387,17 @@ func (s *ImeTrackerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImeTrackerOnShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -406,17 +406,17 @@ func (s *ImeTrackerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImeTrackerOnHidden:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -425,17 +425,17 @@ func (s *ImeTrackerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImeTrackerOnDispatched:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -444,7 +444,7 @@ func (s *ImeTrackerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImeTrackerHasPendingImeVisibilityRequests:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasPendingImeVisibilityRequests(ctx)
@@ -457,17 +457,17 @@ func (s *ImeTrackerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImeTrackerFinishTrackingPendingImeVisibilityRequests:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_completionSignal infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_completionSignal.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_completionSignal.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

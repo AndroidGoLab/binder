@@ -202,21 +202,21 @@ var _ binder.TransactionReceiver = (*ContextHubClientCallbackStub)(nil)
 func (s *ContextHubClientCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContextHubClientCallbackOnMessageFromNanoApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_message NanoAppMessage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_message.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_message.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -225,21 +225,21 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContextHubClientCallbackOnHubReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnHubReset(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIContextHubClientCallbackOnNanoAppAborted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_abortCode, _err := data.ReadInt32()
+		_arg_abortCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -247,10 +247,10 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContextHubClientCallbackOnNanoAppLoaded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -258,10 +258,10 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContextHubClientCallbackOnNanoAppUnloaded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -269,10 +269,10 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContextHubClientCallbackOnNanoAppEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -280,10 +280,10 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContextHubClientCallbackOnNanoAppDisabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -291,14 +291,14 @@ func (s *ContextHubClientCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContextHubClientCallbackOnClientAuthorizationChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authorization, _err := data.ReadInt32()
+		_arg_authorization, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

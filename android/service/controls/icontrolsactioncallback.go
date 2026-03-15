@@ -68,21 +68,21 @@ var _ binder.TransactionReceiver = (*ControlsActionCallbackStub)(nil)
 func (s *ControlsActionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIControlsActionCallbackAccept:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_controlId, _err := data.ReadString16()
+		_arg_controlId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_response, _err := data.ReadInt32()
+		_arg_response, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

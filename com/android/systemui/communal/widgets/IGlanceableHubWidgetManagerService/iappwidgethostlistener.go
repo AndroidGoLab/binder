@@ -137,21 +137,21 @@ var _ binder.TransactionReceiver = (*AppWidgetHostListenerStub)(nil)
 func (s *AppWidgetHostListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAppWidgetHostListenerOnUpdateProviderInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_appWidget *appwidget.AppWidgetProviderInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_appWidget.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_appWidget.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -160,17 +160,17 @@ func (s *AppWidgetHostListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAppWidgetHostListenerUpdateAppWidget:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_views *widget.RemoteViews
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_views.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_views.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -179,14 +179,14 @@ func (s *AppWidgetHostListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAppWidgetHostListenerUpdateAppWidgetDeferred:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -194,10 +194,10 @@ func (s *AppWidgetHostListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAppWidgetHostListenerOnViewDataChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_viewId, _err := data.ReadInt32()
+		_arg_viewId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

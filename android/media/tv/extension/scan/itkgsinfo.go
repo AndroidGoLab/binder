@@ -111,14 +111,14 @@ var _ binder.TransactionReceiver = (*TkgsInfoStub)(nil)
 func (s *TkgsInfoStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITkgsInfoSetPrefServiceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_prefServiceList, _err := data.ReadString16()
+		_arg_prefServiceList, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -132,7 +132,7 @@ func (s *TkgsInfoStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITkgsInfoSetTkgsInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

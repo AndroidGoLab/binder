@@ -224,30 +224,30 @@ var _ binder.TransactionReceiver = (*LocationProviderManagerStub)(nil)
 func (s *LocationProviderManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionILocationProviderManagerOnInitialize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_allowed, _err := data.ReadBool()
+		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_properties ProviderProperties
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_properties.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_properties.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnInitialize(ctx, _arg_allowed, _arg_properties)
@@ -259,10 +259,10 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnSetAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_allowed, _err := data.ReadBool()
+		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -275,17 +275,17 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnSetProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_properties ProviderProperties
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_properties.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_properties.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -299,7 +299,7 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnReportLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_location interface{}
@@ -312,7 +312,7 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnReportLocations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -327,7 +327,7 @@ func (s *LocationProviderManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationProviderManagerOnFlushComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnFlushComplete(ctx)

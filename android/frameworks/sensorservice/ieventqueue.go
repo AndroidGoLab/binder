@@ -105,14 +105,14 @@ var _ binder.TransactionReceiver = (*EventQueueStub)(nil)
 func (s *EventQueueStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEventQueueDisableSensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorHandle, _err := data.ReadInt32()
+		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -125,18 +125,18 @@ func (s *EventQueueStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEventQueueEnableSensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorHandle, _err := data.ReadInt32()
+		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_samplingPeriodUs, _err := data.ReadInt32()
+		_arg_samplingPeriodUs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxBatchReportLatencyUs, _err := data.ReadInt64()
+		_arg_maxBatchReportLatencyUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

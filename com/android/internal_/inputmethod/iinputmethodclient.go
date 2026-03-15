@@ -303,21 +303,21 @@ var _ binder.TransactionReceiver = (*InputMethodClientStub)(nil)
 func (s *InputMethodClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputMethodClientOnBindMethod:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_res InputBindResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_res.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_res.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -326,22 +326,22 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientOnStartInputResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_res InputBindResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_res.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_res.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_startInputSeq, _err := data.ReadInt32()
+		_arg_startInputSeq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -349,22 +349,22 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientOnBindAccessibilityService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_res InputBindResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_res.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_res.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -372,14 +372,14 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientOnUnbindMethod:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_unbindReason, _err := data.ReadInt32()
+		_arg_unbindReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -387,14 +387,14 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientOnUnbindAccessibilityService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -402,14 +402,14 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientSetActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fullscreen, _err := data.ReadBool()
+		_arg_fullscreen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -417,14 +417,14 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientSetInteractive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fullscreen, _err := data.ReadBool()
+		_arg_fullscreen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -432,21 +432,21 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientSetImeVisibility:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken *viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -455,10 +455,10 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientScheduleStartInputIfNecessary:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fullscreen, _err := data.ReadBool()
+		_arg_fullscreen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -466,10 +466,10 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientReportFullscreenMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fullscreen, _err := data.ReadBool()
+		_arg_fullscreen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -477,10 +477,10 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientSetImeTraceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -488,10 +488,10 @@ func (s *InputMethodClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodClientThrowExceptionFromSystem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

@@ -195,21 +195,21 @@ var _ binder.TransactionReceiver = (*RecognitionStatusCallbackStub)(nil)
 func (s *RecognitionStatusCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRecognitionStatusCallbackOnKeyphraseDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_recognitionEvent SoundTriggerKeyphraseRecognitionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_recognitionEvent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_recognitionEvent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -218,17 +218,17 @@ func (s *RecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionStatusCallbackOnGenericSoundTriggerDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_recognitionEvent SoundTriggerGenericRecognitionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_recognitionEvent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_recognitionEvent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -237,38 +237,38 @@ func (s *RecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionStatusCallbackOnRecognitionPaused:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRecognitionPaused(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionStatusCallbackOnRecognitionResumed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRecognitionResumed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionStatusCallbackOnPreempted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnPreempted(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionStatusCallbackOnModuleDied:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnModuleDied(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionStatusCallbackOnResumeFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -276,10 +276,10 @@ func (s *RecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionStatusCallbackOnPauseFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -301,14 +301,15 @@ var _ binder.TransactionReceiver = (*ProcessStatsStub)(nil)
 func (s *ProcessStatsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIProcessStatsGetCurrentStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetCurrentStats(ctx)
+		var _arg_historic []int32
+		_result, _err := s.Impl.GetCurrentStats(ctx, _arg_historic)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -319,10 +320,10 @@ func (s *ProcessStatsStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIProcessStatsGetStatsOverTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_minTime, _err := data.ReadInt64()
+		_arg_minTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -336,7 +337,7 @@ func (s *ProcessStatsStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIProcessStatsGetCurrentMemoryState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentMemoryState(ctx)
@@ -349,22 +350,23 @@ func (s *ProcessStatsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIProcessStatsGetCommittedStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_highWaterMarkMs, _err := data.ReadInt64()
+		_arg_highWaterMarkMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_section, _err := data.ReadInt32()
+		_arg_section, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_doAggregate, _err := data.ReadBool()
+		_arg_doAggregate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetCommittedStats(ctx, _arg_highWaterMarkMs, _arg_section, _arg_doAggregate)
+		var _arg_committedStats []int32
+		_result, _err := s.Impl.GetCommittedStats(ctx, _arg_highWaterMarkMs, _arg_section, _arg_doAggregate, _arg_committedStats)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -374,22 +376,24 @@ func (s *ProcessStatsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIProcessStatsGetCommittedStatsMerged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_highWaterMarkMs, _err := data.ReadInt64()
+		_arg_highWaterMarkMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_section, _err := data.ReadInt32()
+		_arg_section, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_doAggregate, _err := data.ReadBool()
+		_arg_doAggregate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetCommittedStatsMerged(ctx, _arg_highWaterMarkMs, _arg_section, _arg_doAggregate)
+		var _arg_committedStats []int32
+		var _arg_mergedStats ProcessStats
+		_result, _err := s.Impl.GetCommittedStatsMerged(ctx, _arg_highWaterMarkMs, _arg_section, _arg_doAggregate, _arg_committedStats, _arg_mergedStats)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -399,7 +403,7 @@ func (s *ProcessStatsStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIProcessStatsGetMinAssociationDumpDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMinAssociationDumpDuration(ctx)

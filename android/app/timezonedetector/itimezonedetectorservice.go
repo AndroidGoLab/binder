@@ -346,11 +346,11 @@ var _ binder.TransactionReceiver = (*TimeZoneDetectorServiceStub)(nil)
 func (s *TimeZoneDetectorServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITimeZoneDetectorServiceGetCapabilitiesAndConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCapabilitiesAndConfig(ctx)
@@ -366,7 +366,7 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceAddListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -381,7 +381,7 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceRemoveListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -396,17 +396,17 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceUpdateConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_configuration time.TimeZoneConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_configuration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_configuration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -421,7 +421,7 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceGetTimeZoneState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTimeZoneState(ctx)
@@ -437,10 +437,10 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceConfirmTimeZone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeZoneId, _err := data.ReadString16()
+		_arg_timeZoneId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -454,17 +454,17 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceSetManualTimeZone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_timeZoneSuggestion ManualTimeZoneSuggestion
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_timeZoneSuggestion.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_timeZoneSuggestion.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -479,17 +479,17 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceSuggestManualTimeZone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_timeZoneSuggestion ManualTimeZoneSuggestion
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_timeZoneSuggestion.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_timeZoneSuggestion.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -504,17 +504,17 @@ func (s *TimeZoneDetectorServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITimeZoneDetectorServiceSuggestTelephonyTimeZone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_timeZoneSuggestion TelephonyTimeZoneSuggestion
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_timeZoneSuggestion.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_timeZoneSuggestion.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

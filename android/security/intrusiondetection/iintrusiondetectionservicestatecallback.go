@@ -65,14 +65,14 @@ var _ binder.TransactionReceiver = (*IntrusionDetectionServiceStateCallbackStub)
 func (s *IntrusionDetectionServiceStateCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIntrusionDetectionServiceStateCallbackOnStateChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_state, _err := data.ReadInt32()
+		_raw_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

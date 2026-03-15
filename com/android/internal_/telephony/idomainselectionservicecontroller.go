@@ -123,21 +123,21 @@ var _ binder.TransactionReceiver = (*DomainSelectionServiceControllerStub)(nil)
 func (s *DomainSelectionServiceControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDomainSelectionServiceControllerSelectDomain:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr androidTelephony.DomainSelectionServiceSelectionAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -149,25 +149,25 @@ func (s *DomainSelectionServiceControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDomainSelectionServiceControllerUpdateServiceState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_serviceState androidTelephony.ServiceState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_serviceState.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_serviceState.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -176,25 +176,25 @@ func (s *DomainSelectionServiceControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDomainSelectionServiceControllerUpdateBarringInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_info network.BarringInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

@@ -79,26 +79,26 @@ var _ binder.TransactionReceiver = (*PackageInstallerSessionFileSystemConnectorS
 func (s *PackageInstallerSessionFileSystemConnectorStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPackageInstallerSessionFileSystemConnectorWriteData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_offsetBytes, _err := data.ReadInt64()
+		_arg_offsetBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lengthBytes, _err := data.ReadInt64()
+		_arg_lengthBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}

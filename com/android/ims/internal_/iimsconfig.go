@@ -301,14 +301,14 @@ var _ binder.TransactionReceiver = (*ImsConfigStub)(nil)
 func (s *ImsConfigStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsConfigGetProvisionedValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -322,10 +322,10 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigGetProvisionedStringValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -339,14 +339,14 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIImsConfigSetProvisionedValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -360,14 +360,14 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigSetProvisionedStringValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -381,14 +381,14 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigGetFeatureValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_network, _err := data.ReadInt32()
+		_arg_network, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -399,18 +399,18 @@ func (s *ImsConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsConfigSetFeatureValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_network, _err := data.ReadInt32()
+		_arg_network, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -421,7 +421,7 @@ func (s *ImsConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsConfigGetVolteProvisioned:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVolteProvisioned(ctx)
@@ -434,7 +434,7 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsConfigGetVideoQuality:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -444,10 +444,10 @@ func (s *ImsConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsConfigSetVideoQuality:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_quality, _err := data.ReadInt32()
+		_arg_quality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

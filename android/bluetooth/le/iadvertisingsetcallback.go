@@ -265,25 +265,25 @@ var _ binder.TransactionReceiver = (*AdvertisingSetCallbackStub)(nil)
 func (s *AdvertisingSetCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAdvertisingSetCallbackOnAdvertisingSetStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_advertiseBinder binder.IBinder
 		_ = _arg_advertiseBinder
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tx_power, _err := data.ReadInt32()
+		_arg_tx_power, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -291,18 +291,18 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnOwnAddressRead:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_addressType, _err := data.ReadInt32()
+		_arg_addressType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -310,10 +310,10 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnAdvertisingSetStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -321,18 +321,18 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnAdvertisingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -340,14 +340,14 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnAdvertisingDataSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -355,14 +355,14 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnScanResponseDataSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -370,18 +370,18 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnAdvertisingParametersUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tx_power, _err := data.ReadInt32()
+		_arg_tx_power, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -389,14 +389,14 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingParametersUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -404,14 +404,14 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingDataSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -419,18 +419,18 @@ func (s *AdvertisingSetCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAdvertisingSetCallbackOnPeriodicAdvertisingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

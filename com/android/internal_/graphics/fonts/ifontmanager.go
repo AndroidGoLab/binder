@@ -127,11 +127,11 @@ var _ binder.TransactionReceiver = (*FontManagerStub)(nil)
 func (s *FontManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIFontManagerGetFontConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFontConfig(ctx)
@@ -147,13 +147,13 @@ func (s *FontManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIFontManagerUpdateFontFamily:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_request []graphicsFonts.FontUpdateRequest
 		_ = _arg_request
-		_arg_baseVersion, _err := data.ReadInt32()
+		_arg_baseVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -389,11 +389,11 @@ var _ binder.TransactionReceiver = (*DomainVerificationManagerStub)(nil)
 func (s *DomainVerificationManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDomainVerificationManagerQueryValidVerificationPackageNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryValidVerificationPackageNames(ctx)
@@ -407,10 +407,10 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDomainVerificationManagerGetDomainVerificationInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -427,14 +427,14 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDomainVerificationManagerGetDomainVerificationUserState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDomainVerificationUserState(ctx, _arg_packageName)
@@ -450,14 +450,14 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDomainVerificationManagerGetOwnersForDomain:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_domain, _err := data.ReadString16()
+		_arg_domain, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOwnersForDomain(ctx, _arg_domain)
@@ -471,26 +471,26 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDomainVerificationManagerSetDomainVerificationStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_domainSetId, _err := data.ReadString16()
+		_arg_domainSetId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_domains DomainSet
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_domains.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_domains.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -504,18 +504,18 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDomainVerificationManagerSetDomainVerificationLinkHandlingAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allowed, _err := data.ReadBool()
+		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetDomainVerificationLinkHandlingAllowed(ctx, _arg_packageName, _arg_allowed)
@@ -527,30 +527,30 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDomainVerificationManagerSetDomainVerificationUserSelection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_domainSetId, _err := data.ReadString16()
+		_arg_domainSetId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_domains DomainSet
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_domains.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_domains.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetDomainVerificationUserSelection(ctx, _arg_domainSetId, _arg_domains, _arg_enabled)
@@ -563,10 +563,10 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDomainVerificationManagerSetUriRelativeFilterGroups:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -580,10 +580,10 @@ func (s *DomainVerificationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDomainVerificationManagerGetUriRelativeFilterGroups:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

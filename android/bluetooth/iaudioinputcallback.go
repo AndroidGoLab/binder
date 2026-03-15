@@ -157,14 +157,14 @@ var _ binder.TransactionReceiver = (*AudioInputCallbackStub)(nil)
 func (s *AudioInputCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAudioInputCallbackOnDescriptionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_description, _err := data.ReadString16()
+		_arg_description, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -172,10 +172,10 @@ func (s *AudioInputCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioInputCallbackOnStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -183,18 +183,18 @@ func (s *AudioInputCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioInputCallbackOnStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_gainSetting, _err := data.ReadInt32()
+		_arg_gainSetting, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mute, _err := data.ReadInt32()
+		_arg_mute, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_gainMode, _err := data.ReadInt32()
+		_arg_gainMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -202,21 +202,21 @@ func (s *AudioInputCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioInputCallbackOnSetGainSettingFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSetGainSettingFailed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAudioInputCallbackOnSetGainModeFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSetGainModeFailed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAudioInputCallbackOnSetMuteFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSetMuteFailed(ctx)

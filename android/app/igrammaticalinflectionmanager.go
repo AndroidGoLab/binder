@@ -175,21 +175,21 @@ var _ binder.TransactionReceiver = (*GrammaticalInflectionManagerStub)(nil)
 func (s *GrammaticalInflectionManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGrammaticalInflectionManagerSetRequestedApplicationGrammaticalGender:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appPackageName, _err := data.ReadString16()
+		_arg_appPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_gender, _err := data.ReadInt32()
+		_arg_gender, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -202,14 +202,14 @@ func (s *GrammaticalInflectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGrammaticalInflectionManagerSetSystemWideGrammaticalGender:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_gender, _err := data.ReadInt32()
+		_arg_gender, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSystemWideGrammaticalGender(ctx, _arg_gender)
@@ -221,11 +221,11 @@ func (s *GrammaticalInflectionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGrammaticalInflectionManagerGetSystemGrammaticalGender:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemGrammaticalGender(ctx, _arg_attributionSource)
@@ -238,11 +238,11 @@ func (s *GrammaticalInflectionManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIGrammaticalInflectionManagerPeekSystemGrammaticalGenderByUserId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.PeekSystemGrammaticalGenderByUserId(ctx, _arg_attributionSource)

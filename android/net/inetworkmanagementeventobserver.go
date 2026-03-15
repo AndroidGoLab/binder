@@ -286,18 +286,18 @@ var _ binder.TransactionReceiver = (*NetworkManagementEventObserverStub)(nil)
 func (s *NetworkManagementEventObserverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINetworkManagementEventObserverInterfaceStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_up, _err := data.ReadBool()
+		_arg_up, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -305,14 +305,14 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverInterfaceLinkStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_up, _err := data.ReadBool()
+		_arg_up, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -320,10 +320,10 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverInterfaceAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -331,10 +331,10 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverInterfaceRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -342,21 +342,21 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverAddressUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_address data.LinkAddress
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_address.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_address.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -365,21 +365,21 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverAddressRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_address data.LinkAddress
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_address.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_address.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -388,14 +388,14 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverLimitReached:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_limitName, _err := data.ReadString16()
+		_arg_limitName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -403,22 +403,22 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverInterfaceClassDataActivityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_label, _err := data.ReadInt32()
+		_arg_label, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tsNanos, _err := data.ReadInt64()
+		_arg_tsNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -426,14 +426,14 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverInterfaceDnsServerInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lifetime, _err := data.ReadInt64()
+		_arg_lifetime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -444,7 +444,7 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverRouteUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_route interface{}
@@ -452,7 +452,7 @@ func (s *NetworkManagementEventObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkManagementEventObserverRouteRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_route interface{}

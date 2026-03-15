@@ -202,28 +202,28 @@ var _ binder.TransactionReceiver = (*RecentTasksListenerStub)(nil)
 func (s *RecentTasksListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRecentTasksListenerOnRecentTasksChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRecentTasksChanged(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRecentTasksListenerOnRunningTaskAppeared:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -232,17 +232,17 @@ func (s *RecentTasksListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecentTasksListenerOnRunningTaskVanished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -251,17 +251,17 @@ func (s *RecentTasksListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecentTasksListenerOnRunningTaskChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -270,17 +270,17 @@ func (s *RecentTasksListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecentTasksListenerOnTaskMovedToFront:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskToFront shared.GroupedTaskInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_taskToFront.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_taskToFront.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -289,17 +289,17 @@ func (s *RecentTasksListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecentTasksListenerOnTaskInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -308,7 +308,7 @@ func (s *RecentTasksListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecentTasksListenerOnVisibleTasksChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

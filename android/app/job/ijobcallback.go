@@ -412,22 +412,22 @@ var _ binder.TransactionReceiver = (*JobCallbackStub)(nil)
 func (s *JobCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIJobCallbackAcknowledgeGetTransferredDownloadBytesMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_workId, _err := data.ReadInt32()
+		_arg_workId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transferredBytes, _err := data.ReadInt64()
+		_arg_transferredBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -440,18 +440,18 @@ func (s *JobCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIJobCallbackAcknowledgeGetTransferredUploadBytesMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_workId, _err := data.ReadInt32()
+		_arg_workId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transferredBytes, _err := data.ReadInt64()
+		_arg_transferredBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -464,14 +464,14 @@ func (s *JobCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIJobCallbackAcknowledgeStartMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ongoing, _err := data.ReadBool()
+		_arg_ongoing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -484,14 +484,14 @@ func (s *JobCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIJobCallbackAcknowledgeStopMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reschedule, _err := data.ReadBool()
+		_arg_reschedule, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -504,10 +504,10 @@ func (s *JobCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIJobCallbackDequeueWork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -524,14 +524,14 @@ func (s *JobCallbackStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIJobCallbackCompleteWork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_workId, _err := data.ReadInt32()
+		_arg_workId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -545,14 +545,14 @@ func (s *JobCallbackStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIJobCallbackJobFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reschedule, _err := data.ReadBool()
+		_arg_reschedule, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -565,10 +565,10 @@ func (s *JobCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIJobCallbackHandleAbandonedJob:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -581,30 +581,30 @@ func (s *JobCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIJobCallbackUpdateEstimatedNetworkBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_item JobWorkItem
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_item.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_item.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_downloadBytes, _err := data.ReadInt64()
+		_arg_downloadBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uploadBytes, _err := data.ReadInt64()
+		_arg_uploadBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -617,30 +617,30 @@ func (s *JobCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIJobCallbackUpdateTransferredNetworkBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_item JobWorkItem
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_item.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_item.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_transferredDownloadBytes, _err := data.ReadInt64()
+		_arg_transferredDownloadBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transferredUploadBytes, _err := data.ReadInt64()
+		_arg_transferredUploadBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -653,30 +653,30 @@ func (s *JobCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIJobCallbackSetNotification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_jobId, _err := data.ReadInt32()
+		_arg_jobId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_notificationId, _err := data.ReadInt32()
+		_arg_notificationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_notification app.Notification
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_notification.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_notification.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_jobEndNotificationPolicy, _err := data.ReadInt32()
+		_arg_jobEndNotificationPolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

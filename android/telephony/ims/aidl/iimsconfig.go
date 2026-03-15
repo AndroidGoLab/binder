@@ -501,11 +501,11 @@ var _ binder.TransactionReceiver = (*ImsConfigStub)(nil)
 func (s *ImsConfigStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsConfigAddImsConfigCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -520,7 +520,7 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigRemoveImsConfigCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -535,10 +535,10 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigGetConfigInt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -552,10 +552,10 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigGetConfigString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -569,14 +569,14 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIImsConfigSetConfigInt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -590,14 +590,14 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigSetConfigString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -611,7 +611,7 @@ func (s *ImsConfigStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsConfigUpdateImsCarrierConfigs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_bundle interface{}
@@ -624,13 +624,13 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigNotifyRcsAutoConfigurationReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_config []byte
 		_ = _arg_config
-		_arg_isCompressed, _err := data.ReadBool()
+		_arg_isCompressed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -643,7 +643,7 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigNotifyRcsAutoConfigurationRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyRcsAutoConfigurationRemoved(ctx)
@@ -655,7 +655,7 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigAddRcsConfigCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -670,7 +670,7 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigRemoveRcsConfigCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -685,7 +685,7 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigTriggerRcsReconfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.TriggerRcsReconfiguration(ctx)
@@ -697,17 +697,17 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigSetRcsClientConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_rcc ims.RcsClientConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_rcc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_rcc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -721,14 +721,14 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigNotifyIntImsConfigChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -741,14 +741,14 @@ func (s *ImsConfigStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsConfigNotifyStringImsConfigChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_item, _err := data.ReadInt32()
+		_arg_item, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

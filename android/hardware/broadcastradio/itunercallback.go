@@ -181,26 +181,26 @@ var _ binder.TransactionReceiver = (*TunerCallbackStub)(nil)
 func (s *TunerCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerCallbackOnTuneFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_result, _err := data.ReadInt32()
+		_raw_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_result := Result(_raw_result)
 		var _arg_selector ProgramSelector
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_selector.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_selector.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -209,17 +209,17 @@ func (s *TunerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITunerCallbackOnCurrentProgramInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info ProgramInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -228,17 +228,17 @@ func (s *TunerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITunerCallbackOnProgramListUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_chunk ProgramListChunk
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_chunk.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_chunk.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -247,10 +247,10 @@ func (s *TunerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITunerCallbackOnAntennaStateChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_connected, _err := data.ReadBool()
+		_arg_connected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -258,15 +258,15 @@ func (s *TunerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITunerCallbackOnConfigFlagUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_flag, _err := data.ReadInt32()
+		_raw_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_flag := ConfigFlag(_raw_flag)
-		_arg_value, _err := data.ReadBool()
+		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -274,7 +274,7 @@ func (s *TunerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITunerCallbackOnParametersUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

@@ -4856,14 +4856,14 @@ var _ binder.TransactionReceiver = (*WindowManagerStub)(nil)
 func (s *WindowManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWindowManagerStartViewServer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_port, _err := data.ReadInt32()
+		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4877,7 +4877,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerStopViewServer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StopViewServer(ctx)
@@ -4890,7 +4890,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerIsViewServerRunning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsViewServerRunning(ctx)
@@ -4903,7 +4903,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerOpenSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4920,14 +4920,15 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowManagerGetInitialDisplaySize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.GetInitialDisplaySize(ctx, _arg_displayId)
+		var _arg_size graphics.Point
+		_err = s.Impl.GetInitialDisplaySize(ctx, _arg_displayId, _arg_size)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4936,14 +4937,15 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetBaseDisplaySize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.GetBaseDisplaySize(ctx, _arg_displayId)
+		var _arg_size graphics.Point
+		_err = s.Impl.GetBaseDisplaySize(ctx, _arg_displayId, _arg_size)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -4952,18 +4954,18 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetForcedDisplaySize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4976,10 +4978,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerClearForcedDisplaySize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4992,10 +4994,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetInitialDisplayDensity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5009,10 +5011,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetBaseDisplayDensity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5026,10 +5028,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetDisplayIdByUniqueId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uniqueId, _err := data.ReadString16()
+		_arg_uniqueId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5043,18 +5045,18 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetForcedDisplayDensityForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_density, _err := data.ReadInt32()
+		_arg_density, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetForcedDisplayDensityForUser(ctx, _arg_displayId, _arg_density)
@@ -5066,14 +5068,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerClearForcedDisplayDensityForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ClearForcedDisplayDensityForUser(ctx, _arg_displayId)
@@ -5085,14 +5087,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetForcedDisplayScalingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5105,10 +5107,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetEventDispatching:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5121,7 +5123,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsWindowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5137,17 +5139,17 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerAddWindowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5161,13 +5163,13 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRemoveWindowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5180,7 +5182,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetDisplayChangeWindowController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5195,17 +5197,17 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerAddShellRoot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IWindow
 		_ = _arg_client
-		_arg_shellRootLayer, _err := data.ReadInt32()
+		_arg_shellRootLayer, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5222,14 +5224,14 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerSetShellRootAccessibilityWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shellRootLayer, _err := data.ReadInt32()
+		_arg_shellRootLayer, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5245,18 +5247,18 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerOverridePendingAppTransitionMultiThumbFuture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_specsFuture IAppTransitionAnimationSpecsFuture
 		_ = _arg_specsFuture
 		var _arg_startedCallback interface{}
-		_arg_scaleUp, _err := data.ReadBool()
+		_arg_scaleUp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5269,22 +5271,22 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerOverridePendingAppTransitionRemote:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteAnimationAdapter RemoteAnimationAdapter
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteAnimationAdapter.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteAnimationAdapter.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5297,7 +5299,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerEndProlongedAnimations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EndProlongedAnimations(ctx)
@@ -5309,14 +5311,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStartFreezingScreen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_exitAnim, _err := data.ReadInt32()
+		_arg_exitAnim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enterAnim, _err := data.ReadInt32()
+		_arg_enterAnim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5329,7 +5331,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStopFreezingScreen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopFreezingScreen(ctx)
@@ -5341,17 +5343,17 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerDisableKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_tag, _err := data.ReadString16()
+		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DisableKeyguard(ctx, _arg_token, _arg_tag)
@@ -5363,13 +5365,13 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerReenableKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ReenableKeyguard(ctx, _arg_token)
@@ -5381,7 +5383,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerExitKeyguardSecurely:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5396,7 +5398,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsKeyguardLocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsKeyguardLocked(ctx)
@@ -5409,10 +5411,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerIsKeyguardSecure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsKeyguardSecure(ctx)
@@ -5425,7 +5427,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerDismissKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -5439,7 +5441,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerAddKeyguardLockedStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_listener interface{}
@@ -5452,7 +5454,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRemoveKeyguardLockedStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_listener interface{}
@@ -5465,10 +5467,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetSwitchingUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_switching, _err := data.ReadBool()
+		_arg_switching, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5481,10 +5483,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerCloseSystemDialogs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5497,10 +5499,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetAnimationScale:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_which, _err := data.ReadInt32()
+		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5514,7 +5516,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetAnimationScales:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAnimationScales(ctx)
@@ -5528,14 +5530,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowManagerSetAnimationScale:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_which, _err := data.ReadInt32()
+		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scale, _err := data.ReadFloat32()
+		_arg_scale, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5548,7 +5550,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetAnimationScales:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -5563,7 +5565,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetCurrentAnimatorScale:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentAnimatorScale(ctx)
@@ -5576,14 +5578,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetInTouchMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inTouch, _err := data.ReadBool()
+		_arg_inTouch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5596,10 +5598,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetInTouchModeOnAllDisplays:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inTouch, _err := data.ReadBool()
+		_arg_inTouch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5612,10 +5614,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsInTouchMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5629,10 +5631,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerShowStrictModeViolation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_on, _err := data.ReadBool()
+		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5645,10 +5647,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetStrictModeVisualIndicatorPreference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadString16()
+		_arg_enabled, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5661,7 +5663,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRefreshScreenCaptureDisabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RefreshScreenCaptureDisabled(ctx)
@@ -5673,7 +5675,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetDefaultDisplayRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultDisplayRotation(ctx)
@@ -5686,10 +5688,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetDisplayUserRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5703,13 +5705,13 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerWatchRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_watcher IRotationWatcher
 		_ = _arg_watcher
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5723,7 +5725,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerRemoveRotationWatcher:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5738,7 +5740,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterProposedRotationListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5757,10 +5759,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetPreferredOptionsPanelGravity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5774,14 +5776,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerFreezeRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rotation, _err := data.ReadInt32()
+		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_caller, _err := data.ReadString16()
+		_arg_caller, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5794,10 +5796,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerThawRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_caller, _err := data.ReadString16()
+		_arg_caller, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5810,7 +5812,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsRotationFrozen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRotationFrozen(ctx)
@@ -5823,18 +5825,18 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerFreezeDisplayRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rotation, _err := data.ReadInt32()
+		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_caller, _err := data.ReadString16()
+		_arg_caller, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5847,14 +5849,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerThawDisplayRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_caller, _err := data.ReadString16()
+		_arg_caller, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5867,10 +5869,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsDisplayRotationFrozen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5884,14 +5886,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetFixedToUserRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fixedToUserRotation, _err := data.ReadInt32()
+		_arg_fixedToUserRotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5904,14 +5906,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetIgnoreOrientationRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ignoreOrientationRequest, _err := data.ReadBool()
+		_arg_ignoreOrientationRequest, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5924,7 +5926,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerScreenshotWallpaper:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ScreenshotWallpaper(ctx)
@@ -5940,10 +5942,10 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerMirrorWallpaperSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5960,13 +5962,13 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerRegisterWallpaperVisibilityListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IWallpaperVisibilityListener
 		_ = _arg_listener
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5980,13 +5982,13 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterWallpaperVisibilityListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IWallpaperVisibilityListener
 		_ = _arg_listener
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5999,13 +6001,13 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterSystemGestureExclusionListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISystemGestureExclusionListener
 		_ = _arg_listener
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6018,13 +6020,13 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterSystemGestureExclusionListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISystemGestureExclusionListener
 		_ = _arg_listener
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6037,7 +6039,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRequestAssistScreenshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver interface{}
@@ -6051,10 +6053,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerHideTransientBars:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6062,10 +6064,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWindowManagerSetRecentsVisibility:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6073,10 +6075,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWindowManagerUpdateStaticPrivacyIndicatorBounds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6087,10 +6089,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWindowManagerSetNavBarVirtualKeyHapticFeedbackEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6103,10 +6105,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerHasNavigationBar:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6120,7 +6122,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerLockNow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_options interface{}
@@ -6133,7 +6135,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsSafeModeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSafeModeEnabled(ctx)
@@ -6146,7 +6148,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerClearWindowContentFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -6162,7 +6164,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetWindowContentFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -6181,7 +6183,7 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerGetDockedStackSide:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDockedStackSide(ctx)
@@ -6194,10 +6196,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterPinnedTaskListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6213,11 +6215,11 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRequestAppKeyboardShortcuts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver interface{}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6230,11 +6232,11 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRequestImeKeyboardShortcuts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver interface{}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6247,14 +6249,15 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetStableInsets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.GetStableInsets(ctx, _arg_displayId)
+		var _arg_outInsets graphics.Rect
+		_err = s.Impl.GetStableInsets(ctx, _arg_displayId, _arg_outInsets)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -6263,10 +6266,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterShortcutKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_shortcutCode, _err := data.ReadInt64()
+		_arg_shortcutCode, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6280,21 +6283,22 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerCreateInputConsumer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.CreateInputConsumer(ctx, _arg_token, _arg_name, _arg_displayId)
+		var _arg_inputChannel InputChannel
+		_err = s.Impl.CreateInputConsumer(ctx, _arg_token, _arg_name, _arg_displayId, _arg_inputChannel)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -6303,13 +6307,13 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerDestroyInputConsumer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6323,7 +6327,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetCurrentImeTouchRegion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentImeTouchRegion(ctx)
@@ -6339,7 +6343,7 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerRegisterDisplayFoldListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -6354,7 +6358,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterDisplayFoldListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -6369,7 +6373,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterDisplayWindowListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -6386,7 +6390,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterDisplayWindowListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -6401,7 +6405,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStartWindowTrace:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartWindowTrace(ctx)
@@ -6413,7 +6417,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStopWindowTrace:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopWindowTrace(ctx)
@@ -6425,7 +6429,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSaveWindowTraceToFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SaveWindowTraceToFile(ctx)
@@ -6437,7 +6441,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsWindowTraceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsWindowTraceEnabled(ctx)
@@ -6450,7 +6454,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerStartTransitionTrace:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartTransitionTrace(ctx)
@@ -6462,7 +6466,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerStopTransitionTrace:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopTransitionTrace(ctx)
@@ -6474,7 +6478,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsTransitionTraceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsTransitionTraceEnabled(ctx)
@@ -6487,10 +6491,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetWindowingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6504,14 +6508,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetWindowingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6524,10 +6528,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetRemoveContentMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6541,14 +6545,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetRemoveContentMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6561,10 +6565,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerShouldShowWithInsecureKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6578,14 +6582,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetShouldShowWithInsecureKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldShow, _err := data.ReadBool()
+		_arg_shouldShow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6598,10 +6602,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerShouldShowSystemDecors:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6615,14 +6619,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetShouldShowSystemDecors:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldShow, _err := data.ReadBool()
+		_arg_shouldShow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6635,10 +6639,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetDisplayImePolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6652,14 +6656,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetDisplayImePolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_imePolicy, _err := data.ReadInt32()
+		_arg_imePolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6672,10 +6676,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSyncInputTransactions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_waitForAnimations, _err := data.ReadBool()
+		_arg_waitForAnimations, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6688,7 +6692,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsLayerTracing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsLayerTracing(ctx)
@@ -6701,10 +6705,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetLayerTracing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6717,14 +6721,15 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerMirrorDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.MirrorDisplay(ctx, _arg_displayId)
+		var _arg_outSurfaceControl SurfaceControl
+		_result, _err := s.Impl.MirrorDisplay(ctx, _arg_displayId, _arg_outSurfaceControl)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -6734,10 +6739,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetDisplayWindowInsetsController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6753,29 +6758,29 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUpdateDisplayWindowRequestedVisibleTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_visibleTypes, _err := data.ReadInt32()
+		_arg_visibleTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mask, _err := data.ReadInt32()
+		_arg_mask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken *inputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -6789,17 +6794,18 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetWindowInsets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_result, _err := s.Impl.GetWindowInsets(ctx, _arg_displayId, _arg_token)
+		var _arg_outInsetsState InsetsState
+		_result, _err := s.Impl.GetWindowInsets(ctx, _arg_displayId, _arg_token, _arg_outInsetsState)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -6809,10 +6815,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetPossibleDisplayInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6827,7 +6833,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowManagerShowGlobalActions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShowGlobalActions(ctx)
@@ -6839,10 +6845,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetLayerTracingFlags:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6855,10 +6861,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetActiveTransactionTracing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6871,17 +6877,17 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRequestScrollCapture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_behindClient binder.IBinder
 		_ = _arg_behindClient
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6897,13 +6903,13 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerHoldLock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_durationMs, _err := data.ReadInt32()
+		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6916,7 +6922,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetSupportedDisplayHashAlgorithms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedDisplayHashAlgorithms(ctx)
@@ -6930,17 +6936,17 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowManagerVerifyDisplayHash:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_displayHash displayhash.DisplayHash
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_displayHash.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_displayHash.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -6958,10 +6964,10 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerSetDisplayHashThrottlingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -6974,18 +6980,18 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerAttachWindowContextToDisplayArea:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_appThread interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
 		_ = _arg_clientToken
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7000,7 +7006,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowManagerAttachWindowContextToWindowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_appThread interface{}
@@ -7020,14 +7026,14 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowManagerAttachWindowContextToDisplayContent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_appThread interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
 		_ = _arg_clientToken
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7041,7 +7047,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowManagerDetachWindowContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -7056,14 +7062,14 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerReparentWindowContextToDisplayArea:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_appThread interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
 		_ = _arg_clientToken
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7077,7 +7083,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterCrossWindowBlurEnabledListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -7093,7 +7099,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterCrossWindowBlurEnabledListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -7108,7 +7114,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerIsTaskSnapshotSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsTaskSnapshotSupported(ctx)
@@ -7121,7 +7127,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetImeDisplayId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetImeDisplayId(ctx)
@@ -7134,10 +7140,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerSetTaskSnapshotEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7150,10 +7156,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterTaskFpsCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7167,7 +7173,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterTaskFpsCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_listener interface{}
@@ -7180,10 +7186,10 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSnapshotTaskForRecents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7200,10 +7206,10 @@ func (s *WindowManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWindowManagerSetRecentsAppBehindSystemBars:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_behindSystemBars, _err := data.ReadBool()
+		_arg_behindSystemBars, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7216,7 +7222,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerGetLetterboxBackgroundColorInArgb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLetterboxBackgroundColorInArgb(ctx)
@@ -7229,7 +7235,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWindowManagerIsLetterboxBackgroundMultiColored:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsLetterboxBackgroundMultiColored(ctx)
@@ -7242,10 +7248,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerCaptureDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7255,10 +7261,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWindowManagerIsGlobalKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyCode, _err := data.ReadInt32()
+		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7272,18 +7278,19 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerAddToSurfaceSyncGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_syncGroupToken binder.IBinder
 		_ = _arg_syncGroupToken
-		_arg_parentSyncGroupMerge, _err := data.ReadBool()
+		_arg_parentSyncGroupMerge, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_completedListener *interface{}
-		_result, _err := s.Impl.AddToSurfaceSyncGroup(ctx, _arg_syncGroupToken, _arg_parentSyncGroupMerge, _arg_completedListener)
+		var _arg_addToSurfaceSyncGroupResult interface{}
+		_result, _err := s.Impl.AddToSurfaceSyncGroup(ctx, _arg_syncGroupToken, _arg_parentSyncGroupMerge, _arg_completedListener, _arg_addToSurfaceSyncGroupResult)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -7293,7 +7300,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerMarkSurfaceSyncGroupReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -7303,10 +7310,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWindowManagerNotifyScreenshotListeners:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7321,21 +7328,21 @@ func (s *WindowManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWindowManagerReplaceContentOnDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sc SurfaceControl
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -7350,13 +7357,13 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterDecorViewGestureListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDecorViewGestureListener
 		_ = _arg_listener
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7369,13 +7376,13 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterDecorViewGestureListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDecorViewGestureListener
 		_ = _arg_listener
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7388,7 +7395,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterTrustedPresentationListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -7397,17 +7404,17 @@ func (s *WindowManagerStub) OnTransaction(
 		var _arg_listener interface{}
 		var _arg_thresholds gui.TrustedPresentationThresholds
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_thresholds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_thresholds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7420,11 +7427,11 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterTrustedPresentationListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_listener interface{}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -7437,7 +7444,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerRegisterScreenRecordingCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -7451,7 +7458,7 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerUnregisterScreenRecordingCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -7464,7 +7471,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerSetGlobalDragListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_listener interface{}
@@ -7477,7 +7484,7 @@ func (s *WindowManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWindowManagerTransferTouchGesture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_transferFromToken interface{}
@@ -7492,10 +7499,10 @@ func (s *WindowManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWindowManagerGetApplicationLaunchKeyboardShortcuts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -854,33 +854,33 @@ var _ binder.TransactionReceiver = (*ScanSessionStub)(nil)
 func (s *ScanSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIScanSessionStartScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_broadcastType, _err := data.ReadInt32()
+		_arg_broadcastType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_countryCode, _err := data.ReadString16()
+		_arg_countryCode, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_operator, _err := data.ReadString16()
+		_arg_operator, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_frequency []int32
 		_ = _arg_frequency
-		_arg_scanType, _err := data.ReadString16()
+		_arg_scanType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_languageCode, _err := data.ReadString16()
+		_arg_languageCode, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -894,7 +894,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionResetScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ResetScan(ctx)
@@ -907,7 +907,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionCancelScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CancelScan(ctx)
@@ -920,7 +920,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionGetAvailableExtensionInterfaceNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailableExtensionInterfaceNames(ctx)
@@ -934,10 +934,10 @@ func (s *ScanSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIScanSessionGetExtensionInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -952,17 +952,17 @@ func (s *ScanSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIScanSessionClearServiceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_optionalClearParams os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_optionalClearParams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_optionalClearParams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -977,7 +977,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionStoreServiceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StoreServiceList(ctx)
@@ -990,10 +990,10 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionGetServiceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceInfoId, _err := data.ReadString16()
+		_arg_serviceInfoId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1013,7 +1013,7 @@ func (s *ScanSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIScanSessionGetServiceInfoIdList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServiceInfoIdList(ctx)
@@ -1027,17 +1027,17 @@ func (s *ScanSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIScanSessionGetServiceInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_filterInfo os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_filterInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_filterInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1058,17 +1058,17 @@ func (s *ScanSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIScanSessionUpdateServiceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_serviceInfo os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_serviceInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_serviceInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1083,7 +1083,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionUpdateServiceInfoByList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1099,7 +1099,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionGetServiceLists:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServiceLists(ctx)
@@ -1115,10 +1115,10 @@ func (s *ScanSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIScanSessionSetServiceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListRecId, _err := data.ReadInt32()
+		_arg_serviceListRecId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1132,7 +1132,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionGetPackageData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPackageData(ctx)
@@ -1148,10 +1148,10 @@ func (s *ScanSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIScanSessionSetPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageId, _err := data.ReadString16()
+		_arg_packageId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1165,7 +1165,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionGetCountryRegionData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCountryRegionData(ctx)
@@ -1181,10 +1181,10 @@ func (s *ScanSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIScanSessionSetCountryRegion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_regionId, _err := data.ReadString16()
+		_arg_regionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1198,7 +1198,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionGetRegionData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRegionData(ctx)
@@ -1214,10 +1214,10 @@ func (s *ScanSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIScanSessionSetRegion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_regionId, _err := data.ReadString16()
+		_arg_regionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1231,7 +1231,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScanSessionGetSessionToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSessionToken(ctx)
@@ -1244,7 +1244,7 @@ func (s *ScanSessionStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIScanSessionRelease:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Release(ctx)

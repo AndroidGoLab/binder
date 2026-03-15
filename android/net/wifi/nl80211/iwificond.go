@@ -616,14 +616,14 @@ var _ binder.TransactionReceiver = (*WificondStub)(nil)
 func (s *WificondStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWificondCreateApInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface_name, _err := data.ReadString16()
+		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -638,10 +638,10 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondCreateClientInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface_name, _err := data.ReadString16()
+		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -656,10 +656,10 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondTearDownApInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface_name, _err := data.ReadString16()
+		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -673,10 +673,10 @@ func (s *WificondStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWificondTearDownClientInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface_name, _err := data.ReadString16()
+		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -690,7 +690,7 @@ func (s *WificondStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWificondTearDownInterfaces:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.TearDownInterfaces(ctx)
@@ -702,7 +702,7 @@ func (s *WificondStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWificondGetClientInterfaces:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetClientInterfaces(ctx)
@@ -716,7 +716,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondGetApInterfaces:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetApInterfaces(ctx)
@@ -730,7 +730,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondGetAvailable2gChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailable2gChannels(ctx)
@@ -744,7 +744,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondGetAvailable5gNonDFSChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailable5gNonDFSChannels(ctx)
@@ -758,7 +758,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondGetAvailableDFSChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailableDFSChannels(ctx)
@@ -772,7 +772,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondGetAvailable6gChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailable6gChannels(ctx)
@@ -786,7 +786,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondGetAvailable60gChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailable60gChannels(ctx)
@@ -800,7 +800,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -810,7 +810,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWificondUnregisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -820,7 +820,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWificondRegisterWificondEventCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -830,7 +830,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWificondUnregisterWificondEventCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -840,10 +840,10 @@ func (s *WificondStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWificondGetDeviceWiphyCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface_name, _err := data.ReadString16()
+		_arg_iface_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -857,7 +857,7 @@ func (s *WificondStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWificondNotifyCountryCodeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyCountryCodeChanged(ctx)

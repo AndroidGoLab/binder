@@ -272,28 +272,28 @@ var _ binder.TransactionReceiver = (*ImsMmTelListenerStub)(nil)
 func (s *ImsMmTelListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsMmTelListenerOnIncomingCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_c internal.IImsCallSession
 		_ = _arg_c
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -309,29 +309,29 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsMmTelListenerOnRejectedCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callProfile ims.ImsCallProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callProfile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callProfile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_reason ims.ImsReasonInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_reason.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_reason.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -345,10 +345,10 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMmTelListenerOnVoiceMessageCountUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_count, _err := data.ReadInt32()
+		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -356,10 +356,10 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelListenerOnAudioModeIsVoipChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_imsAudioHandler, _err := data.ReadInt32()
+		_arg_imsAudioHandler, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -367,10 +367,10 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelListenerOnTriggerEpsFallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -378,22 +378,22 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelListenerOnStartImsTrafficSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_trafficType, _err := data.ReadInt32()
+		_arg_trafficType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessNetworkType, _err := data.ReadInt32()
+		_arg_accessNetworkType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_trafficDirection, _err := data.ReadInt32()
+		_arg_trafficDirection, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -404,14 +404,14 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelListenerOnModifyImsTrafficSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessNetworkType, _err := data.ReadInt32()
+		_arg_accessNetworkType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -419,10 +419,10 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelListenerOnStopImsTrafficSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -430,17 +430,17 @@ func (s *ImsMmTelListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelListenerOnMediaQualityStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_status media.MediaQualityStatus
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_status.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

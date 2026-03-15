@@ -703,11 +703,11 @@ var _ binder.TransactionReceiver = (*SessionStub)(nil)
 func (s *SessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISessionGenerateChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.GenerateChallenge(ctx)
@@ -719,10 +719,10 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionRevokeChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_challenge, _err := data.ReadInt64()
+		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -735,10 +735,10 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionGetEnrollmentConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_enrollmentType, _err := data.ReadPaddedByte()
+		_raw_enrollmentType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -754,22 +754,22 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionEnroll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hat keymaster.HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hat.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hat.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_raw_type_, _err := data.ReadPaddedByte()
+		_raw_type_, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -779,12 +779,12 @@ func (s *SessionStub) OnTransaction(
 		_ = _arg_features
 		var _arg_previewSurface *common.NativeHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_previewSurface.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_previewSurface.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -800,10 +800,10 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionAuthenticate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -818,7 +818,7 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionDetectInteraction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.DetectInteraction(ctx)
@@ -832,7 +832,7 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionEnumerateEnrollments:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EnumerateEnrollments(ctx)
@@ -844,7 +844,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionRemoveEnrollments:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -859,7 +859,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionGetFeatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.GetFeatures(ctx)
@@ -871,27 +871,27 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hat keymaster.HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hat.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hat.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_raw_feature, _err := data.ReadPaddedByte()
+		_raw_feature, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_feature := Feature(_raw_feature)
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -904,7 +904,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionGetAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.GetAuthenticatorId(ctx)
@@ -916,7 +916,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionInvalidateAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.InvalidateAuthenticatorId(ctx)
@@ -928,17 +928,17 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionResetLockout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hat keymaster.HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hat.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hat.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -952,7 +952,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -964,21 +964,21 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionAuthenticateWithContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ biometricsCommon.OperationContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -994,22 +994,22 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionEnrollWithContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hat keymaster.HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hat.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hat.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_raw_type_, _err := data.ReadPaddedByte()
+		_raw_type_, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1019,24 +1019,24 @@ func (s *SessionStub) OnTransaction(
 		_ = _arg_features
 		var _arg_previewSurface *common.NativeHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_previewSurface.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_previewSurface.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_context_ biometricsCommon.OperationContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1052,17 +1052,17 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionDetectInteractionWithContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ biometricsCommon.OperationContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1078,17 +1078,17 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionOnContextChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ biometricsCommon.OperationContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1102,17 +1102,17 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionEnrollWithOptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_options FaceEnrollOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

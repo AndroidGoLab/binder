@@ -64,14 +64,14 @@ var _ binder.TransactionReceiver = (*ProximityUpdateCallbackStub)(nil)
 func (s *ProximityUpdateCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIProximityUpdateCallbackOnProximityUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_distance, _err := data.ReadFloat64()
+		_arg_distance, _err := _data.ReadFloat64()
 		if _err != nil {
 			return nil, _err
 		}

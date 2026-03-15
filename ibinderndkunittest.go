@@ -217,14 +217,14 @@ var _ binder.TransactionReceiver = (*BinderNdkUnitTestStub)(nil)
 func (s *BinderNdkUnitTestStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBinderNdkUnitTestRepeatInt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_a, _err := data.ReadInt32()
+		_arg_a, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -238,7 +238,7 @@ func (s *BinderNdkUnitTestStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBinderNdkUnitTestTakeInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -253,7 +253,7 @@ func (s *BinderNdkUnitTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderNdkUnitTestForceFlushCommands:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ForceFlushCommands(ctx)
@@ -265,7 +265,7 @@ func (s *BinderNdkUnitTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderNdkUnitTestGetsRequestedSid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetsRequestedSid(ctx)
@@ -278,10 +278,10 @@ func (s *BinderNdkUnitTestStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBinderNdkUnitTestForcePersist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_persist, _err := data.ReadBool()
+		_arg_persist, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -294,7 +294,7 @@ func (s *BinderNdkUnitTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderNdkUnitTestSetCustomActiveServicesCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetCustomActiveServicesCallback(ctx)

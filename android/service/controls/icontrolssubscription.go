@@ -81,14 +81,14 @@ var _ binder.TransactionReceiver = (*ControlsSubscriptionStub)(nil)
 func (s *ControlsSubscriptionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIControlsSubscriptionRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_n, _err := data.ReadInt64()
+		_arg_n, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -96,7 +96,7 @@ func (s *ControlsSubscriptionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIControlsSubscriptionCancel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Cancel(ctx)

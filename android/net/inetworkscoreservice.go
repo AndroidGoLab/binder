@@ -421,11 +421,11 @@ var _ binder.TransactionReceiver = (*NetworkScoreServiceStub)(nil)
 func (s *NetworkScoreServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINetworkScoreServiceUpdateScores:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -441,7 +441,7 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceClearScores:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ClearScores(ctx)
@@ -454,10 +454,10 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceSetActiveScorer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -471,7 +471,7 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceDisableScoring:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisableScoring(ctx)
@@ -483,17 +483,17 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkScoreServiceRegisterNetworkScoreCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkType, _err := data.ReadInt32()
+		_arg_networkType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_scoreCache INetworkScoreCache
 		_ = _arg_scoreCache
-		_arg_filterType, _err := data.ReadInt32()
+		_arg_filterType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -506,10 +506,10 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkScoreServiceUnregisterNetworkScoreCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkType, _err := data.ReadInt32()
+		_arg_networkType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -525,7 +525,7 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkScoreServiceRequestScores:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -541,10 +541,10 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceIsCallerActiveScorer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCallerActiveScorer(ctx)
@@ -557,7 +557,7 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceGetActiveScorerPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveScorerPackage(ctx)
@@ -570,7 +570,7 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionINetworkScoreServiceGetActiveScorer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveScorer(ctx)
@@ -586,7 +586,7 @@ func (s *NetworkScoreServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINetworkScoreServiceGetAllValidScorers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllValidScorers(ctx)

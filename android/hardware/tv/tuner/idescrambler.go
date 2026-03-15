@@ -200,14 +200,14 @@ var _ binder.TransactionReceiver = (*DescramblerStub)(nil)
 func (s *DescramblerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDescramblerSetDemuxSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_demuxId, _err := data.ReadInt32()
+		_arg_demuxId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -220,7 +220,7 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerSetKeyToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -235,17 +235,17 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerAddPid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pid DemuxPid
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pid.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pid.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -262,17 +262,17 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerRemovePid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pid DemuxPid
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pid.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pid.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -289,7 +289,7 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)

@@ -288,25 +288,25 @@ var _ binder.TransactionReceiver = (*InputMethodSessionStub)(nil)
 func (s *InputMethodSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputMethodSessionUpdateExtractedText:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_text viewInputmethod.ExtractedText
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_text.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_text.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -315,30 +315,30 @@ func (s *InputMethodSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionUpdateSelection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_oldSelStart, _err := data.ReadInt32()
+		_arg_oldSelStart, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_oldSelEnd, _err := data.ReadInt32()
+		_arg_oldSelEnd, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newSelStart, _err := data.ReadInt32()
+		_arg_newSelStart, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newSelEnd, _err := data.ReadInt32()
+		_arg_newSelEnd, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_candidatesStart, _err := data.ReadInt32()
+		_arg_candidatesStart, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_candidatesEnd, _err := data.ReadInt32()
+		_arg_candidatesEnd, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -346,10 +346,10 @@ func (s *InputMethodSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionViewClicked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_focusChanged, _err := data.ReadBool()
+		_arg_focusChanged, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -357,17 +357,17 @@ func (s *InputMethodSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionUpdateCursor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_newCursor graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_newCursor.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_newCursor.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -376,7 +376,7 @@ func (s *InputMethodSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionDisplayCompletions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -386,10 +386,10 @@ func (s *InputMethodSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionAppPrivateCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_action, _err := data.ReadString16()
+		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -398,24 +398,24 @@ func (s *InputMethodSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionFinishSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FinishSession(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionUpdateCursorAnchorInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_cursorAnchorInfo viewInputmethod.CursorAnchorInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cursorAnchorInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cursorAnchorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -424,31 +424,31 @@ func (s *InputMethodSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionRemoveImeSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveImeSurface(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionFinishInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FinishInput(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSessionInvalidateInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_editorInfo viewInputmethod.EditorInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_editorInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_editorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -456,7 +456,7 @@ func (s *InputMethodSessionStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputConnection IRemoteInputConnection
 		_ = _arg_inputConnection
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -263,26 +263,26 @@ var _ binder.TransactionReceiver = (*ConfigurableStub)(nil)
 func (s *ConfigurableStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIConfigurableConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_inParams Params
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_inParams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_inParams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_mayBlock, _err := data.ReadBool()
+		_arg_mayBlock, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -296,7 +296,7 @@ func (s *ConfigurableStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIConfigurableGetId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetId(ctx)
@@ -309,7 +309,7 @@ func (s *ConfigurableStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIConfigurableGetName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetName(ctx)
@@ -322,13 +322,13 @@ func (s *ConfigurableStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIConfigurableQuery:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_indices []int32
 		_ = _arg_indices
-		_arg_mayBlock, _err := data.ReadBool()
+		_arg_mayBlock, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -342,14 +342,14 @@ func (s *ConfigurableStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIConfigurableQuerySupportedParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_start, _err := data.ReadInt32()
+		_arg_start, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_count, _err := data.ReadInt32()
+		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -364,13 +364,13 @@ func (s *ConfigurableStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIConfigurableQuerySupportedValues:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_inFields []FieldSupportedValuesQuery
 		_ = _arg_inFields
-		_arg_mayBlock, _err := data.ReadBool()
+		_arg_mayBlock, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

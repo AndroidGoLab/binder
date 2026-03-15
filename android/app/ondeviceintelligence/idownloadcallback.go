@@ -123,14 +123,14 @@ var _ binder.TransactionReceiver = (*DownloadCallbackStub)(nil)
 func (s *DownloadCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDownloadCallbackOnDownloadStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bytesToDownload, _err := data.ReadInt64()
+		_arg_bytesToDownload, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -138,10 +138,10 @@ func (s *DownloadCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDownloadCallbackOnDownloadProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bytesDownloaded, _err := data.ReadInt64()
+		_arg_bytesDownloaded, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -149,14 +149,14 @@ func (s *DownloadCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDownloadCallbackOnDownloadFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_failureStatus, _err := data.ReadInt32()
+		_arg_failureStatus, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_errorMessage, _err := data.ReadString16()
+		_arg_errorMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -165,7 +165,7 @@ func (s *DownloadCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDownloadCallbackOnDownloadCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_downloadParams interface{}

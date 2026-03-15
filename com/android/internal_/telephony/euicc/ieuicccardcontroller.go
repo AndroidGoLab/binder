@@ -700,17 +700,17 @@ var _ binder.TransactionReceiver = (*EuiccCardControllerStub)(nil)
 func (s *EuiccCardControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEuiccCardControllerGetAllProfiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -721,17 +721,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerGetProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iccid, _err := data.ReadString16()
+		_arg_iccid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -742,17 +742,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerGetEnabledProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_portIndex, _err := data.ReadInt32()
+		_arg_portIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -763,21 +763,21 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerDisableProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iccid, _err := data.ReadString16()
+		_arg_iccid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_refresh, _err := data.ReadBool()
+		_arg_refresh, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -788,25 +788,25 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerSwitchToProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iccid, _err := data.ReadString16()
+		_arg_iccid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_portIndex, _err := data.ReadInt32()
+		_arg_portIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_refresh, _err := data.ReadBool()
+		_arg_refresh, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -817,21 +817,21 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerSetNickname:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iccid, _err := data.ReadString16()
+		_arg_iccid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nickname, _err := data.ReadString16()
+		_arg_nickname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -842,17 +842,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerDeleteProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iccid, _err := data.ReadString16()
+		_arg_iccid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -863,17 +863,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerResetMemory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_options, _err := data.ReadInt32()
+		_arg_options, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -884,13 +884,13 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerGetDefaultSmdpAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -901,13 +901,13 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerGetSmdsAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -918,17 +918,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerSetDefaultSmdpAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_address, _err := data.ReadString16()
+		_arg_address, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -939,13 +939,13 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerGetRulesAuthTable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -956,13 +956,13 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerGetEuiccChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -973,13 +973,13 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerGetEuiccInfo1:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -990,13 +990,13 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerGetEuiccInfo2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1007,17 +1007,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerAuthenticateServer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_matchingId, _err := data.ReadString16()
+		_arg_matchingId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1040,13 +1040,13 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerPrepareDownload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1069,13 +1069,13 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerLoadBoundProfilePackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1089,20 +1089,20 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerCancelSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_transactionId []byte
 		_ = _arg_transactionId
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1113,17 +1113,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerListNotifications:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_events, _err := data.ReadInt32()
+		_arg_events, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1134,17 +1134,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerRetrieveNotificationList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_events, _err := data.ReadInt32()
+		_arg_events, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1155,17 +1155,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerRetrieveNotification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_seqNumber, _err := data.ReadInt32()
+		_arg_seqNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1176,17 +1176,17 @@ func (s *EuiccCardControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccCardControllerRemoveNotificationFromList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadString16()
+		_arg_cardId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_seqNumber, _err := data.ReadInt32()
+		_arg_seqNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

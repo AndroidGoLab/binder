@@ -310,11 +310,11 @@ var _ binder.TransactionReceiver = (*EffectStub)(nil)
 func (s *EffectStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEffectOpen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_common interface{}
@@ -332,7 +332,7 @@ func (s *EffectStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEffectClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -344,7 +344,7 @@ func (s *EffectStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEffectGetDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDescriptor(ctx)
@@ -360,10 +360,10 @@ func (s *EffectStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEffectCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_commandId, _err := data.ReadInt32()
+		_raw_commandId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -377,7 +377,7 @@ func (s *EffectStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEffectGetState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetState(ctx)
@@ -390,17 +390,17 @@ func (s *EffectStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIEffectSetParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_param Parameter
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_param.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_param.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -414,7 +414,7 @@ func (s *EffectStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEffectGetParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_paramId interface{}
@@ -431,7 +431,7 @@ func (s *EffectStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEffectReopen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Reopen(ctx)

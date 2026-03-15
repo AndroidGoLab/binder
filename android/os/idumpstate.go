@@ -196,14 +196,14 @@ var _ binder.TransactionReceiver = (*DumpstateStub)(nil)
 func (s *DumpstateStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDumpstatePreDumpUiData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.PreDumpUiData(ctx)
@@ -215,33 +215,33 @@ func (s *DumpstateStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDumpstateStartBugreport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_bugreportFd interface{}
 		var _arg_screenshotFd interface{}
-		_arg_bugreportMode, _err := data.ReadInt32()
+		_arg_bugreportMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bugreportFlags, _err := data.ReadInt32()
+		_arg_bugreportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IDumpstateListener
 		_ = _arg_listener
-		_arg_isScreenshotRequested, _err := data.ReadBool()
+		_arg_isScreenshotRequested, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipUserConsent, _err := data.ReadBool()
+		_arg_skipUserConsent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -254,13 +254,13 @@ func (s *DumpstateStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDumpstateCancelBugreport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CancelBugreport(ctx)
@@ -272,28 +272,28 @@ func (s *DumpstateStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDumpstateRetrieveBugreport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_bugreportFd interface{}
-		_arg_bugreportFile, _err := data.ReadString16()
+		_arg_bugreportFile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_keepBugreportOnRetrieval, _err := data.ReadBool()
+		_arg_keepBugreportOnRetrieval, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipUserConsent, _err := data.ReadBool()
+		_arg_skipUserConsent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

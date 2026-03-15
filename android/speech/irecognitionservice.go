@@ -148,11 +148,11 @@ var _ binder.TransactionReceiver = (*RecognitionServiceStub)(nil)
 func (s *RecognitionServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRecognitionServiceStartListening:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_recognizerIntent interface{}
@@ -164,7 +164,7 @@ func (s *RecognitionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionServiceStopListening:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -174,13 +174,13 @@ func (s *RecognitionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionServiceCancel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IRecognitionListener
 		_ = _arg_listener
-		_arg_isShutdown, _err := data.ReadBool()
+		_arg_isShutdown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -188,7 +188,7 @@ func (s *RecognitionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionServiceCheckRecognitionSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_recognizerIntent interface{}
@@ -200,7 +200,7 @@ func (s *RecognitionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecognitionServiceTriggerModelDownload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_recognizerIntent interface{}

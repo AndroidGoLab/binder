@@ -162,18 +162,18 @@ var _ binder.TransactionReceiver = (*CasListenerStub)(nil)
 func (s *CasListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICasListenerOnEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_arg, _err := data.ReadInt32()
+		_arg_arg, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -189,17 +189,17 @@ func (s *CasListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasListenerOnSessionEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
 		_ = _arg_sessionId
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_arg, _err := data.ReadInt32()
+		_arg_arg, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -215,15 +215,15 @@ func (s *CasListenerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasListenerOnStatusUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_event, _err := data.ReadPaddedByte()
+		_raw_event, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_event := StatusEvent(_raw_event)
-		_arg_number, _err := data.ReadInt32()
+		_arg_number, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

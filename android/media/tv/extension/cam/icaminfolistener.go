@@ -118,25 +118,25 @@ var _ binder.TransactionReceiver = (*CamInfoListenerStub)(nil)
 func (s *CamInfoListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICamInfoListenerOnCamInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_updatedCamInfo os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_updatedCamInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_updatedCamInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -145,21 +145,21 @@ func (s *CamInfoListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICamInfoListenerOnSlotInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_updatedSlotInfo os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_updatedSlotInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_updatedSlotInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -168,21 +168,21 @@ func (s *CamInfoListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICamInfoListenerOnNewTypeCamInsert:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_newCamType os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_newCamType.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_newCamType.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

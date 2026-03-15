@@ -737,11 +737,11 @@ var _ binder.TransactionReceiver = (*VirtualHalStub)(nil)
 func (s *VirtualHalStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVirtualHalSetEnrollments:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -756,10 +756,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetEnrollmentHit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hit_id, _err := data.ReadInt32()
+		_arg_hit_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -772,17 +772,17 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetNextEnrollment:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_next_enrollment NextEnrollment
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_next_enrollment.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_next_enrollment.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -796,10 +796,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt64()
+		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -812,10 +812,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_challenge, _err := data.ReadInt64()
+		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -828,10 +828,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetOperationAuthenticateFails:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fail, _err := data.ReadBool()
+		_arg_fail, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -844,7 +844,7 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetOperationAuthenticateLatency:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -859,10 +859,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetOperationAuthenticateDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_durationMs, _err := data.ReadInt32()
+		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -875,10 +875,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetOperationAuthenticateError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -891,7 +891,7 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetOperationAuthenticateAcquired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -906,7 +906,7 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetOperationEnrollLatency:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -921,7 +921,7 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetOperationDetectInteractionLatency:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -936,10 +936,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetOperationDetectInteractionFails:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadBool()
+		_arg_error_, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -952,10 +952,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetLockout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lockout, _err := data.ReadBool()
+		_arg_lockout, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -968,10 +968,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetLockoutEnable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -984,10 +984,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetLockoutTimedEnable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1000,10 +1000,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetLockoutTimedThreshold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_threshold, _err := data.ReadInt32()
+		_arg_threshold, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1016,10 +1016,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetLockoutTimedDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_durationMs, _err := data.ReadInt32()
+		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1032,10 +1032,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetLockoutPermanentThreshold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_threshold, _err := data.ReadInt32()
+		_arg_threshold, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1048,7 +1048,7 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalResetConfigurations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetConfigurations(ctx)
@@ -1060,10 +1060,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadPaddedByte()
+		_raw_type_, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1077,10 +1077,10 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalSetSensorStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_strength, _err := data.ReadPaddedByte()
+		_raw_strength, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1094,7 +1094,7 @@ func (s *VirtualHalStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVirtualHalGetFaceHal:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFaceHal(ctx)

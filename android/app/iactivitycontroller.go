@@ -262,15 +262,15 @@ var _ binder.TransactionReceiver = (*ActivityControllerStub)(nil)
 func (s *ActivityControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIActivityControllerActivityStarting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -284,10 +284,10 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityControllerActivityResuming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -301,30 +301,30 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityControllerAppCrashed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_processName, _err := data.ReadString16()
+		_arg_processName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shortMsg, _err := data.ReadString16()
+		_arg_shortMsg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_longMsg, _err := data.ReadString16()
+		_arg_longMsg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeMillis, _err := data.ReadInt64()
+		_arg_timeMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stackTrace, _err := data.ReadString16()
+		_arg_stackTrace, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -338,18 +338,18 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityControllerAppEarlyNotResponding:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_processName, _err := data.ReadString16()
+		_arg_processName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_annotation, _err := data.ReadString16()
+		_arg_annotation, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -363,18 +363,18 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityControllerAppNotResponding:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_processName, _err := data.ReadString16()
+		_arg_processName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_processStats, _err := data.ReadString16()
+		_arg_processStats, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -388,10 +388,10 @@ func (s *ActivityControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityControllerSystemNotResponding:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_msg, _err := data.ReadString16()
+		_arg_msg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

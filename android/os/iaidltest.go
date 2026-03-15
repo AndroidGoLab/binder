@@ -1069,14 +1069,14 @@ var _ binder.TransactionReceiver = (*AidlTestStub)(nil)
 func (s *AidlTestStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAidlTestIntMethod:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_a, _err := data.ReadInt32()
+		_arg_a, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1090,17 +1090,17 @@ func (s *AidlTestStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAidlTestParcelableIn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_p_ AidlTestTestParcelable
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_p_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_p_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1118,10 +1118,11 @@ func (s *AidlTestStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAidlTestParcelableOut:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.ParcelableOut(ctx)
+		var _arg_p_ AidlTestTestParcelable
+		_result, _err := s.Impl.ParcelableOut(ctx, _arg_p_)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1134,17 +1135,17 @@ func (s *AidlTestStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAidlTestParcelableInOut:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_p_ AidlTestTestParcelable
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_p_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_p_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1162,13 +1163,13 @@ func (s *AidlTestStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAidlTestListParcelableLonger:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_list []AidlTestTestParcelable
 		_ = _arg_list
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1185,13 +1186,13 @@ func (s *AidlTestStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAidlTestListParcelableShorter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_list []AidlTestTestParcelable
 		_ = _arg_list
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1205,16 +1206,17 @@ func (s *AidlTestStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAidlTestBooleanArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []bool
 		_ = _arg_a0
+		var _arg_a1 []bool
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []bool
 		_ = _arg_a2
-		_result, _err := s.Impl.BooleanArray(ctx, _arg_a0, _arg_a2)
+		_result, _err := s.Impl.BooleanArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1225,16 +1227,17 @@ func (s *AidlTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAidlTestCharArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []uint16
 		_ = _arg_a0
+		var _arg_a1 []uint16
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []uint16
 		_ = _arg_a2
-		_result, _err := s.Impl.CharArray(ctx, _arg_a0, _arg_a2)
+		_result, _err := s.Impl.CharArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1245,16 +1248,17 @@ func (s *AidlTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAidlTestIntArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []int32
 		_ = _arg_a0
+		var _arg_a1 []int32
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []int32
 		_ = _arg_a2
-		_result, _err := s.Impl.IntArray(ctx, _arg_a0, _arg_a2)
+		_result, _err := s.Impl.IntArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1265,16 +1269,17 @@ func (s *AidlTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAidlTestLongArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []int64
 		_ = _arg_a0
+		var _arg_a1 []int64
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []int64
 		_ = _arg_a2
-		_result, _err := s.Impl.LongArray(ctx, _arg_a0, _arg_a2)
+		_result, _err := s.Impl.LongArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1285,16 +1290,17 @@ func (s *AidlTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAidlTestFloatArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []float32
 		_ = _arg_a0
+		var _arg_a1 []float32
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []float32
 		_ = _arg_a2
-		_result, _err := s.Impl.FloatArray(ctx, _arg_a0, _arg_a2)
+		_result, _err := s.Impl.FloatArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1305,16 +1311,17 @@ func (s *AidlTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAidlTestDoubleArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []float64
 		_ = _arg_a0
+		var _arg_a1 []float64
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []float64
 		_ = _arg_a2
-		_result, _err := s.Impl.DoubleArray(ctx, _arg_a0, _arg_a2)
+		_result, _err := s.Impl.DoubleArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1325,16 +1332,17 @@ func (s *AidlTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAidlTestStringArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []string
 		_ = _arg_a0
+		var _arg_a1 []string
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []string
 		_ = _arg_a2
-		_result, _err := s.Impl.StringArray(ctx, _arg_a0, _arg_a2)
+		_result, _err := s.Impl.StringArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1345,16 +1353,17 @@ func (s *AidlTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAidlTestParcelableArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a0 []AidlTestTestParcelable
 		_ = _arg_a0
+		var _arg_a1 []AidlTestTestParcelable
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_a2 []AidlTestTestParcelable
 		_ = _arg_a2
-		_result, _err := s.Impl.ParcelableArray(ctx, _arg_a0, _arg_a2)
+		_result, _err := s.Impl.ParcelableArray(ctx, _arg_a0, _arg_a1, _arg_a2)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1365,7 +1374,7 @@ func (s *AidlTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAidlTestVoidSecurityException:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.VoidSecurityException(ctx)
@@ -1377,7 +1386,7 @@ func (s *AidlTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlTestIntSecurityException:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IntSecurityException(ctx)

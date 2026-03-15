@@ -295,21 +295,21 @@ var _ binder.TransactionReceiver = (*HotwordRecognitionStatusCallbackStub)(nil)
 func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_recognitionEvent soundtrigger.SoundTriggerKeyphraseRecognitionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_recognitionEvent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_recognitionEvent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -319,7 +319,7 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnKeyphraseDetectedFromExternalSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -327,17 +327,17 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnGenericSoundTriggerDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_recognitionEvent soundtrigger.SoundTriggerGenericRecognitionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_recognitionEvent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_recognitionEvent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -346,7 +346,7 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnRejected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -354,7 +354,7 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnHotwordDetectionServiceFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hotwordDetectionServiceFailure interface{}
@@ -362,7 +362,7 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnVisualQueryDetectionServiceFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_visualQueryDetectionServiceFailure interface{}
@@ -370,7 +370,7 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnSoundTriggerFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundTriggerFailure interface{}
@@ -378,10 +378,10 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnUnknownFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorMessage, _err := data.ReadString16()
+		_arg_errorMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -389,24 +389,24 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnRecognitionPaused:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRecognitionPaused(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnRecognitionResumed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRecognitionResumed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnStatusReported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -414,28 +414,28 @@ func (s *HotwordRecognitionStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnProcessRestarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnProcessRestarted(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIHotwordRecognitionStatusCallbackOnOpenFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_filename, _err := data.ReadString16()
+		_arg_filename, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

@@ -220,14 +220,14 @@ var _ binder.TransactionReceiver = (*BinderRpcBenchmarkStub)(nil)
 func (s *BinderRpcBenchmarkStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBinderRpcBenchmarkRepeatString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_str, _err := data.ReadString16()
+		_arg_str, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -241,7 +241,7 @@ func (s *BinderRpcBenchmarkStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBinderRpcBenchmarkRepeatBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -258,7 +258,7 @@ func (s *BinderRpcBenchmarkStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcBenchmarkRepeatBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -275,7 +275,7 @@ func (s *BinderRpcBenchmarkStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcBenchmarkGimmeBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GimmeBinder(ctx)
@@ -289,7 +289,7 @@ func (s *BinderRpcBenchmarkStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcBenchmarkWaitGimmesDestroyed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.WaitGimmesDestroyed(ctx)

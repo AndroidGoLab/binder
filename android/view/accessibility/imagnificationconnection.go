@@ -288,34 +288,34 @@ var _ binder.TransactionReceiver = (*MagnificationConnectionStub)(nil)
 func (s *MagnificationConnectionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMagnificationConnectionEnableWindowMagnification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scale, _err := data.ReadFloat32()
+		_arg_scale, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_centerX, _err := data.ReadFloat32()
+		_arg_centerX, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_centerY, _err := data.ReadFloat32()
+		_arg_centerY, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_magnificationFrameOffsetRatioX, _err := data.ReadFloat32()
+		_arg_magnificationFrameOffsetRatioX, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_magnificationFrameOffsetRatioY, _err := data.ReadFloat32()
+		_arg_magnificationFrameOffsetRatioY, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -326,14 +326,14 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionSetScaleForWindowMagnification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scale, _err := data.ReadFloat32()
+		_arg_scale, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -341,10 +341,10 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionDisableWindowMagnification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -355,18 +355,18 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionMoveWindowMagnifier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_offsetX, _err := data.ReadFloat32()
+		_arg_offsetX, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_offsetY, _err := data.ReadFloat32()
+		_arg_offsetY, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -374,18 +374,18 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionMoveWindowMagnifierToPosition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_positionX, _err := data.ReadFloat32()
+		_arg_positionX, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_positionY, _err := data.ReadFloat32()
+		_arg_positionY, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -396,14 +396,14 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionShowMagnificationButton:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_magnificationMode, _err := data.ReadInt32()
+		_arg_magnificationMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -411,10 +411,10 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionRemoveMagnificationButton:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -422,10 +422,10 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionRemoveMagnificationSettingsPanel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -433,7 +433,7 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionSetConnectionCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -443,17 +443,17 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionOnUserMagnificationScaleChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scale, _err := data.ReadFloat32()
+		_arg_scale, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -461,14 +461,14 @@ func (s *MagnificationConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionOnFullscreenMagnificationActivationChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_activated, _err := data.ReadBool()
+		_arg_activated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

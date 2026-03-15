@@ -1415,21 +1415,21 @@ var _ binder.TransactionReceiver = (*ModuleStub)(nil)
 func (s *ModuleStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIModuleSetModuleDebug:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_debug ModuleDebug
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_debug.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_debug.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1443,7 +1443,7 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetTelephony:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTelephony(ctx)
@@ -1457,7 +1457,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleGetBluetooth:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBluetooth(ctx)
@@ -1471,7 +1471,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleGetBluetoothA2dp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBluetoothA2dp(ctx)
@@ -1485,7 +1485,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleGetBluetoothLe:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBluetoothLe(ctx)
@@ -1499,17 +1499,17 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleConnectExternalDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_templateIdAndAdditionalData common.AudioPort
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_templateIdAndAdditionalData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_templateIdAndAdditionalData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1527,10 +1527,10 @@ func (s *ModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIModuleDisconnectExternalDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1543,7 +1543,7 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetAudioPatches:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAudioPatches(ctx)
@@ -1557,10 +1557,10 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleGetAudioPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1577,7 +1577,7 @@ func (s *ModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIModuleGetAudioPortConfigs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAudioPortConfigs(ctx)
@@ -1591,7 +1591,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleGetAudioPorts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAudioPorts(ctx)
@@ -1605,7 +1605,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleGetAudioRoutes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAudioRoutes(ctx)
@@ -1619,10 +1619,10 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleGetAudioRoutesForAudioPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1637,7 +1637,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleOpenInputStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args interface{}
@@ -1651,7 +1651,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleOpenOutputStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args interface{}
@@ -1665,7 +1665,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleGetSupportedPlaybackRateFactors:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedPlaybackRateFactors(ctx)
@@ -1678,17 +1678,17 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleSetAudioPatch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_requested AudioPatch
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_requested.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_requested.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1706,22 +1706,23 @@ func (s *ModuleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIModuleSetAudioPortConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_requested common.AudioPortConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_requested.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_requested.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_result, _err := s.Impl.SetAudioPortConfig(ctx, _arg_requested)
+		var _arg_suggested common.AudioPortConfig
+		_result, _err := s.Impl.SetAudioPortConfig(ctx, _arg_requested, _arg_suggested)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1731,10 +1732,10 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIModuleResetAudioPatch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_patchId, _err := data.ReadInt32()
+		_arg_patchId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1747,10 +1748,10 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleResetAudioPortConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portConfigId, _err := data.ReadInt32()
+		_arg_portConfigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1763,7 +1764,7 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMasterMute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMasterMute(ctx)
@@ -1776,10 +1777,10 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIModuleSetMasterMute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mute, _err := data.ReadBool()
+		_arg_mute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1792,7 +1793,7 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMasterVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMasterVolume(ctx)
@@ -1805,10 +1806,10 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIModuleSetMasterVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volume, _err := data.ReadFloat32()
+		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1821,7 +1822,7 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMicMute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMicMute(ctx)
@@ -1834,10 +1835,10 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIModuleSetMicMute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mute, _err := data.ReadBool()
+		_arg_mute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1850,7 +1851,7 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMicrophones:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMicrophones(ctx)
@@ -1864,10 +1865,10 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleUpdateAudioMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_mode, _err := data.ReadInt32()
+		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1881,7 +1882,7 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleUpdateScreenRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_rotation interface{}
@@ -1894,10 +1895,10 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleUpdateScreenState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isTurnedOn, _err := data.ReadBool()
+		_arg_isTurnedOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1910,7 +1911,7 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetSoundDose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSoundDose(ctx)
@@ -1924,7 +1925,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleGenerateHwAvSyncId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GenerateHwAvSyncId(ctx)
@@ -1937,7 +1938,7 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIModuleGetVendorParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1954,13 +1955,13 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleSetVendorParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parameters []VendorParameter
 		_ = _arg_parameters
-		_arg_async, _err := data.ReadBool()
+		_arg_async, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1973,10 +1974,10 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleAddDeviceEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portConfigId, _err := data.ReadInt32()
+		_arg_portConfigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1992,10 +1993,10 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleRemoveDeviceEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portConfigId, _err := data.ReadInt32()
+		_arg_portConfigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2011,10 +2012,10 @@ func (s *ModuleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIModuleGetMmapPolicyInfos:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_mmapPolicyType, _err := data.ReadInt32()
+		_raw_mmapPolicyType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2030,7 +2031,7 @@ func (s *ModuleStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIModuleSupportsVariableLatency:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SupportsVariableLatency(ctx)
@@ -2043,7 +2044,7 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIModuleGetAAudioMixerBurstCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAAudioMixerBurstCount(ctx)
@@ -2056,7 +2057,7 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIModuleGetAAudioHardwareBurstMinUsec:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAAudioHardwareBurstMinUsec(ctx)
@@ -2069,10 +2070,10 @@ func (s *ModuleStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIModulePrepareToDisconnectExternalDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

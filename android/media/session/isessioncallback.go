@@ -636,26 +636,26 @@ var _ binder.TransactionReceiver = (*SessionCallbackStub)(nil)
 func (s *SessionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISessionCallbackOnCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_command, _err := data.ReadString16()
+		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -665,23 +665,23 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnMediaButton:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_mediaButtonIntent interface{}
-		_arg_sequenceNumber, _err := data.ReadInt32()
+		_arg_sequenceNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -690,18 +690,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnMediaButtonFromController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -710,18 +710,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPrepare:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -729,22 +729,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPrepareFromMediaId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mediaId, _err := data.ReadString16()
+		_arg_mediaId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -753,22 +753,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPrepareFromSearch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_query, _err := data.ReadString16()
+		_arg_query, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -777,18 +777,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPrepareFromUri:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -798,18 +798,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPlay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -817,22 +817,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPlayFromMediaId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mediaId, _err := data.ReadString16()
+		_arg_mediaId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -841,22 +841,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPlayFromSearch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_query, _err := data.ReadString16()
+		_arg_query, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -865,18 +865,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPlayFromUri:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -886,22 +886,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnSkipToTrack:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt64()
+		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -909,18 +909,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPause:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -928,18 +928,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -947,18 +947,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnNext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -966,18 +966,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnPrevious:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -985,18 +985,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnFastForward:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1004,18 +1004,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnRewind:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1023,22 +1023,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnSeekTo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pos, _err := data.ReadInt64()
+		_arg_pos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1046,18 +1046,18 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnRate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1066,22 +1066,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnSetPlaybackSpeed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_speed, _err := data.ReadFloat32()
+		_arg_speed, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1089,22 +1089,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnCustomAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_action, _err := data.ReadString16()
+		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1113,22 +1113,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnAdjustVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_direction, _err := data.ReadInt32()
+		_arg_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1136,22 +1136,22 @@ func (s *SessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISessionCallbackOnSetVolumeTo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

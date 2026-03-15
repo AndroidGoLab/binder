@@ -266,11 +266,11 @@ var _ binder.TransactionReceiver = (*ImsVideoCallProviderStub)(nil)
 func (s *ImsVideoCallProviderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsVideoCallProviderSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -280,14 +280,14 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderSetCamera:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -295,7 +295,7 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderSetPreviewSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_surface interface{}
@@ -303,7 +303,7 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderSetDisplaySurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_surface interface{}
@@ -311,10 +311,10 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderSetDeviceOrientation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rotation, _err := data.ReadInt32()
+		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -322,10 +322,10 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderSetZoom:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadFloat32()
+		_arg_value, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -333,29 +333,29 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderSendSessionModifyRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_fromProfile telecom.VideoProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_fromProfile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_fromProfile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_toProfile telecom.VideoProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_toProfile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_toProfile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -364,17 +364,17 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderSendSessionModifyResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_responseProfile telecom.VideoProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_responseProfile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_responseProfile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -383,31 +383,31 @@ func (s *ImsVideoCallProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderRequestCameraCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RequestCameraCapabilities(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderRequestCallDataUsage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RequestCallDataUsage(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsVideoCallProviderSetPauseImage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

@@ -1507,21 +1507,21 @@ var _ binder.TransactionReceiver = (*FingerprintServiceStub)(nil)
 func (s *FingerprintServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIFingerprintServiceCreateTestSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback biometrics.ITestSessionCallback
 		_ = _arg_callback
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateTestSession(ctx, _arg_sensorId, _arg_callback)
@@ -1535,14 +1535,14 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFingerprintServiceDumpSensorServiceStateProto:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clearSchedulerBuffer, _err := data.ReadBool()
+		_arg_clearSchedulerBuffer, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1557,10 +1557,10 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFingerprintServiceGetSensorPropertiesInternal:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSensorPropertiesInternal(ctx)
@@ -1574,14 +1574,14 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFingerprintServiceGetSensorProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSensorProperties(ctx, _arg_sensorId)
@@ -1597,13 +1597,13 @@ func (s *FingerprintServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIFingerprintServiceAuthenticate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1612,12 +1612,12 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_ = _arg_receiver
 		var _arg_options FingerprintAuthenticateOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1632,7 +1632,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFingerprintServiceDetectFingerprint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1643,12 +1643,12 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_ = _arg_receiver
 		var _arg_options FingerprintAuthenticateOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1663,13 +1663,13 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFingerprintServicePrepareForAuthentication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1678,29 +1678,29 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_ = _arg_sensorReceiver
 		var _arg_options FingerprintAuthenticateOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cookie, _err := data.ReadInt32()
+		_arg_cookie, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allowBackgroundAuthentication, _err := data.ReadBool()
+		_arg_allowBackgroundAuthentication, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isForLegacyFingerprintManager, _err := data.ReadBool()
+		_arg_isForLegacyFingerprintManager, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1713,14 +1713,14 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceStartPreparedClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cookie, _err := data.ReadInt32()
+		_arg_cookie, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1733,19 +1733,19 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceCancelAuthentication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1758,16 +1758,16 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceCancelFingerprintDetect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1780,20 +1780,20 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceCancelAuthenticationFromService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1806,7 +1806,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceEnroll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1815,27 +1815,27 @@ func (s *FingerprintServiceStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hardwareAuthToken []byte
 		_ = _arg_hardwareAuthToken
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFingerprintServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enrollReason, _err := data.ReadInt32()
+		_arg_enrollReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options FingerprintEnrollOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1850,13 +1850,13 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFingerprintServiceCancelEnrollment:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1869,23 +1869,23 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceRemove:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_fingerId, _err := data.ReadInt32()
+		_arg_fingerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFingerprintServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Remove(ctx, _arg_token, _arg_fingerId, _arg_receiver)
@@ -1897,19 +1897,19 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceRemoveAll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFingerprintServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveAll(ctx, _arg_token, _arg_receiver)
@@ -1921,17 +1921,17 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceRename:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fingerId, _err := data.ReadInt32()
+		_arg_fingerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1944,16 +1944,16 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceGetEnrolledFingerprints:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEnrolledFingerprints(ctx)
@@ -1967,13 +1967,13 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFingerprintServiceIsHardwareDetectedDeprecated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHardwareDetectedDeprecated(ctx)
@@ -1986,14 +1986,14 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFingerprintServiceIsHardwareDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHardwareDetected(ctx, _arg_sensorId)
@@ -2006,23 +2006,23 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFingerprintServiceGenerateChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFingerprintServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GenerateChallenge(ctx, _arg_token, _arg_sensorId, _arg_receiver)
@@ -2034,23 +2034,23 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceRevokeChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_challenge, _err := data.ReadInt64()
+		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2063,16 +2063,16 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceHasEnrolledFingerprintsDeprecated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasEnrolledFingerprintsDeprecated(ctx)
@@ -2085,17 +2085,17 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFingerprintServiceHasEnrolledFingerprints:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasEnrolledFingerprints(ctx, _arg_sensorId)
@@ -2108,14 +2108,14 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFingerprintServiceGetLockoutModeForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLockoutModeForUser(ctx, _arg_sensorId)
@@ -2128,14 +2128,14 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIFingerprintServiceInvalidateAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2150,14 +2150,14 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceGetAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAuthenticatorId(ctx, _arg_sensorId)
@@ -2170,23 +2170,23 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFingerprintServiceResetLockout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hardwareAuthToken []byte
 		_ = _arg_hardwareAuthToken
-		_arg_opPackageNAame, _err := data.ReadString16()
+		_arg_opPackageNAame, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2199,13 +2199,13 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceAddLockoutResetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback biometrics.IBiometricServiceLockoutResetCallback
 		_ = _arg_callback
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddLockoutResetCallback(ctx, _arg_callback)
@@ -2217,7 +2217,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceIsClientActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsClientActive(ctx)
@@ -2230,7 +2230,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFingerprintServiceAddClientActiveCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2245,7 +2245,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceRemoveClientActiveCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2260,17 +2260,17 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceRegisterAuthenticators:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_fingerprintSensorConfigurations FingerprintSensorConfigurations
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_fingerprintSensorConfigurations.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_fingerprintSensorConfigurations.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2284,7 +2284,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceAddAuthenticatorsRegisteredCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2299,25 +2299,25 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceOnPointerDown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_pc biometricsFingerprint.PointerContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2331,25 +2331,25 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceOnPointerUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_pc biometricsFingerprint.PointerContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2363,18 +2363,18 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceOnUdfpsUiEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2387,18 +2387,18 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceSetIgnoreDisplayTouches:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ignoreTouches, _err := data.ReadBool()
+		_arg_ignoreTouches, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2411,7 +2411,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceSetUdfpsOverlayController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2426,7 +2426,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceRegisterAuthenticationStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2441,7 +2441,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceUnregisterAuthenticationStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2456,7 +2456,7 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceRegisterBiometricStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2471,14 +2471,14 @@ func (s *FingerprintServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFingerprintServiceOnPowerPressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnPowerPressed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIFingerprintServiceScheduleWatchdog:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleWatchdog(ctx)

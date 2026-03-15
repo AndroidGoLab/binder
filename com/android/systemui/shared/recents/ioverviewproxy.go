@@ -512,21 +512,21 @@ var _ binder.TransactionReceiver = (*OverviewProxyStub)(nil)
 func (s *OverviewProxyStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOverviewProxyOnActiveNavBarRegionChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_activeRegion graphics.Region
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_activeRegion.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_activeRegion.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -535,17 +535,17 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnInitialize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -554,17 +554,17 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnOverviewToggle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnOverviewToggle(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnOverviewShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_triggeredFromAltTab, _err := data.ReadBool()
+		_arg_triggeredFromAltTab, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -572,14 +572,14 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnOverviewHidden:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_triggeredFromAltTab, _err := data.ReadBool()
+		_arg_triggeredFromAltTab, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_triggeredFromHomeKey, _err := data.ReadBool()
+		_arg_triggeredFromHomeKey, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -587,14 +587,14 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnAssistantAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_available, _err := data.ReadBool()
+		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_longPressHomeEnabled, _err := data.ReadBool()
+		_arg_longPressHomeEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -602,10 +602,10 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnAssistantVisibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visibility, _err := data.ReadFloat32()
+		_arg_visibility, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -613,10 +613,10 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnAssistantOverrideInvoked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_invocationType, _err := data.ReadInt32()
+		_arg_invocationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -624,10 +624,10 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnSystemUiStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_stateFlags, _err := data.ReadInt64()
+		_arg_stateFlags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -635,14 +635,14 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnRotationProposal:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rotation, _err := data.ReadInt32()
+		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isValid, _err := data.ReadBool()
+		_arg_isValid, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -650,22 +650,22 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyDisable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state1, _err := data.ReadInt32()
+		_arg_state1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state2, _err := data.ReadInt32()
+		_arg_state2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_animate, _err := data.ReadBool()
+		_arg_animate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -673,14 +673,14 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnSystemBarAttributesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_behavior, _err := data.ReadInt32()
+		_arg_behavior, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -688,14 +688,14 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnTransitionModeUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_barMode, _err := data.ReadInt32()
+		_arg_barMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_checkBarModes, _err := data.ReadBool()
+		_arg_checkBarModes, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -703,10 +703,10 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnNavButtonsDarkIntensityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_darkIntensity, _err := data.ReadFloat32()
+		_arg_darkIntensity, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -714,14 +714,14 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnNavigationBarLumaSamplingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -729,10 +729,10 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyEnterStageSplitFromRunningApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_leftOrTop, _err := data.ReadBool()
+		_arg_leftOrTop, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -740,21 +740,21 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyOnTaskbarToggled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnTaskbarToggled(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyUpdateWallpaperVisibility:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -762,10 +762,10 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyCheckNavBarModes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -773,10 +773,10 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyFinishBarAnimations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -784,14 +784,14 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyTouchAutoDim:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayid, _err := data.ReadInt32()
+		_arg_displayid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reset, _err := data.ReadBool()
+		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -799,18 +799,18 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyTransitionTo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_barMode, _err := data.ReadInt32()
+		_arg_barMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_animate, _err := data.ReadBool()
+		_arg_animate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -818,10 +818,10 @@ func (s *OverviewProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOverviewProxyAppTransitionPending:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pending, _err := data.ReadBool()
+		_arg_pending, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

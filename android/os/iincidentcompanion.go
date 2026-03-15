@@ -348,28 +348,28 @@ var _ binder.TransactionReceiver = (*IncidentCompanionStub)(nil)
 func (s *IncidentCompanionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIncidentCompanionAuthorizeReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_receiverClass, _err := data.ReadString16()
+		_arg_receiverClass, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reportId, _err := data.ReadString16()
+		_arg_reportId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -380,7 +380,7 @@ func (s *IncidentCompanionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIncidentCompanionCancelAuthorization:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -390,14 +390,14 @@ func (s *IncidentCompanionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIncidentCompanionSendReportReadyBroadcast:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cls, _err := data.ReadString16()
+		_arg_cls, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -405,7 +405,7 @@ func (s *IncidentCompanionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIncidentCompanionGetPendingReports:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPendingReports(ctx)
@@ -419,10 +419,10 @@ func (s *IncidentCompanionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIncidentCompanionApproveReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uri, _err := data.ReadString16()
+		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -435,10 +435,10 @@ func (s *IncidentCompanionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncidentCompanionDenyReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uri, _err := data.ReadString16()
+		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -451,14 +451,14 @@ func (s *IncidentCompanionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncidentCompanionGetIncidentReportList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cls, _err := data.ReadString16()
+		_arg_cls, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -473,18 +473,18 @@ func (s *IncidentCompanionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIncidentCompanionGetIncidentReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cls, _err := data.ReadString16()
+		_arg_cls, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -498,18 +498,18 @@ func (s *IncidentCompanionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIncidentCompanionDeleteIncidentReports:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cls, _err := data.ReadString16()
+		_arg_cls, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -522,10 +522,10 @@ func (s *IncidentCompanionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncidentCompanionDeleteAllIncidentReports:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

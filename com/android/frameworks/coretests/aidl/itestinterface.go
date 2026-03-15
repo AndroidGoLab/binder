@@ -125,14 +125,14 @@ var _ binder.TransactionReceiver = (*TestInterfaceStub)(nil)
 func (s *TestInterfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITestInterfaceFoo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_a, _err := data.ReadInt32()
+		_arg_a, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -146,10 +146,10 @@ func (s *TestInterfaceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITestInterfaceOnewayFoo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_a, _err := data.ReadInt32()
+		_arg_a, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -157,10 +157,10 @@ func (s *TestInterfaceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITestInterfaceBar:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_a, _err := data.ReadInt32()
+		_arg_a, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

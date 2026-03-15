@@ -185,41 +185,41 @@ var _ binder.TransactionReceiver = (*ExternalStorageServiceStub)(nil)
 func (s *ExternalStorageServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIExternalStorageServiceStartSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceFd, _err := data.ReadFileDescriptor()
+		_arg_deviceFd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_upperPath, _err := data.ReadString16()
+		_arg_upperPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lowerPath, _err := data.ReadString16()
+		_arg_lowerPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -228,21 +228,21 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIExternalStorageServiceEndSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -251,33 +251,33 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIExternalStorageServiceNotifyVolumeStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_vol osStorage.StorageVolume
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_vol.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_vol.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -286,29 +286,29 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIExternalStorageServiceFreeCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bytes, _err := data.ReadInt64()
+		_arg_bytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -317,22 +317,22 @@ func (s *ExternalStorageServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIExternalStorageServiceNotifyAnrDelayStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tid, _err := data.ReadInt32()
+		_arg_tid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

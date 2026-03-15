@@ -215,11 +215,11 @@ var _ binder.TransactionReceiver = (*KeystoreOperationStub)(nil)
 func (s *KeystoreOperationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIKeystoreOperationUpdateAad:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -234,7 +234,7 @@ func (s *KeystoreOperationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeystoreOperationUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -251,7 +251,7 @@ func (s *KeystoreOperationStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeystoreOperationFinish:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -271,7 +271,7 @@ func (s *KeystoreOperationStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeystoreOperationAbort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Abort(ctx)

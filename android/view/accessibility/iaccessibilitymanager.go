@@ -1515,49 +1515,49 @@ var _ binder.TransactionReceiver = (*AccessibilityManagerStub)(nil)
 func (s *AccessibilityManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAccessibilityManagerInterrupt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Interrupt(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerSendAccessibilityEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uiEvent AccessibilityEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uiEvent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uiEvent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SendAccessibilityEvent(ctx, _arg_uiEvent)
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerAddClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAccessibilityManagerClient
 		_ = _arg_client
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.AddClient(ctx, _arg_client)
@@ -1570,13 +1570,13 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerRemoveClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAccessibilityManagerClient
 		_ = _arg_client
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RemoveClient(ctx, _arg_client)
@@ -1589,10 +1589,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetInstalledAccessibilityServiceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstalledAccessibilityServiceList(ctx)
@@ -1605,14 +1605,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetEnabledAccessibilityServiceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_feedbackType, _err := data.ReadInt32()
+		_arg_feedbackType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEnabledAccessibilityServiceList(ctx, _arg_feedbackType)
@@ -1626,7 +1626,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityManagerAddAccessibilityInteractionConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_windowToken interface{}
@@ -1636,11 +1636,11 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection IAccessibilityInteractionConnection
 		_ = _arg_connection
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.AddAccessibilityInteractionConnection(ctx, _arg_windowToken, _arg_leashToken, _arg_connection, _arg_packageName)
@@ -1653,7 +1653,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerRemoveAccessibilityInteractionConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_windowToken interface{}
@@ -1666,7 +1666,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSetPictureInPictureActionReplacingConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1681,7 +1681,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerRegisterUiTestAutomationService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1689,10 +1689,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _arg_owner
 		var _arg_client interface{}
 		var _arg_info interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1705,7 +1705,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerUnregisterUiTestAutomationService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_client interface{}
@@ -1718,14 +1718,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetWindowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_windowId, _err := data.ReadInt32()
+		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWindowToken(ctx, _arg_windowId)
@@ -1739,14 +1739,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityManagerNotifyAccessibilityButtonClicked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetName, _err := data.ReadString16()
+		_arg_targetName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1759,10 +1759,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerNotifyAccessibilityButtonLongClicked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1775,10 +1775,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerNotifyAccessibilityButtonVisibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_available, _err := data.ReadBool()
+		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1791,18 +1791,18 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerPerformAccessibilityShortcut:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shortcutType, _err := data.ReadInt32()
+		_arg_shortcutType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetName, _err := data.ReadString16()
+		_arg_targetName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1815,10 +1815,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetAccessibilityShortcutTargets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_shortcutType, _err := data.ReadInt32()
+		_arg_shortcutType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1833,10 +1833,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityManagerSendFingerprintGesture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_gestureKeyCode, _err := data.ReadInt32()
+		_arg_gestureKeyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1850,7 +1850,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetAccessibilityWindowId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1866,7 +1866,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetRecommendedTimeoutMillis:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRecommendedTimeoutMillis(ctx)
@@ -1879,11 +1879,11 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerRegisterSystemAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_action interface{}
-		_arg_actionId, _err := data.ReadInt32()
+		_arg_actionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1891,10 +1891,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerUnregisterSystemAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_actionId, _err := data.ReadInt32()
+		_arg_actionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1902,7 +1902,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerSetMagnificationConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1912,7 +1912,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerAssociateEmbeddedHierarchy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1930,7 +1930,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerDisassociateEmbeddedHierarchy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1945,7 +1945,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetFocusStrokeWidth:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFocusStrokeWidth(ctx)
@@ -1958,7 +1958,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetFocusColor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFocusColor(ctx)
@@ -1971,7 +1971,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerIsAudioDescriptionByDefaultEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAudioDescriptionByDefaultEnabled(ctx)
@@ -1984,14 +1984,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSetSystemAudioCaptioningEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSystemAudioCaptioningEnabled(ctx, _arg_isEnabled)
@@ -2003,10 +2003,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerIsSystemAudioCaptioningUiEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSystemAudioCaptioningUiEnabled(ctx)
@@ -2019,14 +2019,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSetSystemAudioCaptioningUiEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSystemAudioCaptioningUiEnabled(ctx, _arg_isEnabled)
@@ -2038,28 +2038,28 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSetAccessibilityWindowAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_windowId, _err := data.ReadInt32()
+		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributes AccessibilityWindowAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2068,11 +2068,11 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerRegisterProxyForDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_proxy interface{}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2086,10 +2086,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerUnregisterProxyForDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2103,7 +2103,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerInjectInputEventToInputFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event interface{}
@@ -2116,14 +2116,14 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerStartFlashNotificationSequence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_opPkg, _err := data.ReadString16()
+		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2140,10 +2140,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerStopFlashNotificationSequence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_opPkg, _err := data.ReadString16()
+		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2157,18 +2157,18 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerStartFlashNotificationEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_opPkg, _err := data.ReadString16()
+		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reasonPkg, _err := data.ReadString16()
+		_arg_reasonPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2182,18 +2182,18 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerIsAccessibilityTargetAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAccessibilityTargetAllowed(ctx, _arg_packageName, _arg_uid)
@@ -2206,18 +2206,18 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerSendRestrictedDialogIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SendRestrictedDialogIntent(ctx, _arg_packageName, _arg_uid)
@@ -2230,7 +2230,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerIsAccessibilityServiceWarningRequired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info interface{}
@@ -2244,10 +2244,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetWindowTransformationSpec:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_windowId, _err := data.ReadInt32()
+		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2261,10 +2261,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityManagerAttachAccessibilityOverlayToDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2278,10 +2278,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerNotifyQuickSettingsTilesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2291,31 +2291,31 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerEnableShortcutsForTargets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shortcutTypes, _err := data.ReadInt32()
+		_arg_shortcutTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_shortcutTargets []string
 		_ = _arg_shortcutTargets
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.EnableShortcutsForTargets(ctx, _arg_enable, _arg_shortcutTypes, _arg_shortcutTargets)
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerGetA11yFeatureToTileMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetA11yFeatureToTileMap(ctx)
@@ -2328,7 +2328,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityManagerRegisterUserInitializationCompleteCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2343,7 +2343,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityManagerUnregisterUserInitializationCompleteCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

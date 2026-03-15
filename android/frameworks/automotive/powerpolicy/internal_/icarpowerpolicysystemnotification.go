@@ -157,11 +157,11 @@ var _ binder.TransactionReceiver = (*CarPowerPolicySystemNotificationStub)(nil)
 func (s *CarPowerPolicySystemNotificationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICarPowerPolicySystemNotificationNotifyCarServiceReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.NotifyCarServiceReady(ctx)
@@ -177,14 +177,14 @@ func (s *CarPowerPolicySystemNotificationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICarPowerPolicySystemNotificationNotifyPowerPolicyChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_policyId, _err := data.ReadString()
+		_arg_policyId, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_force, _err := data.ReadBool()
+		_arg_force, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -197,10 +197,10 @@ func (s *CarPowerPolicySystemNotificationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarPowerPolicySystemNotificationNotifyPowerPolicyDefinition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_policyId, _err := data.ReadString()
+		_arg_policyId, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}

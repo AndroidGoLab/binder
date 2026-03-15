@@ -87,11 +87,11 @@ var _ binder.TransactionReceiver = (*PackageInstallObserver2Stub)(nil)
 func (s *PackageInstallObserver2Stub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPackageInstallObserver2OnUserActionRequired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
@@ -99,18 +99,18 @@ func (s *PackageInstallObserver2Stub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPackageInstallObserver2OnPackageInstalled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_basePackageName, _err := data.ReadString16()
+		_arg_basePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_returnCode, _err := data.ReadInt32()
+		_arg_returnCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_msg, _err := data.ReadString16()
+		_arg_msg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

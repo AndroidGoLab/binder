@@ -297,11 +297,11 @@ var _ binder.TransactionReceiver = (*ImsRcsFeatureStub)(nil)
 func (s *ImsRcsFeatureStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsRcsFeatureQueryCapabilityStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryCapabilityStatus(ctx)
@@ -314,7 +314,7 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsRcsFeatureGetFeatureState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFeatureState(ctx)
@@ -327,7 +327,7 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsRcsFeatureAddCapabilityCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -337,7 +337,7 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRcsFeatureRemoveCapabilityCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -347,17 +347,17 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRcsFeatureChangeCapabilitiesConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_r feature.CapabilityChangeRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_r.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_r.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -369,14 +369,14 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRcsFeatureQueryCapabilityConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_radioTech, _err := data.ReadInt32()
+		_arg_radioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -387,7 +387,7 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRcsFeatureSetCapabilityExchangeEventListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -397,10 +397,10 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRcsFeaturePublishCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pidfXml, _err := data.ReadString16()
+		_arg_pidfXml, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -411,7 +411,7 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRcsFeatureSubscribeForCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -424,17 +424,17 @@ func (s *ImsRcsFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRcsFeatureSendOptionsCapabilityRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_contactUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_contactUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_contactUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

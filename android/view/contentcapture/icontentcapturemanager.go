@@ -313,11 +313,11 @@ var _ binder.TransactionReceiver = (*ContentCaptureManagerStub)(nil)
 func (s *ContentCaptureManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContentCaptureManagerStartSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -327,11 +327,11 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		var _arg_shareableActivityToken binder.IBinder
 		_ = _arg_shareableActivityToken
 		var _arg_componentName interface{}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -340,10 +340,10 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerFinishSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -351,7 +351,7 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerGetServiceComponentName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -359,17 +359,17 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerRemoveData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request DataRemovalRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -378,17 +378,17 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerShareData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request DataShareRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -400,7 +400,7 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerIsContentCaptureFeatureEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -408,7 +408,7 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerGetServiceSettingsActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}
@@ -416,10 +416,10 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerGetContentCaptureConditions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -428,27 +428,27 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerResetTemporaryService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetTemporaryService(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerSetTemporaryService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceName, _err := data.ReadString16()
+		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_duration, _err := data.ReadInt32()
+		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -456,13 +456,13 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerSetDefaultServiceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -470,10 +470,10 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerRegisterContentCaptureOptionsCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -484,7 +484,7 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureManagerOnLoginDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_events interface{}

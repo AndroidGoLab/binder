@@ -638,21 +638,21 @@ var _ binder.TransactionReceiver = (*BluetoothLeBroadcastAssistantStub)(nil)
 func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothLeBroadcastAssistantGetConnectionState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sink BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sink.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sink.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -668,7 +668,7 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetDevicesMatchingConnectionStates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -686,7 +686,7 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetConnectedDevices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_source interface{}
@@ -701,22 +701,22 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantSetConnectionPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_connectionPolicy, _err := data.ReadInt32()
+		_arg_connectionPolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -731,17 +731,17 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetConnectionPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -757,7 +757,7 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -773,7 +773,7 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantUnregisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -789,7 +789,7 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantStartSearchingForSources:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -805,7 +805,7 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantStopSearchingForSources:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_source interface{}
@@ -818,7 +818,7 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantIsSearchInProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_source interface{}
@@ -832,34 +832,34 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantAddSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sink BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sink.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sink.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sourceMetadata BluetoothLeBroadcastMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sourceMetadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sourceMetadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isGroupOp, _err := data.ReadBool()
+		_arg_isGroupOp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -873,33 +873,33 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantModifySource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sink BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sink.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sink.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_sourceId, _err := data.ReadInt32()
+		_arg_sourceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_updatedMetadata BluetoothLeBroadcastMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_updatedMetadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_updatedMetadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -914,22 +914,22 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantRemoveSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sink BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sink.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sink.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_sourceId, _err := data.ReadInt32()
+		_arg_sourceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -943,17 +943,17 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetAllSources:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sink BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sink.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sink.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -970,17 +970,17 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetMaximumSourceCapacity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sink BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sink.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sink.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -996,22 +996,22 @@ func (s *BluetoothLeBroadcastAssistantStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothLeBroadcastAssistantGetSourceMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sink BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sink.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sink.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_sourceId, _err := data.ReadInt32()
+		_arg_sourceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

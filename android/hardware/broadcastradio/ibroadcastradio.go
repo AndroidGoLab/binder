@@ -641,11 +641,11 @@ var _ binder.TransactionReceiver = (*BroadcastRadioStub)(nil)
 func (s *BroadcastRadioStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBroadcastRadioGetProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProperties(ctx)
@@ -661,10 +661,10 @@ func (s *BroadcastRadioStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBroadcastRadioGetAmFmRegionConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_full, _err := data.ReadBool()
+		_arg_full, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -681,7 +681,7 @@ func (s *BroadcastRadioStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBroadcastRadioGetDabRegionConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDabRegionConfig(ctx)
@@ -695,7 +695,7 @@ func (s *BroadcastRadioStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBroadcastRadioSetTunerCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -710,7 +710,7 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioUnsetTunerCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnsetTunerCallback(ctx)
@@ -722,17 +722,17 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioTune:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_program ProgramSelector
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_program.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_program.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -746,14 +746,14 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioSeek:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_directionUp, _err := data.ReadBool()
+		_arg_directionUp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipSubChannel, _err := data.ReadBool()
+		_arg_skipSubChannel, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -766,10 +766,10 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioStep:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_directionUp, _err := data.ReadBool()
+		_arg_directionUp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -782,7 +782,7 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioCancel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Cancel(ctx)
@@ -794,17 +794,17 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioStartProgramListUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_filter ProgramFilter
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_filter.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_filter.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -818,7 +818,7 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioStopProgramListUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopProgramListUpdates(ctx)
@@ -830,10 +830,10 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioIsConfigFlagSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_flag, _err := data.ReadInt32()
+		_raw_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -848,15 +848,15 @@ func (s *BroadcastRadioStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBroadcastRadioSetConfigFlag:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_flag, _err := data.ReadInt32()
+		_raw_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_flag := ConfigFlag(_raw_flag)
-		_arg_value, _err := data.ReadBool()
+		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -869,7 +869,7 @@ func (s *BroadcastRadioStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBroadcastRadioSetParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -886,7 +886,7 @@ func (s *BroadcastRadioStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBroadcastRadioGetParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -903,10 +903,10 @@ func (s *BroadcastRadioStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBroadcastRadioGetImage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -921,7 +921,7 @@ func (s *BroadcastRadioStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBroadcastRadioRegisterAnnouncementListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

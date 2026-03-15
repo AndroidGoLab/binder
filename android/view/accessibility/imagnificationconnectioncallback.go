@@ -176,25 +176,25 @@ var _ binder.TransactionReceiver = (*MagnificationConnectionCallbackStub)(nil)
 func (s *MagnificationConnectionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMagnificationConnectionCallbackOnWindowMagnifierBoundsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_bounds graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bounds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -203,14 +203,14 @@ func (s *MagnificationConnectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionCallbackOnChangeMagnificationMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_magnificationMode, _err := data.ReadInt32()
+		_arg_magnificationMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -218,21 +218,21 @@ func (s *MagnificationConnectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionCallbackOnSourceBoundsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sourceBounds graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sourceBounds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sourceBounds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -241,18 +241,18 @@ func (s *MagnificationConnectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionCallbackOnPerformScaleAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scale, _err := data.ReadFloat32()
+		_arg_scale, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_updatePersistence, _err := data.ReadBool()
+		_arg_updatePersistence, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -260,10 +260,10 @@ func (s *MagnificationConnectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionCallbackOnAccessibilityActionPerformed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -271,10 +271,10 @@ func (s *MagnificationConnectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMagnificationConnectionCallbackOnMove:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

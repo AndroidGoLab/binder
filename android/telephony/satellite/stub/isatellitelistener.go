@@ -228,26 +228,26 @@ var _ binder.TransactionReceiver = (*SatelliteListenerStub)(nil)
 func (s *SatelliteListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISatelliteListenerOnSatelliteDatagramReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_datagram SatelliteDatagram
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_datagram.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_datagram.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_pendingCount, _err := data.ReadInt32()
+		_arg_pendingCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -255,24 +255,24 @@ func (s *SatelliteListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteListenerOnPendingDatagrams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnPendingDatagrams(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteListenerOnSatellitePositionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pointingInfo PointingInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pointingInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pointingInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -281,10 +281,10 @@ func (s *SatelliteListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteListenerOnSatelliteModemStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_state, _err := data.ReadInt32()
+		_raw_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -293,17 +293,17 @@ func (s *SatelliteListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteListenerOnNtnSignalStrengthChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ntnSignalStrength NtnSignalStrength
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ntnSignalStrength.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ntnSignalStrength.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -312,17 +312,17 @@ func (s *SatelliteListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteListenerOnSatelliteCapabilitiesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_capabilities SatelliteCapabilities
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_capabilities.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_capabilities.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -331,10 +331,10 @@ func (s *SatelliteListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteListenerOnSatelliteSupportedStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_supported, _err := data.ReadBool()
+		_arg_supported, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -342,10 +342,10 @@ func (s *SatelliteListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteListenerOnRegistrationFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_causeCode, _err := data.ReadInt32()
+		_arg_causeCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -353,10 +353,10 @@ func (s *SatelliteListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteListenerOnTerrestrialNetworkAvailableChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isAvailable, _err := data.ReadBool()
+		_arg_isAvailable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

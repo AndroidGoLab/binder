@@ -102,26 +102,26 @@ var _ binder.TransactionReceiver = (*InputSensorEventListenerStub)(nil)
 func (s *InputSensorEventListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputSensorEventListenerOnInputSensorChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accuracy, _err := data.ReadInt32()
+		_arg_accuracy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -132,18 +132,18 @@ func (s *InputSensorEventListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputSensorEventListenerOnInputSensorAccuracyChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accuracy, _err := data.ReadInt32()
+		_arg_accuracy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -121,14 +121,14 @@ var _ binder.TransactionReceiver = (*SatelliteModemStateCallbackStub)(nil)
 func (s *SatelliteModemStateCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISatelliteModemStateCallbackOnSatelliteModemStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -136,10 +136,10 @@ func (s *SatelliteModemStateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteModemStateCallbackOnEmergencyModeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isEmergency, _err := data.ReadBool()
+		_arg_isEmergency, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -147,10 +147,10 @@ func (s *SatelliteModemStateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteModemStateCallbackOnRegistrationFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_causeCode, _err := data.ReadInt32()
+		_arg_causeCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -158,10 +158,10 @@ func (s *SatelliteModemStateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteModemStateCallbackOnTerrestrialNetworkAvailableChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isAvailable, _err := data.ReadBool()
+		_arg_isAvailable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

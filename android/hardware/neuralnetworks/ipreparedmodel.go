@@ -336,34 +336,34 @@ var _ binder.TransactionReceiver = (*PreparedModelStub)(nil)
 func (s *PreparedModelStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPreparedModelExecuteSynchronously:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request Request
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_measureTiming, _err := data.ReadBool()
+		_arg_measureTiming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deadlineNs, _err := data.ReadInt64()
+		_arg_deadlineNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_loopTimeoutDurationNs, _err := data.ReadInt64()
+		_arg_loopTimeoutDurationNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -380,17 +380,17 @@ func (s *PreparedModelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreparedModelExecuteFenced:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request Request
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -398,19 +398,19 @@ func (s *PreparedModelStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_waitFor []int32
 		_ = _arg_waitFor
-		_arg_measureTiming, _err := data.ReadBool()
+		_arg_measureTiming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deadlineNs, _err := data.ReadInt64()
+		_arg_deadlineNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_loopTimeoutDurationNs, _err := data.ReadInt64()
+		_arg_loopTimeoutDurationNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_durationNs, _err := data.ReadInt64()
+		_arg_durationNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -427,7 +427,7 @@ func (s *PreparedModelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreparedModelConfigureExecutionBurst:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ConfigureExecutionBurst(ctx)
@@ -441,29 +441,29 @@ func (s *PreparedModelStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPreparedModelCreateReusableExecution:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request Request
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_config ExecutionConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -479,34 +479,34 @@ func (s *PreparedModelStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPreparedModelExecuteSynchronouslyWithConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request Request
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_config ExecutionConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_deadlineNs, _err := data.ReadInt64()
+		_arg_deadlineNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -523,17 +523,17 @@ func (s *PreparedModelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreparedModelExecuteFencedWithConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request Request
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -543,21 +543,21 @@ func (s *PreparedModelStub) OnTransaction(
 		_ = _arg_waitFor
 		var _arg_config ExecutionConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_deadlineNs, _err := data.ReadInt64()
+		_arg_deadlineNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_durationNs, _err := data.ReadInt64()
+		_arg_durationNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

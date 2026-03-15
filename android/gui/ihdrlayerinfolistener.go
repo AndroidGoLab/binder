@@ -72,30 +72,30 @@ var _ binder.TransactionReceiver = (*HdrLayerInfoListenerStub)(nil)
 func (s *HdrLayerInfoListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHdrLayerInfoListenerOnHdrLayerInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_numberOfHdrLayers, _err := data.ReadInt32()
+		_arg_numberOfHdrLayers, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxW, _err := data.ReadInt32()
+		_arg_maxW, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxH, _err := data.ReadInt32()
+		_arg_maxH, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxDesiredHdrSdrRatio, _err := data.ReadFloat32()
+		_arg_maxDesiredHdrSdrRatio, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}

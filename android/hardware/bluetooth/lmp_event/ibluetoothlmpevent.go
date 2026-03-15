@@ -130,17 +130,17 @@ var _ binder.TransactionReceiver = (*BluetoothLmpEventStub)(nil)
 func (s *BluetoothLmpEventStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothLmpEventRegisterForLmpEvents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBluetoothLmpEventCallback
 		_ = _arg_callback
-		_raw_addressType, _err := data.ReadPaddedByte()
+		_raw_addressType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -160,10 +160,10 @@ func (s *BluetoothLmpEventStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLmpEventUnregisterLmpEvents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_addressType, _err := data.ReadPaddedByte()
+		_raw_addressType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}

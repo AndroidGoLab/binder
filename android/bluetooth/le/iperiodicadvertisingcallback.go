@@ -155,31 +155,31 @@ var _ binder.TransactionReceiver = (*PeriodicAdvertisingCallbackStub)(nil)
 func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPeriodicAdvertisingCallbackOnSyncEstablished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_syncHandle, _err := data.ReadInt32()
+		_arg_syncHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
-		_arg_advertisingSid, _err := data.ReadInt32()
+		_arg_advertisingSid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skip, _err := data.ReadInt32()
+		_arg_skip, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeout, _err := data.ReadInt32()
+		_arg_timeout, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -187,17 +187,17 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPeriodicAdvertisingCallbackOnPeriodicAdvertisingReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_report PeriodicAdvertisingReport
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_report.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_report.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -206,10 +206,10 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPeriodicAdvertisingCallbackOnSyncLost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_syncHandle, _err := data.ReadInt32()
+		_arg_syncHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -217,11 +217,11 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPeriodicAdvertisingCallbackOnSyncTransferred:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -229,14 +229,14 @@ func (s *PeriodicAdvertisingCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPeriodicAdvertisingCallbackOnBigInfoAdvertisingReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_syncHandle, _err := data.ReadInt32()
+		_arg_syncHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_encrypted, _err := data.ReadBool()
+		_arg_encrypted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

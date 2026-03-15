@@ -1285,21 +1285,21 @@ var _ binder.TransactionReceiver = (*FaceServiceStub)(nil)
 func (s *FaceServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIFaceServiceCreateTestSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback biometrics.ITestSessionCallback
 		_ = _arg_callback
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateTestSession(ctx, _arg_sensorId, _arg_callback)
@@ -1313,14 +1313,14 @@ func (s *FaceServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFaceServiceDumpSensorServiceStateProto:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clearSchedulerBuffer, _err := data.ReadBool()
+		_arg_clearSchedulerBuffer, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1335,10 +1335,10 @@ func (s *FaceServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFaceServiceGetSensorPropertiesInternal:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSensorPropertiesInternal(ctx)
@@ -1352,14 +1352,14 @@ func (s *FaceServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFaceServiceGetSensorProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSensorProperties(ctx, _arg_sensorId)
@@ -1375,13 +1375,13 @@ func (s *FaceServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIFaceServiceAuthenticate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1390,12 +1390,12 @@ func (s *FaceServiceStub) OnTransaction(
 		_ = _arg_receiver
 		var _arg_options FaceAuthenticateOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1410,7 +1410,7 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServiceDetectFace:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1421,12 +1421,12 @@ func (s *FaceServiceStub) OnTransaction(
 		_ = _arg_receiver
 		var _arg_options FaceAuthenticateOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1441,17 +1441,17 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServicePrepareForAuthentication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requireConfirmation, _err := data.ReadBool()
+		_arg_requireConfirmation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1460,25 +1460,25 @@ func (s *FaceServiceStub) OnTransaction(
 		_ = _arg_sensorReceiver
 		var _arg_options FaceAuthenticateOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cookie, _err := data.ReadInt32()
+		_arg_cookie, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allowBackgroundAuthentication, _err := data.ReadBool()
+		_arg_allowBackgroundAuthentication, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1491,14 +1491,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceStartPreparedClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cookie, _err := data.ReadInt32()
+		_arg_cookie, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1511,16 +1511,16 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceCancelAuthentication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1533,16 +1533,16 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceCancelFaceDetect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1555,20 +1555,20 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceCancelAuthenticationFromService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1581,10 +1581,10 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceEnroll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1596,25 +1596,25 @@ func (s *FaceServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_disabledFeatures []int32
 		_ = _arg_disabledFeatures
 		var _arg_previewSurface interface{}
-		_arg_debugConsent, _err := data.ReadBool()
+		_arg_debugConsent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options FaceEnrollOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1629,10 +1629,10 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServiceEnrollRemotely:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1644,7 +1644,7 @@ func (s *FaceServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1660,13 +1660,13 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServiceCancelEnrollment:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1679,23 +1679,23 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRemove:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_faceId, _err := data.ReadInt32()
+		_arg_faceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Remove(ctx, _arg_token, _arg_faceId, _arg_receiver)
@@ -1707,19 +1707,19 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRemoveAll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveAll(ctx, _arg_token, _arg_receiver)
@@ -1731,17 +1731,17 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceGetEnrolledFaces:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEnrolledFaces(ctx, _arg_sensorId)
@@ -1755,14 +1755,14 @@ func (s *FaceServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIFaceServiceIsHardwareDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHardwareDetected(ctx, _arg_sensorId)
@@ -1775,23 +1775,23 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFaceServiceGenerateChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GenerateChallenge(ctx, _arg_token, _arg_sensorId, _arg_receiver)
@@ -1803,23 +1803,23 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRevokeChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_challenge, _err := data.ReadInt64()
+		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1832,17 +1832,17 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceHasEnrolledFaces:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasEnrolledFaces(ctx, _arg_sensorId)
@@ -1855,14 +1855,14 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFaceServiceGetLockoutModeForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLockoutModeForUser(ctx, _arg_sensorId)
@@ -1875,14 +1875,14 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIFaceServiceInvalidateAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1897,14 +1897,14 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceGetAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAuthenticatorId(ctx, _arg_sensorId)
@@ -1917,23 +1917,23 @@ func (s *FaceServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIFaceServiceResetLockout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_hardwareAuthToken []byte
 		_ = _arg_hardwareAuthToken
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ResetLockout(ctx, _arg_token, _arg_sensorId, _arg_hardwareAuthToken)
@@ -1945,13 +1945,13 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceAddLockoutResetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback biometrics.IBiometricServiceLockoutResetCallback
 		_ = _arg_callback
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddLockoutResetCallback(ctx, _arg_callback)
@@ -1963,20 +1963,20 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceSetFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1986,7 +1986,7 @@ func (s *FaceServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetFeature(ctx, _arg_token, _arg_feature, _arg_enabled, _arg_hardwareAuthToken, _arg_receiver)
@@ -1998,23 +1998,23 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceGetFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IFaceServiceReceiver
 		_ = _arg_receiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GetFeature(ctx, _arg_token, _arg_feature, _arg_receiver)
@@ -2026,17 +2026,17 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRegisterAuthenticators:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_faceSensorConfigurations FaceSensorConfigurations
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_faceSensorConfigurations.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_faceSensorConfigurations.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2050,7 +2050,7 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceAddAuthenticatorsRegisteredCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2065,7 +2065,7 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRegisterAuthenticationStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2080,7 +2080,7 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceUnregisterAuthenticationStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2095,7 +2095,7 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceRegisterBiometricStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2110,7 +2110,7 @@ func (s *FaceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFaceServiceScheduleWatchdog:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleWatchdog(ctx)

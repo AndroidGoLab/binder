@@ -103,14 +103,14 @@ var _ binder.TransactionReceiver = (*BiometricContextListenerStub)(nil)
 func (s *BiometricContextListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBiometricContextListenerOnFoldChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_FoldState, _err := data.ReadInt32()
+		_raw_FoldState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -119,10 +119,10 @@ func (s *BiometricContextListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricContextListenerOnDisplayStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayState, _err := data.ReadInt32()
+		_arg_displayState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -130,10 +130,10 @@ func (s *BiometricContextListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricContextListenerOnHardwareIgnoreTouchesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_shouldIgnore, _err := data.ReadBool()
+		_arg_shouldIgnore, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

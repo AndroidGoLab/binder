@@ -116,29 +116,29 @@ var _ binder.TransactionReceiver = (*ArtManagerStub)(nil)
 func (s *ArtManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIArtManagerSnapshotRuntimeProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_profileType, _err := data.ReadInt32()
+		_arg_profileType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_codePath, _err := data.ReadString16()
+		_arg_codePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ISnapshotRuntimeProfileCallback
 		_ = _arg_callback
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SnapshotRuntimeProfile(ctx, _arg_profileType, _arg_packageName, _arg_codePath, _arg_callback)
@@ -150,14 +150,14 @@ func (s *ArtManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIArtManagerIsRuntimeProfilingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_profileType, _err := data.ReadInt32()
+		_arg_profileType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRuntimeProfilingEnabled(ctx, _arg_profileType)

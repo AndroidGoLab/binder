@@ -90,11 +90,11 @@ var _ binder.TransactionReceiver = (*NetworkScoreCacheStub)(nil)
 func (s *NetworkScoreCacheStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINetworkScoreCacheUpdateScores:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -104,7 +104,7 @@ func (s *NetworkScoreCacheStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkScoreCacheClearScores:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearScores(ctx)

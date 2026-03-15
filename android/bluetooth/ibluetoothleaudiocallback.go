@@ -178,25 +178,25 @@ var _ binder.TransactionReceiver = (*BluetoothLeAudioCallbackStub)(nil)
 func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothLeAudioCallbackOnCodecConfigChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_groupId, _err := data.ReadInt32()
+		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_status BluetoothLeAudioCodecStatus
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_status.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -205,22 +205,22 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeAudioCallbackOnGroupNodeAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_groupId, _err := data.ReadInt32()
+		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -228,22 +228,22 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeAudioCallbackOnGroupNodeRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_groupId, _err := data.ReadInt32()
+		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -251,14 +251,14 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeAudioCallbackOnGroupStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_groupId, _err := data.ReadInt32()
+		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_groupStatus, _err := data.ReadInt32()
+		_arg_groupStatus, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -266,14 +266,14 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeAudioCallbackOnGroupStreamStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_groupId, _err := data.ReadInt32()
+		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_groupStreamStatus, _err := data.ReadInt32()
+		_arg_groupStreamStatus, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -281,10 +281,10 @@ func (s *BluetoothLeAudioCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeAudioCallbackOnBroadcastToUnicastFallbackGroupChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_groupId, _err := data.ReadInt32()
+		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

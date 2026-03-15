@@ -68,22 +68,22 @@ var _ binder.TransactionReceiver = (*ObbActionListenerStub)(nil)
 func (s *ObbActionListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIObbActionListenerOnObbResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_filename, _err := data.ReadString16()
+		_arg_filename, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nonce, _err := data.ReadInt32()
+		_arg_nonce, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

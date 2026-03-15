@@ -199,39 +199,39 @@ var _ binder.TransactionReceiver = (*VoiceInteractionServiceStub)(nil)
 func (s *VoiceInteractionServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVoiceInteractionServiceReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Ready(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionServiceSoundModelsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SoundModelsChanged(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionServiceShutdown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Shutdown(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionServiceLaunchVoiceAssistFromKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.LaunchVoiceAssistFromKeyguard(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionServiceGetActiveServiceSupportedActions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -242,11 +242,11 @@ func (s *VoiceInteractionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionServicePrepareToShowSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -254,7 +254,7 @@ func (s *VoiceInteractionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionServiceShowSessionFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args interface{}
@@ -262,13 +262,13 @@ func (s *VoiceInteractionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionServiceDetectorRemoteExceptionOccurred:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_detectorType, _err := data.ReadInt32()
+		_arg_detectorType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

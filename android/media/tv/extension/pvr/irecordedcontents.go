@@ -145,11 +145,11 @@ var _ binder.TransactionReceiver = (*RecordedContentsStub)(nil)
 func (s *RecordedContentsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRecordedContentsDeleteRecordedContents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -167,10 +167,10 @@ func (s *RecordedContentsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecordedContentsGetRecordedContentsLockInfoSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contentUri, _err := data.ReadString16()
+		_arg_contentUri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -184,10 +184,10 @@ func (s *RecordedContentsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRecordedContentsGetRecordedContentsLockInfoAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contentUri, _err := data.ReadString16()
+		_arg_contentUri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

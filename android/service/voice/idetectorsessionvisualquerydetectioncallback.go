@@ -161,21 +161,21 @@ var _ binder.TransactionReceiver = (*DetectorSessionVisualQueryDetectionCallback
 func (s *DetectorSessionVisualQueryDetectionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnAttentionGained:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attentionResult VisualQueryAttentionResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attentionResult.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attentionResult.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -184,10 +184,10 @@ func (s *DetectorSessionVisualQueryDetectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnAttentionLost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_interactionIntention, _err := data.ReadInt32()
+		_arg_interactionIntention, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -195,10 +195,10 @@ func (s *DetectorSessionVisualQueryDetectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_partialQuery, _err := data.ReadString16()
+		_arg_partialQuery, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -206,17 +206,17 @@ func (s *DetectorSessionVisualQueryDetectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnResultDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_partialResult VisualQueryDetectedResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_partialResult.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_partialResult.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -225,14 +225,14 @@ func (s *DetectorSessionVisualQueryDetectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnQueryFinished(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIDetectorSessionVisualQueryDetectionCallbackOnQueryRejected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnQueryRejected(ctx)

@@ -97,11 +97,11 @@ var _ binder.TransactionReceiver = (*InputSurfaceConnectionStub)(nil)
 func (s *InputSurfaceConnectionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputSurfaceConnectionDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Disconnect(ctx)
@@ -113,7 +113,7 @@ func (s *InputSurfaceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputSurfaceConnectionSignalEndOfStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SignalEndOfStream(ctx)

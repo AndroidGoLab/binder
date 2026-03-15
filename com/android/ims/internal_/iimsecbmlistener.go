@@ -79,18 +79,18 @@ var _ binder.TransactionReceiver = (*ImsEcbmListenerStub)(nil)
 func (s *ImsEcbmListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsEcbmListenerEnteredECBM:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EnteredECBM(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsEcbmListenerExitedECBM:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ExitedECBM(ctx)

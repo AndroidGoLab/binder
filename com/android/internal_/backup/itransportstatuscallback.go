@@ -81,14 +81,14 @@ var _ binder.TransactionReceiver = (*TransportStatusCallbackStub)(nil)
 func (s *TransportStatusCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITransportStatusCallbackOnOperationCompleteWithStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -96,7 +96,7 @@ func (s *TransportStatusCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITransportStatusCallbackOnOperationComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnOperationComplete(ctx)

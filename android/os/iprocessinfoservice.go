@@ -157,17 +157,18 @@ var _ binder.TransactionReceiver = (*ProcessInfoServiceStub)(nil)
 func (s *ProcessInfoServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIProcessInfoServiceGetProcessStatesFromPids:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pids []int32
 		_ = _arg_pids
-		_err := s.Impl.GetProcessStatesFromPids(ctx, _arg_pids)
+		var _arg_states []int32
+		_err := s.Impl.GetProcessStatesFromPids(ctx, _arg_pids, _arg_states)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -176,13 +177,15 @@ func (s *ProcessInfoServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProcessInfoServiceGetProcessStatesAndOomScoresFromPids:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pids []int32
 		_ = _arg_pids
-		_err := s.Impl.GetProcessStatesAndOomScoresFromPids(ctx, _arg_pids)
+		var _arg_states []int32
+		var _arg_scores []int32
+		_err := s.Impl.GetProcessStatesAndOomScoresFromPids(ctx, _arg_pids, _arg_states, _arg_scores)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)

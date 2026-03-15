@@ -224,37 +224,37 @@ var _ binder.TransactionReceiver = (*AppIntegrityManagerStub)(nil)
 func (s *AppIntegrityManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAppIntegrityManagerUpdateRuleSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_version, _err := data.ReadString16()
+		_arg_version, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_rules pm.ParceledListSlice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_rules.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_rules.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_statusReceiver content.IntentSender
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusReceiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -268,7 +268,7 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppIntegrityManagerGetCurrentRuleSetVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentRuleSetVersion(ctx)
@@ -281,7 +281,7 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAppIntegrityManagerGetCurrentRuleSetProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentRuleSetProvider(ctx)
@@ -294,7 +294,7 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAppIntegrityManagerGetCurrentRules:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentRules(ctx)
@@ -310,7 +310,7 @@ func (s *AppIntegrityManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppIntegrityManagerGetWhitelistedRuleProviders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWhitelistedRuleProviders(ctx)

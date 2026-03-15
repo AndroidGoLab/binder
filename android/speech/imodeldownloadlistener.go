@@ -117,14 +117,14 @@ var _ binder.TransactionReceiver = (*ModelDownloadListenerStub)(nil)
 func (s *ModelDownloadListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIModelDownloadListenerOnProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_completedPercent, _err := data.ReadInt32()
+		_arg_completedPercent, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -132,24 +132,24 @@ func (s *ModelDownloadListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIModelDownloadListenerOnSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSuccess(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIModelDownloadListenerOnScheduled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnScheduled(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIModelDownloadListenerOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

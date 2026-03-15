@@ -266,22 +266,22 @@ var _ binder.TransactionReceiver = (*RequestCallbackStub)(nil)
 func (s *RequestCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRequestCallbackOnCaptureStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_frameNumber, _err := data.ReadInt64()
+		_arg_frameNumber, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -294,21 +294,21 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureProgressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_partialResult ParcelCaptureResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_partialResult.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_partialResult.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -322,21 +322,21 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_totalCaptureResult ParcelTotalCaptureResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_totalCaptureResult.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_totalCaptureResult.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -350,21 +350,21 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_captureFailure CaptureFailure
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_captureFailure.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_captureFailure.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -378,18 +378,18 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureBufferLost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_frameNumber, _err := data.ReadInt64()
+		_arg_frameNumber, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_outputStreamId, _err := data.ReadInt32()
+		_arg_outputStreamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -402,14 +402,14 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureSequenceCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sequenceId, _err := data.ReadInt32()
+		_arg_sequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_frameNumber, _err := data.ReadInt64()
+		_arg_frameNumber, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -422,10 +422,10 @@ func (s *RequestCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRequestCallbackOnCaptureSequenceAborted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sequenceId, _err := data.ReadInt32()
+		_arg_sequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

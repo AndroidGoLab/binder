@@ -1297,11 +1297,11 @@ var _ binder.TransactionReceiver = (*ConnectionServiceStub)(nil)
 func (s *ConnectionServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIConnectionServiceAddConnectionServiceAdapter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1309,12 +1309,12 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _arg_adapter
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1323,7 +1323,7 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceRemoveConnectionServiceAdapter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1331,12 +1331,12 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _arg_adapter
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1345,53 +1345,53 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceCreateConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_connectionManagerPhoneAccount androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request androidTelecom.ConnectionRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isIncoming, _err := data.ReadBool()
+		_arg_isIncoming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isUnknown, _err := data.ReadBool()
+		_arg_isUnknown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1400,21 +1400,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceCreateConnectionComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1423,49 +1423,49 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceCreateConnectionFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_connectionManagerPhoneAccount androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request androidTelecom.ConnectionRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isIncoming, _err := data.ReadBool()
+		_arg_isIncoming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1474,53 +1474,53 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceCreateConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_connectionManagerPhoneAccount androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request androidTelecom.ConnectionRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isIncoming, _err := data.ReadBool()
+		_arg_isIncoming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isUnknown, _err := data.ReadBool()
+		_arg_isUnknown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1529,21 +1529,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceCreateConferenceComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1552,49 +1552,49 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceCreateConferenceFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_connectionManagerPhoneAccount androidTelecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_connectionManagerPhoneAccount.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request androidTelecom.ConnectionRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isIncoming, _err := data.ReadBool()
+		_arg_isIncoming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1603,21 +1603,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceAbort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1626,25 +1626,25 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceAnswerVideo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_videoState, _err := data.ReadInt32()
+		_arg_videoState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1653,21 +1653,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceAnswer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1676,33 +1676,33 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceDeflect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_address net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_address.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_address.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1711,21 +1711,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceReject:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1734,25 +1734,25 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceRejectWithReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rejectReason, _err := data.ReadInt32()
+		_arg_rejectReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1761,25 +1761,25 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceRejectWithMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1788,37 +1788,37 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceTransfer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_number net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_number.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_number.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isConfirmationRequired, _err := data.ReadBool()
+		_arg_isConfirmationRequired, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1827,25 +1827,25 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceConsultativeTransfer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_otherCallId, _err := data.ReadString16()
+		_arg_otherCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1854,21 +1854,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1877,21 +1877,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceSilence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1900,21 +1900,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceHold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1923,21 +1923,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceUnhold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1946,33 +1946,33 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceOnCallAudioStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activeCallId, _err := data.ReadString16()
+		_arg_activeCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callAudioState androidTelecom.CallAudioState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callAudioState.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callAudioState.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1981,33 +1981,33 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceOnCallEndpointChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activeCallId, _err := data.ReadString16()
+		_arg_activeCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callEndpoint androidTelecom.CallEndpoint
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callEndpoint.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callEndpoint.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2016,10 +2016,10 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceOnAvailableCallEndpointsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activeCallId, _err := data.ReadString16()
+		_arg_activeCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2028,12 +2028,12 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _arg_availableCallEndpoints
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2042,25 +2042,25 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceOnMuteStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activeCallId, _err := data.ReadString16()
+		_arg_activeCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isMuted, _err := data.ReadBool()
+		_arg_isMuted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2069,26 +2069,26 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServicePlayDtmfTone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_digit, _err := data.ReadInt32()
+		_raw_digit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_digit := uint16(_raw_digit)
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2097,21 +2097,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceStopDtmfTone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2120,25 +2120,25 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_conferenceCallId, _err := data.ReadString16()
+		_arg_conferenceCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2147,21 +2147,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceSplitFromConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2170,21 +2170,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceMergeConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_conferenceCallId, _err := data.ReadString16()
+		_arg_conferenceCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2193,21 +2193,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceSwapConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_conferenceCallId, _err := data.ReadString16()
+		_arg_conferenceCallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2216,10 +2216,10 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceAddConferenceParticipants:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_CallId, _err := data.ReadString16()
+		_arg_CallId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2228,12 +2228,12 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _arg_participants
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2242,25 +2242,25 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceOnPostDialContinue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proceed, _err := data.ReadBool()
+		_arg_proceed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2269,21 +2269,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServicePullExternalCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2292,37 +2292,37 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceSendCallEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadString16()
+		_arg_event, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2331,33 +2331,33 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceOnCallFilteringCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_completionInfo androidTelecom.ConnectionCallFilteringCompletionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_completionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_completionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2366,33 +2366,33 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceOnExtrasChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2401,29 +2401,29 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceStartRtt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fromInCall, _err := data.ReadFileDescriptor()
+		_arg_fromInCall, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_toInCall, _err := data.ReadFileDescriptor()
+		_arg_toInCall, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2432,21 +2432,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceStopRtt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2455,29 +2455,29 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceRespondToRttUpgradeRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fromInCall, _err := data.ReadFileDescriptor()
+		_arg_fromInCall, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_toInCall, _err := data.ReadFileDescriptor()
+		_arg_toInCall, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2486,17 +2486,17 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceConnectionServiceFocusLost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2505,17 +2505,17 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceConnectionServiceFocusGained:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2524,37 +2524,37 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceHandoverFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request androidTelecom.ConnectionRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2563,21 +2563,21 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceHandoverComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2586,25 +2586,25 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceOnUsingAlternativeUi:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isUsingAlternativeUi, _err := data.ReadBool()
+		_arg_isUsingAlternativeUi, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2613,25 +2613,25 @@ func (s *ConnectionServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConnectionServiceOnTrackedByNonUiService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isTracked, _err := data.ReadBool()
+		_arg_isTracked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo Logging.SessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

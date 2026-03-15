@@ -228,21 +228,21 @@ var _ binder.TransactionReceiver = (*ContentCaptureServiceStub)(nil)
 func (s *ContentCaptureServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContentCaptureServiceOnConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback binder.IBinder
 		_ = _arg_callback
-		_arg_verbose, _err := data.ReadBool()
+		_arg_verbose, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_debug, _err := data.ReadBool()
+		_arg_debug, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -250,40 +250,40 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceOnDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDisconnected(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceOnSessionStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ viewContentcapture.ContentCaptureContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientReceiver os.IResultReceiver
 		_ = _arg_clientReceiver
-		_arg_initialState, _err := data.ReadInt32()
+		_arg_initialState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -291,10 +291,10 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceOnSessionFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -302,21 +302,21 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceOnActivitySnapshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_snapshotData SnapshotData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_snapshotData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_snapshotData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -325,17 +325,17 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceOnDataRemovalRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request viewContentcapture.DataRemovalRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -344,17 +344,17 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceOnDataShared:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request viewContentcapture.DataShareRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -366,17 +366,17 @@ func (s *ContentCaptureServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceOnActivityEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event ActivityEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

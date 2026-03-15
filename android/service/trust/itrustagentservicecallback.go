@@ -265,30 +265,30 @@ var _ binder.TransactionReceiver = (*TrustAgentServiceCallbackStub)(nil)
 func (s *TrustAgentServiceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITrustAgentServiceCallbackGrantTrust:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_message interface{}
-		_arg_durationMs, _err := data.ReadInt64()
+		_arg_durationMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_resultCallback infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -297,24 +297,24 @@ func (s *TrustAgentServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceCallbackRevokeTrust:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RevokeTrust(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceCallbackLockUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.LockUser(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceCallbackSetManagingTrust:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_managingTrust, _err := data.ReadBool()
+		_arg_managingTrust, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -322,10 +322,10 @@ func (s *TrustAgentServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceCallbackOnConfigureCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadBool()
+		_arg_result, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -336,65 +336,65 @@ func (s *TrustAgentServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceCallbackAddEscrowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddEscrowToken(ctx, _arg_token)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceCallbackIsEscrowTokenActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt64()
+		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.IsEscrowTokenActive(ctx, _arg_handle)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceCallbackRemoveEscrowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt64()
+		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveEscrowToken(ctx, _arg_handle)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceCallbackUnlockUserWithToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt64()
+		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UnlockUserWithToken(ctx, _arg_handle, _arg_token)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceCallbackShowKeyguardErrorMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_message interface{}

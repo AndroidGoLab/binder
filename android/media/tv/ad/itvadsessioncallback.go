@@ -214,11 +214,11 @@ var _ binder.TransactionReceiver = (*TvAdSessionCallbackStub)(nil)
 func (s *TvAdSessionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITvAdSessionCallbackOnSessionCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -228,22 +228,22 @@ func (s *TvAdSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdSessionCallbackOnLayoutSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_left, _err := data.ReadInt32()
+		_arg_left, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_top, _err := data.ReadInt32()
+		_arg_top, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_right, _err := data.ReadInt32()
+		_arg_right, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bottom, _err := data.ReadInt32()
+		_arg_bottom, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -251,46 +251,46 @@ func (s *TvAdSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdSessionCallbackOnRequestCurrentVideoBounds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRequestCurrentVideoBounds(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITvAdSessionCallbackOnRequestCurrentChannelUri:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRequestCurrentChannelUri(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITvAdSessionCallbackOnRequestTrackInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRequestTrackInfoList(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITvAdSessionCallbackOnRequestCurrentTvInputId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRequestCurrentTvInputId(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITvAdSessionCallbackOnRequestSigning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_algorithm, _err := data.ReadString16()
+		_arg_algorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -301,21 +301,21 @@ func (s *TvAdSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdSessionCallbackOnTvAdSessionData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadString16()
+		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_data os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

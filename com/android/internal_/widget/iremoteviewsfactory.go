@@ -383,11 +383,11 @@ var _ binder.TransactionReceiver = (*RemoteViewsFactoryStub)(nil)
 func (s *RemoteViewsFactoryStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRemoteViewsFactoryOnDataSetChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDataSetChanged(ctx)
@@ -399,24 +399,24 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryOnDataSetChangedAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDataSetChangedAsync(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteViewsFactoryOnDestroy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent content.Intent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -425,7 +425,7 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteViewsFactoryGetCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCount(ctx)
@@ -438,10 +438,10 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetViewAt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_position, _err := data.ReadInt32()
+		_arg_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -458,7 +458,7 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetLoadingView:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLoadingView(ctx)
@@ -474,7 +474,7 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetViewTypeCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetViewTypeCount(ctx)
@@ -487,10 +487,10 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetItemId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_position, _err := data.ReadInt32()
+		_arg_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -504,7 +504,7 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryHasStableIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasStableIds(ctx)
@@ -517,7 +517,7 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryIsCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCreated(ctx)
@@ -530,14 +530,14 @@ func (s *RemoteViewsFactoryStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteViewsFactoryGetRemoteCollectionItems:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capSize, _err := data.ReadInt32()
+		_arg_capSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capBitmapSize, _err := data.ReadInt32()
+		_arg_capBitmapSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

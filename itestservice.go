@@ -157,14 +157,14 @@ var _ binder.TransactionReceiver = (*TestServiceStub)(nil)
 func (s *TestServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITestServiceSetIntData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_input, _err := data.ReadInt32()
+		_arg_input, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -177,10 +177,10 @@ func (s *TestServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestServiceSetCharData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_input, _err := data.ReadInt32()
+		_raw_input, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -194,10 +194,10 @@ func (s *TestServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestServiceSetBooleanData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_input, _err := data.ReadBool()
+		_arg_input, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -210,7 +210,7 @@ func (s *TestServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITestServiceSetService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

@@ -495,11 +495,11 @@ var _ binder.TransactionReceiver = (*SplitScreenStub)(nil)
 func (s *SplitScreenStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISplitScreenRegisterSplitScreenListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -509,7 +509,7 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenUnregisterSplitScreenListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -519,7 +519,7 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenRegisterSplitSelectListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -529,7 +529,7 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenUnregisterSplitSelectListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -539,10 +539,10 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenExitSplitScreen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_toTopTaskId, _err := data.ReadInt32()
+		_arg_toTopTaskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -550,10 +550,10 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenExitSplitScreenOnHide:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_exitSplitScreenOnHide, _err := data.ReadBool()
+		_arg_exitSplitScreenOnHide, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -561,25 +561,25 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenStartTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_position, _err := data.ReadInt32()
+		_arg_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -588,53 +588,53 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenStartShortcut:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shortcutId, _err := data.ReadString16()
+		_arg_shortcutId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_position, _err := data.ReadInt32()
+		_arg_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_instanceId logging.InstanceId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_instanceId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -643,60 +643,60 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenStartIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_fillInIntent content.Intent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_fillInIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_fillInIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_position, _err := data.ReadInt32()
+		_arg_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_instanceId logging.InstanceId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_instanceId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -705,69 +705,69 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenStartTasks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId1, _err := data.ReadInt32()
+		_arg_taskId1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options1 os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options1.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options1.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_taskId2, _err := data.ReadInt32()
+		_arg_taskId2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options2 os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options2.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options2.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_splitPosition, _err := data.ReadInt32()
+		_arg_splitPosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_snapPosition, _err := data.ReadInt32()
+		_arg_snapPosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_instanceId logging.InstanceId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_instanceId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -776,81 +776,81 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenStartIntentAndTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pendingIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pendingIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_userId1, _err := data.ReadInt32()
+		_arg_userId1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options1 os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options1.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options1.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options2 os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options2.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options2.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_sidePosition, _err := data.ReadInt32()
+		_arg_sidePosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_snapPosition, _err := data.ReadInt32()
+		_arg_snapPosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_instanceId logging.InstanceId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_instanceId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -859,77 +859,77 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenStartShortcutAndTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_shortcutInfo pm.ShortcutInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_shortcutInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_shortcutInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options1 os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options1.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options1.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options2 os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options2.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options2.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_splitPosition, _err := data.ReadInt32()
+		_arg_splitPosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_snapPosition, _err := data.ReadInt32()
+		_arg_snapPosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_instanceId logging.InstanceId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_instanceId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -938,117 +938,117 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenStartIntents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pendingIntent1 app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pendingIntent1.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pendingIntent1.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_userId1, _err := data.ReadInt32()
+		_arg_userId1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_shortcutInfo1 pm.ShortcutInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_shortcutInfo1.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_shortcutInfo1.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options1 os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options1.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options1.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_pendingIntent2 app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pendingIntent2.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pendingIntent2.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_userId2, _err := data.ReadInt32()
+		_arg_userId2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_shortcutInfo2 pm.ShortcutInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_shortcutInfo2.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_shortcutInfo2.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options2 os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options2.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options2.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_splitPosition, _err := data.ReadInt32()
+		_arg_splitPosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_snapPosition, _err := data.ReadInt32()
+		_arg_snapPosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_instanceId logging.InstanceId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_instanceId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_instanceId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1057,7 +1057,7 @@ func (s *SplitScreenStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenSwitchSplitPosition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SwitchSplitPosition(ctx)

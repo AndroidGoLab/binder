@@ -472,17 +472,17 @@ var _ binder.TransactionReceiver = (*BiometricAuthenticatorStub)(nil)
 func (s *BiometricAuthenticatorStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBiometricAuthenticatorCreateTestSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITestSessionCallback
 		_ = _arg_callback
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateTestSession(ctx, _arg_callback)
@@ -496,10 +496,10 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorGetSensorProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSensorProperties(ctx)
@@ -515,10 +515,10 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorDumpSensorServiceStateProto:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clearSchedulerBuffer, _err := data.ReadBool()
+		_arg_clearSchedulerBuffer, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -533,46 +533,46 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorPrepareForAuthentication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requireConfirmation, _err := data.ReadBool()
+		_arg_requireConfirmation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sensorReceiver IBiometricSensorReceiver
 		_ = _arg_sensorReceiver
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cookie, _err := data.ReadInt32()
+		_arg_cookie, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allowBackgroundAuthentication, _err := data.ReadBool()
+		_arg_allowBackgroundAuthentication, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isForLegacyFingerprintManager, _err := data.ReadBool()
+		_arg_isForLegacyFingerprintManager, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isMandatoryBiometrics, _err := data.ReadBool()
+		_arg_isMandatoryBiometrics, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -585,10 +585,10 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorStartPreparedClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cookie, _err := data.ReadInt32()
+		_arg_cookie, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -601,16 +601,16 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorCancelAuthenticationFromService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -623,10 +623,10 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorIsHardwareDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHardwareDetected(ctx)
@@ -639,13 +639,13 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorHasEnrolledTemplates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasEnrolledTemplates(ctx)
@@ -658,10 +658,10 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorGetLockoutModeForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLockoutModeForUser(ctx)
@@ -674,10 +674,10 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorInvalidateAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -692,10 +692,10 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorGetAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAuthenticatorId(ctx)
@@ -708,16 +708,16 @@ func (s *BiometricAuthenticatorStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBiometricAuthenticatorResetLockout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

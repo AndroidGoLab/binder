@@ -200,21 +200,21 @@ var _ binder.TransactionReceiver = (*ImsRegistrationCallbackStub)(nil)
 func (s *ImsRegistrationCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsRegistrationCallbackOnRegistered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr ims.ImsRegistrationAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -223,17 +223,17 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationCallbackOnRegistering:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attr ims.ImsRegistrationAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attr.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attr.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -242,26 +242,26 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationCallbackOnDeregistered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info ims.ImsReasonInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_suggestedAction, _err := data.ReadInt32()
+		_arg_suggestedAction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_imsRadioTech, _err := data.ReadInt32()
+		_arg_imsRadioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -269,37 +269,37 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationCallbackOnDeregisteredWithDetails:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info ims.ImsReasonInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_suggestedAction, _err := data.ReadInt32()
+		_arg_suggestedAction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_imsRadioTech, _err := data.ReadInt32()
+		_arg_imsRadioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_detail ims.SipDetails
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_detail.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_detail.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -308,21 +308,21 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationCallbackOnTechnologyChangeFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_imsRadioTech, _err := data.ReadInt32()
+		_arg_imsRadioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_info ims.ImsReasonInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -331,7 +331,7 @@ func (s *ImsRegistrationCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsRegistrationCallbackOnSubscriberAssociatedUriChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

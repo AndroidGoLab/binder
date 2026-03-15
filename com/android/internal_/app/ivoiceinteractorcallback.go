@@ -193,17 +193,17 @@ var _ binder.TransactionReceiver = (*VoiceInteractorCallbackStub)(nil)
 func (s *VoiceInteractorCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVoiceInteractorCallbackDeliverConfirmationResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_request IVoiceInteractorRequest
 		_ = _arg_request
-		_arg_confirmed, _err := data.ReadBool()
+		_arg_confirmed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -212,13 +212,13 @@ func (s *VoiceInteractorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractorCallbackDeliverPickOptionResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_request IVoiceInteractorRequest
 		_ = _arg_request
-		_arg_finished, _err := data.ReadBool()
+		_arg_finished, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -230,7 +230,7 @@ func (s *VoiceInteractorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractorCallbackDeliverCompleteVoiceResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -241,7 +241,7 @@ func (s *VoiceInteractorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractorCallbackDeliverAbortVoiceResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -252,13 +252,13 @@ func (s *VoiceInteractorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractorCallbackDeliverCommandResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_request IVoiceInteractorRequest
 		_ = _arg_request
-		_arg_finished, _err := data.ReadBool()
+		_arg_finished, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -267,7 +267,7 @@ func (s *VoiceInteractorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractorCallbackDeliverCancel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -277,7 +277,7 @@ func (s *VoiceInteractorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractorCallbackDestroy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Destroy(ctx)

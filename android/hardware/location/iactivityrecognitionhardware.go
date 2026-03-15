@@ -288,11 +288,11 @@ var _ binder.TransactionReceiver = (*ActivityRecognitionHardwareStub)(nil)
 func (s *ActivityRecognitionHardwareStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIActivityRecognitionHardwareGetSupportedActivities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedActivities(ctx)
@@ -306,10 +306,10 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareIsActivitySupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activityType, _err := data.ReadString16()
+		_arg_activityType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -323,7 +323,7 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareRegisterSink:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -339,7 +339,7 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareUnregisterSink:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -355,18 +355,18 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareEnableActivityEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activityType, _err := data.ReadString16()
+		_arg_activityType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_eventType, _err := data.ReadInt32()
+		_arg_eventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reportLatencyNs, _err := data.ReadInt64()
+		_arg_reportLatencyNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -380,14 +380,14 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareDisableActivityEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activityType, _err := data.ReadString16()
+		_arg_activityType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_eventType, _err := data.ReadInt32()
+		_arg_eventType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -401,7 +401,7 @@ func (s *ActivityRecognitionHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityRecognitionHardwareFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Flush(ctx)

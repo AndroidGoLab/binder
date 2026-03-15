@@ -877,11 +877,11 @@ var _ binder.TransactionReceiver = (*ImsMmTelFeatureStub)(nil)
 func (s *ImsMmTelFeatureStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsMmTelFeatureSetListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -896,7 +896,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMmTelFeatureGetFeatureState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFeatureState(ctx)
@@ -909,14 +909,14 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsMmTelFeatureCreateCallProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callSessionType, _err := data.ReadInt32()
+		_arg_callSessionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callType, _err := data.ReadInt32()
+		_arg_callType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -933,7 +933,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsMmTelFeatureChangeOfferedRtpHeaderExtensionTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -948,17 +948,17 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMmTelFeatureCreateCallSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_profile ims.ImsCallProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -974,7 +974,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsMmTelFeatureShouldProcessCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -990,7 +990,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsMmTelFeatureGetUtInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUtInterface(ctx)
@@ -1004,7 +1004,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsMmTelFeatureGetEcbmInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEcbmInterface(ctx)
@@ -1018,21 +1018,21 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsMmTelFeatureSetUiTtyMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uiTtyMode, _err := data.ReadInt32()
+		_arg_uiTtyMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_onCompleteMessage contexthub.Message
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_onCompleteMessage.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_onCompleteMessage.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1046,7 +1046,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMmTelFeatureGetMultiEndpointInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMultiEndpointInterface(ctx)
@@ -1060,7 +1060,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsMmTelFeatureQueryCapabilityStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryCapabilityStatus(ctx)
@@ -1073,10 +1073,10 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsMmTelFeatureSetTerminalBasedCallWaitingStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1089,7 +1089,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMmTelFeatureAddCapabilityCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1099,7 +1099,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureRemoveCapabilityCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1109,17 +1109,17 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureChangeCapabilitiesConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request feature.CapabilityChangeRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1131,14 +1131,14 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureQueryCapabilityConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_radioTech, _err := data.ReadInt32()
+		_arg_radioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1149,7 +1149,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureNotifySrvccStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1159,42 +1159,42 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureNotifySrvccCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifySrvccCompleted(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureNotifySrvccFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifySrvccFailed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureNotifySrvccCanceled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifySrvccCanceled(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureSetMediaQualityThreshold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mediaSessionType, _err := data.ReadInt32()
+		_arg_mediaSessionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_threshold ims.MediaThreshold
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_threshold.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_threshold.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1203,10 +1203,10 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureQueryMediaQualityStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mediaSessionType, _err := data.ReadInt32()
+		_arg_mediaSessionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1223,7 +1223,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsMmTelFeatureSetSmsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1238,26 +1238,26 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsMmTelFeatureSendSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_messageRef, _err := data.ReadInt32()
+		_arg_messageRef, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_format, _err := data.ReadString16()
+		_arg_format, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_smsc, _err := data.ReadString16()
+		_arg_smsc, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_retry, _err := data.ReadBool()
+		_arg_retry, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1268,10 +1268,10 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureOnMemoryAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1279,18 +1279,18 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureAcknowledgeSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_messageRef, _err := data.ReadInt32()
+		_arg_messageRef, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1298,18 +1298,18 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureAcknowledgeSmsWithPdu:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_messageRef, _err := data.ReadInt32()
+		_arg_messageRef, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1320,18 +1320,18 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureAcknowledgeSmsReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_messageRef, _err := data.ReadInt32()
+		_arg_messageRef, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1339,7 +1339,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMmTelFeatureGetSmsFormat:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSmsFormat(ctx)
@@ -1352,7 +1352,7 @@ func (s *ImsMmTelFeatureStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIImsMmTelFeatureOnSmsReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSmsReady(ctx)

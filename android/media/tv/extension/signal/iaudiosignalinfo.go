@@ -201,14 +201,14 @@ var _ binder.TransactionReceiver = (*AudioSignalInfoStub)(nil)
 func (s *AudioSignalInfoStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAudioSignalInfoGetAudioSignalInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -225,10 +225,10 @@ func (s *AudioSignalInfoStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioSignalInfoNotifyMtsSelectTrackFlag:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mtsFlag, _err := data.ReadBool()
+		_arg_mtsFlag, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -241,7 +241,7 @@ func (s *AudioSignalInfoStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioSignalInfoGetMtsSelectedTrackId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMtsSelectedTrackId(ctx)
@@ -254,10 +254,10 @@ func (s *AudioSignalInfoStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIAudioSignalInfoAddAudioSignalInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientToken, _err := data.ReadString16()
+		_arg_clientToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -273,7 +273,7 @@ func (s *AudioSignalInfoStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioSignalInfoRemoveAudioSignalInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

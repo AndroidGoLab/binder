@@ -377,14 +377,14 @@ var _ binder.TransactionReceiver = (*RecoverySystemStub)(nil)
 func (s *RecoverySystemStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRecoverySystemAllocateSpaceForUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageFilePath, _err := data.ReadString16()
+		_arg_packageFilePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -398,10 +398,10 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemUncrypt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageFile, _err := data.ReadString16()
+		_arg_packageFile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -418,10 +418,10 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemSetupBcb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_command, _err := data.ReadString16()
+		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -435,7 +435,7 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemClearBcb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ClearBcb(ctx)
@@ -448,10 +448,10 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemRebootRecoveryWithCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_command, _err := data.ReadString16()
+		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -464,10 +464,10 @@ func (s *RecoverySystemStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRecoverySystemRequestLskf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -482,10 +482,10 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemClearLskf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -499,10 +499,10 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemIsLskfCaptured:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -516,14 +516,14 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemRebootWithLskfAssumeSlotSwitch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -537,18 +537,18 @@ func (s *RecoverySystemStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRecoverySystemRebootWithLskf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_slotSwitch, _err := data.ReadBool()
+		_arg_slotSwitch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

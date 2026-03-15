@@ -290,14 +290,14 @@ var _ binder.TransactionReceiver = (*TrustAgentServiceStub)(nil)
 func (s *TrustAgentServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITrustAgentServiceOnUnlockAttempt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_successful, _err := data.ReadBool()
+		_arg_successful, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -305,10 +305,10 @@ func (s *TrustAgentServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnUserRequestedUnlock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dismissKeyguard, _err := data.ReadBool()
+		_arg_dismissKeyguard, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -316,17 +316,17 @@ func (s *TrustAgentServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnUserMayRequestUnlock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnUserMayRequestUnlock(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnUnlockLockout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutMs, _err := data.ReadInt32()
+		_arg_timeoutMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -334,28 +334,28 @@ func (s *TrustAgentServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnTrustTimeout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnTrustTimeout(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnDeviceLocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDeviceLocked(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnDeviceUnlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDeviceUnlocked(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnConfigure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -368,7 +368,7 @@ func (s *TrustAgentServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -378,24 +378,24 @@ func (s *TrustAgentServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnEscrowTokenAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_token []byte
 		_ = _arg_token
-		_arg_handle, _err := data.ReadInt64()
+		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -404,14 +404,14 @@ func (s *TrustAgentServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnTokenStateReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt64()
+		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tokenState, _err := data.ReadInt32()
+		_arg_tokenState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -419,14 +419,14 @@ func (s *TrustAgentServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITrustAgentServiceOnEscrowTokenRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt64()
+		_arg_handle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_successful, _err := data.ReadBool()
+		_arg_successful, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

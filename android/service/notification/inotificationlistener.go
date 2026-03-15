@@ -636,21 +636,21 @@ var _ binder.TransactionReceiver = (*NotificationListenerStub)(nil)
 func (s *NotificationListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINotificationListenerOnListenerConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_update NotificationRankingUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -659,7 +659,7 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationPosted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -667,12 +667,12 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _arg_notificationHolder
 		var _arg_update NotificationRankingUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -681,29 +681,29 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationPostedFull:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sbn StatusBarNotification
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sbn.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sbn.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_update NotificationRankingUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -712,10 +712,10 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnStatusBarIconsBehaviorChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hideSilentStatusIcons, _err := data.ReadBool()
+		_arg_hideSilentStatusIcons, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -723,7 +723,7 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -731,29 +731,29 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _arg_notificationHolder
 		var _arg_update NotificationRankingUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_stats NotificationStats
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_stats.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_stats.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -761,46 +761,46 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationRemovedFull:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sbn StatusBarNotification
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sbn.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sbn.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_update NotificationRankingUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_stats NotificationStats
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_stats.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_stats.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -808,17 +808,17 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationRankingUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_update NotificationRankingUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -827,10 +827,10 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnListenerHintsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hints, _err := data.ReadInt32()
+		_arg_hints, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -838,10 +838,10 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnInterruptionFilterChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_interruptionFilter, _err := data.ReadInt32()
+		_arg_interruptionFilter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -849,16 +849,16 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationChannelModification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkgName, _err := data.ReadString16()
+		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
 		var _arg_channel interface{}
-		_arg_modificationType, _err := data.ReadInt32()
+		_arg_modificationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -866,16 +866,16 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationChannelGroupModification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkgName, _err := data.ReadString16()
+		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
 		var _arg_group interface{}
-		_arg_modificationType, _err := data.ReadInt32()
+		_arg_modificationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -883,7 +883,7 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationEnqueuedWithChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -892,12 +892,12 @@ func (s *NotificationListenerStub) OnTransaction(
 		var _arg_channel interface{}
 		var _arg_update NotificationRankingUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -906,17 +906,17 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationEnqueuedWithChannelFull:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sbn StatusBarNotification
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sbn.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sbn.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -924,12 +924,12 @@ func (s *NotificationListenerStub) OnTransaction(
 		var _arg_channel interface{}
 		var _arg_update NotificationRankingUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -938,13 +938,13 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationSnoozedUntilContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_notificationHolder IStatusBarNotificationHolder
 		_ = _arg_notificationHolder
-		_arg_snoozeCriterionId, _err := data.ReadString16()
+		_arg_snoozeCriterionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -952,22 +952,22 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationSnoozedUntilContextFull:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sbn StatusBarNotification
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sbn.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sbn.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_snoozeCriterionId, _err := data.ReadString16()
+		_arg_snoozeCriterionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -975,7 +975,7 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationsSeen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -985,10 +985,10 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnPanelRevealed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_items, _err := data.ReadInt32()
+		_arg_items, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -996,21 +996,21 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnPanelHidden:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnPanelHidden(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationVisibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isVisible, _err := data.ReadBool()
+		_arg_isVisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1018,18 +1018,18 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationExpansionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_userAction, _err := data.ReadBool()
+		_arg_userAction, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_expanded, _err := data.ReadBool()
+		_arg_expanded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1037,10 +1037,10 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationDirectReply:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1048,15 +1048,15 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnSuggestedReplySent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_reply interface{}
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1064,15 +1064,15 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnActionClicked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_action interface{}
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1080,10 +1080,10 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationClicked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1091,28 +1091,28 @@ func (s *NotificationListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnAllowedAdjustmentsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnAllowedAdjustmentsChanged(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionINotificationListenerOnNotificationFeedbackReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_update NotificationRankingUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

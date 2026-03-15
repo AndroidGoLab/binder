@@ -498,18 +498,18 @@ var _ binder.TransactionReceiver = (*InputMethodPrivilegedOperationsStub)(nil)
 func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputMethodPrivilegedOperationsSetImeWindowStatusAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_vis, _err := data.ReadInt32()
+		_arg_vis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_backDisposition, _err := data.ReadInt32()
+		_arg_backDisposition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -517,7 +517,7 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsReportStartInputAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -527,22 +527,22 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsCreateInputContentUriToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_contentUri interface{}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -551,10 +551,10 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsReportFullscreenModeAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fullscreen, _err := data.ReadBool()
+		_arg_fullscreen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -562,21 +562,21 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsSetInputMethod:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -585,33 +585,33 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsSetInputMethodAndSubtype:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_subtype viewInputmethod.InputMethodSubtype
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_subtype.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_subtype.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -620,37 +620,37 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsHideMySoftInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -659,37 +659,37 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsShowMySoftInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -698,14 +698,14 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsUpdateStatusIconAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iconId, _err := data.ReadInt32()
+		_arg_iconId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -713,17 +713,17 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsSwitchToPreviousInputMethod:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -732,21 +732,21 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsSwitchToNextInputMethod:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_onlyCurrentIme, _err := data.ReadBool()
+		_arg_onlyCurrentIme, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -755,17 +755,17 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsShouldOfferSwitchingToNextInputMethod:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -774,10 +774,10 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsOnImeSwitchButtonClickFromClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -785,31 +785,31 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsNotifyUserActionAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyUserActionAsync(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsApplyImeVisibilityAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_showOrHideInputToken binder.IBinder
 		_ = _arg_showOrHideInputToken
-		_arg_setVisible, _err := data.ReadBool()
+		_arg_setVisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -818,14 +818,14 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsOnStylusHandwritingReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -833,10 +833,10 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsResetStylusHandwriting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -844,10 +844,10 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsSwitchKeyboardLayoutAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_direction, _err := data.ReadInt32()
+		_arg_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -855,10 +855,10 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsSetHandwritingSurfaceNotTouchable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_notTouchable, _err := data.ReadBool()
+		_arg_notTouchable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -866,17 +866,17 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodPrivilegedOperationsSetHandwritingTouchableRegion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_region graphics.Region
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_region.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_region.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

@@ -83,11 +83,11 @@ var _ binder.TransactionReceiver = (*BluetoothProfileServiceConnectionStub)(nil)
 func (s *BluetoothProfileServiceConnectionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothProfileServiceConnectionOnServiceConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_comp interface{}
@@ -98,7 +98,7 @@ func (s *BluetoothProfileServiceConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothProfileServiceConnectionOnServiceDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_comp interface{}

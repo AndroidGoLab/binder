@@ -76,37 +76,37 @@ var _ binder.TransactionReceiver = (*CallScreeningAdapterStub)(nil)
 func (s *CallScreeningAdapterStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICallScreeningAdapterOnScreeningResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_response androidTelecom.CallScreeningServiceParcelableCallResponse
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_response.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

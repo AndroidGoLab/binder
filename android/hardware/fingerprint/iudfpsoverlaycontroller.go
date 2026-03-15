@@ -171,22 +171,22 @@ var _ binder.TransactionReceiver = (*UdfpsOverlayControllerStub)(nil)
 func (s *UdfpsOverlayControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUdfpsOverlayControllerShowUdfpsOverlay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -197,10 +197,10 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUdfpsOverlayControllerHideUdfpsOverlay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -208,14 +208,14 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUdfpsOverlayControllerOnAcquired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_acquiredInfo, _err := data.ReadInt32()
+		_arg_acquiredInfo, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -223,14 +223,14 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUdfpsOverlayControllerOnEnrollmentProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_remaining, _err := data.ReadInt32()
+		_arg_remaining, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -238,10 +238,10 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUdfpsOverlayControllerOnEnrollmentHelp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -249,14 +249,14 @@ func (s *UdfpsOverlayControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUdfpsOverlayControllerSetDebugMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

@@ -116,28 +116,28 @@ var _ binder.TransactionReceiver = (*VoiceInteractionSessionListenerStub)(nil)
 func (s *VoiceInteractionSessionListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVoiceInteractionSessionListenerOnVoiceSessionShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnVoiceSessionShown(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionListenerOnVoiceSessionHidden:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnVoiceSessionHidden(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionListenerOnVoiceSessionWindowVisibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -145,7 +145,7 @@ func (s *VoiceInteractionSessionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionListenerOnSetUiHints:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args interface{}

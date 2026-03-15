@@ -123,33 +123,33 @@ var _ binder.TransactionReceiver = (*OriginTransitionsStub)(nil)
 func (s *OriginTransitionsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOriginTransitionsMakeOriginTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_launchTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_launchTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_launchTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_returnTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_returnTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_returnTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -167,17 +167,17 @@ func (s *OriginTransitionsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOriginTransitionsCancelOriginTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_originTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_originTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_originTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

@@ -115,21 +115,21 @@ var _ binder.TransactionReceiver = (*WwanSelectorCallbackStub)(nil)
 func (s *WwanSelectorCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWwanSelectorCallbackOnRequestEmergencyNetworkScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_preferredNetworks []int32
 		_ = _arg_preferredNetworks
-		_arg_scanType, _err := data.ReadInt32()
+		_arg_scanType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_resetScan, _err := data.ReadBool()
+		_arg_resetScan, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -140,14 +140,14 @@ func (s *WwanSelectorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWwanSelectorCallbackOnDomainSelected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_domain, _err := data.ReadInt32()
+		_arg_domain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_useEmergencyPdn, _err := data.ReadBool()
+		_arg_useEmergencyPdn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -155,7 +155,7 @@ func (s *WwanSelectorCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWwanSelectorCallbackOnCancel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnCancel(ctx)

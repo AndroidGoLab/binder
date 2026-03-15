@@ -668,11 +668,11 @@ var _ binder.TransactionReceiver = (*TvInputSessionCallbackStub)(nil)
 func (s *TvInputSessionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITvInputSessionCallbackOnSessionCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -685,21 +685,21 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnSessionEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_args os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -708,17 +708,17 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnChannelRetuned:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_channelUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_channelUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -727,7 +727,7 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnAudioPresentationsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -737,14 +737,14 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnAudioPresentationSelected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_presentationId, _err := data.ReadInt32()
+		_arg_presentationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_programId, _err := data.ReadInt32()
+		_arg_programId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -752,7 +752,7 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnTracksChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -762,14 +762,14 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnTrackSelected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_trackId, _err := data.ReadString16()
+		_arg_trackId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -777,17 +777,17 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnVideoAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnVideoAvailable(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnVideoUnavailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -795,10 +795,10 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnVideoFreezeUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isFrozen, _err := data.ReadBool()
+		_arg_isFrozen, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -806,17 +806,17 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnContentAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnContentAllowed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnContentBlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rating, _err := data.ReadString16()
+		_arg_rating, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -824,22 +824,22 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnLayoutSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_left, _err := data.ReadInt32()
+		_arg_left, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_top, _err := data.ReadInt32()
+		_arg_top, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_right, _err := data.ReadInt32()
+		_arg_right, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bottom, _err := data.ReadInt32()
+		_arg_bottom, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -847,10 +847,10 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnTimeShiftStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -858,10 +858,10 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnTimeShiftStartPositionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeMs, _err := data.ReadInt64()
+		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -869,10 +869,10 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnTimeShiftCurrentPositionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeMs, _err := data.ReadInt64()
+		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -880,17 +880,17 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnAitInfoUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_aitInfo AitInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_aitInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_aitInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -899,10 +899,10 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnSignalStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strength, _err := data.ReadInt32()
+		_arg_strength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -910,10 +910,10 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnCueingMessageAvailability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_available, _err := data.ReadBool()
+		_arg_available, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -921,10 +921,10 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnTimeShiftMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -932,7 +932,7 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnAvailableSpeeds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -942,17 +942,17 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnTuned:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_channelUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_channelUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_channelUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -961,17 +961,17 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnRecordingStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_recordedProgramUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_recordedProgramUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_recordedProgramUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -980,10 +980,10 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -991,17 +991,17 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnBroadcastInfoResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_response BroadcastInfoResponse
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_response.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1010,17 +1010,17 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnAdResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_response AdResponse
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_response.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1029,17 +1029,17 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnAdBufferConsumed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_buffer AdBuffer
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_buffer.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_buffer.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1048,21 +1048,21 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnTvMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_data os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1071,21 +1071,21 @@ func (s *TvInputSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvInputSessionCallbackOnTvInputSessionData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadString16()
+		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_data os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

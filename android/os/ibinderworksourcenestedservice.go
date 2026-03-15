@@ -129,14 +129,14 @@ var _ binder.TransactionReceiver = (*BinderWorkSourceNestedServiceStub)(nil)
 func (s *BinderWorkSourceNestedServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBinderWorkSourceNestedServiceNestedCallWithWorkSourceToSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uidToBlame, _err := data.ReadInt32()
+		_arg_uidToBlame, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -151,7 +151,7 @@ func (s *BinderWorkSourceNestedServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderWorkSourceNestedServiceNestedCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.NestedCall(ctx)

@@ -1863,18 +1863,18 @@ var _ binder.TransactionReceiver = (*ComposerClientStub)(nil)
 func (s *ComposerClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIComposerClientCreateLayer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bufferSlotCount, _err := data.ReadInt32()
+		_arg_bufferSlotCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1888,23 +1888,23 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIComposerClientCreateVirtualDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_formatHint, _err := data.ReadInt32()
+		_raw_formatHint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_formatHint := common.PixelFormat(_raw_formatHint)
-		_arg_outputBufferSlotCount, _err := data.ReadInt32()
+		_arg_outputBufferSlotCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1921,14 +1921,14 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientDestroyLayer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_layer, _err := data.ReadInt64()
+		_arg_layer, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1941,10 +1941,10 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientDestroyVirtualDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1957,7 +1957,7 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientExecuteCommands:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1974,10 +1974,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientGetActiveConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1991,10 +1991,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetColorModes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2009,10 +2009,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientGetDataspaceSaturationMatrix:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_dataspace, _err := data.ReadInt32()
+		_raw_dataspace, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2028,18 +2028,18 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayAttribute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_config, _err := data.ReadInt32()
+		_arg_config, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_attribute, _err := data.ReadInt32()
+		_raw_attribute, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2054,10 +2054,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2072,10 +2072,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayConfigs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2090,10 +2090,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayConnectionType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2107,10 +2107,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayIdentificationData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2127,10 +2127,10 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2144,10 +2144,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayVsyncPeriod:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2161,18 +2161,18 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayedContentSample:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxFrames, _err := data.ReadInt64()
+		_arg_maxFrames, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2189,10 +2189,10 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayedContentSamplingAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2209,10 +2209,10 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayPhysicalOrientation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2226,10 +2226,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIComposerClientGetHdrCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2246,7 +2246,7 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetMaxVirtualDisplayCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMaxVirtualDisplayCount(ctx)
@@ -2259,10 +2259,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetPerFrameMetadataKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2277,10 +2277,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientGetReadbackBufferAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2297,10 +2297,10 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetReadbackBufferFence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2314,14 +2314,14 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIComposerClientGetRenderIntents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_mode, _err := data.ReadInt32()
+		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2337,10 +2337,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientGetSupportedContentTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2355,10 +2355,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayDecorationSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2375,7 +2375,7 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2390,14 +2390,14 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetActiveConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_config, _err := data.ReadInt32()
+		_arg_config, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2410,25 +2410,25 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetActiveConfigWithConstraints:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_config, _err := data.ReadInt32()
+		_arg_config, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_vsyncPeriodChangeConstraints VsyncPeriodChangeConstraints
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_vsyncPeriodChangeConstraints.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_vsyncPeriodChangeConstraints.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2446,14 +2446,14 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientSetBootDisplayConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_config, _err := data.ReadInt32()
+		_arg_config, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2466,10 +2466,10 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientClearBootDisplayConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2482,10 +2482,10 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientGetPreferredBootDisplayConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2499,14 +2499,14 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientSetAutoLowLatencyMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_on, _err := data.ReadBool()
+		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2519,14 +2519,14 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetClientTargetSlotCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientTargetSlotCount, _err := data.ReadInt32()
+		_arg_clientTargetSlotCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2539,19 +2539,19 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetColorMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_mode, _err := data.ReadInt32()
+		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_mode := ColorMode(_raw_mode)
-		_raw_intent, _err := data.ReadInt32()
+		_raw_intent, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2565,14 +2565,14 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetContentType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2586,23 +2586,23 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetDisplayedContentSamplingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_componentMask, _err := data.ReadPaddedByte()
+		_raw_componentMask, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_componentMask := FormatColorComponent(_raw_componentMask)
-		_arg_maxFrames, _err := data.ReadInt64()
+		_arg_maxFrames, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2615,14 +2615,14 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetPowerMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_mode, _err := data.ReadInt32()
+		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2636,29 +2636,30 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetReadbackBuffer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_buffer hardwareCommon.NativeHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_buffer.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_buffer.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_releaseFence, _err := data.ReadFileDescriptor()
+		_raw_releaseFence, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
+		_arg_releaseFence := &_raw_releaseFence
 		_err = s.Impl.SetReadbackBuffer(ctx, _arg_display, _arg_buffer, _arg_releaseFence)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2668,14 +2669,14 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetVsyncEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2688,14 +2689,14 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientSetIdleTimerEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutMs, _err := data.ReadInt32()
+		_arg_timeoutMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2708,7 +2709,7 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientGetOverlaySupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOverlaySupport(ctx)
@@ -2724,7 +2725,7 @@ func (s *ComposerClientStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComposerClientGetHdrConversionCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHdrConversionCapabilities(ctx)
@@ -2738,17 +2739,17 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientSetHdrConversionStrategy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_conversionStrategy gui.HdrConversionStrategy
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_conversionStrategy.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_conversionStrategy.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2763,14 +2764,14 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIComposerClientSetRefreshRateChangedCallbackDebugEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2783,14 +2784,14 @@ func (s *ComposerClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComposerClientGetDisplayConfigurations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxFrameIntervalNs, _err := data.ReadInt32()
+		_arg_maxFrameIntervalNs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2805,26 +2806,26 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComposerClientNotifyExpectedPresent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_expectedPresentTime ClockMonotonicTimestamp
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_expectedPresentTime.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_expectedPresentTime.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_frameIntervalNs, _err := data.ReadInt32()
+		_arg_frameIntervalNs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2832,10 +2833,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIComposerClientGetMaxLayerPictureProfiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2849,21 +2850,21 @@ func (s *ComposerClientStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIComposerClientStartHdcpNegotiation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_levels drm.HdcpLevels
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_levels.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_levels.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2872,10 +2873,10 @@ func (s *ComposerClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIComposerClientGetLuts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt64()
+		_arg_display, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

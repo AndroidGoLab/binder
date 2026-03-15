@@ -203,14 +203,14 @@ var _ binder.TransactionReceiver = (*TextToSpeechCallbackStub)(nil)
 func (s *TextToSpeechCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITextToSpeechCallbackOnStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -218,10 +218,10 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITextToSpeechCallbackOnSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -229,14 +229,14 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITextToSpeechCallbackOnStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isStarted, _err := data.ReadBool()
+		_arg_isStarted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -244,14 +244,14 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITextToSpeechCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -259,22 +259,22 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITextToSpeechCallbackOnBeginSynthesis:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sampleRateInHz, _err := data.ReadInt32()
+		_arg_sampleRateInHz, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_audioFormat, _err := data.ReadInt32()
+		_arg_audioFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_channelCount, _err := data.ReadInt32()
+		_arg_channelCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -282,10 +282,10 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITextToSpeechCallbackOnAudioAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -296,22 +296,22 @@ func (s *TextToSpeechCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITextToSpeechCallbackOnRangeStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_utteranceId, _err := data.ReadString16()
+		_arg_utteranceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_start, _err := data.ReadInt32()
+		_arg_start, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_end, _err := data.ReadInt32()
+		_arg_end, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_frame, _err := data.ReadInt32()
+		_arg_frame, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

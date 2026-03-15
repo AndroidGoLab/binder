@@ -200,60 +200,41 @@ var _ binder.TransactionReceiver = (*StorageEventListenerStub)(nil)
 func (s *StorageEventListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStorageEventListenerOnUsbMassStorageConnectionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_connected, _err := data.ReadBool()
+		_arg_connected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnUsbMassStorageConnectionChanged(ctx, _arg_connected)
 		_ = _err
 		return nil, nil
-	case TransactionIStorageEventListenerOnStorageStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		_arg_path, _err := data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_oldState, _err := data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_arg_newState, _err := data.ReadString16()
-		if _err != nil {
-			return nil, _err
-		}
-		_err = s.Impl.OnStorageStateChanged(ctx, _arg_path, _arg_oldState, _arg_newState)
-		_ = _err
-		return nil, nil
 	case TransactionIStorageEventListenerOnVolumeStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_vol VolumeInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_vol.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_vol.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_oldState, _err := data.ReadInt32()
+		_arg_oldState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newState, _err := data.ReadInt32()
+		_arg_newState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -261,17 +242,17 @@ func (s *StorageEventListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStorageEventListenerOnVolumeRecordChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_rec VolumeRecord
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_rec.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_rec.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -280,10 +261,10 @@ func (s *StorageEventListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStorageEventListenerOnVolumeForgotten:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fsUuid, _err := data.ReadString16()
+		_arg_fsUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -291,22 +272,22 @@ func (s *StorageEventListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStorageEventListenerOnDiskScanned:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_disk DiskInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_disk.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_disk.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_volumeCount, _err := data.ReadInt32()
+		_arg_volumeCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -314,17 +295,17 @@ func (s *StorageEventListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStorageEventListenerOnDiskDestroyed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_disk DiskInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_disk.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_disk.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

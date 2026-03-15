@@ -116,14 +116,14 @@ var _ binder.TransactionReceiver = (*QualifiedNetworksServiceCallbackStub)(nil)
 func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIQualifiedNetworksServiceCallbackOnQualifiedNetworkTypesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_apnTypes, _err := data.ReadInt32()
+		_arg_apnTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -134,10 +134,10 @@ func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIQualifiedNetworksServiceCallbackOnNetworkValidationRequested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkCapability, _err := data.ReadInt32()
+		_arg_networkCapability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -148,14 +148,14 @@ func (s *QualifiedNetworksServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIQualifiedNetworksServiceCallbackOnReconnectQualifiedNetworkType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_apnTypes, _err := data.ReadInt32()
+		_arg_apnTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_qualifiedNetworkType, _err := data.ReadInt32()
+		_arg_qualifiedNetworkType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

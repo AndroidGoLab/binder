@@ -115,25 +115,25 @@ var _ binder.TransactionReceiver = (*ServiceListExportSessionStub)(nil)
 func (s *ServiceListExportSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIServiceListExportSessionExportServiceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pfd, _err := data.ReadFileDescriptor()
+		_arg_pfd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_exportParams os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_exportParams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_exportParams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -148,7 +148,7 @@ func (s *ServiceListExportSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListExportSessionRelease:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Release(ctx)

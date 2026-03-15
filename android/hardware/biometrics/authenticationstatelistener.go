@@ -200,21 +200,21 @@ var _ binder.TransactionReceiver = (*AuthenticationStateListenerStub)(nil)
 func (s *AuthenticationStateListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionAuthenticationStateListenerOnAuthenticationAcquired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_authInfo events.AuthenticationAcquiredInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -223,17 +223,17 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionAuthenticationStateListenerOnAuthenticationError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_authInfo events.AuthenticationErrorInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -242,17 +242,17 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionAuthenticationStateListenerOnAuthenticationFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_authInfo events.AuthenticationFailedInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -261,17 +261,17 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionAuthenticationStateListenerOnAuthenticationHelp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_authInfo events.AuthenticationHelpInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -280,17 +280,17 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionAuthenticationStateListenerOnAuthenticationStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_authInfo events.AuthenticationStartedInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -299,17 +299,17 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionAuthenticationStateListenerOnAuthenticationStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_authInfo events.AuthenticationStoppedInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -318,17 +318,17 @@ func (s *AuthenticationStateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionAuthenticationStateListenerOnAuthenticationSucceeded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_authInfo events.AuthenticationSucceededInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_authInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

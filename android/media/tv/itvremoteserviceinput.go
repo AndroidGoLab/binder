@@ -324,29 +324,29 @@ var _ binder.TransactionReceiver = (*TvRemoteServiceInputStub)(nil)
 func (s *TvRemoteServiceInputStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITvRemoteServiceInputOpenInputBridge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxPointers, _err := data.ReadInt32()
+		_arg_maxPointers, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -354,7 +354,7 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputCloseInputBridge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -364,7 +364,7 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputClearInputBridge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -374,13 +374,13 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputSendTimestamp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -388,13 +388,13 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputSendKeyDown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_keyCode, _err := data.ReadInt32()
+		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -402,13 +402,13 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputSendKeyUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_keyCode, _err := data.ReadInt32()
+		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -416,21 +416,21 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputSendPointerDown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_pointerId, _err := data.ReadInt32()
+		_arg_pointerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_x, _err := data.ReadInt32()
+		_arg_x, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_y, _err := data.ReadInt32()
+		_arg_y, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -438,13 +438,13 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputSendPointerUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_pointerId, _err := data.ReadInt32()
+		_arg_pointerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -452,7 +452,7 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputSendPointerSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -462,13 +462,13 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputOpenGamepadBridge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -476,13 +476,13 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputSendGamepadKeyDown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_keyCode, _err := data.ReadInt32()
+		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -490,13 +490,13 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputSendGamepadKeyUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_keyCode, _err := data.ReadInt32()
+		_arg_keyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -504,17 +504,17 @@ func (s *TvRemoteServiceInputStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvRemoteServiceInputSendGamepadAxisValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_axis, _err := data.ReadInt32()
+		_arg_axis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadFloat32()
+		_arg_value, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}

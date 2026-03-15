@@ -893,18 +893,18 @@ var _ binder.TransactionReceiver = (*NetworkPolicyManagerStub)(nil)
 func (s *NetworkPolicyManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINetworkPolicyManagerSetUidPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_policy, _err := data.ReadInt32()
+		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -917,14 +917,14 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerAddUidPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_policy, _err := data.ReadInt32()
+		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -937,14 +937,14 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerRemoveUidPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_policy, _err := data.ReadInt32()
+		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -957,10 +957,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetUidPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -974,10 +974,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetUidsWithPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_policy, _err := data.ReadInt32()
+		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -992,7 +992,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionINetworkPolicyManagerRegisterListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1007,7 +1007,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerUnregisterListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1022,7 +1022,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetNetworkPolicies:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1037,10 +1037,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetNetworkPolicies:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNetworkPolicies(ctx)
@@ -1054,7 +1054,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSnoozeLimit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_template interface{}
@@ -1067,10 +1067,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetRestrictBackground:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_restrictBackground, _err := data.ReadBool()
+		_arg_restrictBackground, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1083,7 +1083,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetRestrictBackground:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRestrictBackground(ctx)
@@ -1096,7 +1096,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetRestrictBackgroundByCaller:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRestrictBackgroundByCaller(ctx)
@@ -1109,10 +1109,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetRestrictBackgroundStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1126,10 +1126,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetDeviceIdleMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1142,14 +1142,14 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetWifiMeteredOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkId, _err := data.ReadString16()
+		_arg_networkId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_meteredOverride, _err := data.ReadInt32()
+		_arg_meteredOverride, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1162,7 +1162,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetMultipathPreference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_network interface{}
@@ -1176,7 +1176,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetSubscriptionPlan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_template interface{}
@@ -1190,7 +1190,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionINetworkPolicyManagerNotifyStatsProviderWarningOrLimitReached:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyStatsProviderWarningOrLimitReached(ctx)
@@ -1202,14 +1202,14 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetSubscriptionPlans:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSubscriptionPlans(ctx, _arg_subId)
@@ -1223,21 +1223,21 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetSubscriptionPlans:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_plans []interface{}
 		_ = _arg_plans
-		_arg_expirationDurationMillis, _err := data.ReadInt64()
+		_arg_expirationDurationMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSubscriptionPlans(ctx, _arg_subId, _arg_plans, _arg_expirationDurationMillis)
@@ -1249,10 +1249,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerGetSubscriptionPlansOwner:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1266,29 +1266,29 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerSetSubscriptionOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_overrideMask, _err := data.ReadInt32()
+		_arg_overrideMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_overrideValue, _err := data.ReadInt32()
+		_arg_overrideValue, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_networkTypes []int32
 		_ = _arg_networkTypes
-		_arg_expirationDurationMillis, _err := data.ReadInt64()
+		_arg_expirationDurationMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSubscriptionOverride(ctx, _arg_subId, _arg_overrideMask, _arg_overrideValue, _arg_networkTypes, _arg_expirationDurationMillis)
@@ -1300,10 +1300,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerFactoryReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscriber, _err := data.ReadString16()
+		_arg_subscriber, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1316,14 +1316,14 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerIsUidNetworkingBlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_meteredNetwork, _err := data.ReadBool()
+		_arg_meteredNetwork, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1337,10 +1337,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkPolicyManagerIsUidRestrictedOnMeteredNetworks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -1399,11 +1399,11 @@ var _ binder.TransactionReceiver = (*InputMethodManagerStub)(nil)
 func (s *InputMethodManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputMethodManagerAddClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1412,7 +1412,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputmethod inputmethod.IRemoteInputConnection
 		_ = _arg_inputmethod
-		_arg_untrustedDisplayId, _err := data.ReadInt32()
+		_arg_untrustedDisplayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1425,10 +1425,10 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerGetCurrentInputMethodInfoAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentInputMethodInfoAsUser(ctx)
@@ -1444,13 +1444,13 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerGetInputMethodList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_directBootAwareness, _err := data.ReadInt32()
+		_arg_directBootAwareness, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1467,10 +1467,10 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerGetEnabledInputMethodList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEnabledInputMethodList(ctx)
@@ -1486,13 +1486,13 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerGetInputMethodListLegacy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_directBootAwareness, _err := data.ReadInt32()
+		_arg_directBootAwareness, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1507,10 +1507,10 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputMethodManagerGetEnabledInputMethodListLegacy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEnabledInputMethodListLegacy(ctx)
@@ -1524,18 +1524,18 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputMethodManagerGetEnabledInputMethodSubtypeList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_imiId, _err := data.ReadString16()
+		_arg_imiId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allowsImplicitlyEnabledSubtypes, _err := data.ReadBool()
+		_arg_allowsImplicitlyEnabledSubtypes, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEnabledInputMethodSubtypeList(ctx, _arg_imiId, _arg_allowsImplicitlyEnabledSubtypes)
@@ -1549,10 +1549,10 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputMethodManagerGetLastInputMethodSubtype:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLastInputMethodSubtype(ctx)
@@ -1568,7 +1568,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerShowSoftInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1579,41 +1579,41 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _arg_windowToken
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lastClickToolType, _err := data.ReadInt32()
+		_arg_lastClickToolType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_resultReceiver *os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultReceiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultReceiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_async, _err := data.ReadBool()
+		_arg_async, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1627,7 +1627,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerHideSoftInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1638,37 +1638,37 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _arg_windowToken
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_resultReceiver *os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultReceiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultReceiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_async, _err := data.ReadBool()
+		_arg_async, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1682,7 +1682,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerHideSoftInputFromServerForTest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.HideSoftInputFromServerForTest(ctx)
@@ -1694,10 +1694,10 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerStartInputOrWindowGainedFocus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_startInputReason, _err := data.ReadInt32()
+		_arg_startInputReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1707,26 +1707,26 @@ func (s *InputMethodManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken *binder.IBinder
 		_ = _arg_windowToken
-		_arg_startInputFlags, _err := data.ReadInt32()
+		_arg_startInputFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_softInputMode, _err := data.ReadInt32()
+		_arg_softInputMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_windowFlags, _err := data.ReadInt32()
+		_arg_windowFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_editorInfo *viewInputmethod.EditorInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_editorInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_editorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1737,21 +1737,21 @@ func (s *InputMethodManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_remoteAccessibilityInputConnection *inputmethod.IRemoteAccessibilityInputConnection
 		_ = _arg_remoteAccessibilityInputConnection
-		_arg_unverifiedTargetSdkVersion, _err := data.ReadInt32()
+		_arg_unverifiedTargetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_imeDispatcher window.ImeOnBackInvokedDispatcher
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imeDispatcher.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imeDispatcher.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1769,10 +1769,10 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerStartInputOrWindowGainedFocusAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_startInputReason, _err := data.ReadInt32()
+		_arg_startInputReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1782,26 +1782,26 @@ func (s *InputMethodManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken *binder.IBinder
 		_ = _arg_windowToken
-		_arg_startInputFlags, _err := data.ReadInt32()
+		_arg_startInputFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_softInputMode, _err := data.ReadInt32()
+		_arg_softInputMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_windowFlags, _err := data.ReadInt32()
+		_arg_windowFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_editorInfo *viewInputmethod.EditorInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_editorInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_editorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1812,30 +1812,30 @@ func (s *InputMethodManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_remoteAccessibilityInputConnection *inputmethod.IRemoteAccessibilityInputConnection
 		_ = _arg_remoteAccessibilityInputConnection
-		_arg_unverifiedTargetSdkVersion, _err := data.ReadInt32()
+		_arg_unverifiedTargetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_imeDispatcher window.ImeOnBackInvokedDispatcher
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imeDispatcher.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imeDispatcher.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_startInputSeq, _err := data.ReadInt32()
+		_arg_startInputSeq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_useAsyncShowHideMethod, _err := data.ReadBool()
+		_arg_useAsyncShowHideMethod, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1848,13 +1848,13 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerShowInputMethodPickerFromClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client inputmethod.IInputMethodClient
 		_ = _arg_client
-		_arg_auxiliarySubtypeMode, _err := data.ReadInt32()
+		_arg_auxiliarySubtypeMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1867,14 +1867,14 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerShowInputMethodPickerFromSystem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_auxiliarySubtypeMode, _err := data.ReadInt32()
+		_arg_auxiliarySubtypeMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1887,7 +1887,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerIsInputMethodPickerShownForTest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInputMethodPickerShownForTest(ctx)
@@ -1900,10 +1900,10 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerOnImeSwitchButtonClickFromSystem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1911,10 +1911,10 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodManagerGetCurrentInputMethodSubtype:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentInputMethodSubtype(ctx)
@@ -1930,17 +1930,17 @@ func (s *InputMethodManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputMethodManagerSetAdditionalInputMethodSubtypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subtypes []viewInputmethod.InputMethodSubtype
 		_ = _arg_subtypes
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetAdditionalInputMethodSubtypes(ctx, _arg_id, _arg_subtypes)
@@ -1952,17 +1952,17 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerSetExplicitlyEnabledInputMethodSubtypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_imeId, _err := data.ReadString16()
+		_arg_imeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subtypeHashCodes []int32
 		_ = _arg_subtypeHashCodes
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetExplicitlyEnabledInputMethodSubtypes(ctx, _arg_imeId, _arg_subtypeHashCodes)
@@ -1974,7 +1974,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerGetInputMethodWindowVisibleHeight:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1990,13 +1990,13 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerReportPerceptibleAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
 		_ = _arg_windowToken
-		_arg_perceptible, _err := data.ReadBool()
+		_arg_perceptible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2004,10 +2004,10 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodManagerRemoveImeSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2020,7 +2020,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerRemoveImeSurfaceFromWindowAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2030,17 +2030,17 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodManagerStartProtoDump:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_protoDump []byte
 		_ = _arg_protoDump
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_where, _err := data.ReadString16()
+		_arg_where, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2053,7 +2053,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerIsImeTraceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsImeTraceEnabled(ctx)
@@ -2066,7 +2066,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerStartImeTrace:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartImeTrace(ctx)
@@ -2078,7 +2078,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerStopImeTrace:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopImeTrace(ctx)
@@ -2090,7 +2090,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerStartStylusHandwriting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2105,32 +2105,32 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerStartConnectionlessStylusHandwriting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client inputmethod.IInputMethodClient
 		_ = _arg_client
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_cursorAnchorInfo viewInputmethod.CursorAnchorInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cursorAnchorInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cursorAnchorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_delegatePackageName, _err := data.ReadString16()
+		_arg_delegatePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_delegatorPackageName, _err := data.ReadString16()
+		_arg_delegatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2141,20 +2141,20 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodManagerPrepareStylusHandwritingDelegation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client inputmethod.IInputMethodClient
 		_ = _arg_client
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_delegatePackageName, _err := data.ReadString16()
+		_arg_delegatePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_delegatorPackageName, _err := data.ReadString16()
+		_arg_delegatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2167,24 +2167,24 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerAcceptStylusHandwritingDelegation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client inputmethod.IInputMethodClient
 		_ = _arg_client
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_delegatePackageName, _err := data.ReadString16()
+		_arg_delegatePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_delegatorPackageName, _err := data.ReadString16()
+		_arg_delegatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2198,24 +2198,24 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerAcceptStylusHandwritingDelegationAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client inputmethod.IInputMethodClient
 		_ = _arg_client
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_delegatePackageName, _err := data.ReadString16()
+		_arg_delegatePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_delegatorPackageName, _err := data.ReadString16()
+		_arg_delegatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2226,13 +2226,13 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodManagerIsStylusHandwritingAvailableAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_connectionless, _err := data.ReadBool()
+		_arg_connectionless, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2246,7 +2246,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputMethodManagerAddVirtualStylusIdForTestSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2261,13 +2261,13 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerSetStylusWindowIdleTimeoutForTest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client inputmethod.IInputMethodClient
 		_ = _arg_client
-		_arg_timeout, _err := data.ReadInt64()
+		_arg_timeout, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2280,7 +2280,7 @@ func (s *InputMethodManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputMethodManagerGetImeTrackerService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetImeTrackerService(ctx)

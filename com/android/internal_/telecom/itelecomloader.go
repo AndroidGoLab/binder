@@ -81,17 +81,17 @@ var _ binder.TransactionReceiver = (*TelecomLoaderStub)(nil)
 func (s *TelecomLoaderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITelecomLoaderCreateTelecomService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_retriever IInternalServiceRetriever
 		_ = _arg_retriever
-		_arg_sysUiName, _err := data.ReadString16()
+		_arg_sysUiName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

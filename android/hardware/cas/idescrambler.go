@@ -197,14 +197,14 @@ var _ binder.TransactionReceiver = (*DescramblerStub)(nil)
 func (s *DescramblerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDescramblerDescramble:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_scramblingControl, _err := data.ReadInt32()
+		_raw_scramblingControl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -214,33 +214,33 @@ func (s *DescramblerStub) OnTransaction(
 		_ = _arg_subSamples
 		var _arg_srcBuffer SharedBuffer
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_srcBuffer.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_srcBuffer.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_srcOffset, _err := data.ReadInt64()
+		_arg_srcOffset, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_dstBuffer DestinationBuffer
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dstBuffer.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dstBuffer.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_dstOffset, _err := data.ReadInt64()
+		_arg_dstOffset, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -254,7 +254,7 @@ func (s *DescramblerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDescramblerRelease:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Release(ctx)
@@ -266,10 +266,10 @@ func (s *DescramblerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDescramblerRequiresSecureDecoderComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mime, _err := data.ReadString16()
+		_arg_mime, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -283,7 +283,7 @@ func (s *DescramblerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDescramblerSetMediaCasSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

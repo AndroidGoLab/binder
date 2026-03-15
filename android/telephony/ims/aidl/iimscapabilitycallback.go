@@ -110,22 +110,22 @@ var _ binder.TransactionReceiver = (*ImsCapabilityCallbackStub)(nil)
 func (s *ImsCapabilityCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsCapabilityCallbackOnQueryCapabilityConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_radioTech, _err := data.ReadInt32()
+		_arg_radioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -133,18 +133,18 @@ func (s *ImsCapabilityCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsCapabilityCallbackOnChangeCapabilityConfigurationError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_radioTech, _err := data.ReadInt32()
+		_arg_radioTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -152,10 +152,10 @@ func (s *ImsCapabilityCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsCapabilityCallbackOnCapabilitiesStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_config, _err := data.ReadInt32()
+		_arg_config, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

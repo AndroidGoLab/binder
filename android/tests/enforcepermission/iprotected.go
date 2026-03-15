@@ -409,11 +409,11 @@ var _ binder.TransactionReceiver = (*ProtectedStub)(nil)
 func (s *ProtectedStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIProtectedProtectedByInternet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByInternet(ctx)
@@ -425,7 +425,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByVibrate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByVibrate(ctx)
@@ -437,7 +437,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndVibrateImplicitly:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByInternetAndVibrateImplicitly(ctx)
@@ -449,7 +449,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndAccessNetworkStateImplicitly:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByInternetAndAccessNetworkStateImplicitly(ctx)
@@ -461,7 +461,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndReadSyncSettingsImplicitly:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByInternetAndReadSyncSettingsImplicitly(ctx)
@@ -473,7 +473,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByTurnScreenOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByTurnScreenOn(ctx)
@@ -485,7 +485,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByReadContacts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByReadContacts(ctx)
@@ -497,7 +497,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByReadCalendar:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByReadCalendar(ctx)
@@ -509,7 +509,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndVibrate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByInternetAndVibrate(ctx)
@@ -521,7 +521,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetAndReadSyncSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByInternetAndReadSyncSettings(ctx)
@@ -533,7 +533,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByAccessWifiStateOrVibrate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByAccessWifiStateOrVibrate(ctx)
@@ -545,7 +545,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedProtectedByInternetOrVibrate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByInternetOrVibrate(ctx)
@@ -557,7 +557,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedNotProtected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotProtected(ctx)
@@ -569,7 +569,7 @@ func (s *ProtectedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIProtectedManuallyProtected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ManuallyProtected(ctx)

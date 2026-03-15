@@ -937,11 +937,11 @@ var _ binder.TransactionReceiver = (*ServiceListEditStub)(nil)
 func (s *ServiceListEditStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIServiceListEditOpen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -957,7 +957,7 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Close(ctx)
@@ -970,7 +970,7 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditCommit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Commit(ctx)
@@ -983,7 +983,7 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditUserEditCommit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.UserEditCommit(ctx)
@@ -996,10 +996,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditGetServiceInfoFromDatabase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceInfoId, _err := data.ReadString16()
+		_arg_serviceInfoId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1019,10 +1019,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceListEditGetServiceInfoListFromDatabase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListId, _err := data.ReadString16()
+		_arg_serviceListId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1042,10 +1042,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceListEditGetServiceInfoIdsFromDatabase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inServiceListId, _err := data.ReadString16()
+		_arg_inServiceListId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1060,17 +1060,17 @@ func (s *ServiceListEditStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIServiceListEditUpdateServiceInfoFromDatabase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_updateServiceInfo os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_updateServiceInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_updateServiceInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1085,7 +1085,7 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditUpdateServiceInfoByListFromDatabase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1101,10 +1101,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditRemoveServiceInfoFromDatabase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceInfoId, _err := data.ReadString16()
+		_arg_serviceInfoId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1118,7 +1118,7 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditRemoveServiceInfoByListFromDatabase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1134,7 +1134,7 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditGetServiceListChannelIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServiceListChannelIds(ctx)
@@ -1148,10 +1148,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIServiceListEditGetServiceListInfoByChannelId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListChannelId, _err := data.ReadString16()
+		_arg_serviceListChannelId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1171,10 +1171,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceListEditGetTransportStreamInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListId, _err := data.ReadString16()
+		_arg_serviceListId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1194,10 +1194,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceListEditGetTransportStreamInfoListForce:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListId, _err := data.ReadString16()
+		_arg_serviceListId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1217,10 +1217,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceListEditGetNetworkInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListId, _err := data.ReadString16()
+		_arg_serviceListId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1240,10 +1240,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceListEditGetSatelliteInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListId, _err := data.ReadString16()
+		_arg_serviceListId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1263,22 +1263,22 @@ func (s *ServiceListEditStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceListEditToRecordInfoByType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_recordInfoBundle os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_recordInfoBundle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_recordInfoBundle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_recordType, _err := data.ReadString16()
+		_arg_recordType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1292,26 +1292,26 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIServiceListEditPutRecordIdList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListId, _err := data.ReadString16()
+		_arg_serviceListId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_recordIdListBundle os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_recordIdListBundle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_recordIdListBundle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_optType, _err := data.ReadInt32()
+		_arg_optType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1325,26 +1325,26 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditAddPredefinedServiceListInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_broadcastType, _err := data.ReadInt32()
+		_arg_broadcastType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListType, _err := data.ReadString16()
+		_arg_serviceListType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListPrefix, _err := data.ReadString16()
+		_arg_serviceListPrefix, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_countryCode, _err := data.ReadString16()
+		_arg_countryCode, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_operatorId, _err := data.ReadInt32()
+		_arg_operatorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1358,10 +1358,10 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIServiceListEditAddPredefinedChannelList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListId, _err := data.ReadString16()
+		_arg_serviceListId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1378,21 +1378,21 @@ func (s *ServiceListEditStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListEditAddPredefinedSatInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceListId, _err := data.ReadString16()
+		_arg_serviceListId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_predefinedSatInfoBundle os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_predefinedSatInfoBundle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_predefinedSatInfoBundle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

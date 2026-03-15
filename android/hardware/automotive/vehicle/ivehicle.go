@@ -477,11 +477,11 @@ var _ binder.TransactionReceiver = (*VehicleStub)(nil)
 func (s *VehicleStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVehicleGetAllPropConfigs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllPropConfigs(ctx)
@@ -497,7 +497,7 @@ func (s *VehicleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVehicleGetPropConfigs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -516,7 +516,7 @@ func (s *VehicleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVehicleGetValues:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -524,12 +524,12 @@ func (s *VehicleStub) OnTransaction(
 		_ = _arg_callback
 		var _arg_requests GetValueRequests
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_requests.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_requests.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -543,7 +543,7 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleSetValues:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -551,12 +551,12 @@ func (s *VehicleStub) OnTransaction(
 		_ = _arg_callback
 		var _arg_requests SetValueRequests
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_requests.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_requests.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -570,7 +570,7 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleSubscribe:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -579,7 +579,7 @@ func (s *VehicleStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_options []SubscribeOptions
 		_ = _arg_options
-		_arg_maxSharedMemoryFileCount, _err := data.ReadInt32()
+		_arg_maxSharedMemoryFileCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -592,7 +592,7 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleUnsubscribe:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -610,13 +610,13 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleReturnSharedMemory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVehicleCallback
 		_ = _arg_callback
-		_arg_sharedMemoryId, _err := data.ReadInt64()
+		_arg_sharedMemoryId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -629,7 +629,7 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleGetSupportedValuesLists:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -648,7 +648,7 @@ func (s *VehicleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVehicleGetMinMaxSupportedValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -667,7 +667,7 @@ func (s *VehicleStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVehicleRegisterSupportedValueChangeCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -685,7 +685,7 @@ func (s *VehicleStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVehicleUnregisterSupportedValueChangeCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

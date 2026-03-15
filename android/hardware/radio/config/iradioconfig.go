@@ -280,14 +280,14 @@ var _ binder.TransactionReceiver = (*RadioConfigStub)(nil)
 func (s *RadioConfigStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRadioConfigGetHalDeviceCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -295,10 +295,10 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigGetNumOfLiveModems:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -306,10 +306,10 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigGetPhoneCapability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -317,10 +317,10 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigGetSimSlotsStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -328,14 +328,14 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigSetNumOfLiveModems:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_numOfLiveModems, _err := data.ReadPaddedByte()
+		_arg_numOfLiveModems, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -343,14 +343,14 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigSetPreferredDataModem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_modemId, _err := data.ReadPaddedByte()
+		_arg_modemId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -358,7 +358,7 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigSetResponseFunctions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -371,10 +371,10 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigSetSimSlotsMapping:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -385,10 +385,10 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigGetSimultaneousCallingSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -396,10 +396,10 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigGetSimTypeInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -407,10 +407,10 @@ func (s *RadioConfigStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioConfigSetSimType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

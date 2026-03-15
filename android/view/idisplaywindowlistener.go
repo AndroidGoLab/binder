@@ -185,14 +185,14 @@ var _ binder.TransactionReceiver = (*DisplayWindowListenerStub)(nil)
 func (s *DisplayWindowListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDisplayWindowListenerOnDisplayAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -200,10 +200,10 @@ func (s *DisplayWindowListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowListenerOnDisplayConfigurationChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -212,10 +212,10 @@ func (s *DisplayWindowListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowListenerOnDisplayRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -223,14 +223,14 @@ func (s *DisplayWindowListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowListenerOnFixedRotationStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newRotation, _err := data.ReadInt32()
+		_arg_newRotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -238,10 +238,10 @@ func (s *DisplayWindowListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowListenerOnFixedRotationFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -249,10 +249,10 @@ func (s *DisplayWindowListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayWindowListenerOnKeepClearAreasChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

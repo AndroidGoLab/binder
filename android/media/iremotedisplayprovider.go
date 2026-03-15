@@ -163,11 +163,11 @@ var _ binder.TransactionReceiver = (*RemoteDisplayProviderStub)(nil)
 func (s *RemoteDisplayProviderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRemoteDisplayProviderSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -177,10 +177,10 @@ func (s *RemoteDisplayProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteDisplayProviderSetDiscoveryMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -188,10 +188,10 @@ func (s *RemoteDisplayProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteDisplayProviderConnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -199,10 +199,10 @@ func (s *RemoteDisplayProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteDisplayProviderDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -210,14 +210,14 @@ func (s *RemoteDisplayProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteDisplayProviderSetVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_volume, _err := data.ReadInt32()
+		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -225,14 +225,14 @@ func (s *RemoteDisplayProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteDisplayProviderAdjustVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_delta, _err := data.ReadInt32()
+		_arg_delta, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

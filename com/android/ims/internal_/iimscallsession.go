@@ -1172,11 +1172,11 @@ var _ binder.TransactionReceiver = (*ImsCallSessionStub)(nil)
 func (s *ImsCallSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsCallSessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -1188,7 +1188,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionGetCallId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCallId(ctx)
@@ -1201,7 +1201,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionGetCallProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCallProfile(ctx)
@@ -1217,7 +1217,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsCallSessionGetLocalCallProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLocalCallProfile(ctx)
@@ -1233,7 +1233,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsCallSessionGetRemoteCallProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRemoteCallProfile(ctx)
@@ -1249,10 +1249,10 @@ func (s *ImsCallSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImsCallSessionGetProperty:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1266,7 +1266,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionGetState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetState(ctx)
@@ -1279,7 +1279,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionIsInCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInCall(ctx)
@@ -1292,7 +1292,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionSetListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1307,10 +1307,10 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSetMute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_muted, _err := data.ReadBool()
+		_arg_muted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1323,21 +1323,21 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callee, _err := data.ReadString16()
+		_arg_callee, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profile ims.ImsCallProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1351,7 +1351,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionStartConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1359,12 +1359,12 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_ = _arg_participants
 		var _arg_profile ims.ImsCallProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1378,21 +1378,21 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionAccept:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callType, _err := data.ReadInt32()
+		_arg_callType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profile ims.ImsStreamMediaProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1406,10 +1406,10 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionDeflect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deflectNumber, _err := data.ReadString16()
+		_arg_deflectNumber, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1422,10 +1422,10 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionReject:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1438,14 +1438,14 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionTransfer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isConfirmationRequired, _err := data.ReadBool()
+		_arg_isConfirmationRequired, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1458,7 +1458,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionConsultativeTransfer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1473,10 +1473,10 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionTerminate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1489,17 +1489,17 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionHold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_profile ims.ImsStreamMediaProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1513,17 +1513,17 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionResume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_profile ims.ImsStreamMediaProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1537,7 +1537,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionMerge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Merge(ctx)
@@ -1549,21 +1549,21 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callType, _err := data.ReadInt32()
+		_arg_callType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profile ims.ImsStreamMediaProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1577,7 +1577,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionExtendToConference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1592,7 +1592,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionInviteParticipants:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1607,7 +1607,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionRemoveParticipants:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1622,22 +1622,22 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendDtmf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_c, _err := data.ReadInt32()
+		_raw_c, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_c := uint16(_raw_c)
 		var _arg_result contexthub.Message
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1651,10 +1651,10 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionStartDtmf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_c, _err := data.ReadInt32()
+		_raw_c, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1668,7 +1668,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionStopDtmf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopDtmf(ctx)
@@ -1680,10 +1680,10 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendUssd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ussdMessage, _err := data.ReadString16()
+		_arg_ussdMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1696,7 +1696,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionGetVideoCallProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVideoCallProvider(ctx)
@@ -1710,7 +1710,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsCallSessionIsMultiparty:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsMultiparty(ctx)
@@ -1723,17 +1723,17 @@ func (s *ImsCallSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImsCallSessionSendRttModifyRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_toProfile ims.ImsCallProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_toProfile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_toProfile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1747,10 +1747,10 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendRttModifyResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadBool()
+		_arg_status, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1763,10 +1763,10 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendRttMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rttMessage, _err := data.ReadString16()
+		_arg_rttMessage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1779,7 +1779,7 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionSendRtpHeaderExtensions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1794,18 +1794,18 @@ func (s *ImsCallSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsCallSessionCallSessionNotifyAnbr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mediaType, _err := data.ReadInt32()
+		_arg_mediaType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_direction, _err := data.ReadInt32()
+		_arg_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bitsPerSecond, _err := data.ReadInt32()
+		_arg_bitsPerSecond, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

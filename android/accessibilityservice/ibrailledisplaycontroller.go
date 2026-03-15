@@ -135,11 +135,11 @@ var _ binder.TransactionReceiver = (*BrailleDisplayControllerStub)(nil)
 func (s *BrailleDisplayControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBrailleDisplayControllerOnConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -152,10 +152,10 @@ func (s *BrailleDisplayControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBrailleDisplayControllerOnConnectionFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -163,7 +163,7 @@ func (s *BrailleDisplayControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBrailleDisplayControllerOnInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -173,7 +173,7 @@ func (s *BrailleDisplayControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBrailleDisplayControllerOnDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDisconnected(ctx)

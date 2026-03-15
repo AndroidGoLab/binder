@@ -76,19 +76,19 @@ var _ binder.TransactionReceiver = (*AGnssCallbackStub)(nil)
 func (s *AGnssCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAGnssCallbackAgnssStatusCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := gnssIAGnssCallback.AGnssType(_raw_type_)
-		_raw_status, _err := data.ReadInt32()
+		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

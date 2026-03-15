@@ -8134,18 +8134,18 @@ var _ binder.TransactionReceiver = (*PackageManagerStub)(nil)
 func (s *PackageManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPackageManagerCheckPackageStartable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CheckPackageStartable(ctx, _arg_packageName)
@@ -8157,14 +8157,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPackageAvailable(ctx, _arg_packageName)
@@ -8177,18 +8177,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPackageInfo(ctx, _arg_packageName, _arg_flags)
@@ -8204,26 +8204,26 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageInfoVersioned:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_versionedPackage VersionedPackage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_versionedPackage.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_versionedPackage.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPackageInfoVersioned(ctx, _arg_versionedPackage, _arg_flags)
@@ -8239,18 +8239,18 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPackageUid(ctx, _arg_packageName, _arg_flags)
@@ -8263,18 +8263,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageGids:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPackageGids(ctx, _arg_packageName, _arg_flags)
@@ -8288,7 +8288,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerCurrentToCanonicalPackageNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -8305,7 +8305,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerCanonicalToCurrentPackageNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -8322,18 +8322,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetApplicationInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetApplicationInfo(ctx, _arg_packageName, _arg_flags)
@@ -8349,10 +8349,10 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetTargetSdkVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8366,15 +8366,15 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetActivityInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_className interface{}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActivityInfo(ctx, _arg_className, _arg_flags)
@@ -8390,16 +8390,16 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerActivitySupportsIntentAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_className interface{}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ActivitySupportsIntentAsUser(ctx, _arg_className, _arg_intent, _arg_resolvedType)
@@ -8412,15 +8412,15 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetReceiverInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_className interface{}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetReceiverInfo(ctx, _arg_className, _arg_flags)
@@ -8436,15 +8436,15 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetServiceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_className interface{}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServiceInfo(ctx, _arg_className, _arg_flags)
@@ -8460,15 +8460,15 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetProviderInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_className interface{}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProviderInfo(ctx, _arg_className, _arg_flags)
@@ -8484,10 +8484,10 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsProtectedBroadcast:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_actionName, _err := data.ReadString16()
+		_arg_actionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8501,18 +8501,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerCheckSignatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg1, _err := data.ReadString16()
+		_arg_pkg1, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pkg2, _err := data.ReadString16()
+		_arg_pkg2, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CheckSignatures(ctx, _arg_pkg1, _arg_pkg2)
@@ -8525,14 +8525,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerCheckUidSignatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid1, _err := data.ReadInt32()
+		_arg_uid1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid2, _err := data.ReadInt32()
+		_arg_uid2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8546,7 +8546,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetAllPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllPackages(ctx)
@@ -8560,10 +8560,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetPackagesForUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8578,10 +8578,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetNameForUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8595,7 +8595,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetNamesForUids:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -8612,10 +8612,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetUidForSharedUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sharedUserName, _err := data.ReadString16()
+		_arg_sharedUserName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8629,10 +8629,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetFlagsForUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8646,10 +8646,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPrivateFlagsForUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8663,10 +8663,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsUidPrivileged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8680,19 +8680,19 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerResolveIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ResolveIntent(ctx, _arg_intent, _arg_resolvedType, _arg_flags)
@@ -8708,11 +8708,11 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerFindPersistentPreferredActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.FindPersistentPreferredActivity(ctx, _arg_intent)
@@ -8728,19 +8728,19 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerCanForwardTo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sourceUserId, _err := data.ReadInt32()
+		_arg_sourceUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetUserId, _err := data.ReadInt32()
+		_arg_targetUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -8754,19 +8754,19 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentActivities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryIntentActivities(ctx, _arg_intent, _arg_resolvedType, _arg_flags)
@@ -8782,7 +8782,7 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentActivityOptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_caller interface{}
@@ -8793,15 +8793,15 @@ func (s *PackageManagerStub) OnTransaction(
 		var _arg_specificTypes []string
 		_ = _arg_specificTypes
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryIntentActivityOptions(ctx, _arg_caller, _arg_specifics, _arg_specificTypes, _arg_intent, _arg_resolvedType, _arg_flags)
@@ -8817,19 +8817,19 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentReceivers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryIntentReceivers(ctx, _arg_intent, _arg_resolvedType, _arg_flags)
@@ -8845,19 +8845,19 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerResolveService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ResolveService(ctx, _arg_intent, _arg_resolvedType, _arg_flags)
@@ -8873,19 +8873,19 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryIntentServices(ctx, _arg_intent, _arg_resolvedType, _arg_flags)
@@ -8901,19 +8901,19 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryIntentContentProviders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryIntentContentProviders(ctx, _arg_intent, _arg_resolvedType, _arg_flags)
@@ -8929,14 +8929,14 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstalledPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstalledPackages(ctx, _arg_flags)
@@ -8952,14 +8952,14 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetAppMetadataFd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppMetadataFd(ctx, _arg_packageName)
@@ -8972,17 +8972,17 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackagesHoldingPermissions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_permissions []string
 		_ = _arg_permissions
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPackagesHoldingPermissions(ctx, _arg_permissions, _arg_flags)
@@ -8998,14 +8998,14 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstalledApplications:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstalledApplications(ctx, _arg_flags)
@@ -9021,10 +9021,10 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetPersistentApplications:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9041,18 +9041,18 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerResolveContentProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ResolveContentProvider(ctx, _arg_name, _arg_flags)
@@ -9068,7 +9068,7 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQuerySyncProviders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -9086,22 +9086,22 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerQueryContentProviders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_processName, _err := data.ReadString16()
+		_arg_processName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_metaDataKey, _err := data.ReadString16()
+		_arg_metaDataKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9118,15 +9118,15 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstrumentationInfoAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_className interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstrumentationInfoAsUser(ctx, _arg_className, _arg_flags)
@@ -9142,18 +9142,18 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryInstrumentationAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_targetPackage, _err := data.ReadString16()
+		_arg_targetPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryInstrumentationAsUser(ctx, _arg_targetPackage, _arg_flags)
@@ -9169,14 +9169,14 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerFinishPackageInstall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_didLaunch, _err := data.ReadBool()
+		_arg_didLaunch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9189,14 +9189,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetInstallerPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_targetPackage, _err := data.ReadString16()
+		_arg_targetPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_installerPackageName, _err := data.ReadString16()
+		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9209,10 +9209,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerRelinquishUpdateOwnership:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_targetPackage, _err := data.ReadString16()
+		_arg_targetPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9225,18 +9225,18 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetApplicationCategoryHint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_categoryHint, _err := data.ReadInt32()
+		_arg_categoryHint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callerPackageName, _err := data.ReadString16()
+		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9249,24 +9249,24 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeletePackageAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_versionCode, _err := data.ReadInt32()
+		_arg_versionCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDeleteObserver
 		_ = _arg_observer
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9279,17 +9279,17 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeletePackageVersioned:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_versionedPackage VersionedPackage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_versionedPackage.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_versionedPackage.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -9297,10 +9297,10 @@ func (s *PackageManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDeleteObserver2
 		_ = _arg_observer
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9313,17 +9313,17 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeleteExistingPackageAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_versionedPackage VersionedPackage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_versionedPackage.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_versionedPackage.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -9331,7 +9331,7 @@ func (s *PackageManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDeleteObserver2
 		_ = _arg_observer
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DeleteExistingPackageAsUser(ctx, _arg_versionedPackage, _arg_observer)
@@ -9343,10 +9343,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstallerPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9360,14 +9360,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstallSourceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstallSourceInfo(ctx, _arg_packageName)
@@ -9383,10 +9383,10 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerResetApplicationPreferences:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetApplicationPreferences(ctx)
@@ -9398,15 +9398,15 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetLastChosenActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9423,20 +9423,20 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerSetLastChosenActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_filter interface{}
-		_arg_match, _err := data.ReadInt32()
+		_arg_match, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9450,11 +9450,11 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerAddPreferredActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_filter interface{}
-		_arg_match, _err := data.ReadInt32()
+		_arg_match, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9462,10 +9462,10 @@ func (s *PackageManagerStub) OnTransaction(
 		var _arg_set []interface{}
 		_ = _arg_set
 		var _arg_activity interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_removeExisting, _err := data.ReadBool()
+		_arg_removeExisting, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9478,11 +9478,11 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerReplacePreferredActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_filter interface{}
-		_arg_match, _err := data.ReadInt32()
+		_arg_match, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9490,7 +9490,7 @@ func (s *PackageManagerStub) OnTransaction(
 		var _arg_set []interface{}
 		_ = _arg_set
 		var _arg_activity interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ReplacePreferredActivity(ctx, _arg_filter, _arg_match, _arg_set, _arg_activity)
@@ -9502,10 +9502,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearPackagePreferredActivities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9518,14 +9518,16 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetPreferredActivities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		var _arg_outFilters []interface{}
+		var _arg_outActivities []interface{}
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetPreferredActivities(ctx, _arg_packageName)
+		_result, _err := s.Impl.GetPreferredActivities(ctx, _arg_outFilters, _arg_outActivities, _arg_packageName)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -9535,12 +9537,12 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerAddPersistentPreferredActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_filter interface{}
 		var _arg_activity interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddPersistentPreferredActivity(ctx, _arg_filter, _arg_activity)
@@ -9552,14 +9554,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearPackagePersistentPreferredActivities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ClearPackagePersistentPreferredActivities(ctx, _arg_packageName)
@@ -9571,11 +9573,11 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearPersistentPreferredActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_filter interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearPersistentPreferredActivity(ctx, _arg_filter)
@@ -9587,23 +9589,23 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerAddCrossProfileIntentFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intentFilter interface{}
-		_arg_ownerPackage, _err := data.ReadString16()
+		_arg_ownerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sourceUserId, _err := data.ReadInt32()
+		_arg_sourceUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetUserId, _err := data.ReadInt32()
+		_arg_targetUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9616,23 +9618,23 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerRemoveCrossProfileIntentFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intentFilter interface{}
-		_arg_ownerPackage, _err := data.ReadString16()
+		_arg_ownerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sourceUserId, _err := data.ReadInt32()
+		_arg_sourceUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetUserId, _err := data.ReadInt32()
+		_arg_targetUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9646,14 +9648,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerClearCrossProfileIntentFilters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sourceUserId, _err := data.ReadInt32()
+		_arg_sourceUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ownerPackage, _err := data.ReadString16()
+		_arg_ownerPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9666,17 +9668,17 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetDistractingPackageRestrictionsAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
 		_ = _arg_packageNames
-		_arg_restrictionFlags, _err := data.ReadInt32()
+		_arg_restrictionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetDistractingPackageRestrictionsAsUser(ctx, _arg_packageNames, _arg_restrictionFlags)
@@ -9690,13 +9692,13 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerSetPackagesSuspendedAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
 		_ = _arg_packageNames
-		_arg_suspended, _err := data.ReadBool()
+		_arg_suspended, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9704,29 +9706,29 @@ func (s *PackageManagerStub) OnTransaction(
 		var _arg_launcherExtras interface{}
 		var _arg_dialogInfo SuspendDialogInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dialogInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dialogInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_suspendingPackage, _err := data.ReadString16()
+		_arg_suspendingPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_suspendingUserId, _err := data.ReadInt32()
+		_arg_suspendingUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetUserId, _err := data.ReadInt32()
+		_arg_targetUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -9741,13 +9743,13 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetUnsuspendablePackagesForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
 		_ = _arg_packageNames
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUnsuspendablePackagesForUser(ctx, _arg_packageNames)
@@ -9761,14 +9763,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageSuspendedForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPackageSuspendedForUser(ctx, _arg_packageName)
@@ -9781,14 +9783,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageQuarantinedForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPackageQuarantinedForUser(ctx, _arg_packageName)
@@ -9801,14 +9803,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageStoppedForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPackageStoppedForUser(ctx, _arg_packageName)
@@ -9821,14 +9823,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSuspendedPackageAppExtras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSuspendedPackageAppExtras(ctx, _arg_packageName)
@@ -9841,14 +9843,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetSuspendingPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSuspendingPackage(ctx, _arg_packageName)
@@ -9861,10 +9863,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPreferredActivityBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPreferredActivityBackup(ctx)
@@ -9878,13 +9880,13 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerRestorePreferredActivities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_backup []byte
 		_ = _arg_backup
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RestorePreferredActivities(ctx, _arg_backup)
@@ -9896,10 +9898,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetDefaultAppsBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultAppsBackup(ctx)
@@ -9913,13 +9915,13 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerRestoreDefaultApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_backup []byte
 		_ = _arg_backup
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RestoreDefaultApps(ctx, _arg_backup)
@@ -9931,10 +9933,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetDomainVerificationBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDomainVerificationBackup(ctx)
@@ -9948,13 +9950,13 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerRestoreDomainVerification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_backup []byte
 		_ = _arg_backup
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RestoreDomainVerification(ctx, _arg_backup)
@@ -9966,10 +9968,11 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetHomeActivities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetHomeActivities(ctx)
+		var _arg_outHomeCandidates []ResolveInfo
+		_result, _err := s.Impl.GetHomeActivities(ctx, _arg_outHomeCandidates)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -9979,11 +9982,11 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerSetHomeActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_className interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetHomeActivity(ctx, _arg_className)
@@ -9995,19 +9998,19 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerOverrideLabelAndIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName interface{}
-		_arg_nonLocalizedLabel, _err := data.ReadString16()
+		_arg_nonLocalizedLabel, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_icon, _err := data.ReadInt32()
+		_arg_icon, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OverrideLabelAndIcon(ctx, _arg_componentName, _arg_nonLocalizedLabel, _arg_icon)
@@ -10019,11 +10022,11 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerRestoreLabelAndIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RestoreLabelAndIcon(ctx, _arg_componentName)
@@ -10035,22 +10038,22 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetComponentEnabledSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName interface{}
-		_arg_newState, _err := data.ReadInt32()
+		_arg_newState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetComponentEnabledSetting(ctx, _arg_componentName, _arg_newState, _arg_flags)
@@ -10062,16 +10065,16 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetComponentEnabledSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_settings []PackageManagerComponentEnabledSetting
 		_ = _arg_settings
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetComponentEnabledSettings(ctx, _arg_settings)
@@ -10083,11 +10086,11 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetComponentEnabledSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetComponentEnabledSetting(ctx, _arg_componentName)
@@ -10100,25 +10103,25 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetApplicationEnabledSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newState, _err := data.ReadInt32()
+		_arg_newState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetApplicationEnabledSetting(ctx, _arg_packageName, _arg_newState, _arg_flags)
@@ -10130,14 +10133,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetApplicationEnabledSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetApplicationEnabledSetting(ctx, _arg_packageName)
@@ -10150,30 +10153,30 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerLogAppProcessStartIfNeeded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_processName, _err := data.ReadString16()
+		_arg_processName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_seinfo, _err := data.ReadString16()
+		_arg_seinfo, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_apkFile, _err := data.ReadString16()
+		_arg_apkFile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10186,10 +10189,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerFlushPackageRestrictionsAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FlushPackageRestrictionsAsUser(ctx)
@@ -10201,18 +10204,18 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetPackageStoppedState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stopped, _err := data.ReadBool()
+		_arg_stopped, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetPackageStoppedState(ctx, _arg_packageName, _arg_stopped)
@@ -10224,18 +10227,18 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerFreeStorageAndNotify:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_freeStorageSize, _err := data.ReadInt64()
+		_arg_freeStorageSize, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_storageFlags, _err := data.ReadInt32()
+		_arg_storageFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10251,18 +10254,18 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerFreeStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_freeStorageSize, _err := data.ReadInt64()
+		_arg_freeStorageSize, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_storageFlags, _err := data.ReadInt32()
+		_arg_storageFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10276,10 +10279,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeleteApplicationCacheFiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10295,14 +10298,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerDeleteApplicationCacheFilesAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -10317,17 +10320,17 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearApplicationUserData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_observer IPackageDataObserver
 		_ = _arg_observer
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ClearApplicationUserData(ctx, _arg_packageName, _arg_observer)
@@ -10339,10 +10342,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerClearApplicationProfileData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10355,14 +10358,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageSizeInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -10377,7 +10380,7 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemSharedLibraryNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemSharedLibraryNames(ctx)
@@ -10391,7 +10394,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemSharedLibraryNamesAndPaths:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemSharedLibraryNamesAndPaths(ctx)
@@ -10405,7 +10408,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemAvailableFeatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemAvailableFeatures(ctx)
@@ -10421,14 +10424,14 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerHasSystemFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_version, _err := data.ReadInt32()
+		_arg_version, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10442,7 +10445,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInitialNonStoppedSystemPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInitialNonStoppedSystemPackages(ctx)
@@ -10456,7 +10459,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerEnterSafeMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EnterSafeMode(ctx)
@@ -10468,7 +10471,7 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerIsSafeMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSafeMode(ctx)
@@ -10481,7 +10484,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerHasSystemUidErrors:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasSystemUidErrors(ctx)
@@ -10494,14 +10497,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerNotifyPackageUse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10509,17 +10512,17 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPackageManagerNotifyDexLoad:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_loadingPackageName, _err := data.ReadString16()
+		_arg_loadingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: map param unmarshaling not yet supported in stubs
 		var _arg_classLoaderContextMap map[string]string
 		_ = _arg_classLoaderContextMap
-		_arg_loaderIsa, _err := data.ReadString16()
+		_arg_loaderIsa, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10527,18 +10530,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPackageManagerRegisterDexModule:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dexModulePath, _err := data.ReadString16()
+		_arg_dexModulePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isSharedModule, _err := data.ReadBool()
+		_arg_isSharedModule, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10549,30 +10552,30 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPackageManagerPerformDexOptMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_checkProfiles, _err := data.ReadBool()
+		_arg_checkProfiles, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetCompilerFilter, _err := data.ReadString16()
+		_arg_targetCompilerFilter, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_force, _err := data.ReadBool()
+		_arg_force, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bootComplete, _err := data.ReadBool()
+		_arg_bootComplete, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_splitName, _err := data.ReadString16()
+		_arg_splitName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10586,18 +10589,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerPerformDexOptSecondary:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetCompilerFilter, _err := data.ReadString16()
+		_arg_targetCompilerFilter, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_force, _err := data.ReadBool()
+		_arg_force, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10611,10 +10614,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetMoveStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_moveId, _err := data.ReadInt32()
+		_arg_moveId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10628,7 +10631,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerRegisterMoveCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -10643,7 +10646,7 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerUnregisterMoveCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -10658,14 +10661,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerMovePackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10679,10 +10682,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerMovePrimaryStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10696,10 +10699,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetInstallLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_loc, _err := data.ReadInt32()
+		_arg_loc, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10713,7 +10716,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstallLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstallLocation(ctx)
@@ -10726,21 +10729,21 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerInstallExistingPackageAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_installFlags, _err := data.ReadInt32()
+		_arg_installFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_installReason, _err := data.ReadInt32()
+		_arg_installReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10757,14 +10760,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerVerifyPendingInstall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_verificationCode, _err := data.ReadInt32()
+		_arg_verificationCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10777,18 +10780,18 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerExtendVerificationTimeout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_verificationCodeAtTimeout, _err := data.ReadInt32()
+		_arg_verificationCodeAtTimeout, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_millisecondsToDelay, _err := data.ReadInt64()
+		_arg_millisecondsToDelay, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10801,14 +10804,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerVerifyIntentFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_verificationCode, _err := data.ReadInt32()
+		_arg_verificationCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10824,14 +10827,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetIntentVerificationStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetIntentVerificationStatus(ctx, _arg_packageName)
@@ -10844,18 +10847,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerUpdateIntentVerificationStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.UpdateIntentVerificationStatus(ctx, _arg_packageName, _arg_status)
@@ -10868,10 +10871,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetIntentFilterVerifications:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10888,10 +10891,10 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetAllIntentFilters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -10908,7 +10911,7 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetVerifierDeviceIdentity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVerifierDeviceIdentity(ctx)
@@ -10924,7 +10927,7 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsFirstBoot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsFirstBoot(ctx)
@@ -10937,7 +10940,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsDeviceUpgrading:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDeviceUpgrading(ctx)
@@ -10950,7 +10953,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsStorageLow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsStorageLow(ctx)
@@ -10963,18 +10966,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetApplicationHiddenSettingAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hidden, _err := data.ReadBool()
+		_arg_hidden, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetApplicationHiddenSettingAsUser(ctx, _arg_packageName, _arg_hidden)
@@ -10987,14 +10990,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetApplicationHiddenSettingAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetApplicationHiddenSettingAsUser(ctx, _arg_packageName)
@@ -11007,14 +11010,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetSystemAppHiddenUntilInstalled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hidden, _err := data.ReadBool()
+		_arg_hidden, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11027,18 +11030,18 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerSetSystemAppInstallState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_installed, _err := data.ReadBool()
+		_arg_installed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetSystemAppInstallState(ctx, _arg_packageName, _arg_installed)
@@ -11051,7 +11054,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPackageInstaller:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPackageInstaller(ctx)
@@ -11065,18 +11068,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerSetBlockUninstallForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_blockUninstall, _err := data.ReadBool()
+		_arg_blockUninstall, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetBlockUninstallForUser(ctx, _arg_packageName, _arg_blockUninstall)
@@ -11089,14 +11092,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetBlockUninstallForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBlockUninstallForUser(ctx, _arg_packageName)
@@ -11109,14 +11112,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetKeySetByAlias:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11133,10 +11136,10 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetSigningKeySet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11153,21 +11156,21 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageSignedByKeySet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_ks KeySet
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ks.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ks.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -11182,21 +11185,21 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageSignedByKeySetExactly:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_ks KeySet
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ks.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ks.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -11211,7 +11214,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPermissionControllerPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPermissionControllerPackageName(ctx)
@@ -11224,7 +11227,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSdkSandboxPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSdkSandboxPackageName(ctx)
@@ -11237,10 +11240,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstantApps(ctx)
@@ -11256,14 +11259,14 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppCookie:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstantAppCookie(ctx, _arg_packageName)
@@ -11277,17 +11280,17 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerSetInstantAppCookie:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_cookie []byte
 		_ = _arg_cookie
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetInstantAppCookie(ctx, _arg_packageName, _arg_cookie)
@@ -11300,14 +11303,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstantAppIcon(ctx, _arg_packageName)
@@ -11323,14 +11326,14 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsInstantApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInstantApp(ctx, _arg_packageName)
@@ -11343,14 +11346,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetRequiredForSystemUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_systemUserApp, _err := data.ReadBool()
+		_arg_systemUserApp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11364,14 +11367,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetUpdateAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_updateAvaialble, _err := data.ReadBool()
+		_arg_updateAvaialble, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11384,7 +11387,7 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetServicesSystemSharedLibraryPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServicesSystemSharedLibraryPackageName(ctx)
@@ -11397,7 +11400,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSharedSystemSharedLibraryPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSharedSystemSharedLibraryPackageName(ctx)
@@ -11410,14 +11413,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetChangedPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sequenceNumber, _err := data.ReadInt32()
+		_arg_sequenceNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetChangedPackages(ctx, _arg_sequenceNumber)
@@ -11433,10 +11436,10 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageDeviceAdminOnAnyUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11450,14 +11453,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstallReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstallReason(ctx, _arg_packageName)
@@ -11470,18 +11473,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSharedLibraries:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSharedLibraries(ctx, _arg_packageName, _arg_flags)
@@ -11497,18 +11500,18 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetDeclaredSharedLibraries:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeclaredSharedLibraries(ctx, _arg_packageName, _arg_flags)
@@ -11524,14 +11527,14 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerCanRequestPackageInstalls:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CanRequestPackageInstalls(ctx, _arg_packageName)
@@ -11544,7 +11547,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerDeletePreloadsFileCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DeletePreloadsFileCache(ctx)
@@ -11556,7 +11559,7 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppResolverComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstantAppResolverComponent(ctx)
@@ -11569,7 +11572,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppResolverSettingsComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstantAppResolverSettingsComponent(ctx)
@@ -11582,7 +11585,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppInstallerComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstantAppInstallerComponent(ctx)
@@ -11595,14 +11598,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetInstantAppAndroidId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstantAppAndroidId(ctx, _arg_packageName)
@@ -11615,7 +11618,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetArtManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetArtManager(ctx)
@@ -11629,15 +11632,15 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerSetHarmfulAppWarning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_warning interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetHarmfulAppWarning(ctx, _arg_packageName, _arg_warning)
@@ -11649,14 +11652,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetHarmfulAppWarning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHarmfulAppWarning(ctx, _arg_packageName)
@@ -11669,17 +11672,17 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerHasSigningCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_signingCertificate []byte
 		_ = _arg_signingCertificate
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11693,17 +11696,17 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerHasUidSigningCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_signingCertificate []byte
 		_ = _arg_signingCertificate
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11717,7 +11720,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetDefaultTextClassifierPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultTextClassifierPackageName(ctx)
@@ -11730,7 +11733,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemTextClassifierPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemTextClassifierPackageName(ctx)
@@ -11743,7 +11746,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetAttentionServicePackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAttentionServicePackageName(ctx)
@@ -11756,7 +11759,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetRotationResolverPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRotationResolverPackageName(ctx)
@@ -11769,7 +11772,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetWellbeingPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWellbeingPackageName(ctx)
@@ -11782,7 +11785,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetAppPredictionServicePackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppPredictionServicePackageName(ctx)
@@ -11795,7 +11798,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSystemCaptionsServicePackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemCaptionsServicePackageName(ctx)
@@ -11808,7 +11811,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetSetupWizardPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSetupWizardPackageName(ctx)
@@ -11821,7 +11824,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetIncidentReportApproverPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetIncidentReportApproverPackageName(ctx)
@@ -11834,14 +11837,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerIsPackageStateProtected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPackageStateProtected(ctx, _arg_packageName)
@@ -11854,7 +11857,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSendDeviceCustomizationReadyBroadcast:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SendDeviceCustomizationReadyBroadcast(ctx)
@@ -11866,10 +11869,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetInstalledModules:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11884,14 +11887,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetModuleInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11908,10 +11911,10 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetRuntimePermissionsVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRuntimePermissionsVersion(ctx)
@@ -11924,14 +11927,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetRuntimePermissionsVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_version, _err := data.ReadInt32()
+		_arg_version, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetRuntimePermissionsVersion(ctx, _arg_version)
@@ -11943,7 +11946,7 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerNotifyPackagesReplacedReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -11958,22 +11961,22 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerRequestPackageChecksums:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeSplits, _err := data.ReadBool()
+		_arg_includeSplits, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_optional, _err := data.ReadInt32()
+		_arg_optional, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_required, _err := data.ReadInt32()
+		_arg_required, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -11983,7 +11986,7 @@ func (s *PackageManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_onChecksumsReadyListener IOnChecksumsReadyListener
 		_ = _arg_onChecksumsReadyListener
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestPackageChecksums(ctx, _arg_packageName, _arg_includeSplits, _arg_optional, _arg_required, _arg_trustedInstallers, _arg_onChecksumsReadyListener)
@@ -11995,21 +11998,21 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetLaunchIntentSenderForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_featureId, _err := data.ReadString16()
+		_arg_featureId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLaunchIntentSenderForPackage(ctx, _arg_packageName, _arg_featureId)
@@ -12022,14 +12025,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetAppOpPermissionPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_permissionName, _err := data.ReadString16()
+		_arg_permissionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppOpPermissionPackages(ctx, _arg_permissionName)
@@ -12043,14 +12046,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerGetPermissionGroupInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12067,17 +12070,17 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerAddPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info PermissionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -12092,17 +12095,17 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerAddPermissionAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info PermissionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -12117,10 +12120,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerRemovePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12133,18 +12136,18 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerCheckPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_permName, _err := data.ReadString16()
+		_arg_permName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pkgName, _err := data.ReadString16()
+		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CheckPermission(ctx, _arg_permName, _arg_pkgName)
@@ -12157,18 +12160,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGrantRuntimePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_permissionName, _err := data.ReadString16()
+		_arg_permissionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GrantRuntimePermission(ctx, _arg_packageName, _arg_permissionName)
@@ -12180,14 +12183,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerCheckUidPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_permName, _err := data.ReadString16()
+		_arg_permName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12201,14 +12204,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetMimeGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_group, _err := data.ReadString16()
+		_arg_group, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12224,14 +12227,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetSplashScreenTheme:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSplashScreenTheme(ctx, _arg_packageName)
@@ -12244,18 +12247,18 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetSplashScreenTheme:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_themeName, _err := data.ReadString16()
+		_arg_themeName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSplashScreenTheme(ctx, _arg_packageName, _arg_themeName)
@@ -12267,14 +12270,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetUserMinAspectRatio:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserMinAspectRatio(ctx, _arg_packageName)
@@ -12287,17 +12290,17 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerSetUserMinAspectRatio:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_aspectRatio, _err := data.ReadInt32()
+		_arg_aspectRatio, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12310,14 +12313,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetMimeGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_group, _err := data.ReadString16()
+		_arg_group, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12332,10 +12335,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerIsAutoRevokeWhitelisted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12349,14 +12352,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerMakeProviderVisible:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recipientAppId, _err := data.ReadInt32()
+		_arg_recipientAppId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_visibleAuthority, _err := data.ReadString16()
+		_arg_visibleAuthority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12369,14 +12372,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerMakeUidVisible:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_recipientAppId, _err := data.ReadInt32()
+		_arg_recipientAppId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_visibleUid, _err := data.ReadInt32()
+		_arg_visibleUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12389,7 +12392,7 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetHoldLockToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHoldLockToken(ctx)
@@ -12403,13 +12406,13 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerHoldLock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_durationMs, _err := data.ReadInt32()
+		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12422,22 +12425,22 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetPropertyAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_propertyName, _err := data.ReadString16()
+		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_className, _err := data.ReadString16()
+		_arg_className, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPropertyAsUser(ctx, _arg_propertyName, _arg_packageName, _arg_className)
@@ -12453,14 +12456,14 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerQueryProperty:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_propertyName, _err := data.ReadString16()
+		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_componentType, _err := data.ReadInt32()
+		_arg_componentType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12477,7 +12480,7 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerSetKeepUninstalledPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -12492,17 +12495,17 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerCanPackageQuery:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sourcePackageName, _err := data.ReadString16()
+		_arg_sourcePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_targetPackageNames []string
 		_ = _arg_targetPackageNames
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CanPackageQuery(ctx, _arg_sourcePackageName, _arg_targetPackageNames)
@@ -12516,14 +12519,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerWaitForHandler:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutMillis, _err := data.ReadInt64()
+		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_forBackgroundHandler, _err := data.ReadBool()
+		_arg_forBackgroundHandler, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12537,11 +12540,11 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerRegisterPackageMonitorCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RegisterPackageMonitorCallback(ctx, _arg_callback)
@@ -12553,7 +12556,7 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerUnregisterPackageMonitorCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -12566,14 +12569,14 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerGetArchivedPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetArchivedPackage(ctx, _arg_packageName)
@@ -12589,15 +12592,15 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerGetArchivedAppIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user interface{}
-		_arg_callingPackageName, _err := data.ReadString16()
+		_arg_callingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12614,10 +12617,10 @@ func (s *PackageManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageManagerIsAppArchivable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12632,14 +12635,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetAppMetadataSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppMetadataSource(ctx, _arg_packageName)
@@ -12652,10 +12655,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetDomainVerificationAgent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDomainVerificationAgent(ctx)
@@ -12668,14 +12671,14 @@ func (s *PackageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageManagerSetPageSizeAppCompatFlagsSettingsOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12688,10 +12691,10 @@ func (s *PackageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageManagerIsPageSizeCompatEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12705,10 +12708,10 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetPageSizeCompatWarningMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -12722,7 +12725,7 @@ func (s *PackageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPackageManagerGetAllApexDirectories:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllApexDirectories(ctx)

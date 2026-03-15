@@ -1375,21 +1375,21 @@ var _ binder.TransactionReceiver = (*MediaRouterServiceStub)(nil)
 func (s *MediaRouterServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaRouterServiceRegisterClientAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
 		_ = _arg_client
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RegisterClientAsUser(ctx, _arg_client, _arg_packageName)
@@ -1401,7 +1401,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUnregisterClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1416,13 +1416,13 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRegisterClientGroupId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
 		_ = _arg_client
-		_arg_groupId, _err := data.ReadString16()
+		_arg_groupId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1435,7 +1435,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1454,7 +1454,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaRouterServiceIsPlaybackActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1470,13 +1470,13 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetBluetoothA2dpOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
 		_ = _arg_client
-		_arg_on, _err := data.ReadBool()
+		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1489,17 +1489,17 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetDiscoveryRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
 		_ = _arg_client
-		_arg_routeTypes, _err := data.ReadInt32()
+		_arg_routeTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_activeScan, _err := data.ReadBool()
+		_arg_activeScan, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1512,17 +1512,17 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetSelectedRoute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
 		_ = _arg_client
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_explicit, _err := data.ReadBool()
+		_arg_explicit, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1535,17 +1535,17 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRequestSetVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
 		_ = _arg_client
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_volume, _err := data.ReadInt32()
+		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1558,17 +1558,17 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRequestUpdateVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IMediaRouterClient
 		_ = _arg_client
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_direction, _err := data.ReadInt32()
+		_arg_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1581,14 +1581,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetSystemRoutes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerPackageName, _err := data.ReadString16()
+		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isProxyRouter, _err := data.ReadBool()
+		_arg_isProxyRouter, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1603,7 +1603,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetSystemSessionInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemSessionInfo(ctx)
@@ -1619,10 +1619,10 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaRouterServiceShowMediaOutputSwitcherWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1636,13 +1636,13 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRegisterRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
 		_ = _arg_router
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1655,7 +1655,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUnregisterRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1670,13 +1670,13 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUpdateScanningStateWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
 		_ = _arg_router
-		_arg_scanningState, _err := data.ReadInt32()
+		_arg_scanningState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1689,7 +1689,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetDiscoveryRequestWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1697,12 +1697,12 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		_ = _arg_router
 		var _arg_preference RouteDiscoveryPreference
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_preference.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_preference.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1716,7 +1716,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetRouteListingPreference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1724,12 +1724,12 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		_ = _arg_router
 		var _arg_routeListingPreference *RouteListingPreference
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_routeListingPreference.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_routeListingPreference.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1743,7 +1743,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetRouteVolumeWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1751,17 +1751,17 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		_ = _arg_router
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_volume, _err := data.ReadInt32()
+		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1774,40 +1774,40 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRequestCreateSessionWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
 		_ = _arg_router
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_managerRequestId, _err := data.ReadInt64()
+		_arg_managerRequestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_oldSession RoutingSessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_oldSession.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_oldSession.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1822,24 +1822,24 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSelectRouteWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
 		_ = _arg_router
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1853,24 +1853,24 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceDeselectRouteWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
 		_ = _arg_router
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1884,24 +1884,24 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceTransferToRouteWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
 		_ = _arg_router
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1915,17 +1915,17 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetSessionVolumeWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
 		_ = _arg_router
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_volume, _err := data.ReadInt32()
+		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1938,13 +1938,13 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceReleaseSessionWithRouter2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_router IMediaRouter2
 		_ = _arg_router
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1957,7 +1957,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetRemoteSessions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1974,14 +1974,14 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaRouterServiceGetSystemSessionInfoForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerPackageName, _err := data.ReadString16()
+		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetPackageName, _err := data.ReadString16()
+		_arg_targetPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1998,13 +1998,13 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaRouterServiceRegisterManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2017,17 +2017,17 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRegisterProxyRouter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_callingPackageName, _err := data.ReadString16()
+		_arg_callingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetPackageName, _err := data.ReadString16()
+		_arg_targetPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2041,7 +2041,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUnregisterManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2056,29 +2056,29 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetRouteVolumeWithManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_volume, _err := data.ReadInt32()
+		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2091,13 +2091,13 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceUpdateScanningState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_scanningState, _err := data.ReadInt32()
+		_arg_scanningState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2110,36 +2110,36 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceRequestCreateSessionWithManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_oldSession RoutingSessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_oldSession.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_oldSession.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_route *MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2153,28 +2153,28 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSelectRouteWithManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2188,28 +2188,28 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceDeselectRouteWithManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2223,34 +2223,34 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceTransferToRouteWithManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_route MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_route.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_route.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_transferInitiatorUserHandle interface{}
-		_arg_transferInitiatorPackageName, _err := data.ReadString16()
+		_arg_transferInitiatorPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2263,21 +2263,21 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceSetSessionVolumeWithManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_volume, _err := data.ReadInt32()
+		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2290,17 +2290,17 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceReleaseSessionWithManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager IMediaRouter2Manager
 		_ = _arg_manager
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2313,7 +2313,7 @@ func (s *MediaRouterServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaRouterServiceShowMediaOutputSwitcherWithProxyRouter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

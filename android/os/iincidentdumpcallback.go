@@ -64,14 +64,14 @@ var _ binder.TransactionReceiver = (*IncidentDumpCallbackStub)(nil)
 func (s *IncidentDumpCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIncidentDumpCallbackOnDumpSection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}

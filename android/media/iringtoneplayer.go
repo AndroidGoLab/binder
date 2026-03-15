@@ -297,11 +297,11 @@ var _ binder.TransactionReceiver = (*RingtonePlayerStub)(nil)
 func (s *RingtonePlayerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRingtonePlayerPlay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -310,21 +310,21 @@ func (s *RingtonePlayerStub) OnTransaction(
 		var _arg_uri interface{}
 		var _arg_aa AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_aa.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_aa.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_volume, _err := data.ReadFloat32()
+		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_looping, _err := data.ReadBool()
+		_arg_looping, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -332,7 +332,7 @@ func (s *RingtonePlayerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRingtonePlayerPlayWithVolumeShaping:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -341,32 +341,32 @@ func (s *RingtonePlayerStub) OnTransaction(
 		var _arg_uri interface{}
 		var _arg_aa AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_aa.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_aa.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_volume, _err := data.ReadFloat32()
+		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_looping, _err := data.ReadBool()
+		_arg_looping, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_volumeShaperConfig *VolumeShaperConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_volumeShaperConfig.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_volumeShaperConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -375,7 +375,7 @@ func (s *RingtonePlayerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRingtonePlayerStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -385,7 +385,7 @@ func (s *RingtonePlayerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRingtonePlayerIsPlaying:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -401,21 +401,21 @@ func (s *RingtonePlayerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRingtonePlayerSetPlaybackProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_volume, _err := data.ReadFloat32()
+		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_looping, _err := data.ReadBool()
+		_arg_looping, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hapticGeneratorEnabled, _err := data.ReadBool()
+		_arg_hapticGeneratorEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -423,28 +423,28 @@ func (s *RingtonePlayerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRingtonePlayerPlayAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uri interface{}
 		var _arg_user interface{}
-		_arg_looping, _err := data.ReadBool()
+		_arg_looping, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_aa AudioAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_aa.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_aa.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_volume, _err := data.ReadFloat32()
+		_arg_volume, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -452,14 +452,14 @@ func (s *RingtonePlayerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRingtonePlayerStopAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopAsync(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRingtonePlayerGetTitle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uri interface{}
@@ -473,7 +473,7 @@ func (s *RingtonePlayerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIRingtonePlayerOpenRingtone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uri interface{}

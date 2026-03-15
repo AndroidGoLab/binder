@@ -1969,21 +1969,21 @@ var _ binder.TransactionReceiver = (*AccessibilityServiceConnectionStub)(nil)
 func (s *AccessibilityServiceConnectionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAccessibilityServiceConnectionSetServiceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info AccessibilityServiceInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1997,10 +1997,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetAttributionTag:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetAttributionTag(ctx)
@@ -2012,27 +2012,27 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionFindAccessibilityNodeInfoByAccessibilityId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityWindowId, _err := data.ReadInt32()
+		_arg_accessibilityWindowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		_arg_accessibilityNodeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_interactionId, _err := data.ReadInt32()
+		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_threadId, _err := data.ReadInt64()
+		_arg_threadId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2048,27 +2048,27 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionFindAccessibilityNodeInfosByText:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityWindowId, _err := data.ReadInt32()
+		_arg_accessibilityWindowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		_arg_accessibilityNodeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_text, _err := data.ReadString16()
+		_arg_text, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_interactionId, _err := data.ReadInt32()
+		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
-		_arg_threadId, _err := data.ReadInt64()
+		_arg_threadId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2083,27 +2083,27 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionFindAccessibilityNodeInfosByViewId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityWindowId, _err := data.ReadInt32()
+		_arg_accessibilityWindowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		_arg_accessibilityNodeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_viewId, _err := data.ReadString16()
+		_arg_viewId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_interactionId, _err := data.ReadInt32()
+		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
-		_arg_threadId, _err := data.ReadInt64()
+		_arg_threadId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2118,27 +2118,27 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionFindFocus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityWindowId, _err := data.ReadInt32()
+		_arg_accessibilityWindowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		_arg_accessibilityNodeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_focusType, _err := data.ReadInt32()
+		_arg_focusType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_interactionId, _err := data.ReadInt32()
+		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
-		_arg_threadId, _err := data.ReadInt64()
+		_arg_threadId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2153,27 +2153,27 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionFocusSearch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityWindowId, _err := data.ReadInt32()
+		_arg_accessibilityWindowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		_arg_accessibilityNodeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_direction, _err := data.ReadInt32()
+		_arg_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_interactionId, _err := data.ReadInt32()
+		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
-		_arg_threadId, _err := data.ReadInt64()
+		_arg_threadId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2188,28 +2188,28 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionPerformAccessibilityAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityWindowId, _err := data.ReadInt32()
+		_arg_accessibilityWindowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityNodeId, _err := data.ReadInt64()
+		_arg_accessibilityNodeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_action, _err := data.ReadInt32()
+		_arg_action, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_arguments interface{}
-		_arg_interactionId, _err := data.ReadInt32()
+		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
-		_arg_threadId, _err := data.ReadInt64()
+		_arg_threadId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2223,10 +2223,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_windowId, _err := data.ReadInt32()
+		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2240,7 +2240,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetWindows:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWindows(ctx)
@@ -2253,7 +2253,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetServiceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServiceInfo(ctx)
@@ -2269,10 +2269,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionPerformGlobalAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_action, _err := data.ReadInt32()
+		_arg_action, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2286,7 +2286,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetSystemActions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemActions(ctx)
@@ -2300,7 +2300,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionDisableSelf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisableSelf(ctx)
@@ -2312,14 +2312,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetOnKeyEventResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handled, _err := data.ReadBool()
+		_arg_handled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2327,10 +2327,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityServiceConnectionGetMagnificationConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2347,10 +2347,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetMagnificationScale:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2364,10 +2364,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetMagnificationCenterX:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2381,10 +2381,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetMagnificationCenterY:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2398,10 +2398,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetMagnificationRegion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2418,10 +2418,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetCurrentMagnificationRegion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2438,14 +2438,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionResetMagnification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_animate, _err := data.ReadBool()
+		_arg_animate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2459,14 +2459,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionResetCurrentMagnification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_animate, _err := data.ReadBool()
+		_arg_animate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2480,26 +2480,26 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetMagnificationConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_config MagnificationConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_animate, _err := data.ReadBool()
+		_arg_animate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2513,14 +2513,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetMagnificationCallbackEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2533,10 +2533,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetSoftKeyboardShowMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_showMode, _err := data.ReadInt32()
+		_arg_showMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2550,7 +2550,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetSoftKeyboardShowMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSoftKeyboardShowMode(ctx)
@@ -2563,10 +2563,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetSoftKeyboardCallbackEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2579,10 +2579,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSwitchToInputMethod:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_imeId, _err := data.ReadString16()
+		_arg_imeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2596,14 +2596,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetInputMethodEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_imeId, _err := data.ReadString16()
+		_arg_imeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2617,7 +2617,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionIsAccessibilityButtonAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAccessibilityButtonAvailable(ctx)
@@ -2630,10 +2630,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSendGesture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2647,15 +2647,15 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionDispatchGesture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_gestureSteps interface{}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2668,7 +2668,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionIsFingerprintGestureDetectionAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsFingerprintGestureDetectionAvailable(ctx)
@@ -2681,10 +2681,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetOverlayWindowToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayid, _err := data.ReadInt32()
+		_arg_displayid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2699,7 +2699,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetWindowIdForLeashToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2715,10 +2715,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionTakeScreenshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2732,14 +2732,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionTakeScreenshotOfWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityWindowId, _err := data.ReadInt32()
+		_arg_accessibilityWindowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_interactionId, _err := data.ReadInt32()
+		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2754,21 +2754,21 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetGestureDetectionPassthroughRegion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_region graphics.Region
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_region.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_region.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2782,21 +2782,21 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetTouchExplorationPassthroughRegion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_region graphics.Region
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_region.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_region.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2810,14 +2810,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetFocusAppearance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strokeWidth, _err := data.ReadInt32()
+		_arg_strokeWidth, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_color, _err := data.ReadInt32()
+		_arg_color, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2830,10 +2830,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetCacheEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2846,34 +2846,34 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionLogTrace:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_where, _err := data.ReadString16()
+		_arg_where, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_loggingTypes, _err := data.ReadInt64()
+		_arg_loggingTypes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callingParams, _err := data.ReadString16()
+		_arg_callingParams, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_processId, _err := data.ReadInt32()
+		_arg_processId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_threadId, _err := data.ReadInt64()
+		_arg_threadId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_serializedCallingStackInBundle interface{}
@@ -2881,14 +2881,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityServiceConnectionSetServiceDetectsGesturesEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadBool()
+		_arg_mode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2901,10 +2901,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionRequestTouchExploration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2917,14 +2917,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionRequestDragging:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pointerId, _err := data.ReadInt32()
+		_arg_pointerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2937,10 +2937,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionRequestDelegating:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2953,10 +2953,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionOnDoubleTap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2969,10 +2969,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionOnDoubleTapAndHold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2985,10 +2985,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetAnimationScale:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_scale, _err := data.ReadFloat32()
+		_arg_scale, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3001,7 +3001,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetInstalledAndEnabledServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3016,7 +3016,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionGetInstalledAndEnabledServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstalledAndEnabledServices(ctx)
@@ -3030,14 +3030,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionAttachAccessibilityOverlayToDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_interactionId, _err := data.ReadInt32()
+		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3052,14 +3052,14 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionAttachAccessibilityOverlayToWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_interactionId, _err := data.ReadInt32()
+		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessibilityWindowId, _err := data.ReadInt32()
+		_arg_accessibilityWindowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3074,10 +3074,10 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionConnectBluetoothBrailleDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bluetoothAddress, _err := data.ReadString16()
+		_arg_bluetoothAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3093,7 +3093,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionConnectUsbBrailleDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_usbDevice interface{}
@@ -3109,7 +3109,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAccessibilityServiceConnectionSetTestBrailleDisplayData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

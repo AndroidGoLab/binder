@@ -96,18 +96,18 @@ var _ binder.TransactionReceiver = (*EphemeralResolverStub)(nil)
 func (s *EphemeralResolverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEphemeralResolverGetEphemeralResolveInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_digestPrefix []int32
 		_ = _arg_digestPrefix
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -115,15 +115,15 @@ func (s *EphemeralResolverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEphemeralResolverGetEphemeralIntentFilterList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
-		_arg_hostName, _err := data.ReadString16()
+		_arg_hostName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

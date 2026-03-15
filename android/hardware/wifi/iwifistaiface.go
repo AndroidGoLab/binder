@@ -1202,11 +1202,11 @@ var _ binder.TransactionReceiver = (*WifiStaIfaceStub)(nil)
 func (s *WifiStaIfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWifiStaIfaceGetName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetName(ctx)
@@ -1219,17 +1219,17 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIWifiStaIfaceConfigureRoaming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config StaRoamingConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1243,7 +1243,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceDisableLinkLayerStatsCollection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisableLinkLayerStatsCollection(ctx)
@@ -1255,10 +1255,10 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceEnableLinkLayerStatsCollection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_debug, _err := data.ReadBool()
+		_arg_debug, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1271,10 +1271,10 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceEnableNdOffload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1287,7 +1287,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceGetApfPacketFilterCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetApfPacketFilterCapabilities(ctx)
@@ -1303,7 +1303,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiStaIfaceGetBackgroundScanCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBackgroundScanCapabilities(ctx)
@@ -1319,7 +1319,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiStaIfaceGetFeatureSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFeatureSet(ctx)
@@ -1332,7 +1332,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWifiStaIfaceGetDebugRxPacketFates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDebugRxPacketFates(ctx)
@@ -1346,7 +1346,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiStaIfaceGetDebugTxPacketFates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDebugTxPacketFates(ctx)
@@ -1360,7 +1360,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiStaIfaceGetFactoryMacAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFactoryMacAddress(ctx)
@@ -1374,7 +1374,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiStaIfaceGetLinkLayerStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLinkLayerStats(ctx)
@@ -1390,7 +1390,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiStaIfaceGetRoamingCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRoamingCapabilities(ctx)
@@ -1406,7 +1406,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiStaIfaceInstallApfPacketFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1421,7 +1421,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceReadApfPacketFilterData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ReadApfPacketFilterData(ctx)
@@ -1435,7 +1435,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiStaIfaceRegisterEventCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1450,7 +1450,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceSetMacAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1465,10 +1465,10 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceSetRoamingState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_state, _err := data.ReadPaddedByte()
+		_raw_state, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1482,10 +1482,10 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceSetScanMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1498,21 +1498,21 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceStartBackgroundScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_params StaBackgroundScanParameters
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1526,7 +1526,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceStartDebugPacketFateMonitoring:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartDebugPacketFateMonitoring(ctx)
@@ -1538,18 +1538,18 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceStartRssiMonitoring:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxRssi, _err := data.ReadInt32()
+		_arg_maxRssi, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_minRssi, _err := data.ReadInt32()
+		_arg_minRssi, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1562,17 +1562,17 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceStartSendingKeepAlivePackets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ipPacketData []byte
 		_ = _arg_ipPacketData
-		_raw_etherType, _err := data.ReadInt32()
+		_raw_etherType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1583,7 +1583,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dstAddress []byte
 		_ = _arg_dstAddress
-		_arg_periodInMs, _err := data.ReadInt32()
+		_arg_periodInMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1596,10 +1596,10 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceStopBackgroundScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1612,10 +1612,10 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceStopRssiMonitoring:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1628,10 +1628,10 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceStopSendingKeepAlivePackets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1644,10 +1644,10 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceSetDtimMultiplier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_multiplier, _err := data.ReadInt32()
+		_arg_multiplier, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1660,7 +1660,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceGetCachedScanData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCachedScanData(ctx)
@@ -1676,7 +1676,7 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiStaIfaceTwtGetCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.TwtGetCapabilities(ctx)
@@ -1692,21 +1692,21 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiStaIfaceTwtSessionSetup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_twtRequest TwtRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_twtRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_twtRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1720,25 +1720,25 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceTwtSessionUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_twtRequest TwtRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_twtRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_twtRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1752,14 +1752,14 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceTwtSessionSuspend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1772,14 +1772,14 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceTwtSessionResume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1792,14 +1792,14 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceTwtSessionTeardown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1812,14 +1812,14 @@ func (s *WifiStaIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStaIfaceTwtSessionGetStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

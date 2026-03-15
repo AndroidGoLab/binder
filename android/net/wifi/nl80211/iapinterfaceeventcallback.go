@@ -97,15 +97,15 @@ var _ binder.TransactionReceiver = (*ApInterfaceEventCallbackStub)(nil)
 func (s *ApInterfaceEventCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIApInterfaceEventCallbackOnConnectedClientsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_client interface{}
-		_arg_isConnected, _err := data.ReadBool()
+		_arg_isConnected, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -113,14 +113,14 @@ func (s *ApInterfaceEventCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApInterfaceEventCallbackOnSoftApChannelSwitched:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frequency, _err := data.ReadInt32()
+		_arg_frequency, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bandwidth, _err := data.ReadInt32()
+		_arg_bandwidth, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

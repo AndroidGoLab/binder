@@ -703,11 +703,11 @@ var _ binder.TransactionReceiver = (*TunerStub)(nil)
 func (s *TunerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -719,7 +719,7 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerIsClosed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsClosed(ctx)
@@ -732,17 +732,17 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerSetConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config RadioManagerBandConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -756,7 +756,7 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerGetConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetConfiguration(ctx)
@@ -772,10 +772,10 @@ func (s *TunerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerSetMuted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mute, _err := data.ReadBool()
+		_arg_mute, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -788,7 +788,7 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerIsMuted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsMuted(ctx)
@@ -801,14 +801,14 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerStep:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_directionDown, _err := data.ReadBool()
+		_arg_directionDown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipSubChannel, _err := data.ReadBool()
+		_arg_skipSubChannel, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -821,14 +821,14 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerSeek:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_directionDown, _err := data.ReadBool()
+		_arg_directionDown, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipSubChannel, _err := data.ReadBool()
+		_arg_skipSubChannel, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -841,17 +841,17 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerTune:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_selector ProgramSelector
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_selector.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_selector.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -865,7 +865,7 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerCancel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Cancel(ctx)
@@ -877,7 +877,7 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerCancelAnnouncement:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CancelAnnouncement(ctx)
@@ -889,10 +889,10 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerGetImage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -909,7 +909,7 @@ func (s *TunerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerStartBackgroundScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartBackgroundScan(ctx)
@@ -922,17 +922,17 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerStartProgramListUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_filter ProgramListFilter
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_filter.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_filter.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -946,7 +946,7 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerStopProgramListUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopProgramListUpdates(ctx)
@@ -958,10 +958,10 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerIsConfigFlagSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flag, _err := data.ReadInt32()
+		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -975,10 +975,10 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerIsConfigFlagSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flag, _err := data.ReadInt32()
+		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -992,14 +992,14 @@ func (s *TunerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerSetConfigFlag:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flag, _err := data.ReadInt32()
+		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadBool()
+		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1012,7 +1012,7 @@ func (s *TunerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerSetParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: map param unmarshaling not yet supported in stubs
@@ -1029,7 +1029,7 @@ func (s *TunerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerGetParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

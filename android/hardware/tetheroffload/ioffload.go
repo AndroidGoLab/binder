@@ -313,18 +313,18 @@ var _ binder.TransactionReceiver = (*OffloadStub)(nil)
 func (s *OffloadStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOffloadInitOffload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd1, _err := data.ReadFileDescriptor()
+		_arg_fd1, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fd2, _err := data.ReadFileDescriptor()
+		_arg_fd2, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -340,7 +340,7 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadStopOffload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopOffload(ctx)
@@ -352,7 +352,7 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadSetLocalPrefixes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -367,10 +367,10 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadGetForwardedStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_upstream, _err := data.ReadString16()
+		_arg_upstream, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -387,18 +387,18 @@ func (s *OffloadStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOffloadSetDataWarningAndLimit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_upstream, _err := data.ReadString16()
+		_arg_upstream, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_warningBytes, _err := data.ReadInt64()
+		_arg_warningBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_limitBytes, _err := data.ReadInt64()
+		_arg_limitBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -411,18 +411,18 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadSetUpstreamParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_v4Addr, _err := data.ReadString16()
+		_arg_v4Addr, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_v4Gw, _err := data.ReadString16()
+		_arg_v4Gw, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -438,14 +438,14 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadAddDownstream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_prefix, _err := data.ReadString16()
+		_arg_prefix, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -458,14 +458,14 @@ func (s *OffloadStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOffloadRemoveDownstream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_prefix, _err := data.ReadString16()
+		_arg_prefix, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

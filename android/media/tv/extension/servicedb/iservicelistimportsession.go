@@ -148,25 +148,25 @@ var _ binder.TransactionReceiver = (*ServiceListImportSessionStub)(nil)
 func (s *ServiceListImportSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIServiceListImportSessionImportServiceList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pfd, _err := data.ReadFileDescriptor()
+		_arg_pfd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_importParams os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_importParams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_importParams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -181,10 +181,10 @@ func (s *ServiceListImportSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListImportSessionPreload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pfd, _err := data.ReadFileDescriptor()
+		_arg_pfd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -198,7 +198,7 @@ func (s *ServiceListImportSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIServiceListImportSessionRelease:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Release(ctx)

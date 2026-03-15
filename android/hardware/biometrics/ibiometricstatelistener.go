@@ -106,14 +106,14 @@ var _ binder.TransactionReceiver = (*BiometricStateListenerStub)(nil)
 func (s *BiometricStateListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBiometricStateListenerOnStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newState, _err := data.ReadInt32()
+		_arg_newState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -121,10 +121,10 @@ func (s *BiometricStateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricStateListenerOnBiometricAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_action, _err := data.ReadInt32()
+		_arg_action, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -132,17 +132,17 @@ func (s *BiometricStateListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricStateListenerOnEnrollmentsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hasEnrollments, _err := data.ReadBool()
+		_arg_hasEnrollments, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

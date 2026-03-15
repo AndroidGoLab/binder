@@ -354,11 +354,11 @@ var _ binder.TransactionReceiver = (*StreamInStub)(nil)
 func (s *StreamInStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStreamInGetStreamCommon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetStreamCommon(ctx)
@@ -372,7 +372,7 @@ func (s *StreamInStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStreamInGetActiveMicrophones:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveMicrophones(ctx)
@@ -386,7 +386,7 @@ func (s *StreamInStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStreamInGetMicrophoneDirection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMicrophoneDirection(ctx)
@@ -399,10 +399,10 @@ func (s *StreamInStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIStreamInSetMicrophoneDirection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_direction, _err := data.ReadInt32()
+		_raw_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -416,7 +416,7 @@ func (s *StreamInStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamInGetMicrophoneFieldDimension:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMicrophoneFieldDimension(ctx)
@@ -429,10 +429,10 @@ func (s *StreamInStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIStreamInSetMicrophoneFieldDimension:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_zoom, _err := data.ReadFloat32()
+		_arg_zoom, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -445,17 +445,17 @@ func (s *StreamInStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamInUpdateMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sinkMetadata audioCommon.SinkMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sinkMetadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sinkMetadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -469,7 +469,7 @@ func (s *StreamInStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamInGetHwGain:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHwGain(ctx)
@@ -483,7 +483,7 @@ func (s *StreamInStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStreamInSetHwGain:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

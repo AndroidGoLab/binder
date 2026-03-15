@@ -843,11 +843,11 @@ var _ binder.TransactionReceiver = (*CameraDeviceUserStub)(nil)
 func (s *CameraDeviceUserStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICameraDeviceUserDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Disconnect(ctx)
@@ -859,11 +859,11 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserSubmitRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request interface{}
-		_arg_streaming, _err := data.ReadBool()
+		_arg_streaming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -877,13 +877,13 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceUserSubmitRequestList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_requestList []interface{}
 		_ = _arg_requestList
-		_arg_streaming, _err := data.ReadBool()
+		_arg_streaming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -897,10 +897,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceUserCancelRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -914,7 +914,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserBeginConfigure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.BeginConfigure(ctx)
@@ -926,15 +926,15 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserEndConfigure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_operatingMode, _err := data.ReadInt32()
+		_arg_operatingMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionParams interface{}
-		_arg_startTimeMs, _err := data.ReadInt64()
+		_arg_startTimeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -949,7 +949,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceUserIsSessionConfigurationSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionConfiguration interface{}
@@ -963,10 +963,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserDeleteStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -979,7 +979,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserCreateStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_outputConfiguration interface{}
@@ -993,22 +993,22 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserCreateInputStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_format, _err := data.ReadInt32()
+		_arg_format, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isMultiResolution, _err := data.ReadBool()
+		_arg_isMultiResolution, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1022,7 +1022,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserGetInputSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInputSurface(ctx)
@@ -1035,10 +1035,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceUserCreateDefaultRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_templateId, _err := data.ReadInt32()
+		_arg_templateId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1052,7 +1052,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceUserGetCameraInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCameraInfo(ctx)
@@ -1065,7 +1065,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceUserWaitUntilIdle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.WaitUntilIdle(ctx)
@@ -1077,7 +1077,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Flush(ctx)
@@ -1090,10 +1090,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserPrepare:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1106,10 +1106,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserTearDown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1122,14 +1122,14 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserPrepare2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_maxCount, _err := data.ReadInt32()
+		_arg_maxCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1142,10 +1142,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserUpdateOutputConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1159,10 +1159,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserFinalizeOutputConfigurations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1176,7 +1176,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserGetCaptureResultMetadataQueue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCaptureResultMetadataQueue(ctx)
@@ -1192,10 +1192,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceUserSetCameraAudioRestriction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1208,7 +1208,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceUserGetGlobalAudioRestriction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGlobalAudioRestriction(ctx)
@@ -1221,7 +1221,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraDeviceUserSwitchToOffline:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1241,7 +1241,7 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceUserIsPrimaryClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPrimaryClient(ctx)

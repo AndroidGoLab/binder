@@ -94,19 +94,19 @@ var _ binder.TransactionReceiver = (*EArcCallbackStub)(nil)
 func (s *EArcCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEArcCallbackOnStateChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_status, _err := data.ReadPaddedByte()
+		_raw_status, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_status := IEArcStatus(_raw_status)
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -114,13 +114,13 @@ func (s *EArcCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEArcCallbackOnCapabilitiesReported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_rawCapabilities []byte
 		_ = _arg_rawCapabilities
-		_arg_portId, _err := data.ReadInt32()
+		_arg_portId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

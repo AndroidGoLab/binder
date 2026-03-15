@@ -159,18 +159,18 @@ var _ binder.TransactionReceiver = (*ScannerCallbackStub)(nil)
 func (s *ScannerCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIScannerCallbackOnScannerRegistered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scannerId, _err := data.ReadInt32()
+		_arg_scannerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -178,17 +178,17 @@ func (s *ScannerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIScannerCallbackOnScanResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_scanResult ScanResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_scanResult.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_scanResult.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -197,7 +197,7 @@ func (s *ScannerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIScannerCallbackOnBatchScanResults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -207,21 +207,21 @@ func (s *ScannerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIScannerCallbackOnFoundOrLost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_onFound, _err := data.ReadBool()
+		_arg_onFound, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_scanResult ScanResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_scanResult.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_scanResult.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -230,10 +230,10 @@ func (s *ScannerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIScannerCallbackOnScanManagerErrorCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

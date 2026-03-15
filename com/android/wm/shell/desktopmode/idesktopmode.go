@@ -326,25 +326,25 @@ var _ binder.TransactionReceiver = (*DesktopModeStub)(nil)
 func (s *DesktopModeStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDesktopModeShowDesktopApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -358,10 +358,10 @@ func (s *DesktopModeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDesktopModeStashDesktopApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -374,10 +374,10 @@ func (s *DesktopModeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDesktopModeHideStashedDesktopApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -390,21 +390,21 @@ func (s *DesktopModeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDesktopModeShowDesktopApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteTransition *window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -413,10 +413,10 @@ func (s *DesktopModeStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDesktopModeGetVisibleTaskCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -430,17 +430,17 @@ func (s *DesktopModeStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDesktopModeOnDesktopSplitSelectAnimComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo app.ActivityManagerRunningTaskInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_taskInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_taskInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -449,7 +449,7 @@ func (s *DesktopModeStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDesktopModeSetTaskListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -459,33 +459,33 @@ func (s *DesktopModeStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDesktopModeMoveToDesktop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_transitionSource sharedDesktopmode.DesktopModeTransitionSource
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_transitionSource.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_transitionSource.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_remoteTransition *window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -499,10 +499,10 @@ func (s *DesktopModeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDesktopModeRemoveDesktop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -510,10 +510,10 @@ func (s *DesktopModeStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDesktopModeMoveToExternalDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

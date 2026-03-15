@@ -85,21 +85,21 @@ var _ binder.TransactionReceiver = (*TimeZoneProviderStub)(nil)
 func (s *TimeZoneProviderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITimeZoneProviderStartUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_manager ITimeZoneProviderManager
 		_ = _arg_manager
-		_arg_initializationTimeoutMillis, _err := data.ReadInt64()
+		_arg_initializationTimeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_eventFilteringAgeThresholdMillis, _err := data.ReadInt64()
+		_arg_eventFilteringAgeThresholdMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -107,7 +107,7 @@ func (s *TimeZoneProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITimeZoneProviderStopUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopUpdates(ctx)

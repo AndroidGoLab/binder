@@ -100,21 +100,21 @@ var _ binder.TransactionReceiver = (*InjectGlobalEventStub)(nil)
 func (s *InjectGlobalEventStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInjectGlobalEventTriggerRestart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.TriggerRestart(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInjectGlobalEventSetResourceContention:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isContended, _err := data.ReadBool()
+		_arg_isContended, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -125,7 +125,7 @@ func (s *InjectGlobalEventStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInjectGlobalEventTriggerOnResourcesAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.TriggerOnResourcesAvailable(ctx)

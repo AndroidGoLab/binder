@@ -263,25 +263,25 @@ var _ binder.TransactionReceiver = (*DataServiceCallbackStub)(nil)
 func (s *DataServiceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDataServiceCallbackOnSetupDataCallComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_dataCallResponse DataCallResponse
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dataCallResponse.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dataCallResponse.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -290,10 +290,10 @@ func (s *DataServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCallbackOnDeactivateDataCallComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -301,10 +301,10 @@ func (s *DataServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCallbackOnSetInitialAttachApnComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -312,10 +312,10 @@ func (s *DataServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCallbackOnSetDataProfileComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -323,10 +323,10 @@ func (s *DataServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCallbackOnRequestDataCallListComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -337,7 +337,7 @@ func (s *DataServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCallbackOnDataCallListChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -347,10 +347,10 @@ func (s *DataServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCallbackOnHandoverStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -358,10 +358,10 @@ func (s *DataServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCallbackOnHandoverCancelled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -369,10 +369,10 @@ func (s *DataServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCallbackOnApnUnthrottled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_apn, _err := data.ReadString16()
+		_arg_apn, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -380,17 +380,17 @@ func (s *DataServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCallbackOnDataProfileUnthrottled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_dp DataProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dp.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dp.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

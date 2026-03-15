@@ -136,14 +136,14 @@ var _ binder.TransactionReceiver = (*PmtRatingInterfaceStub)(nil)
 func (s *PmtRatingInterfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPmtRatingInterfaceGetPmtRating:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -157,10 +157,10 @@ func (s *PmtRatingInterfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIPmtRatingInterfaceAddPmtRatingListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientToken, _err := data.ReadString16()
+		_arg_clientToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -176,7 +176,7 @@ func (s *PmtRatingInterfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPmtRatingInterfaceRemovePmtRatingListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

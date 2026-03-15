@@ -1968,11 +1968,11 @@ var _ binder.TransactionReceiver = (*StorageManagerStub)(nil)
 func (s *StorageManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStorageManagerRegisterListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1986,23 +1986,8 @@ func (s *StorageManagerStub) OnTransaction(
 		}
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
-	case TransactionIStorageManagerUnregisterListener:
-		if _, _err := data.ReadString16(); _err != nil {
-			return nil, _err
-		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener IStorageEventListener
-		_ = _arg_listener
-		_err := s.Impl.UnregisterListener(ctx, _arg_listener)
-		_reply := parcel.New()
-		if _err != nil {
-			binder.WriteStatus(_reply, _err)
-			return _reply, nil
-		}
-		binder.WriteStatus(_reply, nil)
-		return _reply, nil
 	case TransactionIStorageManagerShutdown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2017,21 +2002,21 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerMountObb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rawPath, _err := data.ReadString16()
+		_arg_rawPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_canonicalPath, _err := data.ReadString16()
+		_arg_canonicalPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IObbActionListener
 		_ = _arg_token
-		_arg_nonce, _err := data.ReadInt32()
+		_arg_nonce, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2045,21 +2030,21 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerUnmountObb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rawPath, _err := data.ReadString16()
+		_arg_rawPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_force, _err := data.ReadBool()
+		_arg_force, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token IObbActionListener
 		_ = _arg_token
-		_arg_nonce, _err := data.ReadInt32()
+		_arg_nonce, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2072,10 +2057,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerIsObbMounted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rawPath, _err := data.ReadString16()
+		_arg_rawPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2089,10 +2074,10 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetMountedObbPath:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rawPath, _err := data.ReadString16()
+		_arg_rawPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2106,16 +2091,16 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetVolumeList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2130,14 +2115,14 @@ func (s *StorageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStorageManagerMkdirs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString16()
+		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2150,7 +2135,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerLastMaintenance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.LastMaintenance(ctx)
@@ -2163,7 +2148,7 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerRunMaintenance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RunMaintenance(ctx)
@@ -2175,7 +2160,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetDisks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDisks(ctx)
@@ -2189,10 +2174,10 @@ func (s *StorageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStorageManagerGetVolumes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2207,10 +2192,10 @@ func (s *StorageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStorageManagerGetVolumeRecords:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2225,10 +2210,10 @@ func (s *StorageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStorageManagerMount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volId, _err := data.ReadString16()
+		_arg_volId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2241,10 +2226,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerUnmount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volId, _err := data.ReadString16()
+		_arg_volId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2257,10 +2242,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerFormat:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volId, _err := data.ReadString16()
+		_arg_volId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2273,10 +2258,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerPartitionPublic:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_diskId, _err := data.ReadString16()
+		_arg_diskId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2289,10 +2274,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerPartitionPrivate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_diskId, _err := data.ReadString16()
+		_arg_diskId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2305,14 +2290,14 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerPartitionMixed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_diskId, _err := data.ReadString16()
+		_arg_diskId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ratio, _err := data.ReadInt32()
+		_arg_ratio, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2325,14 +2310,14 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSetVolumeNickname:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fsUuid, _err := data.ReadString16()
+		_arg_fsUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nickname, _err := data.ReadString16()
+		_arg_nickname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2345,18 +2330,18 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSetVolumeUserFlags:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fsUuid, _err := data.ReadString16()
+		_arg_fsUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mask, _err := data.ReadInt32()
+		_arg_mask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2369,10 +2354,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerForgetVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fsUuid, _err := data.ReadString16()
+		_arg_fsUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2385,7 +2370,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerForgetAllVolumes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ForgetAllVolumes(ctx)
@@ -2397,7 +2382,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetPrimaryStorageUuid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPrimaryStorageUuid(ctx)
@@ -2410,10 +2395,10 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIStorageManagerSetPrimaryStorageUuid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2427,10 +2412,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerBenchmark:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volId, _err := data.ReadString16()
+		_arg_volId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2444,14 +2429,14 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSetDebugFlags:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mask, _err := data.ReadInt32()
+		_arg_mask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2464,13 +2449,13 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerCreateUserStorageKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_ephemeral, _err := data.ReadBool()
+		_arg_ephemeral, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2483,10 +2468,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerDestroyUserStorageKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DestroyUserStorageKeys(ctx)
@@ -2498,10 +2483,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerUnlockCeStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2516,10 +2501,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerLockCeStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.LockCeStorage(ctx)
@@ -2531,10 +2516,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerIsCeStorageUnlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCeStorageUnlocked(ctx)
@@ -2547,17 +2532,17 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerPrepareUserStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2570,17 +2555,17 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerDestroyUserStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2593,10 +2578,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSetCeStorageProtection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2611,10 +2596,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerFstrim:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2628,7 +2613,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerMountProxyFileDescriptorBridge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.MountProxyFileDescriptorBridge(ctx)
@@ -2641,18 +2626,18 @@ func (s *StorageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStorageManagerOpenProxyFileDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mountPointId, _err := data.ReadInt32()
+		_arg_mountPointId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fileId, _err := data.ReadInt32()
+		_arg_fileId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2666,14 +2651,14 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetCacheQuotaBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2687,14 +2672,14 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetCacheSizeBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2708,18 +2693,18 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetAllocatableBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllocatableBytes(ctx, _arg_volumeUuid, _arg_flags)
@@ -2732,22 +2717,22 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerAllocateBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bytes, _err := data.ReadInt64()
+		_arg_bytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AllocateBytes(ctx, _arg_volumeUuid, _arg_bytes, _arg_flags)
@@ -2759,7 +2744,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerRunIdleMaintenance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RunIdleMaintenance(ctx)
@@ -2771,7 +2756,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerAbortIdleMaintenance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AbortIdleMaintenance(ctx)
@@ -2783,7 +2768,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerCommitChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CommitChanges(ctx)
@@ -2795,7 +2780,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerSupportsCheckpoint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SupportsCheckpoint(ctx)
@@ -2808,10 +2793,10 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerStartCheckpoint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_numTries, _err := data.ReadInt32()
+		_arg_numTries, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2824,7 +2809,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerNeedsCheckpoint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.NeedsCheckpoint(ctx)
@@ -2837,14 +2822,14 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerAbortChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_retry, _err := data.ReadBool()
+		_arg_retry, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2857,10 +2842,10 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerFixupAppDir:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString16()
+		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2873,18 +2858,18 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerDisableAppDataIsolation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkgName, _err := data.ReadString16()
+		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.DisableAppDataIsolation(ctx, _arg_pkgName, _arg_pid)
@@ -2896,14 +2881,14 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetManageSpaceActivityIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2917,22 +2902,22 @@ func (s *StorageManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStorageManagerNotifyAppIoBlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tid, _err := data.ReadInt32()
+		_arg_tid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2945,22 +2930,22 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerNotifyAppIoResumed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tid, _err := data.ReadInt32()
+		_arg_tid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2973,14 +2958,14 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetExternalStorageMountMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2994,22 +2979,22 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIStorageManagerIsAppIoBlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tid, _err := data.ReadInt32()
+		_arg_tid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3023,10 +3008,10 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageManagerSetCloudMediaProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3039,7 +3024,7 @@ func (s *StorageManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageManagerGetCloudMediaProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCloudMediaProvider(ctx)
@@ -3052,7 +3037,7 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetInternalStorageBlockDeviceSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInternalStorageBlockDeviceSize(ctx)
@@ -3065,7 +3050,7 @@ func (s *StorageManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageManagerGetInternalStorageRemainingLifetime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInternalStorageRemainingLifetime(ctx)

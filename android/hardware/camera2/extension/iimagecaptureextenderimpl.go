@@ -687,17 +687,17 @@ var _ binder.TransactionReceiver = (*ImageCaptureExtenderImplStub)(nil)
 func (s *ImageCaptureExtenderImplStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImageCaptureExtenderImplOnInit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -711,7 +711,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplOnDeInit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -726,7 +726,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplOnPresetSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OnPresetSession(ctx)
@@ -742,7 +742,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplOnEnableSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OnEnableSession(ctx)
@@ -758,7 +758,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplOnDisableSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OnDisableSession(ctx)
@@ -774,7 +774,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetSessionType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSessionType(ctx)
@@ -787,10 +787,10 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplIsExtensionAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -805,10 +805,10 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplInit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -822,7 +822,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetCaptureProcessor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCaptureProcessor(ctx)
@@ -836,7 +836,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetCaptureStages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCaptureStages(ctx)
@@ -850,7 +850,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetMaxCaptureStage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMaxCaptureStage(ctx)
@@ -863,7 +863,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetSupportedResolutions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedResolutions(ctx)
@@ -877,17 +877,17 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetSupportedPostviewResolutions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_captureSize Size
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_captureSize.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_captureSize.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -903,17 +903,17 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetEstimatedCaptureLatencyRange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_outputSize Size
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_outputSize.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_outputSize.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -931,7 +931,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetAvailableCaptureRequestKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailableCaptureRequestKeys(ctx)
@@ -944,7 +944,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetAvailableCaptureResultKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailableCaptureResultKeys(ctx)
@@ -957,7 +957,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplIsCaptureProcessProgressAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCaptureProcessProgressAvailable(ctx)
@@ -970,7 +970,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplGetRealtimeCaptureLatency:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRealtimeCaptureLatency(ctx)
@@ -986,7 +986,7 @@ func (s *ImageCaptureExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIImageCaptureExtenderImplIsPostviewAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPostviewAvailable(ctx)

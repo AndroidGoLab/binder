@@ -54,11 +54,9 @@ func main() {
 		"com.example.nonexistent",
 	}
 
-	const userIdCurrent = 0
-
 	fmt.Println("Package availability:")
 	for _, pkg := range packages {
-		available, err := pkgMgr.IsPackageAvailable(ctx, pkg, userIdCurrent)
+		available, err := pkgMgr.IsPackageAvailable(ctx, pkg)
 		if err != nil {
 			fmt.Printf("  %-40s error: %v\n", pkg, err)
 			continue

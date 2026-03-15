@@ -185,14 +185,14 @@ var _ binder.TransactionReceiver = (*RadioModemIndicationStub)(nil)
 func (s *RadioModemIndicationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRadioModemIndicationHardwareConfigChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -204,15 +204,15 @@ func (s *RadioModemIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioModemIndicationModemReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -220,22 +220,22 @@ func (s *RadioModemIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioModemIndicationRadioCapabilityIndication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_rc RadioCapability
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_rc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_rc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -244,15 +244,15 @@ func (s *RadioModemIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioModemIndicationRadioStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_radioState, _err := data.ReadInt32()
+		_raw_radioState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -261,10 +261,10 @@ func (s *RadioModemIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioModemIndicationRilConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -273,22 +273,22 @@ func (s *RadioModemIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioModemIndicationOnImeiMappingChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_imeiInfo ImeiInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imeiInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imeiInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

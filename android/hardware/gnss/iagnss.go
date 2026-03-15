@@ -191,11 +191,11 @@ var _ binder.TransactionReceiver = (*AGnssStub)(nil)
 func (s *AGnssStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAGnssSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -210,7 +210,7 @@ func (s *AGnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssDataConnClosed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DataConnClosed(ctx)
@@ -222,7 +222,7 @@ func (s *AGnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssDataConnFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DataConnFailed(ctx)
@@ -234,19 +234,19 @@ func (s *AGnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssSetServer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := gnssIAGnssCallback.AGnssType(_raw_type_)
-		_arg_hostname, _err := data.ReadString()
+		_arg_hostname, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_port, _err := data.ReadInt32()
+		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -259,18 +259,18 @@ func (s *AGnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAGnssDataConnOpen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkHandle, _err := data.ReadInt64()
+		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_apn, _err := data.ReadString()
+		_arg_apn, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_apnIpType, _err := data.ReadInt32()
+		_raw_apnIpType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

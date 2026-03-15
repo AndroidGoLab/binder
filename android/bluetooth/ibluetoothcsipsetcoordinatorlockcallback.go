@@ -68,22 +68,22 @@ var _ binder.TransactionReceiver = (*BluetoothCsipSetCoordinatorLockCallbackStub
 func (s *BluetoothCsipSetCoordinatorLockCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothCsipSetCoordinatorLockCallbackOnGroupLockSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_groupId, _err := data.ReadInt32()
+		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_opStatus, _err := data.ReadInt32()
+		_arg_opStatus, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isLocked, _err := data.ReadBool()
+		_arg_isLocked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

@@ -250,21 +250,21 @@ var _ binder.TransactionReceiver = (*CryptoPluginStub)(nil)
 func (s *CryptoPluginStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICryptoPluginDecrypt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args DecryptArgs
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -279,7 +279,7 @@ func (s *CryptoPluginStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICryptoPluginGetLogMessages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLogMessages(ctx)
@@ -293,14 +293,14 @@ func (s *CryptoPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICryptoPluginNotifyResolution:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -313,10 +313,10 @@ func (s *CryptoPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICryptoPluginRequiresSecureDecoderComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mime, _err := data.ReadString16()
+		_arg_mime, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -330,7 +330,7 @@ func (s *CryptoPluginStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICryptoPluginSetMediaDrmSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -345,17 +345,17 @@ func (s *CryptoPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICryptoPluginSetSharedBufferBase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_base SharedBuffer
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_base.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_base.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

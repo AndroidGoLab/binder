@@ -498,11 +498,11 @@ var _ binder.TransactionReceiver = (*CameraDeviceSessionStub)(nil)
 func (s *CameraDeviceSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICameraDeviceSessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -514,17 +514,17 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceSessionConfigureStreams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_requestedConfiguration StreamConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_requestedConfiguration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_requestedConfiguration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -540,10 +540,10 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceSessionConstructDefaultRequestSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -561,7 +561,7 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceSessionFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Flush(ctx)
@@ -573,7 +573,7 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceSessionGetCaptureRequestMetadataQueue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCaptureRequestMetadataQueue(ctx)
@@ -589,7 +589,7 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceSessionGetCaptureResultMetadataQueue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCaptureResultMetadataQueue(ctx)
@@ -605,29 +605,29 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceSessionIsReconfigurationRequired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_oldSessionParams CameraMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_oldSessionParams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_oldSessionParams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_newSessionParams CameraMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_newSessionParams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_newSessionParams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -642,7 +642,7 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraDeviceSessionProcessCaptureRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -661,13 +661,13 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraDeviceSessionSignalStreamFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_streamIds []int32
 		_ = _arg_streamIds
-		_arg_streamConfigCounter, _err := data.ReadInt32()
+		_arg_streamConfigCounter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -675,13 +675,14 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraDeviceSessionSwitchToOffline:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_streamsToKeep []int32
 		_ = _arg_streamsToKeep
-		_result, _err := s.Impl.SwitchToOffline(ctx, _arg_streamsToKeep)
+		var _arg_offlineSessionInfo CameraOfflineSessionInfo
+		_result, _err := s.Impl.SwitchToOffline(ctx, _arg_streamsToKeep, _arg_offlineSessionInfo)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -692,10 +693,10 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceSessionRepeatingRequestEnd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frameNumber, _err := data.ReadInt32()
+		_arg_frameNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -711,17 +712,17 @@ func (s *CameraDeviceSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceSessionConfigureStreamsV2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_requestedConfiguration StreamConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_requestedConfiguration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_requestedConfiguration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

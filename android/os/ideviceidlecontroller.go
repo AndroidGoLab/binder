@@ -854,14 +854,14 @@ var _ binder.TransactionReceiver = (*DeviceIdleControllerStub)(nil)
 func (s *DeviceIdleControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDeviceIdleControllerAddPowerSaveWhitelistApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -874,7 +874,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerAddPowerSaveWhitelistApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -890,10 +890,10 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerRemovePowerSaveWhitelistApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -906,10 +906,10 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerRemoveSystemPowerWhitelistApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -922,10 +922,10 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerRestoreSystemPowerWhitelistApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -938,7 +938,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetRemovedSystemPowerWhitelistApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRemovedSystemPowerWhitelistApps(ctx)
@@ -952,7 +952,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetSystemPowerWhitelistExceptIdle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemPowerWhitelistExceptIdle(ctx)
@@ -966,7 +966,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetSystemPowerWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemPowerWhitelist(ctx)
@@ -980,7 +980,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetUserPowerWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserPowerWhitelist(ctx)
@@ -994,7 +994,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetFullPowerWhitelistExceptIdle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFullPowerWhitelistExceptIdle(ctx)
@@ -1008,7 +1008,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetFullPowerWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFullPowerWhitelist(ctx)
@@ -1022,7 +1022,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetAppIdWhitelistExceptIdle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppIdWhitelistExceptIdle(ctx)
@@ -1036,7 +1036,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetAppIdWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppIdWhitelist(ctx)
@@ -1050,7 +1050,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetAppIdUserWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppIdUserWhitelist(ctx)
@@ -1064,7 +1064,7 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerGetAppIdTempWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppIdTempWhitelist(ctx)
@@ -1078,10 +1078,10 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceIdleControllerIsPowerSaveWhitelistExceptIdleApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1095,10 +1095,10 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerIsPowerSaveWhitelistApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1112,25 +1112,25 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerAddPowerSaveTempWhitelistApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_duration, _err := data.ReadInt64()
+		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_reasonCode, _err := data.ReadInt32()
+		_arg_reasonCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1143,21 +1143,21 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerAddPowerSaveTempWhitelistAppForMms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_reasonCode, _err := data.ReadInt32()
+		_arg_reasonCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1171,21 +1171,21 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerAddPowerSaveTempWhitelistAppForSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_reasonCode, _err := data.ReadInt32()
+		_arg_reasonCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1199,21 +1199,21 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerWhitelistAppTemporarily:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_reasonCode, _err := data.ReadInt32()
+		_arg_reasonCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1227,10 +1227,10 @@ func (s *DeviceIdleControllerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDeviceIdleControllerExitIdle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

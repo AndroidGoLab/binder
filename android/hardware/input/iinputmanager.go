@@ -2680,11 +2680,11 @@ var _ binder.TransactionReceiver = (*InputManagerStub)(nil)
 func (s *InputManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputManagerGetVelocityTrackerStrategy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVelocityTrackerStrategy(ctx)
@@ -2697,10 +2697,10 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIInputManagerGetInputDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2717,7 +2717,7 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerGetInputDeviceIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInputDeviceIds(ctx)
@@ -2731,10 +2731,10 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputManagerEnableInputDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2747,10 +2747,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerDisableInputDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2763,21 +2763,22 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerHasKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sourceMask, _err := data.ReadInt32()
+		_arg_sourceMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyCodes []int32
 		_ = _arg_keyCodes
-		_result, _err := s.Impl.HasKeys(ctx, _arg_deviceId, _arg_sourceMask, _arg_keyCodes)
+		var _arg_keyExists []bool
+		_result, _err := s.Impl.HasKeys(ctx, _arg_deviceId, _arg_sourceMask, _arg_keyCodes, _arg_keyExists)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2787,14 +2788,14 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyCodeForKeyLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_locationKeyCode, _err := data.ReadInt32()
+		_arg_locationKeyCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2808,10 +2809,10 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyCharacterMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_layoutDescriptor, _err := data.ReadString16()
+		_arg_layoutDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2828,7 +2829,7 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerGetMousePointerSpeed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMousePointerSpeed(ctx)
@@ -2841,10 +2842,10 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerTryPointerSpeed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_speed, _err := data.ReadInt32()
+		_arg_speed, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2857,22 +2858,22 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerInjectInputEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ev view.InputEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ev.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ev.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2886,26 +2887,26 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerInjectInputEventToTarget:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ev view.InputEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ev.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ev.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetUid, _err := data.ReadInt32()
+		_arg_targetUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2919,17 +2920,17 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerVerifyInputEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ev view.InputEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ev.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ev.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2947,14 +2948,14 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerGetTouchCalibrationForInputDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputDeviceDescriptor, _err := data.ReadString16()
+		_arg_inputDeviceDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rotation, _err := data.ReadInt32()
+		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2971,25 +2972,25 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerSetTouchCalibrationForInputDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputDeviceDescriptor, _err := data.ReadString16()
+		_arg_inputDeviceDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rotation, _err := data.ReadInt32()
+		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_calibration TouchCalibration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_calibration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_calibration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3003,7 +3004,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayouts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetKeyboardLayouts(ctx)
@@ -3017,10 +3018,10 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyboardLayoutDescriptor, _err := data.ReadString16()
+		_arg_keyboardLayoutDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3037,44 +3038,44 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayoutForInputDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_identifier InputDeviceIdentifier
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_identifier.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_identifier.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_imeInfo inputmethod.InputMethodInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imeInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imeInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_imeSubtype inputmethod.InputMethodSubtype
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imeSubtype.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imeSubtype.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3092,49 +3093,49 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerSetKeyboardLayoutForInputDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_identifier InputDeviceIdentifier
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_identifier.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_identifier.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_imeInfo inputmethod.InputMethodInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imeInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imeInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_imeSubtype inputmethod.InputMethodSubtype
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imeSubtype.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imeSubtype.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_keyboardLayoutDescriptor, _err := data.ReadString16()
+		_arg_keyboardLayoutDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3147,44 +3148,44 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyboardLayoutListForInputDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_identifier InputDeviceIdentifier
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_identifier.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_identifier.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_imeInfo inputmethod.InputMethodInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imeInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imeInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_imeSubtype inputmethod.InputMethodSubtype
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_imeSubtype.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_imeSubtype.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3200,14 +3201,14 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputManagerRemapModifierKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fromKey, _err := data.ReadInt32()
+		_arg_fromKey, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_toKey, _err := data.ReadInt32()
+		_arg_toKey, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3220,7 +3221,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerClearAllModifierKeyRemappings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearAllModifierKeyRemappings(ctx)
@@ -3232,7 +3233,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetModifierKeyRemapping:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetModifierKeyRemapping(ctx)
@@ -3246,7 +3247,7 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputManagerRegisterInputDevicesChangedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3261,7 +3262,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerIsInTabletMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInTabletMode(ctx)
@@ -3274,7 +3275,7 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerRegisterTabletModeChangedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3289,7 +3290,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerIsMicMuted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsMicMuted(ctx)
@@ -3302,21 +3303,21 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerVibrate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_effect os.VibrationEffect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_effect.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_effect.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3333,21 +3334,21 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerVibrateCombined:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_vibration os.CombinedVibration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_vibration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_vibration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3364,10 +3365,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerCancelVibrate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3383,10 +3384,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetVibratorIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3401,10 +3402,10 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputManagerIsVibrating:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3418,10 +3419,10 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerRegisterVibratorStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3438,10 +3439,10 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterVibratorStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3458,10 +3459,10 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerGetBatteryState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3478,30 +3479,30 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerSetPointerIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_icon view.PointerIcon
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_icon.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pointerId, _err := data.ReadInt32()
+		_arg_pointerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3518,13 +3519,13 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerRequestPointerCapture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_inputChannelToken binder.IBinder
 		_ = _arg_inputChannelToken
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3532,17 +3533,17 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputManagerMonitorGestureInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3559,14 +3560,14 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerAddPortAssociation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputPort, _err := data.ReadString16()
+		_arg_inputPort, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayPort, _err := data.ReadInt32()
+		_arg_displayPort, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3579,10 +3580,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRemovePortAssociation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputPort, _err := data.ReadString16()
+		_arg_inputPort, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3595,14 +3596,14 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerAddUniqueIdAssociationByDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputDeviceDescriptor, _err := data.ReadString16()
+		_arg_inputDeviceDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayUniqueId, _err := data.ReadString16()
+		_arg_displayUniqueId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3615,10 +3616,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRemoveUniqueIdAssociationByDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputDeviceDescriptor, _err := data.ReadString16()
+		_arg_inputDeviceDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3631,14 +3632,14 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerAddUniqueIdAssociationByPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputPort, _err := data.ReadString16()
+		_arg_inputPort, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayUniqueId, _err := data.ReadString16()
+		_arg_displayUniqueId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3651,10 +3652,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRemoveUniqueIdAssociationByPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputPort, _err := data.ReadString16()
+		_arg_inputPort, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3667,10 +3668,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetSensorList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3685,7 +3686,7 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputManagerRegisterSensorListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3701,7 +3702,7 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterSensorListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3716,22 +3717,22 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerEnableSensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorType, _err := data.ReadInt32()
+		_arg_sensorType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_samplingPeriodUs, _err := data.ReadInt32()
+		_arg_samplingPeriodUs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxBatchReportLatencyUs, _err := data.ReadInt32()
+		_arg_maxBatchReportLatencyUs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3745,14 +3746,14 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerDisableSensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorType, _err := data.ReadInt32()
+		_arg_sensorType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3765,14 +3766,14 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerFlushSensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensorType, _err := data.ReadInt32()
+		_arg_sensorType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3786,10 +3787,10 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIInputManagerGetLights:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3804,14 +3805,14 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputManagerGetLightState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lightId, _err := data.ReadInt32()
+		_arg_lightId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3828,10 +3829,10 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerSetLightStates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3853,14 +3854,14 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerOpenLightSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_opPkg, _err := data.ReadString16()
+		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3876,10 +3877,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerCloseLightSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3895,7 +3896,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerCancelCurrentTouch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CancelCurrentTouch(ctx)
@@ -3907,10 +3908,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRegisterBatteryListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3926,10 +3927,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterBatteryListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3945,10 +3946,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetInputDeviceBluetoothAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3962,7 +3963,7 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIInputManagerPilferPointers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3977,7 +3978,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRegisterKeyboardBacklightListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3992,7 +3993,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterKeyboardBacklightListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4007,10 +4008,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetHostUsiVersionFromDisplayConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4027,7 +4028,7 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerRegisterStickyModifierStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4042,7 +4043,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterStickyModifierStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4057,10 +4058,10 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetKeyGlyphMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4077,7 +4078,7 @@ func (s *InputManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIInputManagerRegisterKeyGestureEventListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4092,7 +4093,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterKeyGestureEventListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4107,7 +4108,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerRegisterKeyGestureHandler:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4122,7 +4123,7 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerUnregisterKeyGestureHandler:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4137,20 +4138,20 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerAddCustomInputGesture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_data AidlInputGestureData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4165,20 +4166,20 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerRemoveCustomInputGesture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_data AidlInputGestureData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4193,13 +4194,13 @@ func (s *InputManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIInputManagerRemoveAllCustomInputGestures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_tag, _err := data.ReadInt32()
+		_arg_tag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4212,13 +4213,13 @@ func (s *InputManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIInputManagerGetCustomInputGestures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_tag, _err := data.ReadInt32()
+		_arg_tag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4233,7 +4234,7 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputManagerGetAppLaunchBookmarks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppLaunchBookmarks(ctx)
@@ -4247,7 +4248,7 @@ func (s *InputManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIInputManagerResetLockedModifierState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetLockedModifierState(ctx)

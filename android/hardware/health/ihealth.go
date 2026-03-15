@@ -571,11 +571,11 @@ var _ binder.TransactionReceiver = (*HealthStub)(nil)
 func (s *HealthStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHealthRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -590,7 +590,7 @@ func (s *HealthStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHealthUnregisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -605,7 +605,7 @@ func (s *HealthStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHealthUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Update(ctx)
@@ -617,7 +617,7 @@ func (s *HealthStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHealthGetChargeCounterUah:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetChargeCounterUah(ctx)
@@ -630,7 +630,7 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHealthGetCurrentNowMicroamps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentNowMicroamps(ctx)
@@ -643,7 +643,7 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHealthGetCurrentAverageMicroamps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentAverageMicroamps(ctx)
@@ -656,7 +656,7 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHealthGetCapacity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCapacity(ctx)
@@ -669,7 +669,7 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHealthGetEnergyCounterNwh:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEnergyCounterNwh(ctx)
@@ -682,7 +682,7 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIHealthGetChargeStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetChargeStatus(ctx)
@@ -695,7 +695,7 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIHealthGetStorageInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetStorageInfo(ctx)
@@ -709,7 +709,7 @@ func (s *HealthStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHealthGetDiskStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDiskStats(ctx)
@@ -723,7 +723,7 @@ func (s *HealthStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHealthGetHealthInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHealthInfo(ctx)
@@ -739,10 +739,10 @@ func (s *HealthStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIHealthSetChargingPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_in_value, _err := data.ReadInt32()
+		_raw_in_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -756,7 +756,7 @@ func (s *HealthStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHealthGetChargingPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetChargingPolicy(ctx)
@@ -769,7 +769,7 @@ func (s *HealthStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIHealthGetBatteryHealthData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBatteryHealthData(ctx)
@@ -785,7 +785,7 @@ func (s *HealthStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIHealthGetHingeInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHingeInfo(ctx)

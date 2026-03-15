@@ -231,11 +231,11 @@ var _ binder.TransactionReceiver = (*CarPowerPolicyServerStub)(nil)
 func (s *CarPowerPolicyServerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICarPowerPolicyServerGetCurrentPowerPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentPowerPolicy(ctx)
@@ -251,10 +251,10 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICarPowerPolicyServerGetPowerComponentState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_componentId, _err := data.ReadInt32()
+		_raw_componentId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -269,7 +269,7 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICarPowerPolicyServerRegisterPowerPolicyChangeCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -277,12 +277,12 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		_ = _arg_callback
 		var _arg_filter CarPowerPolicyFilter
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_filter.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_filter.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -296,7 +296,7 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarPowerPolicyServerUnregisterPowerPolicyChangeCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -311,10 +311,10 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarPowerPolicyServerApplyPowerPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_policyId, _err := data.ReadString()
+		_arg_policyId, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -327,10 +327,10 @@ func (s *CarPowerPolicyServerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarPowerPolicyServerSetPowerPolicyGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_policyGroupId, _err := data.ReadString()
+		_arg_policyGroupId, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}

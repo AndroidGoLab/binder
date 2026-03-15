@@ -103,11 +103,11 @@ var _ binder.TransactionReceiver = (*HciProxyStub)(nil)
 func (s *HciProxyStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHciProxyRegisterCallbacks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -122,14 +122,14 @@ func (s *HciProxyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHciProxySendPacket:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handle, _err := data.ReadInt32()
+		_arg_handle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sequence_number, _err := data.ReadInt32()
+		_arg_sequence_number, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

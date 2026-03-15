@@ -142,18 +142,18 @@ var _ binder.TransactionReceiver = (*StreamingServiceCallbackStub)(nil)
 func (s *StreamingServiceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStreamingServiceCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -161,14 +161,14 @@ func (s *StreamingServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStreamingServiceCallbackOnStreamStateUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -176,17 +176,17 @@ func (s *StreamingServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStreamingServiceCallbackOnMediaDescriptionUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnMediaDescriptionUpdated(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStreamingServiceCallbackOnBroadcastSignalStrengthUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_signalStrength, _err := data.ReadInt32()
+		_arg_signalStrength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -194,10 +194,10 @@ func (s *StreamingServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStreamingServiceCallbackOnStreamMethodUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_methodType, _err := data.ReadInt32()
+		_arg_methodType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

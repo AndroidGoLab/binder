@@ -3567,14 +3567,14 @@ var _ binder.TransactionReceiver = (*UserManagerStub)(nil)
 func (s *UserManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUserManagerGetCredentialOwnerProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCredentialOwnerProfile(ctx)
@@ -3587,10 +3587,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetProfileParentId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProfileParentId(ctx)
@@ -3603,18 +3603,18 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerCreateUserWithThrow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3628,10 +3628,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerPreCreateUserWithThrow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3645,22 +3645,22 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerCreateProfileForUserWithThrow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3676,14 +3676,14 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerCreateRestrictedProfileWithThrow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_parentUserHandle, _err := data.ReadInt32()
+		_arg_parentUserHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3697,10 +3697,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerGetPreInstallableSystemPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3715,10 +3715,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerSetUserEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetUserEnabled(ctx)
@@ -3730,10 +3730,10 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerSetUserAdmin:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetUserAdmin(ctx)
@@ -3745,10 +3745,10 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerRevokeUserAdmin:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RevokeUserAdmin(ctx)
@@ -3760,10 +3760,10 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerEvictCredentialEncryptionKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EvictCredentialEncryptionKey(ctx)
@@ -3775,10 +3775,10 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerRemoveUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RemoveUser(ctx)
@@ -3791,10 +3791,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerRemoveUserEvenWhenDisallowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RemoveUserEvenWhenDisallowed(ctx)
@@ -3807,13 +3807,13 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerSetUserName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3826,20 +3826,20 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerSetUserIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_icon graphics.Bitmap
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_icon.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3853,10 +3853,10 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerGetUserIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserIcon(ctx)
@@ -3869,7 +3869,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetPrimaryUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPrimaryUser(ctx)
@@ -3882,7 +3882,7 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerGetMainUserId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMainUserId(ctx)
@@ -3895,7 +3895,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetCommunalProfileId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCommunalProfileId(ctx)
@@ -3908,7 +3908,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetPreviousFullUserToEnterForeground:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPreviousFullUserToEnterForeground(ctx)
@@ -3921,18 +3921,18 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUsers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_excludePartial, _err := data.ReadBool()
+		_arg_excludePartial, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_excludeDying, _err := data.ReadBool()
+		_arg_excludeDying, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_excludePreCreated, _err := data.ReadBool()
+		_arg_excludePreCreated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3947,13 +3947,13 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerGetProfiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabledOnly, _err := data.ReadBool()
+		_arg_enabledOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3968,13 +3968,13 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerGetProfileIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabledOnly, _err := data.ReadBool()
+		_arg_enabledOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3989,10 +3989,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerIsUserTypeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4006,10 +4006,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerCanAddMoreUsersOfType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4023,10 +4023,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetRemainingCreatableUserCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4040,14 +4040,14 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetRemainingCreatableProfileCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRemainingCreatableProfileCount(ctx, _arg_userType)
@@ -4060,17 +4060,17 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerCanAddMoreProfilesToUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_allowedToRemoveOne, _err := data.ReadBool()
+		_arg_allowedToRemoveOne, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4084,13 +4084,13 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerCanAddMoreManagedProfiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_allowedToRemoveOne, _err := data.ReadBool()
+		_arg_allowedToRemoveOne, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4104,10 +4104,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetProfileParent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProfileParent(ctx)
@@ -4120,13 +4120,13 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerIsSameProfileGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_otherUserHandle, _err := data.ReadInt32()
+		_arg_otherUserHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4140,7 +4140,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsHeadlessSystemUserMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHeadlessSystemUserMode(ctx)
@@ -4153,13 +4153,13 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsUserOfType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4173,10 +4173,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserInfo(ctx)
@@ -4189,10 +4189,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerGetUserPropertiesCopy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserPropertiesCopy(ctx)
@@ -4205,10 +4205,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerGetUserAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserAccount(ctx)
@@ -4221,13 +4221,13 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIUserManagerSetUserAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_accountName, _err := data.ReadString16()
+		_arg_accountName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4240,10 +4240,10 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerGetUserCreationTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserCreationTime(ctx)
@@ -4256,10 +4256,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserSwitchability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserSwitchability(ctx)
@@ -4272,14 +4272,14 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsUserSwitcherEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_showEvenIfNotActionable, _err := data.ReadBool()
+		_arg_showEvenIfNotActionable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mUserId, _err := data.ReadInt32()
+		_arg_mUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4293,10 +4293,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsRestricted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRestricted(ctx)
@@ -4309,10 +4309,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerCanHaveRestrictedProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CanHaveRestrictedProfile(ctx)
@@ -4325,10 +4325,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerCanAddPrivateProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CanAddPrivateProfile(ctx)
@@ -4341,10 +4341,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserSerialNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserSerialNumber(ctx)
@@ -4357,10 +4357,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserHandle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_userSerialNumber, _err := data.ReadInt32()
+		_arg_userSerialNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4374,14 +4374,14 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserRestrictionSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_restrictionKey, _err := data.ReadString16()
+		_arg_restrictionKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserRestrictionSource(ctx, _arg_restrictionKey)
@@ -4394,14 +4394,14 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserRestrictionSources:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_restrictionKey, _err := data.ReadString16()
+		_arg_restrictionKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserRestrictionSources(ctx, _arg_restrictionKey)
@@ -4415,10 +4415,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerGetUserRestrictions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserRestrictions(ctx)
@@ -4434,14 +4434,14 @@ func (s *UserManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUserManagerHasBaseUserRestriction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_restrictionKey, _err := data.ReadString16()
+		_arg_restrictionKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasBaseUserRestriction(ctx, _arg_restrictionKey)
@@ -4454,14 +4454,14 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerHasUserRestriction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_restrictionKey, _err := data.ReadString16()
+		_arg_restrictionKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasUserRestriction(ctx, _arg_restrictionKey)
@@ -4474,10 +4474,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerHasUserRestrictionOnAnyUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_restrictionKey, _err := data.ReadString16()
+		_arg_restrictionKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4491,21 +4491,21 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsSettingRestrictedForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_setting, _err := data.ReadString16()
+		_arg_setting, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSettingRestrictedForUser(ctx, _arg_setting, _arg_value)
@@ -4518,7 +4518,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerAddUserRestrictionsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4533,18 +4533,18 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerSetUserRestriction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadString16()
+		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadBool()
+		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetUserRestriction(ctx, _arg_key, _arg_value)
@@ -4556,26 +4556,26 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerSetApplicationRestrictions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_restrictions Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_restrictions.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_restrictions.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetApplicationRestrictions(ctx, _arg_packageName, _arg_restrictions)
@@ -4587,10 +4587,10 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerGetApplicationRestrictions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4607,14 +4607,14 @@ func (s *UserManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUserManagerGetApplicationRestrictionsForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetApplicationRestrictionsForUser(ctx, _arg_packageName)
@@ -4630,17 +4630,17 @@ func (s *UserManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUserManagerSetDefaultGuestRestrictions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_restrictions Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_restrictions.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_restrictions.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4654,7 +4654,7 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerGetDefaultGuestRestrictions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultGuestRestrictions(ctx)
@@ -4670,13 +4670,13 @@ func (s *UserManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUserManagerRemoveUserWhenPossible:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_overrideDevicePolicy, _err := data.ReadBool()
+		_arg_overrideDevicePolicy, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4690,10 +4690,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerMarkGuestForDeletion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.MarkGuestForDeletion(ctx)
@@ -4706,7 +4706,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetGuestUsers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGuestUsers(ctx)
@@ -4720,10 +4720,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerIsQuietModeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsQuietModeEnabled(ctx)
@@ -4736,38 +4736,38 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerCreateUserWithAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_userName, _err := data.ReadString16()
+		_arg_userName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_userIcon graphics.Bitmap
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_userIcon.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_userIcon.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_accountName, _err := data.ReadString16()
+		_arg_accountName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accountType, _err := data.ReadString16()
+		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4785,22 +4785,22 @@ func (s *UserManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIUserManagerSetSeedAccountData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_accountName, _err := data.ReadString16()
+		_arg_accountName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accountType, _err := data.ReadString16()
+		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_accountOptions interface{}
-		_arg_persist, _err := data.ReadBool()
+		_arg_persist, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4813,10 +4813,10 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerGetSeedAccountName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSeedAccountName(ctx)
@@ -4829,10 +4829,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetSeedAccountType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSeedAccountType(ctx)
@@ -4845,10 +4845,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetSeedAccountOptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSeedAccountOptions(ctx)
@@ -4861,10 +4861,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerClearSeedAccountData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearSeedAccountData(ctx)
@@ -4876,14 +4876,14 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerSomeUserHasSeedAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accountName, _err := data.ReadString16()
+		_arg_accountName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accountType, _err := data.ReadString16()
+		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4897,14 +4897,14 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerSomeUserHasAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accountName, _err := data.ReadString16()
+		_arg_accountName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accountType, _err := data.ReadString16()
+		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4918,10 +4918,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetProfileType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProfileType(ctx)
@@ -4934,10 +4934,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsDemoUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDemoUser(ctx)
@@ -4950,10 +4950,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsAdminUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAdminUser(ctx)
@@ -4966,10 +4966,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsPreCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPreCreated(ctx)
@@ -4982,22 +4982,22 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerCreateProfileForUserEvenWhenDisallowedWithThrow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_userType, _err := data.ReadString16()
+		_arg_userType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -5013,10 +5013,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerIsUserUnlockingOrUnlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUserUnlockingOrUnlocked(ctx)
@@ -5029,10 +5029,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserIconBadgeResId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserIconBadgeResId(ctx)
@@ -5045,10 +5045,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserBadgeResId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserBadgeResId(ctx)
@@ -5061,10 +5061,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserBadgeNoBackgroundResId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserBadgeNoBackgroundResId(ctx)
@@ -5077,10 +5077,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserBadgeLabelResId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserBadgeLabelResId(ctx)
@@ -5093,10 +5093,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserBadgeColorResId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserBadgeColorResId(ctx)
@@ -5109,10 +5109,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserBadgeDarkColorResId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserBadgeDarkColorResId(ctx)
@@ -5125,10 +5125,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserStatusBarIconResId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserStatusBarIconResId(ctx)
@@ -5141,10 +5141,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerHasBadge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasBadge(ctx)
@@ -5157,10 +5157,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetProfileLabelResId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProfileLabelResId(ctx)
@@ -5173,10 +5173,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetProfileAccessibilityLabelResId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProfileAccessibilityLabelResId(ctx)
@@ -5189,10 +5189,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsUserUnlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUserUnlocked(ctx)
@@ -5205,10 +5205,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsUserRunning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUserRunning(ctx)
@@ -5221,10 +5221,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsUserForeground:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUserForeground(ctx)
@@ -5237,10 +5237,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsUserVisible:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUserVisible(ctx)
@@ -5253,7 +5253,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetVisibleUsers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVisibleUsers(ctx)
@@ -5267,10 +5267,10 @@ func (s *UserManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUserManagerGetMainDisplayIdAssignedToUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMainDisplayIdAssignedToUser(ctx)
@@ -5283,7 +5283,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsForegroundUserAdmin:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsForegroundUserAdmin(ctx)
@@ -5296,10 +5296,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerIsUserNameSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUserNameSet(ctx)
@@ -5312,10 +5312,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerHasRestrictedProfiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasRestrictedProfiles(ctx)
@@ -5328,21 +5328,21 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerRequestQuietModeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enableQuietMode, _err := data.ReadBool()
+		_arg_enableQuietMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_target interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5356,7 +5356,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserName(ctx)
@@ -5369,7 +5369,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserStartRealtime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserStartRealtime(ctx)
@@ -5382,7 +5382,7 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetUserUnlockRealtime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserUnlockRealtime(ctx)
@@ -5395,13 +5395,13 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIUserManagerSetUserEphemeral:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_enableEphemeral, _err := data.ReadBool()
+		_arg_enableEphemeral, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5415,10 +5415,10 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUserManagerSetBootUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetBootUser(ctx)
@@ -5430,7 +5430,7 @@ func (s *UserManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserManagerGetBootUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBootUser(ctx)
@@ -5443,13 +5443,13 @@ func (s *UserManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUserManagerGetProfileIdsExcludingHidden:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabledOnly, _err := data.ReadBool()
+		_arg_enabledOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

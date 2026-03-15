@@ -229,11 +229,11 @@ var _ binder.TransactionReceiver = (*BinderStabilityTestStub)(nil)
 func (s *BinderStabilityTestStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBinderStabilityTestSendBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -248,7 +248,7 @@ func (s *BinderStabilityTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderStabilityTestSendAndCallBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -263,7 +263,7 @@ func (s *BinderStabilityTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderStabilityTestReturnNoStabilityBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ReturnNoStabilityBinder(ctx)
@@ -277,7 +277,7 @@ func (s *BinderStabilityTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderStabilityTestReturnLocalStabilityBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ReturnLocalStabilityBinder(ctx)
@@ -291,7 +291,7 @@ func (s *BinderStabilityTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderStabilityTestReturnVintfStabilityBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ReturnVintfStabilityBinder(ctx)
@@ -305,7 +305,7 @@ func (s *BinderStabilityTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderStabilityTestReturnVendorStabilityBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ReturnVendorStabilityBinder(ctx)

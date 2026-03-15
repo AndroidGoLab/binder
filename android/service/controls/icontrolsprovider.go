@@ -138,11 +138,11 @@ var _ binder.TransactionReceiver = (*ControlsProviderStub)(nil)
 func (s *ControlsProviderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIControlsProviderLoad:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -152,7 +152,7 @@ func (s *ControlsProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIControlsProviderLoadSuggested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -162,7 +162,7 @@ func (s *ControlsProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIControlsProviderSubscribe:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -175,21 +175,21 @@ func (s *ControlsProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIControlsProviderAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_controlId, _err := data.ReadString16()
+		_arg_controlId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_action actions.ControlActionWrapper
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_action.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_action.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

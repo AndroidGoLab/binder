@@ -102,25 +102,25 @@ var _ binder.TransactionReceiver = (*MediaProjectionCallbackStub)(nil)
 func (s *MediaProjectionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaProjectionCallbackOnStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStop(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIMediaProjectionCallbackOnCapturedContentResize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -128,10 +128,10 @@ func (s *MediaProjectionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaProjectionCallbackOnCapturedContentVisibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isVisible, _err := data.ReadBool()
+		_arg_isVisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

@@ -319,11 +319,11 @@ var _ binder.TransactionReceiver = (*RollbackManagerStub)(nil)
 func (s *RollbackManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRollbackManagerGetAvailableRollbacks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailableRollbacks(ctx)
@@ -339,7 +339,7 @@ func (s *RollbackManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRollbackManagerGetRecentlyCommittedRollbacks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRecentlyCommittedRollbacks(ctx)
@@ -355,37 +355,37 @@ func (s *RollbackManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRollbackManagerCommitRollback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rollbackId, _err := data.ReadInt32()
+		_arg_rollbackId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_causePackages pm.ParceledListSlice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_causePackages.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_causePackages.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_callerPackageName, _err := data.ReadString16()
+		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statusReceiver content.IntentSender
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusReceiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -399,29 +399,29 @@ func (s *RollbackManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRollbackManagerSnapshotAndRestoreUserData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_userIds []int32
 		_ = _arg_userIds
-		_arg_appId, _err := data.ReadInt32()
+		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ceDataInode, _err := data.ReadInt64()
+		_arg_ceDataInode, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_seInfo, _err := data.ReadString16()
+		_arg_seInfo, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -434,7 +434,7 @@ func (s *RollbackManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRollbackManagerReloadPersistedData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ReloadPersistedData(ctx)
@@ -446,10 +446,10 @@ func (s *RollbackManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRollbackManagerExpireRollbackForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -462,10 +462,10 @@ func (s *RollbackManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRollbackManagerNotifyStagedSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -479,10 +479,10 @@ func (s *RollbackManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRollbackManagerBlockRollbackManager:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_millis, _err := data.ReadInt64()
+		_arg_millis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

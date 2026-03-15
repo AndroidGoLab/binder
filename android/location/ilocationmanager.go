@@ -2083,34 +2083,34 @@ var _ binder.TransactionReceiver = (*LocationManagerStub)(nil)
 func (s *LocationManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionILocationManagerGetLastLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request LastLocationRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLastLocation(ctx, _arg_provider, _arg_request, _arg_packageName)
@@ -2126,21 +2126,21 @@ func (s *LocationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILocationManagerGetCurrentLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request LocationRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2148,14 +2148,14 @@ func (s *LocationManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ILocationCallback
 		_ = _arg_callback
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_listenerId, _err := data.ReadString16()
+		_arg_listenerId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2169,21 +2169,21 @@ func (s *LocationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerRegisterLocationListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request LocationRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2191,14 +2191,14 @@ func (s *LocationManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ILocationListener
 		_ = _arg_listener
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_listenerId, _err := data.ReadString16()
+		_arg_listenerId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2211,7 +2211,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerUnregisterLocationListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2226,31 +2226,31 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRegisterLocationPendingIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request LocationRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_pendingIntent interface{}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RegisterLocationPendingIntent(ctx, _arg_provider, _arg_request, _arg_pendingIntent, _arg_packageName)
@@ -2262,7 +2262,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerUnregisterLocationPendingIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pendingIntent interface{}
@@ -2275,17 +2275,17 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerInjectLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_location Location
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2299,17 +2299,17 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRequestListenerFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ILocationListener
 		_ = _arg_listener
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2322,15 +2322,15 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRequestPendingIntentFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_pendingIntent interface{}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2343,27 +2343,27 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRequestGeofence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_geofence Geofence
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_geofence.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_geofence.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_intent interface{}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestGeofence(ctx, _arg_geofence, _arg_intent, _arg_packageName)
@@ -2375,7 +2375,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveGeofence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
@@ -2388,7 +2388,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerIsGeocodeAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsGeocodeAvailable(ctx)
@@ -2401,7 +2401,7 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerReverseGeocode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request interface{}
@@ -2415,7 +2415,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerForwardGeocode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request interface{}
@@ -2429,7 +2429,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGnssCapabilities(ctx)
@@ -2445,7 +2445,7 @@ func (s *LocationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILocationManagerGetGnssYearOfHardware:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGnssYearOfHardware(ctx)
@@ -2458,7 +2458,7 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssHardwareModelName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGnssHardwareModelName(ctx)
@@ -2471,7 +2471,7 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssAntennaInfos:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGnssAntennaInfos(ctx)
@@ -2485,20 +2485,20 @@ func (s *LocationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerRegisterGnssStatusCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssStatusListener
 		_ = _arg_callback
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_listenerId, _err := data.ReadString16()
+		_arg_listenerId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2511,7 +2511,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerUnregisterGnssStatusCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2526,20 +2526,20 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRegisterGnssNmeaCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssNmeaListener
 		_ = _arg_callback
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_listenerId, _err := data.ReadString16()
+		_arg_listenerId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2552,7 +2552,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerUnregisterGnssNmeaCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2567,17 +2567,17 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddGnssMeasurementsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request GnssMeasurementRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2585,14 +2585,14 @@ func (s *LocationManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IGnssMeasurementsListener
 		_ = _arg_listener
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_listenerId, _err := data.ReadString16()
+		_arg_listenerId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2605,7 +2605,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveGnssMeasurementsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2620,17 +2620,17 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerInjectGnssMeasurementCorrections:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_corrections GnssMeasurementCorrections
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_corrections.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_corrections.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2644,20 +2644,20 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddGnssNavigationMessageListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IGnssNavigationMessageListener
 		_ = _arg_listener
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_listenerId, _err := data.ReadString16()
+		_arg_listenerId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2670,7 +2670,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveGnssNavigationMessageListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2685,20 +2685,20 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddGnssAntennaInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IGnssAntennaInfoListener
 		_ = _arg_listener
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_listenerId, _err := data.ReadString16()
+		_arg_listenerId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2711,7 +2711,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveGnssAntennaInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2726,7 +2726,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddProviderRequestListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_listener interface{}
@@ -2739,7 +2739,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveProviderRequestListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_listener interface{}
@@ -2752,7 +2752,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssBatchSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGnssBatchSize(ctx)
@@ -2765,24 +2765,24 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionILocationManagerStartGnssBatch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_periodNanos, _err := data.ReadInt64()
+		_arg_periodNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ILocationListener
 		_ = _arg_listener
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_listenerId, _err := data.ReadString16()
+		_arg_listenerId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2795,7 +2795,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerFlushGnssBatch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FlushGnssBatch(ctx)
@@ -2807,7 +2807,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerStopGnssBatch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopGnssBatch(ctx)
@@ -2819,10 +2819,10 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerHasProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2836,7 +2836,7 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetAllProviders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllProviders(ctx)
@@ -2850,22 +2850,22 @@ func (s *LocationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerGetProviders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_criteria Criteria
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_criteria.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_criteria.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_enabledOnly, _err := data.ReadBool()
+		_arg_enabledOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2880,22 +2880,22 @@ func (s *LocationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerGetBestProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_criteria Criteria
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_criteria.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_criteria.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_enabledOnly, _err := data.ReadBool()
+		_arg_enabledOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2909,10 +2909,10 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetProviderProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2926,18 +2926,18 @@ func (s *LocationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerIsProviderPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsProviderPackage(ctx, _arg_provider, _arg_packageName)
@@ -2950,10 +2950,10 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerGetProviderPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2968,10 +2968,10 @@ func (s *LocationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerSetExtraLocationControllerPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2984,7 +2984,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerGetExtraLocationControllerPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtraLocationControllerPackage(ctx)
@@ -2997,10 +2997,10 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionILocationManagerSetExtraLocationControllerPackageEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3013,7 +3013,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerIsExtraLocationControllerPackageEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsExtraLocationControllerPackageEnabled(ctx)
@@ -3026,14 +3026,14 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerIsProviderEnabledForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsProviderEnabledForUser(ctx, _arg_provider)
@@ -3046,10 +3046,10 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerIsLocationEnabledForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsLocationEnabledForUser(ctx)
@@ -3062,14 +3062,14 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerSetLocationEnabledForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetLocationEnabledForUser(ctx, _arg_enabled)
@@ -3081,10 +3081,10 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerIsAdasGnssLocationEnabledForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAdasGnssLocationEnabledForUser(ctx)
@@ -3097,14 +3097,14 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerSetAdasGnssLocationEnabledForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetAdasGnssLocationEnabledForUser(ctx, _arg_enabled)
@@ -3116,7 +3116,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerIsAutomotiveGnssSuspended:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAutomotiveGnssSuspended(ctx)
@@ -3129,10 +3129,10 @@ func (s *LocationManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionILocationManagerSetAutomotiveGnssSuspended:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_suspended, _err := data.ReadBool()
+		_arg_suspended, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3145,10 +3145,10 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerAddTestProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3156,11 +3156,11 @@ func (s *LocationManagerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_locationTags []string
 		_ = _arg_locationTags
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.AddTestProvider(ctx, _arg_name, _arg_properties, _arg_locationTags, _arg_packageName)
@@ -3172,18 +3172,18 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerRemoveTestProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RemoveTestProvider(ctx, _arg_provider, _arg_packageName)
@@ -3195,30 +3195,30 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerSetTestProviderLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_location Location
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetTestProviderLocation(ctx, _arg_provider, _arg_location, _arg_packageName)
@@ -3230,22 +3230,22 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerSetTestProviderEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetTestProviderEnabled(ctx, _arg_provider, _arg_enabled, _arg_packageName)
@@ -3257,7 +3257,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerGetGnssTimeMillis:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGnssTimeMillis(ctx)
@@ -3273,14 +3273,14 @@ func (s *LocationManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionILocationManagerSendExtraCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provider, _err := data.ReadString16()
+		_arg_provider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_command, _err := data.ReadString16()
+		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3294,7 +3294,7 @@ func (s *LocationManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionILocationManagerGetBackgroundThrottlingWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBackgroundThrottlingWhitelist(ctx)
@@ -3308,7 +3308,7 @@ func (s *LocationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerGetIgnoreSettingsAllowlist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetIgnoreSettingsAllowlist(ctx)
@@ -3321,7 +3321,7 @@ func (s *LocationManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerGetAdasAllowlist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAdasAllowlist(ctx)

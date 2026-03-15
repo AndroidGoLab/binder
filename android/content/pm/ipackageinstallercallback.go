@@ -146,14 +146,14 @@ var _ binder.TransactionReceiver = (*PackageInstallerCallbackStub)(nil)
 func (s *PackageInstallerCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPackageInstallerCallbackOnSessionCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -161,10 +161,10 @@ func (s *PackageInstallerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPackageInstallerCallbackOnSessionBadgingChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -172,14 +172,14 @@ func (s *PackageInstallerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPackageInstallerCallbackOnSessionActiveChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -187,14 +187,14 @@ func (s *PackageInstallerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPackageInstallerCallbackOnSessionProgressChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_progress, _err := data.ReadFloat32()
+		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -202,14 +202,14 @@ func (s *PackageInstallerCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPackageInstallerCallbackOnSessionFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_success, _err := data.ReadBool()
+		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

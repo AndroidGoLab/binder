@@ -136,17 +136,17 @@ var _ binder.TransactionReceiver = (*WriteResultCallbackStub)(nil)
 func (s *WriteResultCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWriteResultCallbackOnWriteStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cancellation ondeviceintelligence.ICancellationSignal
 		_ = _arg_cancellation
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -154,13 +154,13 @@ func (s *WriteResultCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWriteResultCallbackOnWriteFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pages []PageRange
 		_ = _arg_pages
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -168,11 +168,11 @@ func (s *WriteResultCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWriteResultCallbackOnWriteFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_error_ interface{}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -180,10 +180,10 @@ func (s *WriteResultCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWriteResultCallbackOnWriteCanceled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

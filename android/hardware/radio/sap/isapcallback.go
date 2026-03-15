@@ -294,18 +294,18 @@ var _ binder.TransactionReceiver = (*SapCallbackStub)(nil)
 func (s *SapCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISapCallbackApduResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_resultCode, _err := data.ReadInt32()
+		_raw_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -317,19 +317,19 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackConnectResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_sapConnectRsp, _err := data.ReadInt32()
+		_raw_sapConnectRsp, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_sapConnectRsp := SapConnectRsp(_raw_sapConnectRsp)
-		_arg_maxMsgSizeBytes, _err := data.ReadInt32()
+		_arg_maxMsgSizeBytes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -337,14 +337,14 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackDisconnectIndication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_disconnectType, _err := data.ReadInt32()
+		_raw_disconnectType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -353,10 +353,10 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackDisconnectResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -364,10 +364,10 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackErrorResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -375,14 +375,14 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackPowerResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_resultCode, _err := data.ReadInt32()
+		_raw_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -391,14 +391,14 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackResetSimResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_resultCode, _err := data.ReadInt32()
+		_raw_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -407,14 +407,14 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackStatusIndication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_status, _err := data.ReadInt32()
+		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -423,14 +423,14 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackTransferAtrResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_resultCode, _err := data.ReadInt32()
+		_raw_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -442,19 +442,19 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackTransferCardReaderStatusResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_resultCode, _err := data.ReadInt32()
+		_raw_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_resultCode := SapResultCode(_raw_resultCode)
-		_arg_cardReaderStatus, _err := data.ReadInt32()
+		_arg_cardReaderStatus, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -462,14 +462,14 @@ func (s *SapCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapCallbackTransferProtocolResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_resultCode, _err := data.ReadInt32()
+		_raw_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -183,11 +183,11 @@ var _ binder.TransactionReceiver = (*SecureElementServiceStub)(nil)
 func (s *SecureElementServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISecureElementServiceGetReaders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetReaders(ctx)
@@ -201,10 +201,10 @@ func (s *SecureElementServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISecureElementServiceGetReader:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reader, _err := data.ReadString16()
+		_arg_reader, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -219,10 +219,10 @@ func (s *SecureElementServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISecureElementServiceIsNfcEventAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reader, _err := data.ReadString16()
+		_arg_reader, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -232,7 +232,7 @@ func (s *SecureElementServiceStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_packageNames []string
 		_ = _arg_packageNames
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsNfcEventAllowed(ctx, _arg_reader, _arg_aid, _arg_packageNames)

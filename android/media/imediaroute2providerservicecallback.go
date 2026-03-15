@@ -162,21 +162,21 @@ var _ binder.TransactionReceiver = (*MediaRoute2ProviderServiceCallbackStub)(nil
 func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaRoute2ProviderServiceCallbackNotifyProviderUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_providerInfo MediaRoute2ProviderInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_providerInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_providerInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -185,21 +185,21 @@ func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo RoutingSessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -208,7 +208,7 @@ func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionsUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -218,17 +218,17 @@ func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceCallbackNotifySessionReleased:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo RoutingSessionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -237,14 +237,14 @@ func (s *MediaRoute2ProviderServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceCallbackNotifyRequestFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -64,14 +64,14 @@ var _ binder.TransactionReceiver = (*HomeTransitionListenerStub)(nil)
 func (s *HomeTransitionListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHomeTransitionListenerOnHomeVisibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isVisible, _err := data.ReadBool()
+		_arg_isVisible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

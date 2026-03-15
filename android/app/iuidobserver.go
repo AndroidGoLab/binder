@@ -173,18 +173,18 @@ var _ binder.TransactionReceiver = (*UidObserverStub)(nil)
 func (s *UidObserverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUidObserverOnUidGone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_disabled, _err := data.ReadBool()
+		_arg_disabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -192,10 +192,10 @@ func (s *UidObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUidObserverOnUidActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -203,14 +203,14 @@ func (s *UidObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUidObserverOnUidIdle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_disabled, _err := data.ReadBool()
+		_arg_disabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -218,22 +218,22 @@ func (s *UidObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUidObserverOnUidStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_procState, _err := data.ReadInt32()
+		_arg_procState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_procStateSeq, _err := data.ReadInt64()
+		_arg_procStateSeq, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -241,14 +241,14 @@ func (s *UidObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUidObserverOnUidProcAdjChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_adj, _err := data.ReadInt32()
+		_arg_adj, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -256,14 +256,14 @@ func (s *UidObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUidObserverOnUidCachedChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cached, _err := data.ReadBool()
+		_arg_cached, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

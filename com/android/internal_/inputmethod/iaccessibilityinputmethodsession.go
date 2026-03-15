@@ -135,34 +135,34 @@ var _ binder.TransactionReceiver = (*AccessibilityInputMethodSessionStub)(nil)
 func (s *AccessibilityInputMethodSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAccessibilityInputMethodSessionUpdateSelection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_oldSelStart, _err := data.ReadInt32()
+		_arg_oldSelStart, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_oldSelEnd, _err := data.ReadInt32()
+		_arg_oldSelEnd, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newSelStart, _err := data.ReadInt32()
+		_arg_newSelStart, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newSelEnd, _err := data.ReadInt32()
+		_arg_newSelEnd, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_candidatesStart, _err := data.ReadInt32()
+		_arg_candidatesStart, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_candidatesEnd, _err := data.ReadInt32()
+		_arg_candidatesEnd, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -170,31 +170,31 @@ func (s *AccessibilityInputMethodSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityInputMethodSessionFinishInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FinishInput(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityInputMethodSessionFinishSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FinishSession(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityInputMethodSessionInvalidateInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_editorInfo viewInputmethod.EditorInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_editorInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_editorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -202,7 +202,7 @@ func (s *AccessibilityInputMethodSessionStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection IRemoteAccessibilityInputConnection
 		_ = _arg_connection
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

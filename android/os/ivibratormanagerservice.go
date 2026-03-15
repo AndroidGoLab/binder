@@ -502,11 +502,11 @@ var _ binder.TransactionReceiver = (*VibratorManagerServiceStub)(nil)
 func (s *VibratorManagerServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVibratorManagerServiceGetVibratorIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVibratorIds(ctx)
@@ -520,7 +520,7 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVibratorManagerServiceGetCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCapabilities(ctx)
@@ -533,10 +533,10 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorManagerServiceGetVibratorInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_vibratorId, _err := data.ReadInt32()
+		_arg_vibratorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -553,10 +553,10 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVibratorManagerServiceIsVibrating:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_vibratorId, _err := data.ReadInt32()
+		_arg_vibratorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -570,10 +570,10 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVibratorManagerServiceRegisterVibratorStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_vibratorId, _err := data.ReadInt32()
+		_arg_vibratorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -590,10 +590,10 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVibratorManagerServiceUnregisterVibratorStateListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_vibratorId, _err := data.ReadInt32()
+		_arg_vibratorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -610,41 +610,41 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVibratorManagerServiceSetAlwaysOnEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_opPkg, _err := data.ReadString16()
+		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_alwaysOnId, _err := data.ReadInt32()
+		_arg_alwaysOnId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_vibration CombinedVibration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_vibration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_vibration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_attributes VibrationAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -659,46 +659,46 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIVibratorManagerServiceVibrate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_opPkg, _err := data.ReadString16()
+		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_vibration CombinedVibration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_vibration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_vibration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_attributes VibrationAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -714,10 +714,10 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorManagerServiceCancelVibrate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_usageFilter, _err := data.ReadInt32()
+		_arg_usageFilter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -733,34 +733,34 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorManagerServicePerformHapticFeedback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_opPkg, _err := data.ReadString16()
+		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_constant, _err := data.ReadInt32()
+		_arg_constant, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_privFlags, _err := data.ReadInt32()
+		_arg_privFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -768,42 +768,42 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVibratorManagerServicePerformHapticFeedbackForInputDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_opPkg, _err := data.ReadString16()
+		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_constant, _err := data.ReadInt32()
+		_arg_constant, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_inputDeviceId, _err := data.ReadInt32()
+		_arg_inputDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_inputSource, _err := data.ReadInt32()
+		_arg_inputSource, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_privFlags, _err := data.ReadInt32()
+		_arg_privFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -811,18 +811,18 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVibratorManagerServiceStartVendorVibrationSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_opPkg, _err := data.ReadString16()
+		_arg_opPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -831,17 +831,17 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		_ = _arg_vibratorIds
 		var _arg_attributes VibrationAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

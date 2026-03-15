@@ -189,21 +189,21 @@ var _ binder.TransactionReceiver = (*DreamOverlayClientStub)(nil)
 func (s *DreamOverlayClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDreamOverlayClientStartDream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params view.WindowManagerLayoutParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -211,15 +211,15 @@ func (s *DreamOverlayClientStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IDreamOverlayCallback
 		_ = _arg_callback
-		_arg_dreamComponent, _err := data.ReadString16()
+		_arg_dreamComponent, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isPreview, _err := data.ReadBool()
+		_arg_isPreview, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldShowComplications, _err := data.ReadBool()
+		_arg_shouldShowComplications, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -232,7 +232,7 @@ func (s *DreamOverlayClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamOverlayClientWakeUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.WakeUp(ctx)
@@ -244,7 +244,7 @@ func (s *DreamOverlayClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamOverlayClientEndDream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EndDream(ctx)
@@ -256,7 +256,7 @@ func (s *DreamOverlayClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamOverlayClientOnWakeRequested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnWakeRequested(ctx)
@@ -268,7 +268,7 @@ func (s *DreamOverlayClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamOverlayClientComeToFront:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ComeToFront(ctx)

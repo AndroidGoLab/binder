@@ -148,14 +148,14 @@ var _ binder.TransactionReceiver = (*NetworkServiceStub)(nil)
 func (s *NetworkServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINetworkServiceCreateNetworkServiceProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -163,10 +163,10 @@ func (s *NetworkServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkServiceRemoveNetworkServiceProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -174,14 +174,14 @@ func (s *NetworkServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkServiceRequestNetworkRegistrationInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_domain, _err := data.ReadInt32()
+		_arg_domain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -192,10 +192,10 @@ func (s *NetworkServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkServiceRegisterForNetworkRegistrationInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -206,10 +206,10 @@ func (s *NetworkServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkServiceUnregisterForNetworkRegistrationInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

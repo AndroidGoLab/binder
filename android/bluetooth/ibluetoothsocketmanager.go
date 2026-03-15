@@ -328,35 +328,35 @@ var _ binder.TransactionReceiver = (*BluetoothSocketManagerStub)(nil)
 func (s *BluetoothSocketManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothSocketManagerConnectSocket:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid *interface{}
-		_arg_port, _err := data.ReadInt32()
+		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flag, _err := data.ReadInt32()
+		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -370,51 +370,51 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBluetoothSocketManagerConnectSocketWithOffload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid *interface{}
-		_arg_port, _err := data.ReadInt32()
+		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flag, _err := data.ReadInt32()
+		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dataPath, _err := data.ReadInt32()
+		_arg_dataPath, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_socketName, _err := data.ReadString16()
+		_arg_socketName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hubId, _err := data.ReadInt64()
+		_arg_hubId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_endpointId, _err := data.ReadInt64()
+		_arg_endpointId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maximumPacketSize, _err := data.ReadInt32()
+		_arg_maximumPacketSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -428,23 +428,23 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBluetoothSocketManagerCreateSocketChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceName, _err := data.ReadString16()
+		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid *interface{}
-		_arg_port, _err := data.ReadInt32()
+		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flag, _err := data.ReadInt32()
+		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -458,43 +458,43 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBluetoothSocketManagerCreateSocketChannelWithOffload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceName, _err := data.ReadString16()
+		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid *interface{}
-		_arg_port, _err := data.ReadInt32()
+		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flag, _err := data.ReadInt32()
+		_arg_flag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dataPath, _err := data.ReadInt32()
+		_arg_dataPath, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_socketName, _err := data.ReadString16()
+		_arg_socketName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hubId, _err := data.ReadInt64()
+		_arg_hubId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_endpointId, _err := data.ReadInt64()
+		_arg_endpointId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maximumPacketSize, _err := data.ReadInt32()
+		_arg_maximumPacketSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -508,17 +508,17 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBluetoothSocketManagerRequestMaximumTxDataLength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -532,7 +532,7 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothSocketManagerGetL2capLocalChannelId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_connectionUuid interface{}
@@ -547,7 +547,7 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothSocketManagerGetL2capRemoteChannelId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_connectionUuid interface{}

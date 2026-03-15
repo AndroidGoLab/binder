@@ -564,18 +564,18 @@ var _ binder.TransactionReceiver = (*SensorPrivacyManagerStub)(nil)
 func (s *SensorPrivacyManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISensorPrivacyManagerSupportsSensorToggle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_toggleType, _err := data.ReadInt32()
+		_arg_toggleType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -589,7 +589,7 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerAddSensorPrivacyListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -604,7 +604,7 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerAddToggleSensorPrivacyListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -619,7 +619,7 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerRemoveSensorPrivacyListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -634,7 +634,7 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerRemoveToggleSensorPrivacyListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -649,7 +649,7 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerIsSensorPrivacyEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSensorPrivacyEnabled(ctx)
@@ -662,10 +662,10 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerIsCombinedToggleSensorPrivacyEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -679,14 +679,14 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerIsToggleSensorPrivacyEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_toggleType, _err := data.ReadInt32()
+		_arg_toggleType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -700,10 +700,10 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerSetSensorPrivacy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -716,21 +716,21 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerSetToggleSensorPrivacy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -743,21 +743,21 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerSetToggleSensorPrivacyForProfileGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -770,7 +770,7 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerGetCameraPrivacyAllowlist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCameraPrivacyAllowlist(ctx)
@@ -784,14 +784,14 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISensorPrivacyManagerGetToggleSensorPrivacyState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_toggleType, _err := data.ReadInt32()
+		_arg_toggleType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -805,21 +805,21 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerSetToggleSensorPrivacyState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -832,21 +832,21 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerSetToggleSensorPrivacyStateForProfileGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -859,10 +859,10 @@ func (s *SensorPrivacyManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorPrivacyManagerIsCameraPrivacyEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

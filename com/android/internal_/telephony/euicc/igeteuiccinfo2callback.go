@@ -73,14 +73,14 @@ var _ binder.TransactionReceiver = (*GetEuiccInfo2CallbackStub)(nil)
 func (s *GetEuiccInfo2CallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGetEuiccInfo2CallbackOnComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_resultCode, _err := data.ReadInt32()
+		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

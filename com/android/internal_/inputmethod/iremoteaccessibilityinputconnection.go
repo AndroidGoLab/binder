@@ -286,38 +286,38 @@ var _ binder.TransactionReceiver = (*RemoteAccessibilityInputConnectionStub)(nil
 func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRemoteAccessibilityInputConnectionCommitText:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_header InputConnectionCommandHeader
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_header.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_text interface{}
-		_arg_newCursorPosition, _err := data.ReadInt32()
+		_arg_newCursorPosition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_textAttribute viewInputmethod.TextAttribute
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_textAttribute.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_textAttribute.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -326,26 +326,26 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteAccessibilityInputConnectionSetSelection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_header InputConnectionCommandHeader
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_header.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_start, _err := data.ReadInt32()
+		_arg_start, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_end, _err := data.ReadInt32()
+		_arg_end, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -353,41 +353,41 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteAccessibilityInputConnectionGetSurroundingText:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_header InputConnectionCommandHeader
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_header.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_beforeLength, _err := data.ReadInt32()
+		_arg_beforeLength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_afterLength, _err := data.ReadInt32()
+		_arg_afterLength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -396,26 +396,26 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteAccessibilityInputConnectionDeleteSurroundingText:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_header InputConnectionCommandHeader
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_header.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_beforeLength, _err := data.ReadInt32()
+		_arg_beforeLength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_afterLength, _err := data.ReadInt32()
+		_arg_afterLength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -423,17 +423,17 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteAccessibilityInputConnectionSendKeyEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_header InputConnectionCommandHeader
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_header.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -443,22 +443,22 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteAccessibilityInputConnectionPerformEditorAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_header InputConnectionCommandHeader
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_header.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_actionCode, _err := data.ReadInt32()
+		_arg_actionCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -466,22 +466,22 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteAccessibilityInputConnectionPerformContextMenuAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_header InputConnectionCommandHeader
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_header.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -489,33 +489,33 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteAccessibilityInputConnectionGetCursorCapsMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_header InputConnectionCommandHeader
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_header.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_reqModes, _err := data.ReadInt32()
+		_arg_reqModes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -524,22 +524,22 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteAccessibilityInputConnectionClearMetaKeyStates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_header InputConnectionCommandHeader
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_header.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_header.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_states, _err := data.ReadInt32()
+		_arg_states, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

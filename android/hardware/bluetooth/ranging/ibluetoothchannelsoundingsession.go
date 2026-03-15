@@ -338,11 +338,11 @@ var _ binder.TransactionReceiver = (*BluetoothChannelSoundingSessionStub)(nil)
 func (s *BluetoothChannelSoundingSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothChannelSoundingSessionGetVendorSpecificReplies:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVendorSpecificReplies(ctx)
@@ -356,7 +356,7 @@ func (s *BluetoothChannelSoundingSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionGetSupportedResultTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedResultTypes(ctx)
@@ -370,7 +370,7 @@ func (s *BluetoothChannelSoundingSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionIsAbortedProcedureRequired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAbortedProcedureRequired(ctx)
@@ -383,17 +383,17 @@ func (s *BluetoothChannelSoundingSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionWriteRawData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_rawData ChannelSoudingRawData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_rawData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_rawData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -407,10 +407,10 @@ func (s *BluetoothChannelSoundingSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_reason, _err := data.ReadInt32()
+		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -424,17 +424,17 @@ func (s *BluetoothChannelSoundingSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionWriteProcedureData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_procedureData ChannelSoundingProcedureData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_procedureData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_procedureData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -448,17 +448,17 @@ func (s *BluetoothChannelSoundingSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionUpdateChannelSoundingConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_conifg Config
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_conifg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_conifg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -472,17 +472,17 @@ func (s *BluetoothChannelSoundingSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionUpdateProcedureEnableConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_procedureEnableConfig ProcedureEnableConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_procedureEnableConfig.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_procedureEnableConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -496,10 +496,10 @@ func (s *BluetoothChannelSoundingSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothChannelSoundingSessionUpdateBleConnInterval:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bleConnInterval, _err := data.ReadInt32()
+		_arg_bleConnInterval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -98,21 +98,21 @@ var _ binder.TransactionReceiver = (*UnfoldTransitionListenerStub)(nil)
 func (s *UnfoldTransitionListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUnfoldTransitionListenerOnTransitionStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnTransitionStarted(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIUnfoldTransitionListenerOnTransitionProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_progress, _err := data.ReadFloat32()
+		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -120,7 +120,7 @@ func (s *UnfoldTransitionListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUnfoldTransitionListenerOnTransitionFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnTransitionFinished(ctx)

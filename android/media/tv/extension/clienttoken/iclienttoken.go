@@ -76,11 +76,11 @@ var _ binder.TransactionReceiver = (*ClientTokenStub)(nil)
 func (s *ClientTokenStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIClientTokenGenerateClientToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GenerateClientToken(ctx)

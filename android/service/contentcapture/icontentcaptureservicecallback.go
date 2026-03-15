@@ -167,11 +167,11 @@ var _ binder.TransactionReceiver = (*ContentCaptureServiceCallbackStub)(nil)
 func (s *ContentCaptureServiceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContentCaptureServiceCallbackSetContentCaptureWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -184,10 +184,10 @@ func (s *ContentCaptureServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceCallbackSetContentCaptureConditions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -198,57 +198,57 @@ func (s *ContentCaptureServiceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceCallbackDisableSelf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisableSelf(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIContentCaptureServiceCallbackWriteSessionFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_app content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_app.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_app.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_flushMetrics FlushMetrics
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_flushMetrics.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_flushMetrics.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options content.ContentCaptureOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_flushReason, _err := data.ReadInt32()
+		_arg_flushReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

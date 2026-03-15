@@ -1589,46 +1589,46 @@ var _ binder.TransactionReceiver = (*ApplicationThreadStub)(nil)
 func (s *ApplicationThreadStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIApplicationThreadScheduleReceiver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
 		var _arg_info interface{}
 		var _arg_compatInfo interface{}
-		_arg_resultCode, _err := data.ReadInt32()
+		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadString16()
+		_arg_data, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras interface{}
-		_arg_ordered, _err := data.ReadBool()
+		_arg_ordered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_assumeDelivered, _err := data.ReadBool()
+		_arg_assumeDelivered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sendingUser, _err := data.ReadInt32()
+		_arg_sendingUser, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_processState, _err := data.ReadInt32()
+		_arg_processState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sentFromUid, _err := data.ReadInt32()
+		_arg_sentFromUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sentFromPackage, _err := data.ReadString16()
+		_arg_sentFromPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1636,7 +1636,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleReceiverList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1646,7 +1646,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleCreateService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1654,7 +1654,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _arg_token
 		var _arg_info interface{}
 		var _arg_compatInfo interface{}
-		_arg_processState, _err := data.ReadInt32()
+		_arg_processState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1662,7 +1662,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleStopService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1672,23 +1672,23 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadBindApplication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_info interface{}
-		_arg_sdkSandboxClientAppVolumeUuid, _err := data.ReadString16()
+		_arg_sdkSandboxClientAppVolumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sdkSandboxClientAppPackage, _err := data.ReadString16()
+		_arg_sdkSandboxClientAppPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isSdkInSandbox, _err := data.ReadBool()
+		_arg_isSdkInSandbox, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1696,12 +1696,12 @@ func (s *ApplicationThreadStub) OnTransaction(
 		var _arg_testName interface{}
 		var _arg_profilerInfo ProfilerInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profilerInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profilerInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1713,23 +1713,23 @@ func (s *ApplicationThreadStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_uiAutomationConnection IUiAutomationConnection
 		_ = _arg_uiAutomationConnection
-		_arg_debugMode, _err := data.ReadInt32()
+		_arg_debugMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enableBinderTracking, _err := data.ReadBool()
+		_arg_enableBinderTracking, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_trackAllocation, _err := data.ReadBool()
+		_arg_trackAllocation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_restrictedBackupMode, _err := data.ReadBool()
+		_arg_restrictedBackupMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_persistent, _err := data.ReadBool()
+		_arg_persistent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1739,7 +1739,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		var _arg_services map[interface{}]interface{}
 		_ = _arg_services
 		var _arg_coreSettings interface{}
-		_arg_buildSerial, _err := data.ReadString16()
+		_arg_buildSerial, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1753,11 +1753,11 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _arg_loggableCompatChanges
 		var _arg_serializedSystemFontMap interface{}
 		var _arg_applicationSharedMemoryFd interface{}
-		_arg_startRequestedElapsedTime, _err := data.ReadInt64()
+		_arg_startRequestedElapsedTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_startRequestedUptime, _err := data.ReadInt64()
+		_arg_startRequestedUptime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1765,10 +1765,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadRunIsolatedEntryPoint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_entryPoint, _err := data.ReadString16()
+		_arg_entryPoint, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1779,14 +1779,14 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleExit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleExit(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleServiceArgs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1797,36 +1797,36 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadUpdateTimeZone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UpdateTimeZone(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadProcessInBackground:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProcessInBackground(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleBindService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
 		var _arg_intent interface{}
-		_arg_rebind, _err := data.ReadBool()
+		_arg_rebind, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_processState, _err := data.ReadInt32()
+		_arg_processState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bindSeq, _err := data.ReadInt64()
+		_arg_bindSeq, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1834,7 +1834,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleUnbindService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1845,10 +1845,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1862,45 +1862,45 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleRegisteredReceiver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver interface{}
 		var _arg_intent interface{}
-		_arg_resultCode, _err := data.ReadInt32()
+		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadString16()
+		_arg_data, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras interface{}
-		_arg_ordered, _err := data.ReadBool()
+		_arg_ordered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sticky, _err := data.ReadBool()
+		_arg_sticky, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_assumeDelivered, _err := data.ReadBool()
+		_arg_assumeDelivered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sendingUser, _err := data.ReadInt32()
+		_arg_sendingUser, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_processState, _err := data.ReadInt32()
+		_arg_processState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sentFromUid, _err := data.ReadInt32()
+		_arg_sentFromUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sentFromPackage, _err := data.ReadString16()
+		_arg_sentFromPackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1908,33 +1908,33 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleLowMemory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleLowMemory(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadProfilerControl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_start, _err := data.ReadBool()
+		_arg_start, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profilerInfo ProfilerInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profilerInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profilerInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_profileType, _err := data.ReadInt32()
+		_arg_profileType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1942,10 +1942,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadSetSchedulingGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_group, _err := data.ReadInt32()
+		_arg_group, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1953,18 +1953,18 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleCreateBackupAgent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_app interface{}
-		_arg_backupMode, _err := data.ReadInt32()
+		_arg_backupMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_operationType, _err := data.ReadInt32()
+		_arg_operationType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1972,18 +1972,18 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleDestroyBackupAgent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_app interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleDestroyBackupAgent(ctx, _arg_app)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleOnNewSceneTransitionInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1991,12 +1991,12 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _arg_token
 		var _arg_info ActivityOptionsSceneTransitionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2005,17 +2005,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleSuicide:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleSuicide(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDispatchPackageBroadcast:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmd, _err := data.ReadInt32()
+		_arg_cmd, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2026,14 +2026,14 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleCrash:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_msg, _err := data.ReadString16()
+		_arg_msg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_typeId, _err := data.ReadInt32()
+		_arg_typeId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2042,30 +2042,30 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpHeap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_managed, _err := data.ReadBool()
+		_arg_managed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mallocInfo, _err := data.ReadBool()
+		_arg_mallocInfo, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_runGc, _err := data.ReadBool()
+		_arg_runGc, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpBitmaps, _err := data.ReadString16()
+		_arg_dumpBitmaps, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString16()
+		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2074,17 +2074,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_servicetoken binder.IBinder
 		_ = _arg_servicetoken
-		_arg_prefix, _err := data.ReadString16()
+		_arg_prefix, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2095,10 +2095,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpResources:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2107,21 +2107,21 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadClearDnsCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearDnsCache(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadUpdateHttpProxy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UpdateHttpProxy(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadSetCoreSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_coreSettings interface{}
@@ -2129,10 +2129,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadUpdatePackageCompatibilityInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2141,10 +2141,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleTrimMemory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_level, _err := data.ReadInt32()
+		_arg_level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2152,35 +2152,35 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpMemInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_mem interface{}
-		_arg_checkin, _err := data.ReadBool()
+		_arg_checkin, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpInfo, _err := data.ReadBool()
+		_arg_dumpInfo, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpDalvik, _err := data.ReadBool()
+		_arg_dumpDalvik, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpSummaryOnly, _err := data.ReadBool()
+		_arg_dumpSummaryOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpUnreachable, _err := data.ReadBool()
+		_arg_dumpUnreachable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpAllocatorLogs, _err := data.ReadBool()
+		_arg_dumpAllocatorLogs, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2191,27 +2191,27 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpMemInfoProto:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_mem interface{}
-		_arg_dumpInfo, _err := data.ReadBool()
+		_arg_dumpInfo, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpDalvik, _err := data.ReadBool()
+		_arg_dumpDalvik, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpSummaryOnly, _err := data.ReadBool()
+		_arg_dumpSummaryOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpUnreachable, _err := data.ReadBool()
+		_arg_dumpUnreachable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2222,10 +2222,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpGfxInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2236,10 +2236,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpCacheInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2250,10 +2250,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2267,10 +2267,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadDumpDbInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2281,7 +2281,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadUnstableProviderDied:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2291,7 +2291,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadRequestAssistContextExtras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2300,15 +2300,15 @@ func (s *ApplicationThreadStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_requestToken binder.IBinder
 		_ = _arg_requestToken
-		_arg_requestType, _err := data.ReadInt32()
+		_arg_requestType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2316,13 +2316,13 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleTranslucentConversionComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_timeout, _err := data.ReadBool()
+		_arg_timeout, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2330,10 +2330,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadSetProcessState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2341,7 +2341,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleInstallProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_provider interface{}
@@ -2349,10 +2349,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadUpdateTimePrefs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeFormatPreference, _err := data.ReadInt32()
+		_arg_timeFormatPreference, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2360,7 +2360,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleEnterAnimationComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2370,7 +2370,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadNotifyCleartextNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2380,17 +2380,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadStartBinderTracking:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartBinderTracking(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadStopBinderTrackingAndDump:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2398,7 +2398,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleLocalVoiceInteractionStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2409,17 +2409,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadHandleTrustStorageUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.HandleTrustStorageUpdate(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadAttachAgent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString16()
+		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2427,10 +2427,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadAttachStartupAgents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dataDir, _err := data.ReadString16()
+		_arg_dataDir, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2438,7 +2438,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleApplicationInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ai interface{}
@@ -2446,10 +2446,10 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadSetNetworkBlockSeq:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_procStateSeq, _err := data.ReadInt64()
+		_arg_procStateSeq, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2457,17 +2457,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleTransaction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_transaction servertransaction.ClientTransaction
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_transaction.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_transaction.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2476,7 +2476,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleTaskFragmentTransaction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_organizer interface{}
@@ -2485,7 +2485,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadRequestDirectActions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2498,13 +2498,13 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadPerformDirectAction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
 		_ = _arg_activityToken
-		_arg_actionId, _err := data.ReadString16()
+		_arg_actionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2515,29 +2515,29 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadNotifyContentProviderPublishStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_holder ContentProviderHolder
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_holder.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_holder.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_authorities, _err := data.ReadString16()
+		_arg_authorities, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_published, _err := data.ReadBool()
+		_arg_published, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2545,7 +2545,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadInstrumentWithoutRestart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_instrumentationName interface{}
@@ -2561,13 +2561,13 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadUpdateUiTranslationState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
 		_ = _arg_activityToken
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2581,13 +2581,13 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleTimeoutService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_startId, _err := data.ReadInt32()
+		_arg_startId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2595,17 +2595,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadScheduleTimeoutServiceForType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_startId, _err := data.ReadInt32()
+		_arg_startId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fgsType, _err := data.ReadInt32()
+		_arg_fgsType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2613,7 +2613,7 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadSchedulePing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pong interface{}
@@ -2621,17 +2621,17 @@ func (s *ApplicationThreadStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIApplicationThreadGetExecutableMethodFileOffsets:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_methodDescriptor instrumentation.MethodDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_methodDescriptor.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_methodDescriptor.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

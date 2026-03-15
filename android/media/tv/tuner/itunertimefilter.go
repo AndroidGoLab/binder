@@ -187,14 +187,14 @@ var _ binder.TransactionReceiver = (*TunerTimeFilterStub)(nil)
 func (s *TunerTimeFilterStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerTimeFilterSetTimeStamp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeStamp, _err := data.ReadInt64()
+		_arg_timeStamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -207,7 +207,7 @@ func (s *TunerTimeFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerTimeFilterClearTimeStamp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearTimeStamp(ctx)
@@ -219,7 +219,7 @@ func (s *TunerTimeFilterStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerTimeFilterGetSourceTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSourceTime(ctx)
@@ -232,7 +232,7 @@ func (s *TunerTimeFilterStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITunerTimeFilterGetTimeStamp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTimeStamp(ctx)
@@ -245,7 +245,7 @@ func (s *TunerTimeFilterStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITunerTimeFilterClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)

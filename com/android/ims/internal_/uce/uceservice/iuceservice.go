@@ -530,11 +530,11 @@ var _ binder.TransactionReceiver = (*UceServiceStub)(nil)
 func (s *UceServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUceServiceStartService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -550,7 +550,7 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUceServiceStopService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StopService(ctx)
@@ -563,7 +563,7 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUceServiceIsServiceStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsServiceStarted(ctx)
@@ -576,7 +576,7 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUceServiceCreateOptionsService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -584,12 +584,12 @@ func (s *UceServiceStub) OnTransaction(
 		_ = _arg_optionsListener
 		var _arg_optionsServiceListenerHdl common.UceLong
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_optionsServiceListenerHdl.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_optionsServiceListenerHdl.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -604,7 +604,7 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUceServiceCreateOptionsServiceForSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -612,17 +612,17 @@ func (s *UceServiceStub) OnTransaction(
 		_ = _arg_optionsListener
 		var _arg_optionsServiceListenerHdl common.UceLong
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_optionsServiceListenerHdl.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_optionsServiceListenerHdl.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_iccId, _err := data.ReadString16()
+		_arg_iccId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -636,10 +636,10 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUceServiceDestroyOptionsService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_optionsServiceHandle, _err := data.ReadInt32()
+		_arg_optionsServiceHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -652,7 +652,7 @@ func (s *UceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUceServiceCreatePresenceService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -660,12 +660,12 @@ func (s *UceServiceStub) OnTransaction(
 		_ = _arg_presenceServiceListener
 		var _arg_presenceServiceListenerHdl common.UceLong
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_presenceServiceListenerHdl.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_presenceServiceListenerHdl.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -680,7 +680,7 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUceServiceCreatePresenceServiceForSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -688,17 +688,17 @@ func (s *UceServiceStub) OnTransaction(
 		_ = _arg_presenceServiceListener
 		var _arg_presenceServiceListenerHdl common.UceLong
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_presenceServiceListenerHdl.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_presenceServiceListenerHdl.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_iccId, _err := data.ReadString16()
+		_arg_iccId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -712,10 +712,10 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIUceServiceDestroyPresenceService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_presenceServiceHdl, _err := data.ReadInt32()
+		_arg_presenceServiceHdl, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -728,7 +728,7 @@ func (s *UceServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUceServiceGetServiceStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServiceStatus(ctx)
@@ -741,7 +741,7 @@ func (s *UceServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUceServiceGetPresenceService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPresenceService(ctx)
@@ -755,10 +755,10 @@ func (s *UceServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUceServiceGetPresenceServiceForSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iccId, _err := data.ReadString16()
+		_arg_iccId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -773,7 +773,7 @@ func (s *UceServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUceServiceGetOptionsService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOptionsService(ctx)
@@ -787,10 +787,10 @@ func (s *UceServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUceServiceGetOptionsServiceForSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iccId, _err := data.ReadString16()
+		_arg_iccId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

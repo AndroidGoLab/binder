@@ -237,22 +237,22 @@ var _ binder.TransactionReceiver = (*CameraServiceListenerStub)(nil)
 func (s *CameraServiceListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICameraServiceListenerOnStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -260,22 +260,22 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnPhysicalCameraStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_physicalCameraId, _err := data.ReadString16()
+		_arg_physicalCameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -283,18 +283,18 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnTorchStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -302,18 +302,18 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnTorchStrengthLevelChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newTorchStrength, _err := data.ReadInt32()
+		_arg_newTorchStrength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -321,25 +321,25 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnCameraAccessPrioritiesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnCameraAccessPrioritiesChanged(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnCameraOpened:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientPackageId, _err := data.ReadString16()
+		_arg_clientPackageId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -347,22 +347,22 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnCameraOpenedInSharedMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientPackageId, _err := data.ReadString16()
+		_arg_clientPackageId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_primaryClient, _err := data.ReadBool()
+		_arg_primaryClient, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -370,14 +370,14 @@ func (s *CameraServiceListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceListenerOnCameraClosed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

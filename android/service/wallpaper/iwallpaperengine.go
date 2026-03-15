@@ -462,18 +462,18 @@ var _ binder.TransactionReceiver = (*WallpaperEngineStub)(nil)
 func (s *WallpaperEngineStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWallpaperEngineSetDesiredSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -481,17 +481,17 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineSetDisplayPadding:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_padding graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_padding.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_padding.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -500,10 +500,10 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineSetVisibility:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -511,28 +511,28 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineOnScreenTurningOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnScreenTurningOn(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineOnScreenTurnedOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnScreenTurnedOn(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineSetInAmbientMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inAmbientDisplay, _err := data.ReadBool()
+		_arg_inAmbientDisplay, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_animationDuration, _err := data.ReadInt64()
+		_arg_animationDuration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -540,17 +540,17 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineDispatchPointer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event common.MotionEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -559,33 +559,33 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineDispatchWallpaperCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_action, _err := data.ReadString16()
+		_arg_action, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_x, _err := data.ReadInt32()
+		_arg_x, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_y, _err := data.ReadInt32()
+		_arg_y, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_z, _err := data.ReadInt32()
+		_arg_z, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -594,24 +594,24 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineRequestWallpaperColors:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RequestWallpaperColors(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineDestroy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Destroy(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineSetZoomOut:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_scale, _err := data.ReadFloat32()
+		_arg_scale, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -619,17 +619,17 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineResizePreview:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_positionInWindow graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_positionInWindow.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_positionInWindow.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -638,7 +638,7 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineRemoveLocalColorsAreas:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -648,7 +648,7 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineAddLocalColorsAreas:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -658,7 +658,7 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineMirrorSurfaceControl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.MirrorSurfaceControl(ctx)
@@ -674,10 +674,10 @@ func (s *WallpaperEngineStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWallpaperEngineApplyDimming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dimAmount, _err := data.ReadFloat32()
+		_arg_dimAmount, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -685,10 +685,10 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineSetWallpaperFlags:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_which, _err := data.ReadInt32()
+		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -696,10 +696,10 @@ func (s *WallpaperEngineStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperEngineOnApplyWallpaper:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_which, _err := data.ReadInt32()
+		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

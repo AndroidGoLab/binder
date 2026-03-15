@@ -96,21 +96,21 @@ var _ binder.TransactionReceiver = (*BootstrapAuthenticationCallbackStub)(nil)
 func (s *BootstrapAuthenticationCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBootstrapAuthenticationCallbackOnKeysAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_gbaKey []byte
 		_ = _arg_gbaKey
-		_arg_btId, _err := data.ReadString16()
+		_arg_btId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -118,14 +118,14 @@ func (s *BootstrapAuthenticationCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBootstrapAuthenticationCallbackOnAuthenticationFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -285,11 +285,11 @@ var _ binder.TransactionReceiver = (*WifiApIfaceStub)(nil)
 func (s *WifiApIfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWifiApIfaceGetName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetName(ctx)
@@ -302,7 +302,7 @@ func (s *WifiApIfaceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIWifiApIfaceGetBridgedInstances:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBridgedInstances(ctx)
@@ -316,7 +316,7 @@ func (s *WifiApIfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiApIfaceGetFactoryMacAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFactoryMacAddress(ctx)
@@ -330,7 +330,7 @@ func (s *WifiApIfaceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiApIfaceSetCountryCode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -345,7 +345,7 @@ func (s *WifiApIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiApIfaceResetToFactoryMacAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetToFactoryMacAddress(ctx)
@@ -357,7 +357,7 @@ func (s *WifiApIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiApIfaceSetMacAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -372,7 +372,7 @@ func (s *WifiApIfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiApIfaceUsesMlo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.UsesMlo(ctx)

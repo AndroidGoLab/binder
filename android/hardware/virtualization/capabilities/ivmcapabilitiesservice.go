@@ -82,14 +82,14 @@ var _ binder.TransactionReceiver = (*VmCapabilitiesServiceStub)(nil)
 func (s *VmCapabilitiesServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVmCapabilitiesServiceGrantAccessToVendorTeeServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_vmFd, _err := data.ReadFileDescriptor()
+		_arg_vmFd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}

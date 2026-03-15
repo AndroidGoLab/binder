@@ -939,34 +939,34 @@ var _ binder.TransactionReceiver = (*PackageInstallerStub)(nil)
 func (s *PackageInstallerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPackageInstallerCreateSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params PackageInstallerSessionParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_installerPackageName, _err := data.ReadString16()
+		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_installerAttributionTag, _err := data.ReadString16()
+		_arg_installerAttributionTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateSession(ctx, _arg_params, _arg_installerPackageName, _arg_installerAttributionTag)
@@ -979,21 +979,21 @@ func (s *PackageInstallerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPackageInstallerUpdateSessionAppIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_appIcon graphics.Bitmap
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_appIcon.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_appIcon.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1007,14 +1007,14 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerUpdateSessionAppLabel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appLabel, _err := data.ReadString16()
+		_arg_appLabel, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1027,10 +1027,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerAbandonSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1043,10 +1043,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerOpenSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1061,10 +1061,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPackageInstallerGetSessionInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1081,10 +1081,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerGetAllSessions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllSessions(ctx)
@@ -1100,14 +1100,14 @@ func (s *PackageInstallerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerGetMySessions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_installerPackageName, _err := data.ReadString16()
+		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMySessions(ctx, _arg_installerPackageName)
@@ -1123,7 +1123,7 @@ func (s *PackageInstallerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerGetStagedSessions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetStagedSessions(ctx)
@@ -1139,13 +1139,13 @@ func (s *PackageInstallerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPackageInstallerRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPackageInstallerCallback
 		_ = _arg_callback
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback)
@@ -1157,7 +1157,7 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerUnregisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1172,31 +1172,31 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerUninstall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_versionedPackage VersionedPackage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_versionedPackage.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_versionedPackage.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_callerPackageName, _err := data.ReadString16()
+		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statusReceiver interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.Uninstall(ctx, _arg_versionedPackage, _arg_callerPackageName, _arg_flags, _arg_statusReceiver)
@@ -1208,27 +1208,27 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerUninstallExistingPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_versionedPackage VersionedPackage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_versionedPackage.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_versionedPackage.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_callerPackageName, _err := data.ReadString16()
+		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statusReceiver interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.UninstallExistingPackage(ctx, _arg_versionedPackage, _arg_callerPackageName, _arg_statusReceiver)
@@ -1240,23 +1240,23 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerInstallExistingPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_installFlags, _err := data.ReadInt32()
+		_arg_installFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_installReason, _err := data.ReadInt32()
+		_arg_installReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statusReceiver interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1271,14 +1271,14 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSetPermissionsResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accepted, _err := data.ReadBool()
+		_arg_accepted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1291,10 +1291,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerBypassNextStagedInstallerCheck:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadBool()
+		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1307,10 +1307,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerBypassNextAllowedApexUpdateCheck:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadBool()
+		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1323,10 +1323,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerDisableVerificationForUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1339,10 +1339,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSetAllowUnlimitedSilentUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_installerPackageName, _err := data.ReadString16()
+		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1355,10 +1355,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerSetSilentUpdatesThrottleTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_throttleTimeInSeconds, _err := data.ReadInt64()
+		_arg_throttleTimeInSeconds, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1371,10 +1371,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerCheckInstallConstraints:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_installerPackageName, _err := data.ReadString16()
+		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1383,12 +1383,12 @@ func (s *PackageInstallerStub) OnTransaction(
 		_ = _arg_packageNames
 		var _arg_constraints PackageInstallerInstallConstraints
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_constraints.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_constraints.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1403,10 +1403,10 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerWaitForInstallConstraints:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_installerPackageName, _err := data.ReadString16()
+		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1415,18 +1415,18 @@ func (s *PackageInstallerStub) OnTransaction(
 		_ = _arg_packageNames
 		var _arg_constraints PackageInstallerInstallConstraints
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_constraints.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_constraints.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_callback interface{}
-		_arg_timeout, _err := data.ReadInt64()
+		_arg_timeout, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1439,18 +1439,18 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerRequestArchive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callerPackageName, _err := data.ReadString16()
+		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1465,14 +1465,14 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerRequestUnarchive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callerPackageName, _err := data.ReadString16()
+		_arg_callerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1487,35 +1487,35 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerInstallPackageArchived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_archivedPackageParcel ArchivedPackageParcel
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_archivedPackageParcel.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_archivedPackageParcel.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_params PackageInstallerSessionParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_statusReceiver interface{}
-		_arg_installerPackageName, _err := data.ReadString16()
+		_arg_installerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1529,18 +1529,18 @@ func (s *PackageInstallerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPackageInstallerReportUnarchivalStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_unarchiveId, _err := data.ReadInt32()
+		_arg_unarchiveId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requiredStorageBytes, _err := data.ReadInt64()
+		_arg_requiredStorageBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

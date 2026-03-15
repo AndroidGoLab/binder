@@ -189,11 +189,11 @@ var _ binder.TransactionReceiver = (*OutputSurfaceConfigurationStub)(nil)
 func (s *OutputSurfaceConfigurationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOutputSurfaceConfigurationGetPreviewOutputSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPreviewOutputSurface(ctx)
@@ -209,7 +209,7 @@ func (s *OutputSurfaceConfigurationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOutputSurfaceConfigurationGetImageCaptureOutputSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetImageCaptureOutputSurface(ctx)
@@ -225,7 +225,7 @@ func (s *OutputSurfaceConfigurationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOutputSurfaceConfigurationGetImageAnalysisOutputSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetImageAnalysisOutputSurface(ctx)
@@ -241,7 +241,7 @@ func (s *OutputSurfaceConfigurationStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIOutputSurfaceConfigurationGetPostviewOutputSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPostviewOutputSurface(ctx)

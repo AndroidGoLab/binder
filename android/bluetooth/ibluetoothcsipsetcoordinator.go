@@ -445,11 +445,11 @@ var _ binder.TransactionReceiver = (*BluetoothCsipSetCoordinatorStub)(nil)
 func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothCsipSetCoordinatorGetConnectedDevices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
@@ -464,7 +464,7 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetDevicesMatchingConnectionStates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -482,17 +482,17 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetConnectionState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -508,22 +508,22 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothCsipSetCoordinatorSetConnectionPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_connectionPolicy, _err := data.ReadInt32()
+		_arg_connectionPolicy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -538,17 +538,17 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetConnectionPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -564,7 +564,7 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetAllGroupIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid interface{}
@@ -580,17 +580,17 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetGroupUuidMapByDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device BluetoothDevice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_device.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_device.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -607,10 +607,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothCsipSetCoordinatorGetDesiredGroupSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_group_id, _err := data.ReadInt32()
+		_arg_group_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -625,10 +625,10 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBluetoothCsipSetCoordinatorLockGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_groupId, _err := data.ReadInt32()
+		_arg_groupId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -646,7 +646,7 @@ func (s *BluetoothCsipSetCoordinatorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothCsipSetCoordinatorUnlockGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_lockUuid interface{}

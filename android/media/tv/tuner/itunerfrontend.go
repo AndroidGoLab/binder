@@ -495,11 +495,11 @@ var _ binder.TransactionReceiver = (*TunerFrontendStub)(nil)
 func (s *TunerFrontendStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerFrontendSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -514,17 +514,17 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendTune:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_settings tvTuner.FrontendSettings
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_settings.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_settings.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -538,7 +538,7 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendStopTune:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopTune(ctx)
@@ -550,22 +550,22 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_settings tvTuner.FrontendSettings
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_settings.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_settings.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_raw_frontendScanType, _err := data.ReadInt32()
+		_raw_frontendScanType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -579,7 +579,7 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendStopScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopScan(ctx)
@@ -591,7 +591,7 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendSetLnb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -606,10 +606,10 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendLinkCiCamToFrontend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ciCamId, _err := data.ReadInt32()
+		_arg_ciCamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -623,10 +623,10 @@ func (s *TunerFrontendStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerFrontendUnlinkCiCamToFrontend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ciCamId, _err := data.ReadInt32()
+		_arg_ciCamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -639,7 +639,7 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -651,7 +651,7 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendGetStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -668,7 +668,7 @@ func (s *TunerFrontendStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerFrontendGetFrontendId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFrontendId(ctx)
@@ -681,7 +681,7 @@ func (s *TunerFrontendStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerFrontendGetHardwareInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHardwareInfo(ctx)
@@ -694,10 +694,10 @@ func (s *TunerFrontendStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITunerFrontendRemoveOutputPid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -710,7 +710,7 @@ func (s *TunerFrontendStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerFrontendGetFrontendStatusReadiness:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

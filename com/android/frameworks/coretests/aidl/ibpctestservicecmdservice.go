@@ -192,11 +192,11 @@ var _ binder.TransactionReceiver = (*BpcTestServiceCmdServiceStub)(nil)
 func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBpcTestServiceCmdServiceForceGc:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ForceGc(ctx)
@@ -208,10 +208,10 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestServiceCmdServiceGetBinderProxyCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -225,18 +225,18 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBpcTestServiceCmdServiceSetBinderProxyWatermarks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_high, _err := data.ReadInt32()
+		_arg_high, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_low, _err := data.ReadInt32()
+		_arg_low, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_warning, _err := data.ReadInt32()
+		_arg_warning, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -249,10 +249,10 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestServiceCmdServiceEnableBinderProxyLimit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -265,7 +265,7 @@ func (s *BpcTestServiceCmdServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBpcTestServiceCmdServiceSetBinderProxyCountCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

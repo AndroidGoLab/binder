@@ -141,18 +141,18 @@ var _ binder.TransactionReceiver = (*ScreenModeSettingsStub)(nil)
 func (s *ScreenModeSettingsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIScreenModeSettingsSetScreenModeSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_setting, _err := data.ReadString16()
+		_arg_setting, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -165,10 +165,10 @@ func (s *ScreenModeSettingsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIScreenModeSettingsGetOverScanIndex:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -182,10 +182,10 @@ func (s *ScreenModeSettingsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIScreenModeSettingsGetSupportApplyOverScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

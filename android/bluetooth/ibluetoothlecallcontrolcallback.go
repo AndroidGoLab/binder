@@ -191,14 +191,14 @@ var _ binder.TransactionReceiver = (*BluetoothLeCallControlCallbackStub)(nil)
 func (s *BluetoothLeCallControlCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothLeCallControlCallbackOnBearerRegistered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ccid, _err := data.ReadInt32()
+		_arg_ccid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -206,10 +206,10 @@ func (s *BluetoothLeCallControlCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeCallControlCallbackOnAcceptCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -218,10 +218,10 @@ func (s *BluetoothLeCallControlCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeCallControlCallbackOnTerminateCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -230,10 +230,10 @@ func (s *BluetoothLeCallControlCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeCallControlCallbackOnHoldCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -242,10 +242,10 @@ func (s *BluetoothLeCallControlCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeCallControlCallbackOnUnholdCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -254,15 +254,15 @@ func (s *BluetoothLeCallControlCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeCallControlCallbackOnPlaceCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid interface{}
-		_arg_uri, _err := data.ReadString16()
+		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -270,10 +270,10 @@ func (s *BluetoothLeCallControlCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeCallControlCallbackOnJoinCalls:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

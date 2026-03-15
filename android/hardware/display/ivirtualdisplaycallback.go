@@ -96,25 +96,25 @@ var _ binder.TransactionReceiver = (*VirtualDisplayCallbackStub)(nil)
 func (s *VirtualDisplayCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVirtualDisplayCallbackOnPaused:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnPaused(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVirtualDisplayCallbackOnResumed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnResumed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVirtualDisplayCallbackOnStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStopped(ctx)

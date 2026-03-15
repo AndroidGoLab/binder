@@ -1007,26 +1007,26 @@ var _ binder.TransactionReceiver = (*SessionManagerStub)(nil)
 func (s *SessionManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISessionManagerCreateSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sessionCb ISessionCallback
 		_ = _arg_sessionCb
-		_arg_tag, _err := data.ReadString16()
+		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionInfo interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateSession(ctx, _arg_packageName, _arg_sessionCb, _arg_tag, _arg_sessionInfo)
@@ -1040,11 +1040,11 @@ func (s *SessionManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionManagerGetSessions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_compName interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSessions(ctx, _arg_compName)
@@ -1058,10 +1058,10 @@ func (s *SessionManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionManagerGetMediaKeyEventSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1078,10 +1078,10 @@ func (s *SessionManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISessionManagerGetMediaKeyEventSessionPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1095,19 +1095,19 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISessionManagerDispatchMediaKeyEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_asSystemService, _err := data.ReadBool()
+		_arg_asSystemService, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_keyEvent interface{}
-		_arg_needWakeLock, _err := data.ReadBool()
+		_arg_needWakeLock, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1120,22 +1120,22 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerDispatchMediaKeyEventToSessionAsSystemService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_keyEvent interface{}
 		var _arg_sessionToken MediaSessionToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1150,26 +1150,26 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerDispatchVolumeKeyEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_asSystemService, _err := data.ReadBool()
+		_arg_asSystemService, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_keyEvent interface{}
-		_arg_stream, _err := data.ReadInt32()
+		_arg_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_musicOnly, _err := data.ReadBool()
+		_arg_musicOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1182,25 +1182,25 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerDispatchVolumeKeyEventToSessionAsSystemService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_keyEvent interface{}
 		var _arg_sessionToken MediaSessionToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1214,25 +1214,25 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerDispatchAdjustVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_suggestedStream, _err := data.ReadInt32()
+		_arg_suggestedStream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_delta, _err := data.ReadInt32()
+		_arg_delta, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1245,14 +1245,14 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerAddSessionsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IActiveSessionsListener
 		_ = _arg_listener
 		var _arg_compName interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddSessionsListener(ctx, _arg_listener, _arg_compName)
@@ -1264,7 +1264,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRemoveSessionsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1279,13 +1279,13 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerAddSession2TokensListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener ISession2TokensListener
 		_ = _arg_listener
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddSession2TokensListener(ctx, _arg_listener)
@@ -1297,7 +1297,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRemoveSession2TokensListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1312,7 +1312,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRegisterRemoteSessionCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_rvc interface{}
@@ -1325,7 +1325,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerUnregisterRemoteSessionCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_rvc interface{}
@@ -1338,7 +1338,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerIsGlobalPriorityActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsGlobalPriorityActive(ctx)
@@ -1351,7 +1351,7 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerAddOnMediaKeyEventDispatchedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1366,7 +1366,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRemoveOnMediaKeyEventDispatchedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1381,13 +1381,13 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerAddOnMediaKeyEventSessionChangedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IOnMediaKeyEventSessionChangedListener
 		_ = _arg_listener
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1400,7 +1400,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerRemoveOnMediaKeyEventSessionChangedListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1415,7 +1415,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerSetOnVolumeKeyLongPressListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1430,7 +1430,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerSetOnMediaKeyListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1445,18 +1445,18 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerIsTrusted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_controllerPackageName, _err := data.ReadString16()
+		_arg_controllerPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_controllerPid, _err := data.ReadInt32()
+		_arg_controllerPid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_controllerUid, _err := data.ReadInt32()
+		_arg_controllerUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1470,10 +1470,10 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerSetCustomMediaKeyDispatcher:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1486,10 +1486,10 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerSetCustomMediaSessionPolicyProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1502,10 +1502,10 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerHasCustomMediaKeyDispatcher:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_componentName, _err := data.ReadString16()
+		_arg_componentName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1519,10 +1519,10 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerHasCustomMediaSessionPolicyProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_componentName, _err := data.ReadString16()
+		_arg_componentName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1536,17 +1536,17 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISessionManagerGetSessionPolicies:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_token MediaSessionToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_token.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_token.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1561,22 +1561,22 @@ func (s *SessionManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISessionManagerSetSessionPolicies:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_token MediaSessionToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_token.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_token.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_policies, _err := data.ReadInt32()
+		_arg_policies, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1589,7 +1589,7 @@ func (s *SessionManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionManagerExpireTempEngagedSessions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ExpireTempEngagedSessions(ctx)

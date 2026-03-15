@@ -91,22 +91,22 @@ var _ binder.TransactionReceiver = (*SensorPrivacyListenerStub)(nil)
 func (s *SensorPrivacyListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISensorPrivacyListenerOnSensorPrivacyChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_toggleType, _err := data.ReadInt32()
+		_arg_toggleType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -114,18 +114,18 @@ func (s *SensorPrivacyListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISensorPrivacyListenerOnSensorPrivacyStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_toggleType, _err := data.ReadInt32()
+		_arg_toggleType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sensor, _err := data.ReadInt32()
+		_arg_sensor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

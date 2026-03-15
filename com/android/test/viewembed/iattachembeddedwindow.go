@@ -158,21 +158,21 @@ var _ binder.TransactionReceiver = (*AttachEmbeddedWindowStub)(nil)
 func (s *AttachEmbeddedWindowStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAttachEmbeddedWindowAttachEmbedded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_hostToken binder.IBinder
 		_ = _arg_hostToken
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -188,17 +188,17 @@ func (s *AttachEmbeddedWindowStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAttachEmbeddedWindowRelayout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_lp view.WindowManagerLayoutParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_lp.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_lp.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -212,33 +212,33 @@ func (s *AttachEmbeddedWindowStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAttachEmbeddedWindowAttachEmbeddedSurfaceControl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_parentSurfaceControl view.SurfaceControl
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_parentSurfaceControl.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_parentSurfaceControl.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_inputTransferToken window.InputTransferToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_inputTransferToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_inputTransferToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -247,7 +247,7 @@ func (s *AttachEmbeddedWindowStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAttachEmbeddedWindowTearDownEmbeddedSurfaceControl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.TearDownEmbeddedSurfaceControl(ctx)

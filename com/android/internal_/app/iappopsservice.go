@@ -2185,22 +2185,22 @@ var _ binder.TransactionReceiver = (*AppOpsServiceStub)(nil)
 func (s *AppOpsServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAppOpsServiceCheckOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2214,33 +2214,33 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceNoteOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectAsyncNotedOp, _err := data.ReadBool()
+		_arg_shouldCollectAsyncNotedOp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectMessage, _err := data.ReadBool()
+		_arg_shouldCollectMessage, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2254,48 +2254,48 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
 		_ = _arg_clientId
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_startIfModeDefault, _err := data.ReadBool()
+		_arg_startIfModeDefault, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectAsyncNotedOp, _err := data.ReadBool()
+		_arg_shouldCollectAsyncNotedOp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectMessage, _err := data.ReadBool()
+		_arg_shouldCollectMessage, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_attributionFlags, _err := data.ReadInt32()
+		_arg_attributionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_attributionChainId, _err := data.ReadInt32()
+		_arg_attributionChainId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2309,25 +2309,25 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
 		_ = _arg_clientId
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.FinishOperation(ctx, _arg_clientId, _arg_code, _arg_uid, _arg_packageName)
@@ -2339,14 +2339,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_op, _err := data.ReadInt32()
+		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2362,7 +2362,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2377,10 +2377,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServicePermissionToOpCode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_permission, _err := data.ReadString16()
+		_arg_permission, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2394,22 +2394,22 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckAudioOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_usage, _err := data.ReadInt32()
+		_arg_usage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2423,10 +2423,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceShouldCollectNotes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_opCode, _err := data.ReadInt32()
+		_arg_opCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2440,10 +2440,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetCameraAudioRestriction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2456,18 +2456,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingModeWithFlags:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_op, _err := data.ReadInt32()
+		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2483,27 +2483,27 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceNoteProxyOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
-		_arg_shouldCollectAsyncNotedOp, _err := data.ReadBool()
+		_arg_shouldCollectAsyncNotedOp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectMessage, _err := data.ReadBool()
+		_arg_shouldCollectMessage, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipProxyOperation, _err := data.ReadBool()
+		_arg_skipProxyOperation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2517,46 +2517,46 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartProxyOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
 		_ = _arg_clientId
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
-		_arg_startIfModeDefault, _err := data.ReadBool()
+		_arg_startIfModeDefault, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectAsyncNotedOp, _err := data.ReadBool()
+		_arg_shouldCollectAsyncNotedOp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectMessage, _err := data.ReadBool()
+		_arg_shouldCollectMessage, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipProxyOperation, _err := data.ReadBool()
+		_arg_skipProxyOperation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proxyAttributionFlags, _err := data.ReadInt32()
+		_arg_proxyAttributionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proxiedAttributionFlags, _err := data.ReadInt32()
+		_arg_proxiedAttributionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_attributionChainId, _err := data.ReadInt32()
+		_arg_attributionChainId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2570,18 +2570,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishProxyOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
 		_ = _arg_clientId
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSource interface{}
-		_arg_skipProxyOperation, _err := data.ReadBool()
+		_arg_skipProxyOperation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2594,14 +2594,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2615,7 +2615,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceCollectRuntimeAppOpAccessMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CollectRuntimeAppOpAccessMessage(ctx)
@@ -2628,15 +2628,15 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceReportRuntimeAppOpAccessMessageAndGetConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_appOp interface{}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2653,7 +2653,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppOpsServiceGetPackagesForOps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2670,14 +2670,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceGetOpsForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2695,40 +2695,40 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceGetHistoricalOps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []string
 		_ = _arg_ops
-		_arg_historyFlags, _err := data.ReadInt32()
+		_arg_historyFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_filter, _err := data.ReadInt32()
+		_arg_filter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_beginTimeMillis, _err := data.ReadInt64()
+		_arg_beginTimeMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_endTimeMillis, _err := data.ReadInt64()
+		_arg_endTimeMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2742,40 +2742,40 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceGetHistoricalOpsFromDiskRaw:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []string
 		_ = _arg_ops
-		_arg_historyFlags, _err := data.ReadInt32()
+		_arg_historyFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_filter, _err := data.ReadInt32()
+		_arg_filter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_beginTimeMillis, _err := data.ReadInt64()
+		_arg_beginTimeMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_endTimeMillis, _err := data.ReadInt64()
+		_arg_endTimeMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2789,10 +2789,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceOffsetHistory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_duration, _err := data.ReadInt64()
+		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2805,18 +2805,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetHistoryParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_baseSnapshotInterval, _err := data.ReadInt64()
+		_arg_baseSnapshotInterval, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_compressionStep, _err := data.ReadInt32()
+		_arg_compressionStep, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2829,7 +2829,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceAddHistoricalOps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ops interface{}
@@ -2842,7 +2842,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceResetHistoryParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetHistoryParameters(ctx)
@@ -2854,10 +2854,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceResetPackageOpsNoHistory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2870,7 +2870,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceClearHistory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearHistory(ctx)
@@ -2882,10 +2882,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceRebootHistory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_offlineDurationMillis, _err := data.ReadInt64()
+		_arg_offlineDurationMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2898,10 +2898,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceGetUidOps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2919,18 +2919,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceSetUidMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2943,22 +2943,22 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2971,14 +2971,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceResetAllModes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reqUserId, _err := data.ReadInt32()
+		_arg_reqUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reqPackageName, _err := data.ReadString16()
+		_arg_reqPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2991,22 +2991,22 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetAudioRestriction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_usage, _err := data.ReadInt32()
+		_arg_usage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3022,14 +3022,14 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetUserRestrictions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_restrictions interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetUserRestrictions(ctx, _arg_restrictions, _arg_token)
@@ -3041,21 +3041,21 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceSetUserRestriction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_restricted, _err := data.ReadBool()
+		_arg_restricted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_excludedPackageTags interface{}
@@ -3068,10 +3068,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceRemoveUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveUser(ctx)
@@ -3083,7 +3083,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3101,7 +3101,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3116,18 +3116,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceIsOperationActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3141,26 +3141,26 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceIsProxying:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_op, _err := data.ReadInt32()
+		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proxyPackageName, _err := data.ReadString16()
+		_arg_proxyPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proxyAttributionTag, _err := data.ReadString16()
+		_arg_proxyAttributionTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proxiedUid, _err := data.ReadInt32()
+		_arg_proxiedUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proxiedPackageName, _err := data.ReadString16()
+		_arg_proxiedPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3174,7 +3174,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3192,7 +3192,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3207,7 +3207,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingNoted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3225,7 +3225,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingNoted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3240,10 +3240,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStartWatchingAsyncNoted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3259,10 +3259,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceStopWatchingAsyncNoted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3278,10 +3278,10 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceExtractAsyncOps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3296,22 +3296,22 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckOperationRaw:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CheckOperationRaw(ctx, _arg_code, _arg_uid, _arg_packageName)
@@ -3324,7 +3324,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceReloadNonHistoricalState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ReloadNonHistoricalState(ctx)
@@ -3336,22 +3336,22 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceCollectNoteOpCallsForValidation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_stackTrace, _err := data.ReadString16()
+		_arg_stackTrace, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_op, _err := data.ReadInt32()
+		_arg_op, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_version, _err := data.ReadInt64()
+		_arg_version, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3364,27 +3364,27 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceNoteProxyOperationWithState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSourceStateState interface{}
-		_arg_shouldCollectAsyncNotedOp, _err := data.ReadBool()
+		_arg_shouldCollectAsyncNotedOp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectMessage, _err := data.ReadBool()
+		_arg_shouldCollectMessage, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipProxyOperation, _err := data.ReadBool()
+		_arg_skipProxyOperation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3398,46 +3398,46 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartProxyOperationWithState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
 		_ = _arg_clientId
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSourceStateState interface{}
-		_arg_startIfModeDefault, _err := data.ReadBool()
+		_arg_startIfModeDefault, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectAsyncNotedOp, _err := data.ReadBool()
+		_arg_shouldCollectAsyncNotedOp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectMessage, _err := data.ReadBool()
+		_arg_shouldCollectMessage, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_skipProxyOperation, _err := data.ReadBool()
+		_arg_skipProxyOperation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proxyAttributionFlags, _err := data.ReadInt32()
+		_arg_proxyAttributionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_proxiedAttributionFlags, _err := data.ReadInt32()
+		_arg_proxiedAttributionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_attributionChainId, _err := data.ReadInt32()
+		_arg_attributionChainId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3451,18 +3451,18 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishProxyOperationWithState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
 		_ = _arg_clientId
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_attributionSourceStateState interface{}
-		_arg_skipProxyOperation, _err := data.ReadBool()
+		_arg_skipProxyOperation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3475,25 +3475,25 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckOperationRawForDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_virtualDeviceId, _err := data.ReadInt32()
+		_arg_virtualDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3507,25 +3507,25 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceCheckOperationForDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_virtualDeviceId, _err := data.ReadInt32()
+		_arg_virtualDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3539,37 +3539,37 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppOpsServiceNoteOperationForDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_virtualDeviceId, _err := data.ReadInt32()
+		_arg_virtualDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectAsyncNotedOp, _err := data.ReadBool()
+		_arg_shouldCollectAsyncNotedOp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectMessage, _err := data.ReadBool()
+		_arg_shouldCollectMessage, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3583,52 +3583,52 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartOperationForDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
 		_ = _arg_clientId
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_virtualDeviceId, _err := data.ReadInt32()
+		_arg_virtualDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_startIfModeDefault, _err := data.ReadBool()
+		_arg_startIfModeDefault, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectAsyncNotedOp, _err := data.ReadBool()
+		_arg_shouldCollectAsyncNotedOp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shouldCollectMessage, _err := data.ReadBool()
+		_arg_shouldCollectMessage, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_attributionFlags, _err := data.ReadInt32()
+		_arg_attributionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_attributionChainId, _err := data.ReadInt32()
+		_arg_attributionChainId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3642,28 +3642,28 @@ func (s *AppOpsServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishOperationForDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientId binder.IBinder
 		_ = _arg_clientId
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_virtualDeviceId, _err := data.ReadInt32()
+		_arg_virtualDeviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3676,13 +3676,13 @@ func (s *AppOpsServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsServiceGetPackagesForOpsForDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ops []int32
 		_ = _arg_ops
-		_arg_persistentDeviceId, _err := data.ReadString16()
+		_arg_persistentDeviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

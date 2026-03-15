@@ -129,26 +129,26 @@ var _ binder.TransactionReceiver = (*ImsServiceFeatureCallbackStub)(nil)
 func (s *ImsServiceFeatureCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsServiceFeatureCallbackImsFeatureCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_feature ims.ImsFeatureContainer
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -156,10 +156,10 @@ func (s *ImsServiceFeatureCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsServiceFeatureCallbackImsFeatureRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -167,14 +167,14 @@ func (s *ImsServiceFeatureCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsServiceFeatureCallbackImsStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -182,10 +182,10 @@ func (s *ImsServiceFeatureCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsServiceFeatureCallbackUpdateCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capabilities, _err := data.ReadInt64()
+		_arg_capabilities, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

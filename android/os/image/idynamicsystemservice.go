@@ -556,14 +556,14 @@ var _ binder.TransactionReceiver = (*DynamicSystemServiceStub)(nil)
 func (s *DynamicSystemServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDynamicSystemServiceStartInstallation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dsuSlot, _err := data.ReadString16()
+		_arg_dsuSlot, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -577,18 +577,18 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceCreatePartition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_size, _err := data.ReadInt64()
+		_arg_size, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_readOnly, _err := data.ReadBool()
+		_arg_readOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -602,7 +602,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceClosePartition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ClosePartition(ctx)
@@ -615,7 +615,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceFinishInstallation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.FinishInstallation(ctx)
@@ -628,7 +628,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceGetInstallationProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInstallationProgress(ctx)
@@ -641,7 +641,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDynamicSystemServiceAbort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Abort(ctx)
@@ -654,7 +654,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceIsInUse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInUse(ctx)
@@ -667,7 +667,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceIsInstalled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInstalled(ctx)
@@ -680,7 +680,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceIsEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsEnabled(ctx)
@@ -693,7 +693,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceRemove:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Remove(ctx)
@@ -706,14 +706,14 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceSetEnable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_oneShot, _err := data.ReadBool()
+		_arg_oneShot, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -727,14 +727,14 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceSetAshmem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_size, _err := data.ReadInt64()
+		_arg_size, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -748,10 +748,10 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceSubmitFromAshmem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bytes, _err := data.ReadInt64()
+		_arg_bytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -765,10 +765,11 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceGetAvbPublicKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetAvbPublicKey(ctx)
+		var _arg_dst interface{}
+		_result, _err := s.Impl.GetAvbPublicKey(ctx, _arg_dst)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -778,7 +779,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceSuggestScratchSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SuggestScratchSize(ctx)
@@ -791,7 +792,7 @@ func (s *DynamicSystemServiceStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIDynamicSystemServiceGetActiveDsuSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveDsuSlot(ctx)

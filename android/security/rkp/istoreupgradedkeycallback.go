@@ -81,21 +81,21 @@ var _ binder.TransactionReceiver = (*StoreUpgradedKeyCallbackStub)(nil)
 func (s *StoreUpgradedKeyCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStoreUpgradedKeyCallbackOnSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSuccess(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStoreUpgradedKeyCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadString16()
+		_arg_error_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

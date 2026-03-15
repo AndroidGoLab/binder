@@ -68,18 +68,18 @@ var _ binder.TransactionReceiver = (*VibratorControllerStub)(nil)
 func (s *VibratorControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVibratorControllerRequestVibrationParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_typesMask, _err := data.ReadInt32()
+		_arg_typesMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_deadlineElapsedRealtimeMillis, _err := data.ReadInt64()
+		_arg_deadlineElapsedRealtimeMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

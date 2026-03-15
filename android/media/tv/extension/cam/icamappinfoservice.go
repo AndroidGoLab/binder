@@ -139,11 +139,11 @@ var _ binder.TransactionReceiver = (*CamAppInfoServiceStub)(nil)
 func (s *CamAppInfoServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICamAppInfoServiceAddCamAppInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -158,7 +158,7 @@ func (s *CamAppInfoServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICamAppInfoServiceRemoveCamAppInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -173,14 +173,15 @@ func (s *CamAppInfoServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICamAppInfoServiceGetCamAppInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetCamAppInfo(ctx, _arg_slotId)
+		var _arg_appInfo os.Bundle
+		_result, _err := s.Impl.GetCamAppInfo(ctx, _arg_slotId, _arg_appInfo)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)

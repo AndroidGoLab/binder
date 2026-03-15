@@ -243,11 +243,11 @@ var _ binder.TransactionReceiver = (*OccupantAwarenessStub)(nil)
 func (s *OccupantAwarenessStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOccupantAwarenessStartDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartDetection(ctx)
@@ -260,7 +260,7 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIOccupantAwarenessStopDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StopDetection(ctx)
@@ -273,10 +273,10 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIOccupantAwarenessGetCapabilityForRole:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_occupantRole, _err := data.ReadInt32()
+		_raw_occupantRole, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -291,15 +291,15 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIOccupantAwarenessGetState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_occupantRole, _err := data.ReadInt32()
+		_raw_occupantRole, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_occupantRole := Role(_raw_occupantRole)
-		_arg_detectionCapability, _err := data.ReadInt32()
+		_arg_detectionCapability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -313,7 +313,7 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIOccupantAwarenessSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -328,10 +328,11 @@ func (s *OccupantAwarenessStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOccupantAwarenessGetLatestDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err := s.Impl.GetLatestDetection(ctx)
+		var _arg_detections OccupantDetections
+		_err := s.Impl.GetLatestDetection(ctx, _arg_detections)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)

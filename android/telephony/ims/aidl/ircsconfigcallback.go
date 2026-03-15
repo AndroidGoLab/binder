@@ -152,11 +152,11 @@ var _ binder.TransactionReceiver = (*RcsConfigCallbackStub)(nil)
 func (s *RcsConfigCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRcsConfigCallbackOnConfigurationChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -166,14 +166,14 @@ func (s *RcsConfigCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRcsConfigCallbackOnAutoConfigurationErrorReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_errorString, _err := data.ReadString16()
+		_arg_errorString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -181,21 +181,21 @@ func (s *RcsConfigCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRcsConfigCallbackOnConfigurationReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnConfigurationReset(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRcsConfigCallbackOnRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRemoved(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIRcsConfigCallbackOnPreProvisioningReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

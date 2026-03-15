@@ -509,14 +509,14 @@ var _ binder.TransactionReceiver = (*SessionCallbackStub)(nil)
 func (s *SessionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISessionCallbackOnChallengeGenerated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_challenge, _err := data.ReadInt64()
+		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -529,10 +529,10 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnChallengeRevoked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_challenge, _err := data.ReadInt64()
+		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -545,15 +545,15 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAcquired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_info, _err := data.ReadPaddedByte()
+		_raw_info, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_info := AcquiredInfo(_raw_info)
-		_arg_vendorCode, _err := data.ReadInt32()
+		_arg_vendorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -566,15 +566,15 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_error_, _err := data.ReadPaddedByte()
+		_raw_error_, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_error_ := Error(_raw_error_)
-		_arg_vendorCode, _err := data.ReadInt32()
+		_arg_vendorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -587,14 +587,14 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnEnrollmentProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enrollmentId, _err := data.ReadInt32()
+		_arg_enrollmentId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_remaining, _err := data.ReadInt32()
+		_arg_remaining, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -607,21 +607,21 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAuthenticationSucceeded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enrollmentId, _err := data.ReadInt32()
+		_arg_enrollmentId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_hat keymaster.HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hat.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hat.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -635,7 +635,7 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAuthenticationFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnAuthenticationFailed(ctx)
@@ -647,10 +647,10 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnLockoutTimed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_durationMillis, _err := data.ReadInt64()
+		_arg_durationMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -663,7 +663,7 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnLockoutPermanent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnLockoutPermanent(ctx)
@@ -675,7 +675,7 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnLockoutCleared:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnLockoutCleared(ctx)
@@ -687,7 +687,7 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnInteractionDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnInteractionDetected(ctx)
@@ -699,7 +699,7 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnEnrollmentsEnumerated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -714,7 +714,7 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnEnrollmentsRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -729,10 +729,10 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAuthenticatorIdRetrieved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_authenticatorId, _err := data.ReadInt64()
+		_arg_authenticatorId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -745,10 +745,10 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnAuthenticatorIdInvalidated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newAuthenticatorId, _err := data.ReadInt64()
+		_arg_newAuthenticatorId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -761,7 +761,7 @@ func (s *SessionCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionCallbackOnSessionClosed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSessionClosed(ctx)

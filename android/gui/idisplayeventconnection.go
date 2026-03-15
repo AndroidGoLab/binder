@@ -180,14 +180,15 @@ var _ binder.TransactionReceiver = (*DisplayEventConnectionStub)(nil)
 func (s *DisplayEventConnectionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDisplayEventConnectionStealReceiveChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err := s.Impl.StealReceiveChannel(ctx)
+		var _arg_outChannel interface{}
+		_err := s.Impl.StealReceiveChannel(ctx, _arg_outChannel)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -196,10 +197,10 @@ func (s *DisplayEventConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayEventConnectionSetVsyncRate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_count, _err := data.ReadInt32()
+		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -212,14 +213,14 @@ func (s *DisplayEventConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDisplayEventConnectionRequestNextVsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RequestNextVsync(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIDisplayEventConnectionGetLatestVsyncEventData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLatestVsyncEventData(ctx)
@@ -232,7 +233,7 @@ func (s *DisplayEventConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDisplayEventConnectionGetSchedulingPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSchedulingPolicy(ctx)

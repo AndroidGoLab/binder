@@ -192,28 +192,28 @@ var _ binder.TransactionReceiver = (*InlineSuggestionsRequestCallbackStub)(nil)
 func (s *InlineSuggestionsRequestCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsUnsupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnInlineSuggestionsUnsupported(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request viewInputmethod.InlineSuggestionsRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -225,7 +225,7 @@ func (s *InlineSuggestionsRequestCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodStartInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_imeFieldId interface{}
@@ -233,10 +233,10 @@ func (s *InlineSuggestionsRequestCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodShowInputRequested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestResult, _err := data.ReadBool()
+		_arg_requestResult, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -244,28 +244,28 @@ func (s *InlineSuggestionsRequestCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodStartInputView:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnInputMethodStartInputView(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodFinishInputView:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnInputMethodFinishInputView(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionsRequestCallbackOnInputMethodFinishInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnInputMethodFinishInput(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionsRequestCallbackOnInlineSuggestionsSessionInvalidated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnInlineSuggestionsSessionInvalidated(ctx)

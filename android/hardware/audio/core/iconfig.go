@@ -118,11 +118,11 @@ var _ binder.TransactionReceiver = (*ConfigStub)(nil)
 func (s *ConfigStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIConfigGetSurroundSoundConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSurroundSoundConfig(ctx)
@@ -138,7 +138,7 @@ func (s *ConfigStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIConfigGetEngineConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEngineConfig(ctx)

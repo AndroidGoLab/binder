@@ -2423,11 +2423,11 @@ var _ binder.TransactionReceiver = (*SurfaceComposerStub)(nil)
 func (s *SurfaceComposerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISurfaceComposerBootFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.BootFinished(ctx)
@@ -2439,15 +2439,15 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerCreateDisplayEventConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_vsyncSource, _err := data.ReadInt32()
+		_raw_vsyncSource, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_vsyncSource := guiISurfaceComposer.VsyncSource(_raw_vsyncSource)
-		_raw_eventRegistration, _err := data.ReadInt32()
+		_raw_eventRegistration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2466,7 +2466,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISurfaceComposerCreateConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateConnection(ctx)
@@ -2480,22 +2480,22 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISurfaceComposerCreateVirtualDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayName, _err := data.ReadString16()
+		_arg_displayName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isSecure, _err := data.ReadBool()
+		_arg_isSecure, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uniqueId, _err := data.ReadString16()
+		_arg_uniqueId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestedRefreshRate, _err := data.ReadFloat32()
+		_arg_requestedRefreshRate, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2510,7 +2510,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISurfaceComposerDestroyVirtualDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2525,7 +2525,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetPhysicalDisplayIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPhysicalDisplayIds(ctx)
@@ -2539,10 +2539,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISurfaceComposerGetPhysicalDisplayToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt64()
+		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2557,7 +2557,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISurfaceComposerGetSupportedFrameTimestamps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedFrameTimestamps(ctx)
@@ -2571,13 +2571,13 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISurfaceComposerSetPowerMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
 		_ = _arg_display
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2590,7 +2590,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2609,7 +2609,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2628,10 +2628,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetStaticDisplayInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt64()
+		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2648,10 +2648,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDynamicDisplayInfoFromId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt64()
+		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2668,7 +2668,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDynamicDisplayInfoFromToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2687,7 +2687,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayNativePrimaries:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2706,13 +2706,13 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerSetActiveColorMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
 		_ = _arg_display
-		_arg_colorMode, _err := data.ReadInt32()
+		_arg_colorMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2725,13 +2725,13 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetBootDisplayMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
 		_ = _arg_display
-		_arg_displayModeId, _err := data.ReadInt32()
+		_arg_displayModeId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2744,7 +2744,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerClearBootDisplayMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2759,7 +2759,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetBootDisplayModeSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBootDisplayModeSupport(ctx)
@@ -2772,7 +2772,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerGetHdrConversionCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHdrConversionCapabilities(ctx)
@@ -2786,17 +2786,17 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISurfaceComposerSetHdrConversionStrategy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hdrConversionStrategy HdrConversionStrategy
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hdrConversionStrategy.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hdrConversionStrategy.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2811,7 +2811,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerGetHdrOutputConversionSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHdrOutputConversionSupport(ctx)
@@ -2824,13 +2824,13 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerSetAutoLowLatencyMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
 		_ = _arg_display
-		_arg_on, _err := data.ReadBool()
+		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2843,13 +2843,13 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetGameContentType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
 		_ = _arg_display
-		_arg_on, _err := data.ReadBool()
+		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2862,7 +2862,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetMaxLayerPictureProfiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2878,17 +2878,17 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerCaptureDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args DisplayCaptureArgs
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2900,21 +2900,21 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerCaptureDisplayById:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt64()
+		_arg_displayId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_args CaptureArgs
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2926,17 +2926,17 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerCaptureLayersSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args LayerCaptureArgs
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2951,17 +2951,17 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISurfaceComposerCaptureLayers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args LayerCaptureArgs
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2973,7 +2973,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerClearAnimationFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearAnimationFrameStats(ctx)
@@ -2985,7 +2985,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetAnimationFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAnimationFrameStats(ctx)
@@ -3001,7 +3001,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerOverrideHdrTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3019,10 +3019,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerOnPullAtom:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_atomId, _err := data.ReadInt32()
+		_arg_atomId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3039,7 +3039,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetCompositionPreference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCompositionPreference(ctx)
@@ -3055,7 +3055,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayedContentSamplingAttributes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3074,21 +3074,21 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerSetDisplayContentSamplingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
 		_ = _arg_display
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_componentMask, _err := data.ReadPaddedByte()
+		_arg_componentMask, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxFrames, _err := data.ReadInt64()
+		_arg_maxFrames, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3101,17 +3101,17 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayedContentSample:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_display binder.IBinder
 		_ = _arg_display
-		_arg_maxFrames, _err := data.ReadInt64()
+		_arg_maxFrames, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3128,7 +3128,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetProtectedContentSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProtectedContentSupport(ctx)
@@ -3141,7 +3141,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerIsWideColorDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3157,17 +3157,17 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerAddRegionSamplingListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_samplingArea ARect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_samplingArea.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_samplingArea.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3187,7 +3187,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveRegionSamplingListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3202,10 +3202,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerAddFpsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3221,7 +3221,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveFpsListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3236,7 +3236,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerAddTunnelModeEnabledListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3251,7 +3251,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveTunnelModeEnabledListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3266,7 +3266,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetDesiredDisplayModeSpecs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3274,12 +3274,12 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _arg_displayToken
 		var _arg_specs DisplayModeSpecs
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_specs.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_specs.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3293,7 +3293,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetDesiredDisplayModeSpecs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3312,7 +3312,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetDisplayBrightnessSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3328,7 +3328,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerSetDisplayBrightness:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3336,12 +3336,12 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _arg_displayToken
 		var _arg_brightness DisplayBrightness
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_brightness.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_brightness.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3355,7 +3355,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerAddHdrLayerInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3373,7 +3373,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveHdrLayerInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3391,10 +3391,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerNotifyPowerBoost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_boostId, _err := data.ReadInt32()
+		_arg_boostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3402,42 +3402,42 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerSetGlobalShadowSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ambientColor Color
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ambientColor.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ambientColor.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_spotColor Color
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_spotColor.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_spotColor.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_lightPosY, _err := data.ReadFloat32()
+		_arg_lightPosY, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lightPosZ, _err := data.ReadFloat32()
+		_arg_lightPosZ, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lightRadius, _err := data.ReadFloat32()
+		_arg_lightRadius, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3445,7 +3445,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerGetDisplayDecorationSupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3464,14 +3464,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerSetGameModeFrameRateOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_frameRate, _err := data.ReadFloat32()
+		_arg_frameRate, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3484,14 +3484,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetGameDefaultFrameRateOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_frameRate, _err := data.ReadFloat32()
+		_arg_frameRate, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3504,7 +3504,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerUpdateSmallAreaDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3517,14 +3517,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerSetSmallAreaDetectionThreshold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appId, _err := data.ReadInt32()
+		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_threshold, _err := data.ReadFloat32()
+		_arg_threshold, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3532,10 +3532,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerEnableRefreshRateOverlay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3548,10 +3548,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerSetDebugFlash:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_delay, _err := data.ReadInt32()
+		_arg_delay, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3564,7 +3564,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerScheduleComposite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleComposite(ctx)
@@ -3576,7 +3576,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerScheduleCommit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleCommit(ctx)
@@ -3588,10 +3588,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerForceClientComposition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3604,7 +3604,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetGpuContextPriority:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGpuContextPriority(ctx)
@@ -3617,7 +3617,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerGetMaxAcquiredBufferCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMaxAcquiredBufferCount(ctx)
@@ -3630,7 +3630,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISurfaceComposerAddWindowInfosListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3649,7 +3649,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerRemoveWindowInfosListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3664,7 +3664,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerGetOverlaySupport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOverlaySupport(ctx)
@@ -3680,10 +3680,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetStalledTransactionInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3700,7 +3700,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerGetSchedulingPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSchedulingPolicy(ctx)
@@ -3716,14 +3716,14 @@ func (s *SurfaceComposerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISurfaceComposerNotifyShutdown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyShutdown(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerAddJankListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3741,10 +3741,10 @@ func (s *SurfaceComposerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISurfaceComposerFlushJankData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_layerId, _err := data.ReadInt32()
+		_arg_layerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3752,17 +3752,17 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerRemoveJankListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_layerId, _err := data.ReadInt32()
+		_arg_layerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IJankListener
 		_ = _arg_listener
-		_arg_afterVsync, _err := data.ReadInt64()
+		_arg_afterVsync, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3770,7 +3770,7 @@ func (s *SurfaceComposerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISurfaceComposerSetActivePictureListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

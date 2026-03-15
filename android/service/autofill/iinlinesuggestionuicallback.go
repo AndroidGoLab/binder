@@ -159,36 +159,36 @@ var _ binder.TransactionReceiver = (*InlineSuggestionUiCallbackStub)(nil)
 func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInlineSuggestionUiCallbackOnClick:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnClick(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionUiCallbackOnLongClick:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnLongClick(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionUiCallbackOnContent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_content IInlineSuggestionUi
 		_ = _arg_content
 		var _arg_surface interface{}
-		_arg_width, _err := data.ReadInt32()
+		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -196,20 +196,20 @@ func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionUiCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnError(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionUiCallbackOnTransferTouchFocusToImeWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_sourceInputToken binder.IBinder
 		_ = _arg_sourceInputToken
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -217,7 +217,7 @@ func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInlineSuggestionUiCallbackOnStartIntentSender:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intentSender interface{}

@@ -123,14 +123,14 @@ var _ binder.TransactionReceiver = (*AccessibilityManagerClientStub)(nil)
 func (s *AccessibilityManagerClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAccessibilityManagerClientSetState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_stateFlags, _err := data.ReadInt32()
+		_arg_stateFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -138,10 +138,10 @@ func (s *AccessibilityManagerClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerClientNotifyServicesStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_updatedUiTimeout, _err := data.ReadInt64()
+		_arg_updatedUiTimeout, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -149,10 +149,10 @@ func (s *AccessibilityManagerClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerClientSetRelevantEventTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_eventTypes, _err := data.ReadInt32()
+		_arg_eventTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -160,14 +160,14 @@ func (s *AccessibilityManagerClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccessibilityManagerClientSetFocusAppearance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strokeWidth, _err := data.ReadInt32()
+		_arg_strokeWidth, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_color, _err := data.ReadInt32()
+		_arg_color, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

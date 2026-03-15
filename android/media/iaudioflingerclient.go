@@ -94,26 +94,26 @@ var _ binder.TransactionReceiver = (*AudioFlingerClientStub)(nil)
 func (s *AudioFlingerClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAudioFlingerClientIoConfigChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_event, _err := data.ReadInt32()
+		_raw_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_event := AudioIoConfigEvent(_raw_event)
 		var _arg_ioDesc AudioIoDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ioDesc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ioDesc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -122,10 +122,10 @@ func (s *AudioFlingerClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioFlingerClientOnSupportedLatencyModesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_output, _err := data.ReadInt32()
+		_arg_output, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

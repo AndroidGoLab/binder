@@ -248,11 +248,11 @@ var _ binder.TransactionReceiver = (*CarDisplayProxyStub)(nil)
 func (s *CarDisplayProxyStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICarDisplayProxyGetDisplayIdList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDisplayIdList(ctx)
@@ -266,10 +266,10 @@ func (s *CarDisplayProxyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICarDisplayProxyGetDisplayInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt64()
+		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -286,10 +286,10 @@ func (s *CarDisplayProxyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICarDisplayProxyGetHGraphicBufferProducer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt64()
+		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -306,10 +306,10 @@ func (s *CarDisplayProxyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICarDisplayProxyHideWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt64()
+		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -322,10 +322,10 @@ func (s *CarDisplayProxyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarDisplayProxyShowWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt64()
+		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -338,10 +338,10 @@ func (s *CarDisplayProxyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarDisplayProxyGetSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt64()
+		_arg_id, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

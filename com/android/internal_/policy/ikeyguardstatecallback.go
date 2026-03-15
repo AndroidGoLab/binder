@@ -159,18 +159,18 @@ var _ binder.TransactionReceiver = (*KeyguardStateCallbackStub)(nil)
 func (s *KeyguardStateCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIKeyguardStateCallbackOnShowingStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_showing, _err := data.ReadBool()
+		_arg_showing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnShowingStateChanged(ctx, _arg_showing)
@@ -182,10 +182,10 @@ func (s *KeyguardStateCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyguardStateCallbackOnSimSecureStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_simSecure, _err := data.ReadBool()
+		_arg_simSecure, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -198,10 +198,10 @@ func (s *KeyguardStateCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyguardStateCallbackOnInputRestrictedStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputRestricted, _err := data.ReadBool()
+		_arg_inputRestricted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -214,10 +214,10 @@ func (s *KeyguardStateCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyguardStateCallbackOnTrustedChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_trusted, _err := data.ReadBool()
+		_arg_trusted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

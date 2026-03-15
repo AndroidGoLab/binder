@@ -63,11 +63,11 @@ var _ binder.TransactionReceiver = (*SurfacePackageResultCallbackStub)(nil)
 func (s *SurfacePackageResultCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISurfacePackageResultCallbackOnResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result interface{}

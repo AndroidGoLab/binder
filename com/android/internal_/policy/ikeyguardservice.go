@@ -507,18 +507,18 @@ var _ binder.TransactionReceiver = (*KeyguardServiceStub)(nil)
 func (s *KeyguardServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIKeyguardServiceSetOccluded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isOccluded, _err := data.ReadBool()
+		_arg_isOccluded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_animate, _err := data.ReadBool()
+		_arg_animate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -526,7 +526,7 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceAddStateMonitorCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -536,7 +536,7 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceVerifyUnlock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -546,7 +546,7 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceDismiss:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -557,24 +557,24 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnDreamingStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDreamingStarted(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnDreamingStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDreamingStopped(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnStartedGoingToSleep:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pmSleepReason, _err := data.ReadInt32()
+		_arg_pmSleepReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -582,14 +582,14 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnFinishedGoingToSleep:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pmSleepReason, _err := data.ReadInt32()
+		_arg_pmSleepReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cameraGestureTriggered, _err := data.ReadBool()
+		_arg_cameraGestureTriggered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -597,14 +597,14 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnStartedWakingUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pmWakeReason, _err := data.ReadInt32()
+		_arg_pmWakeReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cameraGestureTriggered, _err := data.ReadBool()
+		_arg_cameraGestureTriggered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -612,14 +612,14 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnFinishedWakingUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnFinishedWakingUp(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnScreenTurningOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -629,31 +629,31 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnScreenTurnedOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnScreenTurnedOn(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnScreenTurningOff:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnScreenTurningOff(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnScreenTurnedOff:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnScreenTurnedOff(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceSetKeyguardEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -661,14 +661,14 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnSystemReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSystemReady(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceDoKeyguardTimeout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_options interface{}
@@ -676,10 +676,10 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceSetSwitchingUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_switching, _err := data.ReadBool()
+		_arg_switching, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -687,31 +687,31 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceSetCurrentUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetCurrentUser(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnBootCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnBootCompleted(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceStartKeyguardExitAnimation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_startTime, _err := data.ReadInt64()
+		_arg_startTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fadeoutDuration, _err := data.ReadInt64()
+		_arg_fadeoutDuration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -719,14 +719,14 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnShortPowerPressedGoHome:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnShortPowerPressedGoHome(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceDismissKeyguardToLaunch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intentToLaunch interface{}
@@ -734,10 +734,10 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceOnSystemKeyPressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keycode, _err := data.ReadInt32()
+		_arg_keycode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -745,7 +745,7 @@ func (s *KeyguardServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIKeyguardServiceShowDismissibleKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShowDismissibleKeyguard(ctx)

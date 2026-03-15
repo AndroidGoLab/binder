@@ -180,15 +180,15 @@ var _ binder.TransactionReceiver = (*AudioPolicyCallbackStub)(nil)
 func (s *AudioPolicyCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusGrant:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_afi interface{}
-		_arg_requestResult, _err := data.ReadInt32()
+		_arg_requestResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -196,11 +196,11 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusLoss:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_afi interface{}
-		_arg_wasNotified, _err := data.ReadBool()
+		_arg_wasNotified, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -208,11 +208,11 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_afi interface{}
-		_arg_requestResult, _err := data.ReadInt32()
+		_arg_requestResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -220,7 +220,7 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyCallbackNotifyAudioFocusAbandon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_afi interface{}
@@ -228,14 +228,14 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyCallbackNotifyMixStateUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_regId, _err := data.ReadString16()
+		_arg_regId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -243,10 +243,10 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyCallbackNotifyVolumeAdjust:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_adjustment, _err := data.ReadInt32()
+		_arg_adjustment, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -254,7 +254,7 @@ func (s *AudioPolicyCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyCallbackNotifyUnregistration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyUnregistration(ctx)

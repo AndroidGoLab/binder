@@ -150,14 +150,14 @@ var _ binder.TransactionReceiver = (*UserSwitchObserverStub)(nil)
 func (s *UserSwitchObserverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUserSwitchObserverOnBeforeUserSwitching:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newUserId, _err := data.ReadInt32()
+		_arg_newUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -170,10 +170,10 @@ func (s *UserSwitchObserverStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUserSwitchObserverOnUserSwitching:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newUserId, _err := data.ReadInt32()
+		_arg_newUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -182,10 +182,10 @@ func (s *UserSwitchObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUserSwitchObserverOnUserSwitchComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newUserId, _err := data.ReadInt32()
+		_arg_newUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -193,10 +193,10 @@ func (s *UserSwitchObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUserSwitchObserverOnForegroundProfileSwitch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newProfileId, _err := data.ReadInt32()
+		_arg_newProfileId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -204,10 +204,10 @@ func (s *UserSwitchObserverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUserSwitchObserverOnLockedBootComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newUserId, _err := data.ReadInt32()
+		_arg_newUserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

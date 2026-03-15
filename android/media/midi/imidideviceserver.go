@@ -233,17 +233,17 @@ var _ binder.TransactionReceiver = (*MidiDeviceServerStub)(nil)
 func (s *MidiDeviceServerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMidiDeviceServerOpenInputPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_portNumber, _err := data.ReadInt32()
+		_arg_portNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -257,13 +257,13 @@ func (s *MidiDeviceServerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMidiDeviceServerOpenOutputPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_portNumber, _err := data.ReadInt32()
+		_arg_portNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -277,7 +277,7 @@ func (s *MidiDeviceServerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMidiDeviceServerClosePort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -292,21 +292,21 @@ func (s *MidiDeviceServerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMidiDeviceServerCloseDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CloseDevice(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIMidiDeviceServerConnectPorts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
 		var _arg_fd interface{}
-		_arg_outputPortNumber, _err := data.ReadInt32()
+		_arg_outputPortNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -320,7 +320,7 @@ func (s *MidiDeviceServerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMidiDeviceServerGetDeviceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeviceInfo(ctx)
@@ -333,7 +333,7 @@ func (s *MidiDeviceServerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMidiDeviceServerSetDeviceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_deviceInfo interface{}

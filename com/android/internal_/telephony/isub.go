@@ -2162,17 +2162,17 @@ var _ binder.TransactionReceiver = (*SubStub)(nil)
 func (s *SubStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISubGetAllSubInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllSubInfoList(ctx)
@@ -2186,17 +2186,17 @@ func (s *SubStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISubGetActiveSubscriptionInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveSubscriptionInfo(ctx, _arg_subId)
@@ -2212,17 +2212,17 @@ func (s *SubStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISubGetActiveSubscriptionInfoForIccId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iccId, _err := data.ReadString16()
+		_arg_iccId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveSubscriptionInfoForIccId(ctx, _arg_iccId)
@@ -2238,17 +2238,17 @@ func (s *SubStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISubGetActiveSubscriptionInfoForSimSlotIndex:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveSubscriptionInfoForSimSlotIndex(ctx, _arg_slotIndex)
@@ -2264,16 +2264,16 @@ func (s *SubStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISubGetActiveSubscriptionInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isForAllProfiles, _err := data.ReadBool()
+		_arg_isForAllProfiles, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2288,16 +2288,16 @@ func (s *SubStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISubGetActiveSubInfoCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isForAllProfile, _err := data.ReadBool()
+		_arg_isForAllProfile, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2311,7 +2311,7 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetActiveSubInfoCountMax:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveSubInfoCountMax(ctx)
@@ -2324,13 +2324,13 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetAvailableSubscriptionInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailableSubscriptionInfoList(ctx)
@@ -2344,10 +2344,10 @@ func (s *SubStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISubGetAccessibleSubscriptionInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAccessibleSubscriptionInfoList(ctx)
@@ -2361,10 +2361,10 @@ func (s *SubStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISubRequestEmbeddedSubscriptionInfoListRefresh:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2372,22 +2372,22 @@ func (s *SubStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISubAddSubInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uniqueId, _err := data.ReadString16()
+		_arg_uniqueId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayName, _err := data.ReadString16()
+		_arg_displayName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionType, _err := data.ReadInt32()
+		_arg_subscriptionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2401,14 +2401,14 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubRemoveSubInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uniqueId, _err := data.ReadString16()
+		_arg_uniqueId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionType, _err := data.ReadInt32()
+		_arg_subscriptionType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2422,14 +2422,14 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubSetIconTint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tint, _err := data.ReadInt32()
+		_arg_tint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2443,18 +2443,18 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDisplayNameUsingSrc:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayName, _err := data.ReadString16()
+		_arg_displayName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nameSource, _err := data.ReadInt32()
+		_arg_nameSource, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2468,14 +2468,14 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDisplayNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2489,14 +2489,14 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDataRoaming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_roaming, _err := data.ReadInt32()
+		_arg_roaming, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2510,18 +2510,18 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetOpportunistic:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_opportunistic, _err := data.ReadBool()
+		_arg_opportunistic, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetOpportunistic(ctx, _arg_opportunistic, _arg_subId)
@@ -2534,13 +2534,13 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubCreateSubscriptionGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subIdList []int32
 		_ = _arg_subIdList
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateSubscriptionGroup(ctx, _arg_subIdList)
@@ -2553,14 +2553,14 @@ func (s *SubStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISubSetPreferredDataSubscriptionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_needValidation, _err := data.ReadBool()
+		_arg_needValidation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2576,7 +2576,7 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetPreferredDataSubscriptionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPreferredDataSubscriptionId(ctx)
@@ -2589,13 +2589,13 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetOpportunisticSubscriptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOpportunisticSubscriptions(ctx)
@@ -2609,14 +2609,14 @@ func (s *SubStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISubRemoveSubscriptionsFromGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subIdList []int32
 		_ = _arg_subIdList
 		var _arg_groupUuid interface{}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveSubscriptionsFromGroup(ctx, _arg_subIdList, _arg_groupUuid)
@@ -2628,14 +2628,14 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubAddSubscriptionsIntoGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_subIdList []int32
 		_ = _arg_subIdList
 		var _arg_groupUuid interface{}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AddSubscriptionsIntoGroup(ctx, _arg_subIdList, _arg_groupUuid)
@@ -2647,14 +2647,14 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetSubscriptionsInGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_groupUuid interface{}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSubscriptionsInGroup(ctx, _arg_groupUuid)
@@ -2668,10 +2668,10 @@ func (s *SubStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISubGetSlotIndex:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2685,10 +2685,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2702,7 +2702,7 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultSubId(ctx)
@@ -2715,10 +2715,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultSubIdAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultSubIdAsUser(ctx)
@@ -2731,10 +2731,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetPhoneId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2748,7 +2748,7 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultDataSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultDataSubId(ctx)
@@ -2761,10 +2761,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDefaultDataSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2777,7 +2777,7 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetDefaultVoiceSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultVoiceSubId(ctx)
@@ -2790,10 +2790,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultVoiceSubIdAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultVoiceSubIdAsUser(ctx)
@@ -2806,10 +2806,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDefaultVoiceSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2822,7 +2822,7 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetDefaultSmsSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultSmsSubId(ctx)
@@ -2835,10 +2835,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetDefaultSmsSubIdAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultSmsSubIdAsUser(ctx)
@@ -2851,10 +2851,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDefaultSmsSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2867,10 +2867,10 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetActiveSubIdList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visibleOnly, _err := data.ReadBool()
+		_arg_visibleOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2885,18 +2885,18 @@ func (s *SubStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISubSetSubscriptionProperty:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_propKey, _err := data.ReadString16()
+		_arg_propKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_propValue, _err := data.ReadString16()
+		_arg_propValue, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2909,21 +2909,21 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubGetSubscriptionProperty:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_propKey, _err := data.ReadString16()
+		_arg_propKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSubscriptionProperty(ctx, _arg_subId, _arg_propKey)
@@ -2936,10 +2936,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISubIsSubscriptionEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2953,10 +2953,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubGetEnabledSubscriptionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2970,17 +2970,17 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubIsActiveSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsActiveSubId(ctx, _arg_subId)
@@ -2993,7 +2993,7 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubGetActiveDataSubscriptionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActiveDataSubscriptionId(ctx)
@@ -3006,7 +3006,7 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubCanDisablePhysicalSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CanDisablePhysicalSubscription(ctx)
@@ -3019,14 +3019,14 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubSetUiccApplicationsEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3039,14 +3039,14 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubSetDeviceToDeviceStatusSharing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sharing, _err := data.ReadInt32()
+		_arg_sharing, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3060,14 +3060,14 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetDeviceToDeviceStatusSharingContacts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contacts, _err := data.ReadString16()
+		_arg_contacts, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3081,21 +3081,21 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetPhoneNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPhoneNumber(ctx, _arg_subId, _arg_source)
@@ -3108,17 +3108,17 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISubGetPhoneNumberFromFirstAvailableSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPhoneNumberFromFirstAvailableSource(ctx, _arg_subId)
@@ -3131,25 +3131,25 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionISubSetPhoneNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetPhoneNumber(ctx, _arg_subId, _arg_source, _arg_number)
@@ -3161,18 +3161,18 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubSetUsageSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_usageSetting, _err := data.ReadInt32()
+		_arg_usageSetting, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetUsageSetting(ctx, _arg_usageSetting, _arg_subId)
@@ -3185,14 +3185,14 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubSetGroupOwner:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_groupOwner, _err := data.ReadString16()
+		_arg_groupOwner, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3205,22 +3205,22 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubSetSubscriptionUserHandle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_userHandle os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_userHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3234,10 +3234,10 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISubGetSubscriptionUserHandle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3254,10 +3254,10 @@ func (s *SubStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISubIsSubscriptionAssociatedWithCallingUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3271,21 +3271,21 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubIsSubscriptionAssociatedWithUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_userHandle os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_userHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3300,17 +3300,17 @@ func (s *SubStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISubGetSubscriptionInfoListAssociatedWithUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_userHandle os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_userHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3326,7 +3326,7 @@ func (s *SubStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISubRestoreAllSimSpecificSettingsFromBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3341,14 +3341,14 @@ func (s *SubStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISubSetTransferStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

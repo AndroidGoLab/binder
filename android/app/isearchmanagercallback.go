@@ -79,18 +79,18 @@ var _ binder.TransactionReceiver = (*SearchManagerCallbackStub)(nil)
 func (s *SearchManagerCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISearchManagerCallbackOnDismiss:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDismiss(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISearchManagerCallbackOnCancel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnCancel(ctx)

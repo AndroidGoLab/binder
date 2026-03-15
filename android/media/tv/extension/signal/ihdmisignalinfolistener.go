@@ -83,14 +83,14 @@ var _ binder.TransactionReceiver = (*HdmiSignalInfoListenerStub)(nil)
 func (s *HdmiSignalInfoListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHdmiSignalInfoListenerOnSignalInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -98,10 +98,10 @@ func (s *HdmiSignalInfoListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIHdmiSignalInfoListenerOnLowLatencyModeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadInt32()
+		_arg_enable, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

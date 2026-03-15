@@ -2029,18 +2029,18 @@ var _ binder.TransactionReceiver = (*ActivityClientControllerStub)(nil)
 func (s *ActivityClientControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIActivityClientControllerActivityIdle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
 		var _arg_config interface{}
-		_arg_stopProfiling, _err := data.ReadBool()
+		_arg_stopProfiling, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2048,13 +2048,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerActivityResumed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_handleSplashScreenExit, _err := data.ReadBool()
+		_arg_handleSplashScreenExit, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2062,7 +2062,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerActivityRefreshed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2072,7 +2072,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerActivityTopResumedStateLost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ActivityTopResumedStateLost(ctx)
@@ -2084,7 +2084,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerActivityPaused:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2099,7 +2099,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerActivityStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2112,7 +2112,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerActivityDestroyed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2122,7 +2122,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerActivityLocalRelaunch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2132,7 +2132,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerActivityRelaunched:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2142,7 +2142,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerReportSizeConfigurations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2153,13 +2153,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerMoveActivityTaskToBack:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_nonRoot, _err := data.ReadBool()
+		_arg_nonRoot, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2173,13 +2173,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerShouldUpRecreateTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_destAffinity, _err := data.ReadString16()
+		_arg_destAffinity, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2193,18 +2193,18 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerNavigateUpTo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
 		var _arg_target interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_resultCode, _err := data.ReadInt32()
+		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2219,7 +2219,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerReleaseActivityInstance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2235,18 +2235,18 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerFinishActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_data interface{}
-		_arg_finishTask, _err := data.ReadInt32()
+		_arg_finishTask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2260,7 +2260,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerFinishActivityAffinity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2276,17 +2276,17 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerFinishSubActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_resultWho, _err := data.ReadString16()
+		_arg_resultWho, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2299,7 +2299,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetForceSendResultForMediaProjection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2314,7 +2314,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerIsTopOfTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2330,7 +2330,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerWillActivityBeVisible:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2346,7 +2346,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetDisplayId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2362,13 +2362,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetTaskForActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_onlyRoot, _err := data.ReadBool()
+		_arg_onlyRoot, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2382,7 +2382,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetTaskConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2398,7 +2398,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityClientControllerGetActivityTokenBelow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2415,7 +2415,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityClientControllerGetCallingActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2431,7 +2431,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityClientControllerGetCallingPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2447,7 +2447,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetLaunchedFromUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2463,7 +2463,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetActivityCallerUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2482,7 +2482,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetLaunchedFromPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2498,7 +2498,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetActivityCallerPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2517,7 +2517,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerCheckActivityCallerContentUriPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2527,11 +2527,11 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		var _arg_callerToken binder.IBinder
 		_ = _arg_callerToken
 		var _arg_uri interface{}
-		_arg_modeFlags, _err := data.ReadInt32()
+		_arg_modeFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CheckActivityCallerContentUriPermission(ctx, _arg_activityToken, _arg_callerToken, _arg_uri, _arg_modeFlags)
@@ -2544,13 +2544,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetRequestedOrientation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_requestedOrientation, _err := data.ReadInt32()
+		_arg_requestedOrientation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2563,7 +2563,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerGetRequestedOrientation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2579,7 +2579,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerConvertFromTranslucent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2595,7 +2595,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerConvertToTranslucent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2612,7 +2612,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerIsImmersive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2628,13 +2628,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetImmersive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_immersive, _err := data.ReadBool()
+		_arg_immersive, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2647,7 +2647,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerEnterPictureInPictureMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2655,12 +2655,12 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _arg_token
 		var _arg_params PictureInPictureParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2675,7 +2675,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetPictureInPictureParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2683,12 +2683,12 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _arg_token
 		var _arg_params PictureInPictureParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2702,13 +2702,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetShouldDockBigOverlays:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_shouldDockBigOverlays, _err := data.ReadBool()
+		_arg_shouldDockBigOverlays, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2716,7 +2716,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerToggleFreeformWindowingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2731,13 +2731,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerRequestMultiwindowFullscreen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_request, _err := data.ReadInt32()
+		_arg_request, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2746,7 +2746,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerStartLockTaskModeByToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2761,7 +2761,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerStopLockTaskModeByToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2776,7 +2776,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerShowLockTaskEscapeMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2786,7 +2786,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerSetTaskDescription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2794,12 +2794,12 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _arg_token
 		var _arg_values ActivityManagerTaskDescription
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_values.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_values.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2813,7 +2813,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerShowAssistFromActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2830,7 +2830,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerIsRootVoiceInteraction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2846,7 +2846,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerStartLocalVoiceInteraction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2862,7 +2862,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerStopLocalVoiceInteraction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2877,13 +2877,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetShowWhenLocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_showWhenLocked, _err := data.ReadBool()
+		_arg_showWhenLocked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2891,13 +2891,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerSetInheritShowWhenLocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_setInheritShownWhenLocked, _err := data.ReadBool()
+		_arg_setInheritShownWhenLocked, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2905,13 +2905,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerSetTurnScreenOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_turnScreenOn, _err := data.ReadBool()
+		_arg_turnScreenOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2924,13 +2924,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetAllowCrossUidActivitySwitchFromBelow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_allowed, _err := data.ReadBool()
+		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2938,13 +2938,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerReportActivityFullyDrawn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_restoredFromBundle, _err := data.ReadBool()
+		_arg_restoredFromBundle, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2952,25 +2952,25 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerOverrideActivityTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_open, _err := data.ReadBool()
+		_arg_open, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enterAnim, _err := data.ReadInt32()
+		_arg_enterAnim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_exitAnim, _err := data.ReadInt32()
+		_arg_exitAnim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_backgroundColor, _err := data.ReadInt32()
+		_arg_backgroundColor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2978,13 +2978,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerClearOverrideActivityTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_open, _err := data.ReadBool()
+		_arg_open, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2992,25 +2992,25 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerOverridePendingTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enterAnim, _err := data.ReadInt32()
+		_arg_enterAnim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_exitAnim, _err := data.ReadInt32()
+		_arg_exitAnim, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_backgroundColor, _err := data.ReadInt32()
+		_arg_backgroundColor, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3023,13 +3023,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetVrMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3044,13 +3044,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetRecentsScreenshotEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3058,7 +3058,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerInvalidateHomeTaskSnapshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3073,7 +3073,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerDismissKeyguard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3090,7 +3090,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerRegisterRemoteAnimations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3106,7 +3106,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerUnregisterRemoteAnimations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3121,7 +3121,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerOnBackPressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3134,7 +3134,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerSplashScreenAttached:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3144,7 +3144,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityClientControllerEnableTaskLocaleOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3159,7 +3159,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityClientControllerIsRequestedToLaunchInTaskFragment:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3178,13 +3178,13 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityClientControllerSetActivityRecordInputSinkEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
 		_ = _arg_activityToken
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

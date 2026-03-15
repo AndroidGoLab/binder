@@ -647,11 +647,11 @@ var _ binder.TransactionReceiver = (*BluetoothAudioProviderStub)(nil)
 func (s *BluetoothAudioProviderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothAudioProviderEndSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EndSession(ctx)
@@ -663,7 +663,7 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderStartSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -671,12 +671,12 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		_ = _arg_hostIf
 		var _arg_audioConfig AudioConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_audioConfig.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_audioConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -697,10 +697,10 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderStreamStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_status, _err := data.ReadInt32()
+		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -714,10 +714,10 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderStreamSuspended:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_status, _err := data.ReadInt32()
+		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -731,17 +731,17 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderUpdateAudioConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_audioConfig AudioConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_audioConfig.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_audioConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -755,10 +755,10 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderSetLowLatencyModeAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_allowed, _err := data.ReadBool()
+		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -771,17 +771,17 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderParseA2dpConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_codecId CodecId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_codecId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_codecId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -789,7 +789,8 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_configuration []byte
 		_ = _arg_configuration
-		_result, _err := s.Impl.ParseA2dpConfiguration(ctx, _arg_codecId, _arg_configuration)
+		var _arg_codecParameters CodecParameters
+		_result, _err := s.Impl.ParseA2dpConfiguration(ctx, _arg_codecId, _arg_configuration, _arg_codecParameters)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -799,7 +800,7 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderGetA2dpConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -807,12 +808,12 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		_ = _arg_remoteA2dpCapabilities
 		var _arg_hint A2dpConfigurationHint
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hint.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hint.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -830,22 +831,22 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderSetCodecPriority:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_codecId CodecId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_codecId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_codecId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_priority, _err := data.ReadInt32()
+		_arg_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -858,7 +859,7 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderGetLeAudioAseConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -881,7 +882,7 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderGetLeAudioAseQosConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_qosRequirement interface{}
@@ -895,7 +896,7 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderGetLeAudioAseDatapathConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sinkConfig *interface{}
@@ -910,15 +911,15 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderOnSinkAseMetadataChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_state interface{}
-		_arg_cigId, _err := data.ReadInt32()
+		_arg_cigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cisId, _err := data.ReadInt32()
+		_arg_cisId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -934,15 +935,15 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderOnSourceAseMetadataChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_state interface{}
-		_arg_cigId, _err := data.ReadInt32()
+		_arg_cigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cisId, _err := data.ReadInt32()
+		_arg_cisId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -958,7 +959,7 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderGetLeAudioBroadcastConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -975,17 +976,17 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderGetLeAudioBroadcastDatapathConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_audioContext AudioContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_audioContext.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_audioContext.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

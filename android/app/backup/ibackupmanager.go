@@ -2122,17 +2122,17 @@ var _ binder.TransactionReceiver = (*BackupManagerStub)(nil)
 func (s *BackupManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBackupManagerDataChangedForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2145,10 +2145,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerDataChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2161,17 +2161,17 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerClearBackupDataForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_transportName, _err := data.ReadString16()
+		_arg_transportName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2184,14 +2184,14 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerClearBackupData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_transportName, _err := data.ReadString16()
+		_arg_transportName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2204,10 +2204,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerInitializeTransportsForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2225,13 +2225,13 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAgentConnectedForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2247,10 +2247,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAgentConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2266,13 +2266,13 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAgentDisconnectedForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2285,10 +2285,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAgentDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2301,17 +2301,17 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerRestoreAtInstallForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2324,14 +2324,14 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerRestoreAtInstall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2344,13 +2344,13 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetBackupEnabledForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2363,13 +2363,13 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetFrameworkSchedulingEnabledForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2382,10 +2382,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetBackupEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2398,13 +2398,13 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetAutoRestoreForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_doAutoRestore, _err := data.ReadBool()
+		_arg_doAutoRestore, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2417,10 +2417,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetAutoRestore:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_doAutoRestore, _err := data.ReadBool()
+		_arg_doAutoRestore, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2433,10 +2433,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerIsBackupEnabledForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsBackupEnabledForUser(ctx)
@@ -2449,7 +2449,7 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerIsBackupEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsBackupEnabled(ctx)
@@ -2462,14 +2462,14 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerSetBackupPassword:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_currentPw, _err := data.ReadString16()
+		_arg_currentPw, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newPw, _err := data.ReadString16()
+		_arg_newPw, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2483,7 +2483,7 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerHasBackupPassword:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasBackupPassword(ctx)
@@ -2496,10 +2496,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerBackupNowForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.BackupNowForUser(ctx)
@@ -2511,7 +2511,7 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerBackupNow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.BackupNow(ctx)
@@ -2523,45 +2523,45 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAdbBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeApks, _err := data.ReadBool()
+		_arg_includeApks, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeObbs, _err := data.ReadBool()
+		_arg_includeObbs, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeShared, _err := data.ReadBool()
+		_arg_includeShared, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_doWidgets, _err := data.ReadBool()
+		_arg_doWidgets, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allApps, _err := data.ReadBool()
+		_arg_allApps, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allIncludesSystem, _err := data.ReadBool()
+		_arg_allIncludesSystem, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_doCompress, _err := data.ReadBool()
+		_arg_doCompress, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_doKeyValue, _err := data.ReadBool()
+		_arg_doKeyValue, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2577,10 +2577,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerFullTransportBackupForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2595,13 +2595,13 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAdbRestore:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2614,25 +2614,25 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAcknowledgeFullBackupOrRestoreForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allow, _err := data.ReadBool()
+		_arg_allow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_curPassword, _err := data.ReadString16()
+		_arg_curPassword, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_encryptionPassword, _err := data.ReadString16()
+		_arg_encryptionPassword, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2648,22 +2648,22 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerAcknowledgeFullBackupOrRestore:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allow, _err := data.ReadBool()
+		_arg_allow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_curPassword, _err := data.ReadString16()
+		_arg_curPassword, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_encryptionPassword, _err := data.ReadString16()
+		_arg_encryptionPassword, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2679,19 +2679,19 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerUpdateTransportAttributesForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_transportComponent interface{}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_configurationIntent interface{}
-		_arg_currentDestinationString, _err := data.ReadString16()
+		_arg_currentDestinationString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2706,10 +2706,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerGetCurrentTransportForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentTransportForUser(ctx)
@@ -2722,7 +2722,7 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetCurrentTransport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentTransport(ctx)
@@ -2735,10 +2735,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetCurrentTransportComponentForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentTransportComponentForUser(ctx)
@@ -2751,10 +2751,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerListAllTransportsForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListAllTransportsForUser(ctx)
@@ -2768,7 +2768,7 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerListAllTransports:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListAllTransports(ctx)
@@ -2782,10 +2782,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerListAllTransportComponentsForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListAllTransportComponentsForUser(ctx)
@@ -2799,7 +2799,7 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerGetTransportWhitelist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTransportWhitelist(ctx)
@@ -2813,13 +2813,13 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerSelectBackupTransportForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2833,10 +2833,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerSelectBackupTransport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2850,10 +2850,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerSelectBackupTransportAsyncForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_transport interface{}
@@ -2869,13 +2869,13 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerGetConfigurationIntentForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2889,10 +2889,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerGetConfigurationIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2906,13 +2906,13 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerGetDestinationStringForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2926,10 +2926,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetDestinationString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2943,13 +2943,13 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetDataManagementIntentForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2963,10 +2963,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerGetDataManagementIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2980,13 +2980,13 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerGetDataManagementLabelForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3000,17 +3000,17 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerBeginRestoreSessionForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transportID, _err := data.ReadString16()
+		_arg_transportID, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3025,17 +3025,17 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerOpCompleteForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt64()
+		_arg_result, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3048,14 +3048,14 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerOpComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt64()
+		_arg_result, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3068,14 +3068,14 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerSetBackupServiceActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_whichUser, _err := data.ReadInt32()
+		_arg_whichUser, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_makeActive, _err := data.ReadBool()
+		_arg_makeActive, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3088,10 +3088,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerIsBackupServiceActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_whichUser, _err := data.ReadInt32()
+		_arg_whichUser, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3105,10 +3105,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerIsUserReadyForBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsUserReadyForBackup(ctx)
@@ -3121,13 +3121,13 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerGetAvailableRestoreTokenForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3141,13 +3141,13 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIBackupManagerIsAppEligibleForBackupForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3161,10 +3161,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIBackupManagerFilterAppsEligibleForBackupForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3181,10 +3181,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerRequestBackupForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3196,7 +3196,7 @@ func (s *BackupManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_monitor IBackupManagerMonitor
 		_ = _arg_monitor
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3210,7 +3210,7 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBackupManagerRequestBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3222,7 +3222,7 @@ func (s *BackupManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_monitor IBackupManagerMonitor
 		_ = _arg_monitor
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3236,10 +3236,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBackupManagerCancelBackupsForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CancelBackupsForUser(ctx)
@@ -3251,7 +3251,7 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerCancelBackups:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CancelBackups(ctx)
@@ -3263,10 +3263,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerGetUserForAncestralSerialNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ancestralSerialNumber, _err := data.ReadInt64()
+		_arg_ancestralSerialNumber, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3280,10 +3280,10 @@ func (s *BackupManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerSetAncestralSerialNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ancestralSerialNumber, _err := data.ReadInt64()
+		_arg_ancestralSerialNumber, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3296,10 +3296,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerExcludeKeysFromRestore:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3315,10 +3315,10 @@ func (s *BackupManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackupManagerReportDelayedRestoreResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

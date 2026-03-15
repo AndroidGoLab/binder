@@ -231,14 +231,14 @@ var _ binder.TransactionReceiver = (*WifiStub)(nil)
 func (s *WifiStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWifiGetChip:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_chipId, _err := data.ReadInt32()
+		_arg_chipId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -253,7 +253,7 @@ func (s *WifiStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiGetChipIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetChipIds(ctx)
@@ -267,7 +267,7 @@ func (s *WifiStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiIsStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsStarted(ctx)
@@ -280,7 +280,7 @@ func (s *WifiStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWifiRegisterEventCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -295,7 +295,7 @@ func (s *WifiStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Start(ctx)
@@ -307,7 +307,7 @@ func (s *WifiStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Stop(ctx)

@@ -136,11 +136,11 @@ var _ binder.TransactionReceiver = (*CameraOfflineSessionStub)(nil)
 func (s *CameraOfflineSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICameraOfflineSessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -152,7 +152,7 @@ func (s *CameraOfflineSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraOfflineSessionGetCaptureResultMetadataQueue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCaptureResultMetadataQueue(ctx)
@@ -168,7 +168,7 @@ func (s *CameraOfflineSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraOfflineSessionSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

@@ -85,14 +85,16 @@ var _ binder.TransactionReceiver = (*FencedExecutionCallbackStub)(nil)
 func (s *FencedExecutionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIFencedExecutionCallbackGetExecutionInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetExecutionInfo(ctx)
+		var _arg_timingLaunched Timing
+		var _arg_timingFenced Timing
+		_result, _err := s.Impl.GetExecutionInfo(ctx, _arg_timingLaunched, _arg_timingFenced)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)

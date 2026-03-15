@@ -106,11 +106,11 @@ var _ binder.TransactionReceiver = (*GetCredentialCallbackStub)(nil)
 func (s *GetCredentialCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGetCredentialCallbackOnPendingIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pendingIntent interface{}
@@ -118,17 +118,17 @@ func (s *GetCredentialCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIGetCredentialCallbackOnResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_response GetCredentialResponse
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_response.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_response.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -137,14 +137,14 @@ func (s *GetCredentialCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIGetCredentialCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorType, _err := data.ReadString16()
+		_arg_errorType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

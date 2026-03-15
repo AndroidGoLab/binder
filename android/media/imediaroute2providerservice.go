@@ -272,11 +272,11 @@ var _ binder.TransactionReceiver = (*MediaRoute2ProviderServiceStub)(nil)
 func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaRoute2ProviderServiceSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -286,17 +286,17 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceUpdateDiscoveryPreference:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_discoveryPreference RouteDiscoveryPreference
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_discoveryPreference.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_discoveryPreference.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -305,18 +305,18 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceSetRouteVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_volume, _err := data.ReadInt32()
+		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -324,18 +324,18 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceRequestCreateSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -344,22 +344,22 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceRequestCreateSystemMediaSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -368,18 +368,18 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceSelectRoute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -387,18 +387,18 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceDeselectRoute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -406,18 +406,18 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceTransferToRoute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -425,18 +425,18 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceSetSessionVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_volume, _err := data.ReadInt32()
+		_arg_volume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -444,14 +444,14 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRoute2ProviderServiceReleaseSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadString16()
+		_arg_sessionId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

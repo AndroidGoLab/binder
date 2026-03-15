@@ -123,21 +123,21 @@ var _ binder.TransactionReceiver = (*IntrusionDetectionEventTransportStub)(nil)
 func (s *IntrusionDetectionEventTransportStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIntrusionDetectionEventTransportInitialize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -146,7 +146,7 @@ func (s *IntrusionDetectionEventTransportStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIntrusionDetectionEventTransportAddData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -154,12 +154,12 @@ func (s *IntrusionDetectionEventTransportStub) OnTransaction(
 		_ = _arg_events
 		var _arg_resultFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -168,17 +168,17 @@ func (s *IntrusionDetectionEventTransportStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIntrusionDetectionEventTransportRelease:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_resultFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

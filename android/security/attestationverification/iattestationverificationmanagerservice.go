@@ -118,37 +118,37 @@ var _ binder.TransactionReceiver = (*AttestationVerificationManagerServiceStub)(
 func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAttestationVerificationManagerServiceVerifyAttestation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_profile AttestationProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_localBindingType, _err := data.ReadInt32()
+		_arg_localBindingType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_requirements os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_requirements.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_requirements.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -158,12 +158,12 @@ func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 		_ = _arg_attestation
 		var _arg_resultCallback infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -172,17 +172,17 @@ func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAttestationVerificationManagerServiceVerifyToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_token VerificationToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_token.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_token.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -190,12 +190,12 @@ func (s *AttestationVerificationManagerServiceStub) OnTransaction(
 		var _arg_maximumTokenAge interface{}
 		var _arg_resultCallback infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

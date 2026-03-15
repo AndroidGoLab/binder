@@ -156,11 +156,11 @@ var _ binder.TransactionReceiver = (*ConsumerIrServiceStub)(nil)
 func (s *ConsumerIrServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIConsumerIrServiceHasIrEmitter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasIrEmitter(ctx)
@@ -173,14 +173,14 @@ func (s *ConsumerIrServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIConsumerIrServiceTransmit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_carrierFrequency, _err := data.ReadInt32()
+		_arg_carrierFrequency, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -196,7 +196,7 @@ func (s *ConsumerIrServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIConsumerIrServiceGetCarrierFrequencies:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCarrierFrequencies(ctx)

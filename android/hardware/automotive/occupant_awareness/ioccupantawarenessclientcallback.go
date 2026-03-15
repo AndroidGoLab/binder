@@ -88,18 +88,18 @@ var _ binder.TransactionReceiver = (*OccupantAwarenessClientCallbackStub)(nil)
 func (s *OccupantAwarenessClientCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOccupantAwarenessClientCallbackOnSystemStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_detectionFlags, _err := data.ReadInt32()
+		_arg_detectionFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_status, _err := data.ReadPaddedByte()
+		_raw_status, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -108,17 +108,17 @@ func (s *OccupantAwarenessClientCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOccupantAwarenessClientCallbackOnDetectionEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_detections OccupantDetections
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_detections.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_detections.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

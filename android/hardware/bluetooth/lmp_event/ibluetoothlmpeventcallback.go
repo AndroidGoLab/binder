@@ -121,26 +121,26 @@ var _ binder.TransactionReceiver = (*BluetoothLmpEventCallbackStub)(nil)
 func (s *BluetoothLmpEventCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothLmpEventCallbackOnEventGenerated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_timestamp Timestamp
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_timestamp.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_timestamp.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_raw_addressType, _err := data.ReadPaddedByte()
+		_raw_addressType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -148,17 +148,17 @@ func (s *BluetoothLmpEventCallbackStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_address []byte
 		_ = _arg_address
-		_raw_direction, _err := data.ReadPaddedByte()
+		_raw_direction, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_direction := Direction(_raw_direction)
-		_raw_lmpEventId, _err := data.ReadPaddedByte()
+		_raw_lmpEventId, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_lmpEventId := LmpEventId(_raw_lmpEventId)
-		_raw_connEventCounter, _err := data.ReadInt32()
+		_raw_connEventCounter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -172,10 +172,10 @@ func (s *BluetoothLmpEventCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothLmpEventCallbackOnRegistered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadBool()
+		_arg_status, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

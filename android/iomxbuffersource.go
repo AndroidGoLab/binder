@@ -180,11 +180,11 @@ var _ binder.TransactionReceiver = (*OMXBufferSourceStub)(nil)
 func (s *OMXBufferSourceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOMXBufferSourceOnOmxExecuting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnOmxExecuting(ctx)
@@ -196,7 +196,7 @@ func (s *OMXBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOMXBufferSourceOnOmxIdle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnOmxIdle(ctx)
@@ -208,7 +208,7 @@ func (s *OMXBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOMXBufferSourceOnOmxLoaded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnOmxLoaded(ctx)
@@ -220,10 +220,10 @@ func (s *OMXBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOMXBufferSourceOnInputBufferAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bufferID, _err := data.ReadInt32()
+		_arg_bufferID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -236,10 +236,10 @@ func (s *OMXBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOMXBufferSourceOnInputBufferEmptied:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bufferID, _err := data.ReadInt32()
+		_arg_bufferID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

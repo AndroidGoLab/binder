@@ -257,14 +257,14 @@ var _ binder.TransactionReceiver = (*TvAdClientStub)(nil)
 func (s *TvAdClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITvAdClientOnSessionCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadString16()
+		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -273,17 +273,17 @@ func (s *TvAdClientStub) OnTransaction(
 		_ = _arg_token
 		var _arg_channel view.InputChannel
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_channel.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_channel.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -291,10 +291,10 @@ func (s *TvAdClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdClientOnSessionReleased:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -302,26 +302,26 @@ func (s *TvAdClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdClientOnLayoutSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_left, _err := data.ReadInt32()
+		_arg_left, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_top, _err := data.ReadInt32()
+		_arg_top, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_right, _err := data.ReadInt32()
+		_arg_right, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bottom, _err := data.ReadInt32()
+		_arg_bottom, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -329,10 +329,10 @@ func (s *TvAdClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdClientOnRequestCurrentVideoBounds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -340,10 +340,10 @@ func (s *TvAdClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdClientOnRequestCurrentChannelUri:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -351,10 +351,10 @@ func (s *TvAdClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdClientOnRequestTrackInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -362,10 +362,10 @@ func (s *TvAdClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdClientOnRequestCurrentTvInputId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -373,25 +373,25 @@ func (s *TvAdClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdClientOnRequestSigning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_algorithm, _err := data.ReadString16()
+		_arg_algorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
 		_ = _arg_data
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -399,26 +399,26 @@ func (s *TvAdClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITvAdClientOnTvAdSessionData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadString16()
+		_arg_type_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_data os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_seq, _err := data.ReadInt32()
+		_arg_seq, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

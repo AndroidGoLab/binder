@@ -87,18 +87,18 @@ var _ binder.TransactionReceiver = (*AudioFocusDispatcherStub)(nil)
 func (s *AudioFocusDispatcherStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAudioFocusDispatcherDispatchAudioFocusChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_focusChange, _err := data.ReadInt32()
+		_arg_focusChange, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadString16()
+		_arg_clientId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -106,14 +106,14 @@ func (s *AudioFocusDispatcherStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioFocusDispatcherDispatchFocusResultFromExtPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestResult, _err := data.ReadInt32()
+		_arg_requestResult, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadString16()
+		_arg_clientId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

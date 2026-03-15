@@ -535,11 +535,11 @@ var _ binder.TransactionReceiver = (*SatelliteStub)(nil)
 func (s *SatelliteStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISatelliteSetSatelliteListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -549,14 +549,14 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestSatelliteListeningEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeout, _err := data.ReadInt32()
+		_arg_timeout, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -567,10 +567,10 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteEnableTerrestrialNetworkScanWhileSatelliteModeIsOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -581,17 +581,17 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestSatelliteEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_enableAttributes SatelliteModemEnableRequestAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_enableAttributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_enableAttributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -603,7 +603,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestIsSatelliteEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -616,7 +616,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestIsSatelliteSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -629,7 +629,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestSatelliteCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -642,7 +642,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteStartSendingSatellitePointingInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -652,7 +652,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteStopSendingSatellitePointingInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -662,7 +662,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatellitePollPendingSatelliteDatagrams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -672,22 +672,22 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteSendSatelliteDatagram:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_datagram SatelliteDatagram
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_datagram.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_datagram.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isEmergency, _err := data.ReadBool()
+		_arg_isEmergency, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -698,7 +698,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestSatelliteModemState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -711,7 +711,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestTimeForNextSatelliteVisibility:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -724,10 +724,10 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteSetSatellitePlmn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_simSlot, _err := data.ReadInt32()
+		_arg_simSlot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -744,14 +744,14 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteSetSatelliteEnabledForCarrier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_simSlot, _err := data.ReadInt32()
+		_arg_simSlot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_satelliteEnabled, _err := data.ReadBool()
+		_arg_satelliteEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -762,10 +762,10 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestIsSatelliteEnabledForCarrier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_simSlot, _err := data.ReadInt32()
+		_arg_simSlot, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -779,7 +779,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteRequestSignalStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -792,7 +792,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteStartSendingNtnSignalStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -802,7 +802,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteStopSendingNtnSignalStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -812,7 +812,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteAbortSendingSatelliteDatagrams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -822,10 +822,10 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteUpdateSatelliteSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iccId, _err := data.ReadString16()
+		_arg_iccId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -836,7 +836,7 @@ func (s *SatelliteStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISatelliteUpdateSystemSelectionChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

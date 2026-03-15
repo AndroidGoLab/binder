@@ -133,25 +133,25 @@ var _ binder.TransactionReceiver = (*UsbGadgetStub)(nil)
 func (s *UsbGadgetStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUsbGadgetSetCurrentUsbFunctions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_functions, _err := data.ReadInt64()
+		_arg_functions, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbGadgetCallback
 		_ = _arg_callback
-		_arg_timeoutMs, _err := data.ReadInt64()
+		_arg_timeoutMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -159,13 +159,13 @@ func (s *UsbGadgetStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbGadgetGetCurrentUsbFunctions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbGadgetCallback
 		_ = _arg_callback
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -173,13 +173,13 @@ func (s *UsbGadgetStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbGadgetGetUsbSpeed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbGadgetCallback
 		_ = _arg_callback
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -187,13 +187,13 @@ func (s *UsbGadgetStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbGadgetReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IUsbGadgetCallback
 		_ = _arg_callback
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

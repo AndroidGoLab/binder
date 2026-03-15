@@ -502,11 +502,11 @@ var _ binder.TransactionReceiver = (*CasStub)(nil)
 func (s *CasStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICasCloseSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -521,7 +521,7 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasOpenSessionDefault:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OpenSessionDefault(ctx)
@@ -535,15 +535,15 @@ func (s *CasStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICasOpenSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_intent, _err := data.ReadInt32()
+		_raw_intent, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_intent := SessionIntent(_raw_intent)
-		_raw_mode, _err := data.ReadInt32()
+		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -559,7 +559,7 @@ func (s *CasStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICasProcessEcm:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -577,7 +577,7 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasProcessEmm:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -592,10 +592,10 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasProvision:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_provisionString, _err := data.ReadString16()
+		_arg_provisionString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -608,10 +608,10 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasRefreshEntitlements:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_refreshType, _err := data.ReadInt32()
+		_arg_refreshType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -627,7 +627,7 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasRelease:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Release(ctx)
@@ -639,14 +639,14 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasSendEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_arg, _err := data.ReadInt32()
+		_arg_arg, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -662,17 +662,17 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasSendSessionEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
 		_ = _arg_sessionId
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_arg, _err := data.ReadInt32()
+		_arg_arg, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -688,7 +688,7 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasSetPrivateData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -703,7 +703,7 @@ func (s *CasStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICasSetSessionPrivateData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

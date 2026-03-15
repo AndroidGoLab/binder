@@ -292,21 +292,21 @@ var _ binder.TransactionReceiver = (*OnDeviceIntelligenceServiceStub)(nil)
 func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOnDeviceIntelligenceServiceGetVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -315,14 +315,14 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceGetFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerUid, _err := data.ReadInt32()
+		_arg_callerUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_featureId, _err := data.ReadInt32()
+		_arg_featureId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -333,10 +333,10 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceListFeatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerUid, _err := data.ReadInt32()
+		_arg_callerUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -347,21 +347,21 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceGetFeatureDetails:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerUid, _err := data.ReadInt32()
+		_arg_callerUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -373,21 +373,21 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceGetReadOnlyFileDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fileName, _err := data.ReadString16()
+		_arg_fileName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -396,29 +396,29 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceGetReadOnlyFeatureFileDescriptorMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_remoteCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -427,33 +427,33 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceRequestFeatureDownload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callerUid, _err := data.ReadInt32()
+		_arg_callerUid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_cancellationSignal infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cancellationSignal.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cancellationSignal.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -465,7 +465,7 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceRegisterRemoteServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -475,21 +475,21 @@ func (s *OnDeviceIntelligenceServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyInferenceServiceConnected(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceNotifyInferenceServiceDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyInferenceServiceDisconnected(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIOnDeviceIntelligenceServiceReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Ready(ctx)

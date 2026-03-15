@@ -442,34 +442,35 @@ var _ binder.TransactionReceiver = (*HintManagerStub)(nil)
 func (s *HintManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHintManagerCreateHintSessionWithConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_raw_tag, _err := data.ReadInt32()
+		_raw_tag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_tag := power.SessionTag(_raw_tag)
 		var _arg_creationConfig SessionCreationConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_creationConfig.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_creationConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_result, _err := s.Impl.CreateHintSessionWithConfig(ctx, _arg_token, _arg_tag, _arg_creationConfig)
+		var _arg_config power.SessionConfig
+		_result, _err := s.Impl.CreateHintSessionWithConfig(ctx, _arg_token, _arg_tag, _arg_creationConfig, _arg_config)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -480,7 +481,7 @@ func (s *HintManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHintManagerGetHintSessionPreferredRate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHintSessionPreferredRate(ctx)
@@ -493,7 +494,7 @@ func (s *HintManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIHintManagerSetHintSessionThreads:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -511,7 +512,7 @@ func (s *HintManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHintManagerGetHintSessionThreadIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -528,7 +529,7 @@ func (s *HintManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHintManagerGetSessionChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -544,24 +545,24 @@ func (s *HintManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHintManagerCloseSessionChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CloseSessionChannel(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIHintManagerGetCpuHeadroom:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params CpuHeadroomParamsInternal
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -579,7 +580,7 @@ func (s *HintManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIHintManagerGetCpuHeadroomMinIntervalMillis:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCpuHeadroomMinIntervalMillis(ctx)
@@ -592,17 +593,17 @@ func (s *HintManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIHintManagerGetGpuHeadroom:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params GpuHeadroomParamsInternal
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -620,7 +621,7 @@ func (s *HintManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIHintManagerGetGpuHeadroomMinIntervalMillis:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetGpuHeadroomMinIntervalMillis(ctx)
@@ -633,7 +634,7 @@ func (s *HintManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIHintManagerGetMaxGraphicsPipelineThreadsCount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMaxGraphicsPipelineThreadsCount(ctx)
@@ -646,7 +647,7 @@ func (s *HintManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIHintManagerPassSessionManagerBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

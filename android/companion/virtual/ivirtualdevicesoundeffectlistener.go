@@ -64,14 +64,14 @@ var _ binder.TransactionReceiver = (*VirtualDeviceSoundEffectListenerStub)(nil)
 func (s *VirtualDeviceSoundEffectListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVirtualDeviceSoundEffectListenerOnPlaySoundEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_effectType, _err := data.ReadInt32()
+		_arg_effectType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

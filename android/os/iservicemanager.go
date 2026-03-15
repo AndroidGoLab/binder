@@ -628,14 +628,14 @@ var _ binder.TransactionReceiver = (*ServiceManagerStub)(nil)
 func (s *ServiceManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIServiceManagerGetService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -650,10 +650,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIServiceManagerGetService2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -670,10 +670,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceManagerCheckService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -688,10 +688,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIServiceManagerCheckService2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -708,21 +708,21 @@ func (s *ServiceManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceManagerAddService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_service binder.IBinder
 		_ = _arg_service
-		_arg_allowIsolated, _err := data.ReadBool()
+		_arg_allowIsolated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dumpPriority, _err := data.ReadInt32()
+		_arg_dumpPriority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -735,10 +735,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerListServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dumpPriority, _err := data.ReadInt32()
+		_arg_dumpPriority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -753,10 +753,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIServiceManagerRegisterForNotifications:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -772,10 +772,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerUnregisterForNotifications:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -791,10 +791,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerIsDeclared:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -808,10 +808,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIServiceManagerGetDeclaredInstances:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -826,10 +826,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIServiceManagerUpdatableViaApex:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -843,10 +843,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIServiceManagerGetUpdatableNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_apexName, _err := data.ReadString16()
+		_arg_apexName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -861,10 +861,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIServiceManagerGetConnectionInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -881,10 +881,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIServiceManagerRegisterClientCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -903,10 +903,10 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerTryUnregisterService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -922,7 +922,7 @@ func (s *ServiceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIServiceManagerGetServiceDebugInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServiceDebugInfo(ctx)

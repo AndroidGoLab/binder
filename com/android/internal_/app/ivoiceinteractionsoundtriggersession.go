@@ -299,11 +299,11 @@ var _ binder.TransactionReceiver = (*VoiceInteractionSoundTriggerSessionStub)(ni
 func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVoiceInteractionSoundTriggerSessionGetDspModuleProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDspModuleProperties(ctx)
@@ -319,14 +319,14 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionStartRecognition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyphraseId, _err := data.ReadInt32()
+		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bcp47Locale, _err := data.ReadString16()
+		_arg_bcp47Locale, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -335,17 +335,17 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		_ = _arg_callback
 		var _arg_recognitionConfig soundtrigger.SoundTriggerRecognitionConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_recognitionConfig.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_recognitionConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_runInBatterySaver, _err := data.ReadBool()
+		_arg_runInBatterySaver, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -359,10 +359,10 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionStopRecognition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyphraseId, _err := data.ReadInt32()
+		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -379,19 +379,19 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionSetParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyphraseId, _err := data.ReadInt32()
+		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_modelParam, _err := data.ReadInt32()
+		_raw_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_modelParam := soundtrigger.ModelParams(_raw_modelParam)
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -405,14 +405,14 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionGetParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyphraseId, _err := data.ReadInt32()
+		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_modelParam, _err := data.ReadInt32()
+		_raw_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -427,14 +427,14 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionQueryParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyphraseId, _err := data.ReadInt32()
+		_arg_keyphraseId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_modelParam, _err := data.ReadInt32()
+		_raw_modelParam, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -452,7 +452,7 @@ func (s *VoiceInteractionSoundTriggerSessionStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIVoiceInteractionSoundTriggerSessionDetach:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Detach(ctx)

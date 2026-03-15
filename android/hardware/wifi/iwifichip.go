@@ -1744,14 +1744,14 @@ var _ binder.TransactionReceiver = (*WifiChipStub)(nil)
 func (s *WifiChipStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWifiChipConfigureChip:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_modeId, _err := data.ReadInt32()
+		_arg_modeId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1764,7 +1764,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipCreateApIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateApIface(ctx)
@@ -1778,7 +1778,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipCreateBridgedApIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateBridgedApIface(ctx)
@@ -1792,7 +1792,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipCreateNanIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateNanIface(ctx)
@@ -1806,7 +1806,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipCreateP2pIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateP2pIface(ctx)
@@ -1820,7 +1820,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipCreateRttController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1837,7 +1837,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipCreateStaIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateStaIface(ctx)
@@ -1851,10 +1851,10 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipEnableDebugErrorAlerts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1867,7 +1867,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipFlushRingBufferToFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FlushRingBufferToFile(ctx)
@@ -1879,10 +1879,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipForceDumpToDebugRingBuffer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ringName, _err := data.ReadString16()
+		_arg_ringName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1895,10 +1895,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipGetApIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1913,7 +1913,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetApIfaceNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetApIfaceNames(ctx)
@@ -1927,7 +1927,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetAvailableModes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailableModes(ctx)
@@ -1941,7 +1941,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetFeatureSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFeatureSet(ctx)
@@ -1954,7 +1954,7 @@ func (s *WifiChipStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWifiChipGetDebugHostWakeReasonStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDebugHostWakeReasonStats(ctx)
@@ -1970,7 +1970,7 @@ func (s *WifiChipStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiChipGetDebugRingBuffersStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDebugRingBuffersStatus(ctx)
@@ -1984,7 +1984,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetId(ctx)
@@ -1997,7 +1997,7 @@ func (s *WifiChipStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWifiChipGetMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMode(ctx)
@@ -2010,10 +2010,10 @@ func (s *WifiChipStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWifiChipGetNanIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2028,7 +2028,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetNanIfaceNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNanIfaceNames(ctx)
@@ -2042,10 +2042,10 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetP2pIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2060,7 +2060,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetP2pIfaceNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetP2pIfaceNames(ctx)
@@ -2074,10 +2074,10 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetStaIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2092,7 +2092,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetStaIfaceNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetStaIfaceNames(ctx)
@@ -2106,7 +2106,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetSupportedRadioCombinations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedRadioCombinations(ctx)
@@ -2120,7 +2120,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipGetWifiChipCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWifiChipCapabilities(ctx)
@@ -2136,19 +2136,19 @@ func (s *WifiChipStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWifiChipGetUsableChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_band, _err := data.ReadInt32()
+		_raw_band, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_band := WifiBand(_raw_band)
-		_arg_ifaceModeMask, _err := data.ReadInt32()
+		_arg_ifaceModeMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_filterMask, _err := data.ReadInt32()
+		_arg_filterMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2163,17 +2163,17 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipSetAfcChannelAllowance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_afcChannelAllowance AfcChannelAllowance
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_afcChannelAllowance.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_afcChannelAllowance.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2187,7 +2187,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipRegisterEventCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2202,10 +2202,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipRemoveApIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2218,14 +2218,14 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipRemoveIfaceInstanceFromBridgedApIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_brIfaceName, _err := data.ReadString16()
+		_arg_brIfaceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ifaceInstanceName, _err := data.ReadString16()
+		_arg_ifaceInstanceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2238,10 +2238,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipRemoveNanIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2254,10 +2254,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipRemoveP2pIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2270,10 +2270,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipRemoveStaIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2286,7 +2286,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipRequestChipDebugInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RequestChipDebugInfo(ctx)
@@ -2299,7 +2299,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipRequestDriverDebugDump:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RequestDriverDebugDump(ctx)
@@ -2313,7 +2313,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipRequestFirmwareDebugDump:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RequestFirmwareDebugDump(ctx)
@@ -2327,7 +2327,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipResetTxPowerScenario:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetTxPowerScenario(ctx)
@@ -2339,7 +2339,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipSelectTxPowerScenario:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_scenario interface{}
@@ -2352,13 +2352,13 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipSetCoexUnsafeChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_unsafeChannels []interface{}
 		_ = _arg_unsafeChannels
-		_arg_restrictions, _err := data.ReadInt32()
+		_arg_restrictions, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2371,7 +2371,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipSetCountryCode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2386,10 +2386,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipSetLatencyMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_mode, _err := data.ReadInt32()
+		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2403,10 +2403,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipSetMultiStaPrimaryConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifName, _err := data.ReadString16()
+		_arg_ifName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2419,7 +2419,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipSetMultiStaUseCase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_useCase interface{}
@@ -2432,23 +2432,23 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipStartLoggingToDebugRingBuffer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ringName, _err := data.ReadString16()
+		_arg_ringName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_verboseLevel, _err := data.ReadInt32()
+		_raw_verboseLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_verboseLevel := WifiDebugRingBufferVerboseLevel(_raw_verboseLevel)
-		_arg_maxIntervalInSec, _err := data.ReadInt32()
+		_arg_maxIntervalInSec, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_minDataSizeInBytes, _err := data.ReadInt32()
+		_arg_minDataSizeInBytes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2461,7 +2461,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipStopLoggingToDebugRingBuffer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopLoggingToDebugRingBuffer(ctx)
@@ -2473,7 +2473,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipTriggerSubsystemRestart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.TriggerSubsystemRestart(ctx)
@@ -2485,10 +2485,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipEnableStaChannelForPeerNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_channelCategoryEnableFlag, _err := data.ReadInt32()
+		_arg_channelCategoryEnableFlag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2501,7 +2501,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipSetMloMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_mode interface{}
@@ -2514,10 +2514,10 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipCreateApOrBridgedApIface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_iface, _err := data.ReadInt32()
+		_raw_iface, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2536,7 +2536,7 @@ func (s *WifiChipStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWifiChipSetVoipMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_mode interface{}
@@ -2549,7 +2549,7 @@ func (s *WifiChipStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWifiChipCreateApOrBridgedApIfaceWithParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params interface{}

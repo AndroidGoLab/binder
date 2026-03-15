@@ -1698,11 +1698,11 @@ var _ binder.TransactionReceiver = (*DrmPluginStub)(nil)
 func (s *DrmPluginStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDrmPluginCloseSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1717,7 +1717,7 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginDecrypt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1743,7 +1743,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginEncrypt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1769,7 +1769,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginGetHdcpLevels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHdcpLevels(ctx)
@@ -1785,7 +1785,7 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetKeyRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1794,11 +1794,11 @@ func (s *DrmPluginStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_initData []byte
 		_ = _arg_initData
-		_arg_mimeType, _err := data.ReadString16()
+		_arg_mimeType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_keyType, _err := data.ReadInt32()
+		_raw_keyType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1819,7 +1819,7 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetLogMessages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLogMessages(ctx)
@@ -1833,7 +1833,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginGetMetrics:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMetrics(ctx)
@@ -1847,7 +1847,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginGetNumberOfSessions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNumberOfSessions(ctx)
@@ -1863,7 +1863,7 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetOfflineLicenseKeySetIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOfflineLicenseKeySetIds(ctx)
@@ -1877,17 +1877,17 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginGetOfflineLicenseState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_keySetId KeySetId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_keySetId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_keySetId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1902,10 +1902,10 @@ func (s *DrmPluginStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIDrmPluginGetPropertyByteArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_propertyName, _err := data.ReadString16()
+		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1920,10 +1920,10 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginGetPropertyString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_propertyName, _err := data.ReadString16()
+		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1937,14 +1937,14 @@ func (s *DrmPluginStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDrmPluginGetProvisionRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_certificateType, _err := data.ReadString16()
+		_arg_certificateType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_certificateAuthority, _err := data.ReadString16()
+		_arg_certificateAuthority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1961,17 +1961,17 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetSecureStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_secureStopId SecureStopId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_secureStopId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_secureStopId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1989,7 +1989,7 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginGetSecureStopIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSecureStopIds(ctx)
@@ -2003,7 +2003,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginGetSecureStops:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSecureStops(ctx)
@@ -2017,7 +2017,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginGetSecurityLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2033,10 +2033,10 @@ func (s *DrmPluginStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIDrmPluginOpenSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_securityLevel, _err := data.ReadInt32()
+		_raw_securityLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2052,7 +2052,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginProvideKeyResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2074,7 +2074,7 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginProvideProvisionResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2093,7 +2093,7 @@ func (s *DrmPluginStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDrmPluginQueryKeyStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2110,7 +2110,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginReleaseAllSecureStops:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ReleaseAllSecureStops(ctx)
@@ -2122,17 +2122,17 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginReleaseSecureStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_secureStopId SecureStopId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_secureStopId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_secureStopId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2146,17 +2146,17 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginReleaseSecureStops:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ssRelease OpaqueData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ssRelease.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ssRelease.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2170,7 +2170,7 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRemoveAllSecureStops:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveAllSecureStops(ctx)
@@ -2182,7 +2182,7 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRemoveKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2197,17 +2197,17 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRemoveOfflineLicense:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_keySetId KeySetId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_keySetId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_keySetId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2221,17 +2221,17 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRemoveSecureStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_secureStopId SecureStopId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_secureStopId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_secureStopId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2245,14 +2245,14 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginRequiresSecureDecoder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mime, _err := data.ReadString16()
+		_arg_mime, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_level, _err := data.ReadInt32()
+		_raw_level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2267,7 +2267,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDrmPluginRestoreKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2275,12 +2275,12 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _arg_sessionId
 		var _arg_keySetId KeySetId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_keySetId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_keySetId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2294,13 +2294,13 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetCipherAlgorithm:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
 		_ = _arg_sessionId
-		_arg_algorithm, _err := data.ReadString16()
+		_arg_algorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2313,7 +2313,7 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2328,13 +2328,13 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetMacAlgorithm:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
 		_ = _arg_sessionId
-		_arg_algorithm, _err := data.ReadString16()
+		_arg_algorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2347,13 +2347,13 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetPlaybackId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
 		_ = _arg_sessionId
-		_arg_playbackId, _err := data.ReadString16()
+		_arg_playbackId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2366,10 +2366,10 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetPropertyByteArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_propertyName, _err := data.ReadString16()
+		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2385,14 +2385,14 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSetPropertyString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_propertyName, _err := data.ReadString16()
+		_arg_propertyName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2405,7 +2405,7 @@ func (s *DrmPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDrmPluginSign:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2428,13 +2428,13 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginSignRSA:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sessionId []byte
 		_ = _arg_sessionId
-		_arg_algorithm, _err := data.ReadString16()
+		_arg_algorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2455,7 +2455,7 @@ func (s *DrmPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmPluginVerify:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

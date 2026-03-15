@@ -945,11 +945,11 @@ var _ binder.TransactionReceiver = (*ContextHubServiceStub)(nil)
 func (s *ContextHubServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContextHubServiceRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -965,7 +965,7 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubServiceGetContextHubHandles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetContextHubHandles(ctx)
@@ -979,10 +979,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceGetContextHubInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubHandle, _err := data.ReadInt32()
+		_arg_contextHubHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -999,21 +999,21 @@ func (s *ContextHubServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIContextHubServiceLoadNanoApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubHandle, _err := data.ReadInt32()
+		_arg_contextHubHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_nanoApp NanoApp
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_nanoApp.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_nanoApp.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1028,10 +1028,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubServiceUnloadNanoApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nanoAppHandle, _err := data.ReadInt32()
+		_arg_nanoAppHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1045,10 +1045,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubServiceGetNanoAppInstanceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nanoAppHandle, _err := data.ReadInt32()
+		_arg_nanoAppHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1065,21 +1065,21 @@ func (s *ContextHubServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIContextHubServiceFindNanoAppOnHub:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubHandle, _err := data.ReadInt32()
+		_arg_contextHubHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_filter NanoAppFilter
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_filter.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_filter.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1095,25 +1095,25 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceSendMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubHandle, _err := data.ReadInt32()
+		_arg_contextHubHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nanoAppHandle, _err := data.ReadInt32()
+		_arg_nanoAppHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_msg ContextHubMessage
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_msg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_msg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1128,20 +1128,20 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContextHubServiceCreateClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubId, _err := data.ReadInt32()
+		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IContextHubClientCallback
 		_ = _arg_client
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1156,19 +1156,19 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceCreatePendingIntentClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubId, _err := data.ReadInt32()
+		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_pendingIntent interface{}
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreatePendingIntentClient(ctx, _arg_contextHubId, _arg_pendingIntent, _arg_nanoAppId)
@@ -1182,7 +1182,7 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceGetContextHubs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetContextHubs(ctx)
@@ -1196,7 +1196,7 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceGetHubs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHubs(ctx)
@@ -1210,10 +1210,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceLoadNanoAppOnHub:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubId, _err := data.ReadInt32()
+		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1222,12 +1222,12 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _arg_transactionCallback
 		var _arg_nanoAppBinary NanoAppBinary
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_nanoAppBinary.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_nanoAppBinary.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1241,17 +1241,17 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceUnloadNanoAppFromHub:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubId, _err := data.ReadInt32()
+		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionCallback IContextHubTransactionCallback
 		_ = _arg_transactionCallback
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1264,17 +1264,17 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceEnableNanoApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubId, _err := data.ReadInt32()
+		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionCallback IContextHubTransactionCallback
 		_ = _arg_transactionCallback
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1287,17 +1287,17 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceDisableNanoApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubId, _err := data.ReadInt32()
+		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transactionCallback IContextHubTransactionCallback
 		_ = _arg_transactionCallback
-		_arg_nanoAppId, _err := data.ReadInt64()
+		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1310,10 +1310,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceQueryNanoApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contextHubId, _err := data.ReadInt32()
+		_arg_contextHubId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1329,17 +1329,17 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceGetPreloadedNanoAppIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hubInfo ContextHubInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hubInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hubInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1355,10 +1355,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceSetTestMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1372,10 +1372,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContextHubServiceFindEndpoints:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_endpointId, _err := data.ReadInt64()
+		_arg_endpointId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1390,10 +1390,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceFindEndpointsWithService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_service, _err := data.ReadString16()
+		_arg_service, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1408,7 +1408,7 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceRegisterEndpoint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pendingEndpointInfo interface{}
@@ -1423,10 +1423,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_endpointId, _err := data.ReadInt64()
+		_arg_endpointId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1440,10 +1440,10 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceDescriptor, _err := data.ReadString16()
+		_arg_serviceDescriptor, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1457,7 +1457,7 @@ func (s *ContextHubServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContextHubServiceUnregisterEndpointDiscoveryCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}

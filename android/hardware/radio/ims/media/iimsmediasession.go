@@ -231,11 +231,11 @@ var _ binder.TransactionReceiver = (*ImsMediaSessionStub)(nil)
 func (s *ImsMediaSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsMediaSessionSetListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -245,17 +245,17 @@ func (s *ImsMediaSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionModifySession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_config RtpConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -264,15 +264,15 @@ func (s *ImsMediaSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionSendDtmf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_dtmfDigit, _err := data.ReadInt32()
+		_raw_dtmfDigit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_dtmfDigit := uint16(_raw_dtmfDigit)
-		_arg_duration, _err := data.ReadInt32()
+		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -280,10 +280,10 @@ func (s *ImsMediaSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionStartDtmf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_dtmfDigit, _err := data.ReadInt32()
+		_raw_dtmfDigit, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -292,14 +292,14 @@ func (s *ImsMediaSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionStopDtmf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopDtmf(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionSendHeaderExtension:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -309,17 +309,17 @@ func (s *ImsMediaSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionSetMediaQualityThreshold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_threshold MediaQualityThreshold
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_threshold.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_threshold.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -328,10 +328,10 @@ func (s *ImsMediaSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionRequestRtpReceptionStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_intervalMs, _err := data.ReadInt32()
+		_arg_intervalMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -339,10 +339,10 @@ func (s *ImsMediaSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIImsMediaSessionAdjustDelay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_delayMs, _err := data.ReadInt32()
+		_arg_delayMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -211,11 +211,11 @@ var _ binder.TransactionReceiver = (*RecentTasksStub)(nil)
 func (s *RecentTasksStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRecentTasksRegisterRecentTasksListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -225,7 +225,7 @@ func (s *RecentTasksStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecentTasksUnregisterRecentTasksListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -235,18 +235,18 @@ func (s *RecentTasksStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRecentTasksGetRecentTasks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_maxNum, _err := data.ReadInt32()
+		_arg_maxNum, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRecentTasks(ctx, _arg_maxNum, _arg_flags)
@@ -260,10 +260,10 @@ func (s *RecentTasksStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIRecentTasksGetRunningTasks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_maxNum, _err := data.ReadInt32()
+		_arg_maxNum, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -278,41 +278,41 @@ func (s *RecentTasksStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIRecentTasksStartRecentsTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_fillIn content.Intent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_fillIn.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_fillIn.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

@@ -185,11 +185,11 @@ var _ binder.TransactionReceiver = (*AidlBufferSourceStub)(nil)
 func (s *AidlBufferSourceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAidlBufferSourceOnStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStart(ctx)
@@ -201,7 +201,7 @@ func (s *AidlBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlBufferSourceOnStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStop(ctx)
@@ -213,7 +213,7 @@ func (s *AidlBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlBufferSourceOnRelease:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRelease(ctx)
@@ -225,10 +225,10 @@ func (s *AidlBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlBufferSourceOnInputBufferAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bufferID, _err := data.ReadInt32()
+		_arg_bufferID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -241,17 +241,18 @@ func (s *AidlBufferSourceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlBufferSourceOnInputBufferEmptied:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bufferID, _err := data.ReadInt32()
+		_arg_bufferID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fence, _err := data.ReadFileDescriptor()
+		_raw_fence, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
+		_arg_fence := &_raw_fence
 		_err = s.Impl.OnInputBufferEmptied(ctx, _arg_bufferID, _arg_fence)
 		_reply := parcel.New()
 		if _err != nil {

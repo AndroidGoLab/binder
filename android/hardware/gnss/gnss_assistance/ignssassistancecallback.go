@@ -71,11 +71,11 @@ var _ binder.TransactionReceiver = (*GnssAssistanceCallbackStub)(nil)
 func (s *GnssAssistanceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGnssAssistanceCallbackInjectRequestCb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.InjectRequestCb(ctx)

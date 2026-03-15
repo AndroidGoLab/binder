@@ -735,11 +735,11 @@ var _ binder.TransactionReceiver = (*SessionStub)(nil)
 func (s *SessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISessionGenerateChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.GenerateChallenge(ctx)
@@ -751,10 +751,10 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionRevokeChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_challenge, _err := data.ReadInt64()
+		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -767,17 +767,17 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionEnroll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hat keymaster.HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hat.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hat.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -793,10 +793,10 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionAuthenticate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -811,7 +811,7 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionDetectInteraction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.DetectInteraction(ctx)
@@ -825,7 +825,7 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionEnumerateEnrollments:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EnumerateEnrollments(ctx)
@@ -837,7 +837,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionRemoveEnrollments:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -852,7 +852,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionGetAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.GetAuthenticatorId(ctx)
@@ -864,7 +864,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionInvalidateAuthenticatorId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.InvalidateAuthenticatorId(ctx)
@@ -876,17 +876,17 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionResetLockout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hat keymaster.HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hat.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hat.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -900,7 +900,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -912,26 +912,26 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionOnPointerDown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pointerId, _err := data.ReadInt32()
+		_arg_pointerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_x, _err := data.ReadInt32()
+		_arg_x, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_y, _err := data.ReadInt32()
+		_arg_y, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_minor, _err := data.ReadFloat32()
+		_arg_minor, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_major, _err := data.ReadFloat32()
+		_arg_major, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -944,10 +944,10 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionOnPointerUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pointerId, _err := data.ReadInt32()
+		_arg_pointerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -960,7 +960,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionOnUiReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnUiReady(ctx)
@@ -972,21 +972,21 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionAuthenticateWithContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ common.OperationContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1002,29 +1002,29 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionEnrollWithContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_hat keymaster.HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hat.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hat.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_context_ common.OperationContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1040,17 +1040,17 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionDetectInteractionWithContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ common.OperationContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1066,17 +1066,17 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionOnPointerDownWithContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ PointerContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1090,17 +1090,17 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionOnPointerUpWithContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ PointerContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1114,17 +1114,17 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionOnContextChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ common.OperationContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1138,17 +1138,17 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionOnPointerCancelWithContext:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_context_ PointerContext
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_context_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_context_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1162,10 +1162,10 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetIgnoreDisplayTouches:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_shouldIgnore, _err := data.ReadBool()
+		_arg_shouldIgnore, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

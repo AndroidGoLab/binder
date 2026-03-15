@@ -215,29 +215,29 @@ var _ binder.TransactionReceiver = (*WapPushManagerStub)(nil)
 func (s *WapPushManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWapPushManagerProcessMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_app_id, _err := data.ReadString16()
+		_arg_app_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_content_type, _err := data.ReadString16()
+		_arg_content_type, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_intent content.Intent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -252,34 +252,34 @@ func (s *WapPushManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIWapPushManagerAddPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_x_app_id, _err := data.ReadString16()
+		_arg_x_app_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_content_type, _err := data.ReadString16()
+		_arg_content_type, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_package_name, _err := data.ReadString16()
+		_arg_package_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_class_name, _err := data.ReadString16()
+		_arg_class_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_app_type, _err := data.ReadInt32()
+		_arg_app_type, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_need_signature, _err := data.ReadBool()
+		_arg_need_signature, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_further_processing, _err := data.ReadBool()
+		_arg_further_processing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -293,34 +293,34 @@ func (s *WapPushManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWapPushManagerUpdatePackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_x_app_id, _err := data.ReadString16()
+		_arg_x_app_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_content_type, _err := data.ReadString16()
+		_arg_content_type, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_package_name, _err := data.ReadString16()
+		_arg_package_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_class_name, _err := data.ReadString16()
+		_arg_class_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_app_type, _err := data.ReadInt32()
+		_arg_app_type, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_need_signature, _err := data.ReadBool()
+		_arg_need_signature, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_further_processing, _err := data.ReadBool()
+		_arg_further_processing, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -334,22 +334,22 @@ func (s *WapPushManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIWapPushManagerDeletePackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_x_app_id, _err := data.ReadString16()
+		_arg_x_app_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_content_type, _err := data.ReadString16()
+		_arg_content_type, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_package_name, _err := data.ReadString16()
+		_arg_package_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_class_name, _err := data.ReadString16()
+		_arg_class_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

@@ -83,15 +83,15 @@ var _ binder.TransactionReceiver = (*RemoteSessionCallbackStub)(nil)
 func (s *RemoteSessionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRemoteSessionCallbackOnVolumeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionToken interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -99,7 +99,7 @@ func (s *RemoteSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteSessionCallbackOnSessionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionToken interface{}

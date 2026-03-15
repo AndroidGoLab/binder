@@ -137,21 +137,21 @@ var _ binder.TransactionReceiver = (*GnssMeasurementInterfaceStub)(nil)
 func (s *GnssMeasurementInterfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGnssMeasurementInterfaceSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IGnssMeasurementCallback
 		_ = _arg_callback
-		_arg_enableFullTracking, _err := data.ReadBool()
+		_arg_enableFullTracking, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enableCorrVecOutputs, _err := data.ReadBool()
+		_arg_enableCorrVecOutputs, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -164,7 +164,7 @@ func (s *GnssMeasurementInterfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssMeasurementInterfaceClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -176,7 +176,7 @@ func (s *GnssMeasurementInterfaceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssMeasurementInterfaceSetCallbackWithOptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -184,12 +184,12 @@ func (s *GnssMeasurementInterfaceStub) OnTransaction(
 		_ = _arg_callback
 		var _arg_options gnssIGnssBatching.Options
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

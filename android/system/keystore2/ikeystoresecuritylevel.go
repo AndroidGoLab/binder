@@ -395,21 +395,21 @@ var _ binder.TransactionReceiver = (*KeystoreSecurityLevelStub)(nil)
 func (s *KeystoreSecurityLevelStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIKeystoreSecurityLevelCreateOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_key KeyDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_key.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -417,7 +417,7 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_operationParameters []keymint.KeyParameter
 		_ = _arg_operationParameters
-		_arg_forced, _err := data.ReadBool()
+		_arg_forced, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -434,29 +434,29 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelGenerateKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_key KeyDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_key.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_attestationKey *KeyDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attestationKey.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attestationKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -464,7 +464,7 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_params []keymint.KeyParameter
 		_ = _arg_params
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -484,29 +484,29 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelImportKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_key KeyDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_key.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_attestationKey *KeyDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attestationKey.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attestationKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -514,7 +514,7 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_params []keymint.KeyParameter
 		_ = _arg_params
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -534,29 +534,29 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelImportWrappedKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_key KeyDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_key.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_wrappingKey KeyDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_wrappingKey.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_wrappingKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -583,17 +583,17 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelConvertStorageKeyToEphemeral:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_storageKey KeyDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_storageKey.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_storageKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -611,17 +611,17 @@ func (s *KeystoreSecurityLevelStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeystoreSecurityLevelDeleteKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_key KeyDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_key.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

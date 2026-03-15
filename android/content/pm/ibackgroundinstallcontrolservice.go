@@ -139,18 +139,18 @@ var _ binder.TransactionReceiver = (*BackgroundInstallControlServiceStub)(nil)
 func (s *BackgroundInstallControlServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBackgroundInstallControlServiceGetBackgroundInstalledPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBackgroundInstalledPackages(ctx, _arg_flags)
@@ -166,7 +166,7 @@ func (s *BackgroundInstallControlServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIBackgroundInstallControlServiceRegisterBackgroundInstallCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -179,7 +179,7 @@ func (s *BackgroundInstallControlServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBackgroundInstallControlServiceUnregisterBackgroundInstallCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}

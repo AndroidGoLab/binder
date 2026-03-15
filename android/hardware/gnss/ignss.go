@@ -854,11 +854,11 @@ var _ binder.TransactionReceiver = (*GnssStub)(nil)
 func (s *GnssStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGnssSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -873,7 +873,7 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -885,7 +885,7 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGetExtensionPsds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionPsds(ctx)
@@ -899,7 +899,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssConfiguration(ctx)
@@ -913,7 +913,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssMeasurement:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssMeasurement(ctx)
@@ -927,7 +927,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssPowerIndication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssPowerIndication(ctx)
@@ -941,7 +941,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssBatching:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssBatching(ctx)
@@ -955,7 +955,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssGeofence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssGeofence(ctx)
@@ -969,7 +969,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssNavigationMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssNavigationMessage(ctx)
@@ -983,7 +983,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionAGnss:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionAGnss(ctx)
@@ -997,7 +997,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionAGnssRil:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionAGnssRil(ctx)
@@ -1011,7 +1011,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssDebug:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssDebug(ctx)
@@ -1025,7 +1025,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssVisibilityControl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssVisibilityControl(ctx)
@@ -1039,7 +1039,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Start(ctx)
@@ -1051,7 +1051,7 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Stop(ctx)
@@ -1063,18 +1063,18 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssInjectTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeMs, _err := data.ReadInt64()
+		_arg_timeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeReferenceMs, _err := data.ReadInt64()
+		_arg_timeReferenceMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uncertaintyMs, _err := data.ReadInt32()
+		_arg_uncertaintyMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1087,17 +1087,17 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssInjectLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_location GnssLocation
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1111,17 +1111,17 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssInjectBestLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_location GnssLocation
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1135,10 +1135,10 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssDeleteAidingData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_aidingDataFlags, _err := data.ReadInt32()
+		_raw_aidingDataFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1152,17 +1152,17 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssSetPositionMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_options gnssIGnss.PositionModeOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1176,7 +1176,7 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssAntennaInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssAntennaInfo(ctx)
@@ -1190,7 +1190,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssGetExtensionMeasurementCorrections:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionMeasurementCorrections(ctx)
@@ -1203,7 +1203,7 @@ func (s *GnssStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssStartSvStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartSvStatus(ctx)
@@ -1215,7 +1215,7 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssStopSvStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopSvStatus(ctx)
@@ -1227,7 +1227,7 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssStartNmea:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartNmea(ctx)
@@ -1239,7 +1239,7 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssStopNmea:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopNmea(ctx)
@@ -1251,7 +1251,7 @@ func (s *GnssStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssGetExtensionGnssAssistanceInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtensionGnssAssistanceInterface(ctx)

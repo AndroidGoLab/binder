@@ -467,26 +467,26 @@ var _ binder.TransactionReceiver = (*RadioNetworkIndicationStub)(nil)
 func (s *RadioNetworkIndicationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRadioNetworkIndicationBarringInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_cellIdentity CellIdentity
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cellIdentity.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cellIdentity.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -498,15 +498,15 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationCdmaPrlChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_version, _err := data.ReadInt32()
+		_arg_version, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -514,10 +514,10 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationCellInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -529,22 +529,22 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationCurrentLinkCapacityEstimate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_lce LinkCapacityEstimate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_lce.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_lce.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -553,10 +553,10 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationCurrentPhysicalChannelConfigs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -568,22 +568,22 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationCurrentSignalStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_signalStrength SignalStrength
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_signalStrength.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_signalStrength.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -592,10 +592,10 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationImsNetworkStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -604,22 +604,22 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationNetworkScanResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_result NetworkScanResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -628,10 +628,10 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationNetworkStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -640,23 +640,23 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationNitzTimeReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_nitzTime, _err := data.ReadString16()
+		_arg_nitzTime, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_receivedTimeMs, _err := data.ReadInt64()
+		_arg_receivedTimeMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ageMs, _err := data.ReadInt64()
+		_arg_ageMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -664,39 +664,39 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationRegistrationFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_cellIdentity CellIdentity
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cellIdentity.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cellIdentity.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_chosenPlmn, _err := data.ReadString16()
+		_arg_chosenPlmn, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_domain, _err := data.ReadInt32()
+		_arg_domain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_causeCode, _err := data.ReadInt32()
+		_arg_causeCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_additionalCauseCode, _err := data.ReadInt32()
+		_arg_additionalCauseCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -704,15 +704,15 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationRestrictedStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_state, _err := data.ReadInt32()
+		_raw_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -721,22 +721,22 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationSuppSvcNotify:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_suppSvc SuppSvcNotification
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_suppSvc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_suppSvc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -745,15 +745,15 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationVoiceRadioTechChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_rat, _err := data.ReadInt32()
+		_raw_rat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -762,22 +762,22 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationEmergencyNetworkScanResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_result EmergencyRegResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -786,22 +786,22 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationCellularIdentifierDisclosed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_disclosure CellularIdentifierDisclosure
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_disclosure.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_disclosure.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -810,22 +810,22 @@ func (s *RadioNetworkIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioNetworkIndicationSecurityAlgorithmsUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_securityAlgorithmUpdate SecurityAlgorithmUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_securityAlgorithmUpdate.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_securityAlgorithmUpdate.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

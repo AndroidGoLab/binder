@@ -85,14 +85,14 @@ var _ binder.TransactionReceiver = (*ContextualSearchManagerStub)(nil)
 func (s *ContextualSearchManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContextualSearchManagerStartContextualSearch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_entrypoint, _err := data.ReadInt32()
+		_arg_entrypoint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -100,7 +100,7 @@ func (s *ContextualSearchManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIContextualSearchManagerGetContextualSearchState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

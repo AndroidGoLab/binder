@@ -660,11 +660,11 @@ var _ binder.TransactionReceiver = (*EvsCameraStub)(nil)
 func (s *EvsCameraStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEvsCameraDoneWithFrame:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -679,7 +679,7 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraForcePrimaryClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -694,7 +694,7 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraGetCameraInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCameraInfo(ctx)
@@ -710,10 +710,10 @@ func (s *EvsCameraStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsCameraGetExtendedInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_opaqueIdentifier, _err := data.ReadInt32()
+		_arg_opaqueIdentifier, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -728,10 +728,10 @@ func (s *EvsCameraStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsCameraGetIntParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_id, _err := data.ReadInt32()
+		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -747,10 +747,10 @@ func (s *EvsCameraStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsCameraGetIntParameterRange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_id, _err := data.ReadInt32()
+		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -768,7 +768,7 @@ func (s *EvsCameraStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsCameraGetParameterList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetParameterList(ctx)
@@ -782,10 +782,10 @@ func (s *EvsCameraStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsCameraGetPhysicalCameraInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadString16()
+		_arg_deviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -802,7 +802,7 @@ func (s *EvsCameraStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEvsCameraImportExternalBuffers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -818,7 +818,7 @@ func (s *EvsCameraStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIEvsCameraPauseVideoStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.PauseVideoStream(ctx)
@@ -830,7 +830,7 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraResumeVideoStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResumeVideoStream(ctx)
@@ -842,10 +842,10 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraSetExtendedInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_opaqueIdentifier, _err := data.ReadInt32()
+		_arg_opaqueIdentifier, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -861,15 +861,15 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraSetIntParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_id, _err := data.ReadInt32()
+		_raw_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_id := CameraParam(_raw_id)
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -884,7 +884,7 @@ func (s *EvsCameraStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsCameraSetPrimaryClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetPrimaryClient(ctx)
@@ -896,10 +896,10 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraSetMaxFramesInFlight:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bufferCount, _err := data.ReadInt32()
+		_arg_bufferCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -912,7 +912,7 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraStartVideoStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -927,7 +927,7 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraStopVideoStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopVideoStream(ctx)
@@ -939,7 +939,7 @@ func (s *EvsCameraStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsCameraUnsetPrimaryClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnsetPrimaryClient(ctx)

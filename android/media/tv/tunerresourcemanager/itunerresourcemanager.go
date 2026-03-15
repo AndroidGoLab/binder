@@ -1272,21 +1272,21 @@ var _ binder.TransactionReceiver = (*TunerResourceManagerStub)(nil)
 func (s *TunerResourceManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerResourceManagerRegisterClientProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_profile ResourceClientProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1294,7 +1294,8 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IResourcesReclaimListener
 		_ = _arg_listener
-		_err := s.Impl.RegisterClientProfile(ctx, _arg_profile, _arg_listener)
+		var _arg_clientId []int32
+		_err := s.Impl.RegisterClientProfile(ctx, _arg_profile, _arg_listener, _arg_clientId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1303,10 +1304,10 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerUnregisterClientProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1319,18 +1320,18 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerUpdateClientPriority:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_priority, _err := data.ReadInt32()
+		_arg_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_niceValue, _err := data.ReadInt32()
+		_arg_niceValue, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1344,10 +1345,10 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerHasUnusedFrontend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendType, _err := data.ReadInt32()
+		_arg_frontendType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1361,14 +1362,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerIsLowestPriority:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_frontendType, _err := data.ReadInt32()
+		_arg_frontendType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1382,7 +1383,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerSetFrontendInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1397,14 +1398,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerUpdateCasInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_casSystemId, _err := data.ReadInt32()
+		_arg_casSystemId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxSessionNum, _err := data.ReadInt32()
+		_arg_maxSessionNum, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1417,7 +1418,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerSetDemuxInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1432,7 +1433,7 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerSetLnbInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1447,14 +1448,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerSetResourceOwnershipRetention:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1467,22 +1468,23 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerRequestFrontend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request TunerFrontendRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_result, _err := s.Impl.RequestFrontend(ctx, _arg_request)
+		var _arg_frontendHandle []int64
+		_result, _err := s.Impl.RequestFrontend(ctx, _arg_request, _arg_frontendHandle)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1492,14 +1494,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerSetMaxNumberOfFrontends:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendType, _err := data.ReadInt32()
+		_arg_frontendType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxNum, _err := data.ReadInt32()
+		_arg_maxNum, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1513,10 +1515,10 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerGetMaxNumberOfFrontends:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendType, _err := data.ReadInt32()
+		_arg_frontendType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1530,14 +1532,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerShareFrontend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_selfClientId, _err := data.ReadInt32()
+		_arg_selfClientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetClientId, _err := data.ReadInt32()
+		_arg_targetClientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1550,18 +1552,18 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerTransferOwner:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_resourceType, _err := data.ReadInt32()
+		_arg_resourceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_currentOwnerId, _err := data.ReadInt32()
+		_arg_currentOwnerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newOwnerId, _err := data.ReadInt32()
+		_arg_newOwnerId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1575,22 +1577,23 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerRequestDemux:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request TunerDemuxRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_result, _err := s.Impl.RequestDemux(ctx, _arg_request)
+		var _arg_demuxHandle []int64
+		_result, _err := s.Impl.RequestDemux(ctx, _arg_request, _arg_demuxHandle)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1600,22 +1603,23 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerRequestDescrambler:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request TunerDescramblerRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_result, _err := s.Impl.RequestDescrambler(ctx, _arg_request)
+		var _arg_descramblerHandle []int64
+		_result, _err := s.Impl.RequestDescrambler(ctx, _arg_request, _arg_descramblerHandle)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1625,22 +1629,23 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerRequestCasSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request CasSessionRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_result, _err := s.Impl.RequestCasSession(ctx, _arg_request)
+		var _arg_casSessionHandle []int64
+		_result, _err := s.Impl.RequestCasSession(ctx, _arg_request, _arg_casSessionHandle)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1650,22 +1655,23 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerRequestCiCam:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request TunerCiCamRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_result, _err := s.Impl.RequestCiCam(ctx, _arg_request)
+		var _arg_ciCamHandle []int64
+		_result, _err := s.Impl.RequestCiCam(ctx, _arg_request, _arg_ciCamHandle)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1675,22 +1681,23 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerRequestLnb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request TunerLnbRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_result, _err := s.Impl.RequestLnb(ctx, _arg_request)
+		var _arg_lnbHandle []int64
+		_result, _err := s.Impl.RequestLnb(ctx, _arg_request, _arg_lnbHandle)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1700,14 +1707,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerReleaseFrontend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendHandle, _err := data.ReadInt64()
+		_arg_frontendHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1720,14 +1727,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerReleaseDemux:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_demuxHandle, _err := data.ReadInt64()
+		_arg_demuxHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1740,14 +1747,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerReleaseDescrambler:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_descramblerHandle, _err := data.ReadInt64()
+		_arg_descramblerHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1760,14 +1767,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerReleaseCasSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_casSessionHandle, _err := data.ReadInt64()
+		_arg_casSessionHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1780,14 +1787,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerReleaseCiCam:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ciCamHandle, _err := data.ReadInt64()
+		_arg_ciCamHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1800,14 +1807,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerReleaseLnb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lnbHandle, _err := data.ReadInt64()
+		_arg_lnbHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1820,29 +1827,29 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerIsHigherPriority:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_challengerProfile ResourceClientProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_challengerProfile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_challengerProfile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_holderProfile ResourceClientProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_holderProfile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_holderProfile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1857,10 +1864,10 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerStoreResourceMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_resourceType, _err := data.ReadInt32()
+		_arg_resourceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1873,10 +1880,10 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerClearResourceMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_resourceType, _err := data.ReadInt32()
+		_arg_resourceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1889,10 +1896,10 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerRestoreResourceMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_resourceType, _err := data.ReadInt32()
+		_arg_resourceType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1905,14 +1912,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerResourceManagerAcquireLock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_clientThreadId, _err := data.ReadInt64()
+		_arg_clientThreadId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1926,10 +1933,10 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerReleaseLock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_clientId, _err := data.ReadInt32()
+		_arg_clientId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1943,14 +1950,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerGetClientPriority:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_useCase, _err := data.ReadInt32()
+		_arg_useCase, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pid, _err := data.ReadInt32()
+		_arg_pid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1964,14 +1971,14 @@ func (s *TunerResourceManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerResourceManagerGetConfigPriority:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_useCase, _err := data.ReadInt32()
+		_arg_useCase, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isForeground, _err := data.ReadBool()
+		_arg_isForeground, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

@@ -166,14 +166,14 @@ var _ binder.TransactionReceiver = (*CellBroadcastServiceStub)(nil)
 func (s *CellBroadcastServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICellBroadcastServiceHandleGsmCellBroadcastSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -184,17 +184,17 @@ func (s *CellBroadcastServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICellBroadcastServiceHandleCdmaCellBroadcastSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bearerData []byte
 		_ = _arg_bearerData
-		_arg_serviceCategory, _err := data.ReadInt32()
+		_arg_serviceCategory, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -202,17 +202,17 @@ func (s *CellBroadcastServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICellBroadcastServiceHandleCdmaScpMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_programData []cdma.CdmaSmsCbProgramData
 		_ = _arg_programData
-		_arg_originatingAddress, _err := data.ReadString16()
+		_arg_originatingAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -221,10 +221,10 @@ func (s *CellBroadcastServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICellBroadcastServiceGetCellBroadcastAreaInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

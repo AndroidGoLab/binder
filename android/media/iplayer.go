@@ -180,35 +180,35 @@ var _ binder.TransactionReceiver = (*PlayerStub)(nil)
 func (s *PlayerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPlayerStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Start(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPlayerPause:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Pause(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPlayerStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Stop(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPlayerSetVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_vol, _err := data.ReadFloat32()
+		_arg_vol, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -216,10 +216,10 @@ func (s *PlayerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPlayerSetPan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pan, _err := data.ReadFloat32()
+		_arg_pan, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -227,10 +227,10 @@ func (s *PlayerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPlayerSetStartDelayMs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_delayMs, _err := data.ReadInt32()
+		_arg_delayMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -238,29 +238,29 @@ func (s *PlayerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPlayerApplyVolumeShaper:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_configuration VolumeShaperConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_configuration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_configuration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_operation VolumeShaperOperation
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_operation.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_operation.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

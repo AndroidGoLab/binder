@@ -219,21 +219,21 @@ var _ binder.TransactionReceiver = (*TaskOrganizerStub)(nil)
 func (s *TaskOrganizerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITaskOrganizerAddStartingWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info StartingWindowInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -242,17 +242,17 @@ func (s *TaskOrganizerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITaskOrganizerRemoveStartingWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_removalInfo StartingWindowRemovalInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_removalInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_removalInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -261,10 +261,10 @@ func (s *TaskOrganizerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITaskOrganizerCopySplashScreenView:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -272,10 +272,10 @@ func (s *TaskOrganizerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITaskOrganizerOnAppSplashScreenViewRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -283,7 +283,7 @@ func (s *TaskOrganizerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITaskOrganizerOnTaskAppeared:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo interface{}
@@ -292,7 +292,7 @@ func (s *TaskOrganizerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITaskOrganizerOnTaskVanished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo interface{}
@@ -300,7 +300,7 @@ func (s *TaskOrganizerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITaskOrganizerOnTaskInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo interface{}
@@ -308,7 +308,7 @@ func (s *TaskOrganizerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITaskOrganizerOnBackPressedOnTaskRoot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo interface{}
@@ -316,10 +316,10 @@ func (s *TaskOrganizerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITaskOrganizerOnImeDrawnOnTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

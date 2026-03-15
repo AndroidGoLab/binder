@@ -235,34 +235,34 @@ var _ binder.TransactionReceiver = (*CarrierMessagingServiceStub)(nil)
 func (s *CarrierMessagingServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICarrierMessagingServiceFilterSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pdu MessagePdu
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pdu.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pdu.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_format, _err := data.ReadString16()
+		_arg_format, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destPort, _err := data.ReadInt32()
+		_arg_destPort, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -273,22 +273,22 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICarrierMessagingServiceSendTextSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_text, _err := data.ReadString16()
+		_arg_text, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destAddress, _err := data.ReadString16()
+		_arg_destAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sendSmsFlag, _err := data.ReadInt32()
+		_arg_sendSmsFlag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -299,25 +299,25 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICarrierMessagingServiceSendDataSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
 		_ = _arg_data
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destAddress, _err := data.ReadString16()
+		_arg_destAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destPort, _err := data.ReadInt32()
+		_arg_destPort, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sendSmsFlag, _err := data.ReadInt32()
+		_arg_sendSmsFlag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -328,21 +328,21 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICarrierMessagingServiceSendMultipartTextSms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parts []string
 		_ = _arg_parts
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destAddress, _err := data.ReadString16()
+		_arg_destAddress, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sendSmsFlag, _err := data.ReadInt32()
+		_arg_sendSmsFlag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -353,33 +353,33 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICarrierMessagingServiceSendMms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pduUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pduUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pduUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_location net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -391,33 +391,33 @@ func (s *CarrierMessagingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICarrierMessagingServiceDownloadMms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pduUri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pduUri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pduUri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_location net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_location.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_location.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

@@ -276,18 +276,18 @@ var _ binder.TransactionReceiver = (*CaptureCallbackStub)(nil)
 func (s *CaptureCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICaptureCallbackOnCaptureStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_captureSequenceId, _err := data.ReadInt32()
+		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -300,10 +300,10 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureProcessStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_captureSequenceId, _err := data.ReadInt32()
+		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -316,10 +316,10 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_captureSequenceId, _err := data.ReadInt32()
+		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -332,10 +332,10 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureSequenceCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_captureSequenceId, _err := data.ReadInt32()
+		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -348,10 +348,10 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureSequenceAborted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_captureSequenceId, _err := data.ReadInt32()
+		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -364,14 +364,14 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_shutterTimestamp, _err := data.ReadInt64()
+		_arg_shutterTimestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -385,10 +385,10 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureProcessProgressed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_progress, _err := data.ReadInt32()
+		_arg_progress, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -401,14 +401,14 @@ func (s *CaptureCallbackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICaptureCallbackOnCaptureProcessFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_captureSequenceId, _err := data.ReadInt32()
+		_arg_captureSequenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_captureFailureReason, _err := data.ReadInt32()
+		_arg_captureFailureReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

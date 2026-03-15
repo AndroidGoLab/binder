@@ -1293,20 +1293,20 @@ var _ binder.TransactionReceiver = (*AppWidgetServiceStub)(nil)
 func (s *AppWidgetServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAppWidgetServiceStartListening:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_host IAppWidgetHost
 		_ = _arg_host
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hostId, _err := data.ReadInt32()
+		_arg_hostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1326,13 +1326,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceStopListening:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hostId, _err := data.ReadInt32()
+		_arg_hostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1345,13 +1345,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceAllocateAppWidgetId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hostId, _err := data.ReadInt32()
+		_arg_hostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1365,13 +1365,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceDeleteAppWidgetId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1384,14 +1384,14 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceDeleteHost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hostId, _err := data.ReadInt32()
+		_arg_hostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1404,7 +1404,7 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceDeleteAllHosts:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DeleteAllHosts(ctx)
@@ -1416,13 +1416,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetAppWidgetViews:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1439,13 +1439,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetAppWidgetIdsForHost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hostId, _err := data.ReadInt32()
+		_arg_hostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1460,13 +1460,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppWidgetServiceSetAppWidgetHidden:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hostId, _err := data.ReadInt32()
+		_arg_hostId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1479,17 +1479,17 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceCreateAppWidgetConfigIntentSender:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_intentFlags, _err := data.ReadInt32()
+		_arg_intentFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1506,10 +1506,10 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceUpdateAppWidgetIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1517,12 +1517,12 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_ = _arg_appWidgetIds
 		var _arg_views widget.RemoteViews
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_views.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_views.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1536,24 +1536,24 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceUpdateAppWidgetOptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1567,13 +1567,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetAppWidgetOptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1590,10 +1590,10 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppWidgetServicePartiallyUpdateAppWidgetIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1601,12 +1601,12 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_ = _arg_appWidgetIds
 		var _arg_views widget.RemoteViews
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_views.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_views.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1620,29 +1620,29 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceUpdateAppWidgetProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_provider content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_provider.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_provider.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_views widget.RemoteViews
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_views.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_views.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1656,22 +1656,22 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceUpdateAppWidgetProviderInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_provider content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_provider.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_provider.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_metadataKey, _err := data.ReadString16()
+		_arg_metadataKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1684,17 +1684,17 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceNotifyAppWidgetViewDataChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appWidgetIds []int32
 		_ = _arg_appWidgetIds
-		_arg_viewId, _err := data.ReadInt32()
+		_arg_viewId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1707,18 +1707,18 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetInstalledProvidersForProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_categoryFilter, _err := data.ReadInt32()
+		_arg_categoryFilter, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_profileId, _err := data.ReadInt32()
+		_arg_profileId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1735,13 +1735,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetAppWidgetInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1758,14 +1758,14 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceHasBindAppWidgetPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasBindAppWidgetPermission(ctx, _arg_packageName)
@@ -1778,17 +1778,17 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceSetBindAppWidgetPermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_permission, _err := data.ReadBool()
+		_arg_permission, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1801,40 +1801,40 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceBindAppWidgetId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_providerProfileId, _err := data.ReadInt32()
+		_arg_providerProfileId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_providerComponent content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_providerComponent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_providerComponent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1849,24 +1849,24 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceBindRemoteViewsService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_intent content.Intent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1880,7 +1880,7 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_connection app.IServiceConnection
 		_ = _arg_connection
-		_arg_flags, _err := data.ReadInt64()
+		_arg_flags, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1894,7 +1894,7 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceNotifyProviderInheritance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1909,7 +1909,7 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetMaxBitmapMemory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMaxBitmapMemory(ctx)
@@ -1922,17 +1922,17 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetAppWidgetIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_providerComponent content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_providerComponent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_providerComponent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1948,14 +1948,14 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAppWidgetServiceIsBoundWidgetPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsBoundWidgetPackage(ctx, _arg_packageName)
@@ -1968,45 +1968,45 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceRequestPinAppWidget:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_providerComponent content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_providerComponent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_providerComponent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_resultIntent content.IntentSender
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2021,7 +2021,7 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceIsRequestPinAppWidgetSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRequestPinAppWidgetSupported(ctx)
@@ -2034,13 +2034,13 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceNoteAppWidgetTapped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_appWidgetId, _err := data.ReadInt32()
+		_arg_appWidgetId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2048,33 +2048,33 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAppWidgetServiceSetWidgetPreview:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_providerComponent content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_providerComponent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_providerComponent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_widgetCategories, _err := data.ReadInt32()
+		_arg_widgetCategories, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_preview widget.RemoteViews
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_preview.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_preview.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2089,29 +2089,29 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAppWidgetServiceGetWidgetPreview:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_providerComponent content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_providerComponent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_providerComponent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_profileId, _err := data.ReadInt32()
+		_arg_profileId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_widgetCategory, _err := data.ReadInt32()
+		_arg_widgetCategory, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2128,22 +2128,22 @@ func (s *AppWidgetServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAppWidgetServiceRemoveWidgetPreview:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_providerComponent content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_providerComponent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_providerComponent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_widgetCategories, _err := data.ReadInt32()
+		_arg_widgetCategories, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

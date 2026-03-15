@@ -67,18 +67,18 @@ var _ binder.TransactionReceiver = (*VoiceInteractionSessionServiceStub)(nil)
 func (s *VoiceInteractionSessionServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVoiceInteractionSessionServiceNewSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
 		var _arg_args interface{}
-		_arg_startFlags, _err := data.ReadInt32()
+		_arg_startFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

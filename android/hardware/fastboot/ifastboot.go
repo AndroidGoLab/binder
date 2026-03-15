@@ -235,14 +235,14 @@ var _ binder.TransactionReceiver = (*FastbootStub)(nil)
 func (s *FastbootStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIFastbootDoOemCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_oemCmd, _err := data.ReadString16()
+		_arg_oemCmd, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -256,7 +256,7 @@ func (s *FastbootStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIFastbootDoOemSpecificErase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DoOemSpecificErase(ctx)
@@ -268,7 +268,7 @@ func (s *FastbootStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIFastbootGetBatteryVoltageFlashingThreshold:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBatteryVoltageFlashingThreshold(ctx)
@@ -281,7 +281,7 @@ func (s *FastbootStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIFastbootGetOffModeChargeState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOffModeChargeState(ctx)
@@ -294,10 +294,10 @@ func (s *FastbootStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIFastbootGetPartitionType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_partitionName, _err := data.ReadString16()
+		_arg_partitionName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -311,7 +311,7 @@ func (s *FastbootStub) OnTransaction(
 		_reply.WritePaddedByte(byte(_result))
 		return _reply, nil
 	case TransactionIFastbootGetVariant:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVariant(ctx)

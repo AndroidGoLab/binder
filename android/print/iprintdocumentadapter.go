@@ -169,11 +169,11 @@ var _ binder.TransactionReceiver = (*PrintDocumentAdapterStub)(nil)
 func (s *PrintDocumentAdapterStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPrintDocumentAdapterSetObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -183,36 +183,36 @@ func (s *PrintDocumentAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintDocumentAdapterStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Start(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPrintDocumentAdapterLayout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_oldAttributes PrintAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_oldAttributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_oldAttributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_newAttributes PrintAttributes
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_newAttributes.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_newAttributes.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -222,17 +222,17 @@ func (s *PrintDocumentAdapterStub) OnTransaction(
 		_ = _arg_callback
 		var _arg_metadata os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_metadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_metadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -240,20 +240,20 @@ func (s *PrintDocumentAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintDocumentAdapterWrite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_pages []PageRange
 		_ = _arg_pages
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IWriteResultCallback
 		_ = _arg_callback
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -261,7 +261,7 @@ func (s *PrintDocumentAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintDocumentAdapterFinish:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Finish(ctx)

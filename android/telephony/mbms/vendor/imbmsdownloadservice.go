@@ -571,14 +571,14 @@ var _ binder.TransactionReceiver = (*MbmsDownloadServiceStub)(nil)
 func (s *MbmsDownloadServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMbmsDownloadServiceInitialize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -595,10 +595,10 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceRequestUpdateFileServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -615,14 +615,14 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceSetTempFileRootDirectory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rootDirectoryPath, _err := data.ReadString16()
+		_arg_rootDirectoryPath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -636,10 +636,10 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceAddServiceAnnouncement:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -656,17 +656,17 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceDownload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_downloadRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_downloadRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -681,17 +681,17 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceAddStatusListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_downloadRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_downloadRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -709,17 +709,17 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceRemoveStatusListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_downloadRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_downloadRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -737,17 +737,17 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceAddProgressListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_downloadRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_downloadRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -765,17 +765,17 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceRemoveProgressListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_downloadRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_downloadRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -793,10 +793,10 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceListPendingDownloads:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -811,17 +811,17 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceCancelDownload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_downloadRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_downloadRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -836,29 +836,29 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceRequestDownloadState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_downloadRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_downloadRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_fileInfo mbms.FileInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_fileInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_fileInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -873,17 +873,17 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceResetDownloadKnowledge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_downloadRequest mbms.DownloadRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_downloadRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_downloadRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -898,10 +898,10 @@ func (s *MbmsDownloadServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsDownloadServiceDispose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

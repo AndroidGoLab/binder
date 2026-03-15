@@ -259,11 +259,11 @@ var _ binder.TransactionReceiver = (*SecureElementSessionStub)(nil)
 func (s *SecureElementSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISecureElementSessionGetAtr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAtr(ctx)
@@ -277,7 +277,7 @@ func (s *SecureElementSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISecureElementSessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -289,7 +289,7 @@ func (s *SecureElementSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementSessionCloseChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CloseChannels(ctx)
@@ -301,7 +301,7 @@ func (s *SecureElementSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementSessionIsClosed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsClosed(ctx)
@@ -314,13 +314,13 @@ func (s *SecureElementSessionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISecureElementSessionOpenBasicChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aid []byte
 		_ = _arg_aid
-		_arg_p2, _err := data.ReadPaddedByte()
+		_arg_p2, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -338,13 +338,13 @@ func (s *SecureElementSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISecureElementSessionOpenLogicalChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aid []byte
 		_ = _arg_aid
-		_arg_p2, _err := data.ReadPaddedByte()
+		_arg_p2, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}

@@ -126,11 +126,11 @@ var _ binder.TransactionReceiver = (*DistanceMeasurementCallbackStub)(nil)
 func (s *DistanceMeasurementCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDistanceMeasurementCallbackOnStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
@@ -138,11 +138,11 @@ func (s *DistanceMeasurementCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDistanceMeasurementCallbackOnStartFail:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -150,11 +150,11 @@ func (s *DistanceMeasurementCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDistanceMeasurementCallbackOnStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -162,18 +162,18 @@ func (s *DistanceMeasurementCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDistanceMeasurementCallbackOnResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_device interface{}
 		var _arg_result DistanceMeasurementResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

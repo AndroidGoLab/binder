@@ -483,14 +483,14 @@ var _ binder.TransactionReceiver = (*SupplicantStub)(nil)
 func (s *SupplicantStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISupplicantAddP2pInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifName, _err := data.ReadString16()
+		_arg_ifName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -505,10 +505,10 @@ func (s *SupplicantStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISupplicantAddStaInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifName, _err := data.ReadString16()
+		_arg_ifName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -523,7 +523,7 @@ func (s *SupplicantStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISupplicantGetDebugLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDebugLevel(ctx)
@@ -536,10 +536,10 @@ func (s *SupplicantStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionISupplicantGetP2pInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifName, _err := data.ReadString16()
+		_arg_ifName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -554,10 +554,10 @@ func (s *SupplicantStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISupplicantGetStaInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ifName, _err := data.ReadString16()
+		_arg_ifName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -572,7 +572,7 @@ func (s *SupplicantStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISupplicantIsDebugShowKeysEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDebugShowKeysEnabled(ctx)
@@ -585,7 +585,7 @@ func (s *SupplicantStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantIsDebugShowTimestampEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDebugShowTimestampEnabled(ctx)
@@ -598,7 +598,7 @@ func (s *SupplicantStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISupplicantListInterfaces:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListInterfaces(ctx)
@@ -612,7 +612,7 @@ func (s *SupplicantStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISupplicantRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -627,17 +627,17 @@ func (s *SupplicantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantRemoveInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ifaceInfo IfaceInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ifaceInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ifaceInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -651,10 +651,10 @@ func (s *SupplicantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantSetConcurrencyPriority:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -668,19 +668,19 @@ func (s *SupplicantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantSetDebugParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_level, _err := data.ReadInt32()
+		_raw_level, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_level := DebugLevel(_raw_level)
-		_arg_showTimestamp, _err := data.ReadBool()
+		_arg_showTimestamp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_showKeys, _err := data.ReadBool()
+		_arg_showKeys, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -693,14 +693,14 @@ func (s *SupplicantStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISupplicantTerminate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Terminate(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantRegisterNonStandardCertCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

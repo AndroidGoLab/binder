@@ -212,18 +212,18 @@ var _ binder.TransactionReceiver = (*NetworkPolicyListenerStub)(nil)
 func (s *NetworkPolicyListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINetworkPolicyListenerOnUidRulesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uidRules, _err := data.ReadInt32()
+		_arg_uidRules, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -231,7 +231,7 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkPolicyListenerOnMeteredIfacesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -241,10 +241,10 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkPolicyListenerOnRestrictBackgroundChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_restrictBackground, _err := data.ReadBool()
+		_arg_restrictBackground, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -252,14 +252,14 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkPolicyListenerOnUidPoliciesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uidPolicies, _err := data.ReadInt32()
+		_arg_uidPolicies, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -267,18 +267,18 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkPolicyListenerOnSubscriptionOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_overrideMask, _err := data.ReadInt32()
+		_arg_overrideMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_overrideValue, _err := data.ReadInt32()
+		_arg_overrideValue, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -289,10 +289,10 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkPolicyListenerOnSubscriptionPlansChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -303,18 +303,18 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINetworkPolicyListenerOnBlockedReasonChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_oldBlockedReason, _err := data.ReadInt32()
+		_arg_oldBlockedReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newBlockedReason, _err := data.ReadInt32()
+		_arg_newBlockedReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

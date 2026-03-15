@@ -357,11 +357,11 @@ var _ binder.TransactionReceiver = (*BluetoothAdvertiseStub)(nil)
 func (s *BluetoothAdvertiseStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothAdvertiseStartAdvertisingSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_parameters interface{}
@@ -369,15 +369,15 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		var _arg_scanResponse interface{}
 		var _arg_periodicParameters interface{}
 		var _arg_periodicData interface{}
-		_arg_duration, _err := data.ReadInt32()
+		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxExtAdvEvents, _err := data.ReadInt32()
+		_arg_maxExtAdvEvents, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_gattServerIf, _err := data.ReadInt32()
+		_arg_gattServerIf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -392,7 +392,7 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAdvertiseStopAdvertisingSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -406,10 +406,10 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAdvertiseGetOwnAddress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -423,22 +423,22 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAdvertiseEnableAdvertisingSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_duration, _err := data.ReadInt32()
+		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxExtAdvEvents, _err := data.ReadInt32()
+		_arg_maxExtAdvEvents, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -452,10 +452,10 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAdvertiseSetAdvertisingData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -470,10 +470,10 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAdvertiseSetScanResponseData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -488,10 +488,10 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAdvertiseSetAdvertisingParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -506,10 +506,10 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAdvertiseSetPeriodicAdvertisingParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -524,10 +524,10 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAdvertiseSetPeriodicAdvertisingData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -542,14 +542,14 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBluetoothAdvertiseSetPeriodicAdvertisingEnable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_advertiserId, _err := data.ReadInt32()
+		_arg_advertiserId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

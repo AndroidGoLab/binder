@@ -384,30 +384,30 @@ var _ binder.TransactionReceiver = (*RadioVoiceIndicationStub)(nil)
 func (s *RadioVoiceIndicationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRadioVoiceIndicationCallRing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_isGsm, _err := data.ReadBool()
+		_arg_isGsm, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_record CdmaSignalInfoRecord
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_record.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_record.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -416,10 +416,10 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationCallStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -428,22 +428,22 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationCdmaCallWaiting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_callWaitingRecord CdmaCallWaiting
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callWaitingRecord.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callWaitingRecord.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -452,10 +452,10 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationCdmaInfoRec:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -467,15 +467,15 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationCdmaOtaProvisionStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_status, _err := data.ReadInt32()
+		_raw_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -484,10 +484,10 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationCurrentEmergencyNumberList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -499,10 +499,10 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationEnterEmergencyCallbackMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -511,10 +511,10 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationExitEmergencyCallbackMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -523,15 +523,15 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationIndicateRingbackTone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_start, _err := data.ReadBool()
+		_arg_start, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -539,22 +539,22 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationOnSupplementaryServiceIndication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_ss StkCcUnsolSsResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ss.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ss.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -563,20 +563,20 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationOnUssd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_modeType, _err := data.ReadInt32()
+		_raw_modeType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_modeType := UssdModeType(_raw_modeType)
-		_arg_msg, _err := data.ReadString16()
+		_arg_msg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -584,10 +584,10 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationResendIncallMute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -596,15 +596,15 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationSrvccStateNotify:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_state, _err := data.ReadInt32()
+		_raw_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -613,15 +613,15 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationStkCallControlAlphaNotify:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_alpha, _err := data.ReadString16()
+		_arg_alpha, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -629,15 +629,15 @@ func (s *RadioVoiceIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioVoiceIndicationStkCallSetup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_timeout, _err := data.ReadInt64()
+		_arg_timeout, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

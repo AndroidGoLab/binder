@@ -394,18 +394,18 @@ var _ binder.TransactionReceiver = (*SensorsStub)(nil)
 func (s *SensorsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISensorsActivate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorHandle, _err := data.ReadInt32()
+		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -418,18 +418,18 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsBatch:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorHandle, _err := data.ReadInt32()
+		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_samplingPeriodNs, _err := data.ReadInt64()
+		_arg_samplingPeriodNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxReportLatencyNs, _err := data.ReadInt64()
+		_arg_maxReportLatencyNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -442,18 +442,18 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsConfigDirectReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorHandle, _err := data.ReadInt32()
+		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_channelHandle, _err := data.ReadInt32()
+		_arg_channelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_rate, _err := data.ReadInt32()
+		_raw_rate, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -468,10 +468,10 @@ func (s *SensorsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISensorsFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorHandle, _err := data.ReadInt32()
+		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -484,7 +484,7 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsGetSensorsList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSensorsList(ctx)
@@ -498,29 +498,29 @@ func (s *SensorsStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISensorsInitialize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_eventQueueDescriptor fmq.MQDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_eventQueueDescriptor.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_eventQueueDescriptor.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_wakeLockDescriptor fmq.MQDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_wakeLockDescriptor.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_wakeLockDescriptor.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -537,17 +537,17 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsInjectSensorData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event Event
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -561,17 +561,17 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsRegisterDirectChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_mem sensorsISensors.SharedMemInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_mem.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_mem.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -586,10 +586,10 @@ func (s *SensorsStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISensorsSetOperationMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_mode, _err := data.ReadInt32()
+		_raw_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -603,10 +603,10 @@ func (s *SensorsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISensorsUnregisterDirectChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_channelHandle, _err := data.ReadInt32()
+		_arg_channelHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

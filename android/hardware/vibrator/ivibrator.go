@@ -1068,11 +1068,11 @@ var _ binder.TransactionReceiver = (*VibratorStub)(nil)
 func (s *VibratorStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVibratorGetCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCapabilities(ctx)
@@ -1085,7 +1085,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorOff:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Off(ctx)
@@ -1097,10 +1097,10 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutMs, _err := data.ReadInt32()
+		_arg_timeoutMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1116,15 +1116,15 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorPerform:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_effect, _err := data.ReadInt32()
+		_raw_effect, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_effect := Effect(_raw_effect)
-		_raw_strength, _err := data.ReadPaddedByte()
+		_raw_strength, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1142,7 +1142,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetSupportedEffects:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedEffects(ctx)
@@ -1156,10 +1156,10 @@ func (s *VibratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVibratorSetAmplitude:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_amplitude, _err := data.ReadFloat32()
+		_arg_amplitude, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1172,10 +1172,10 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorSetExternalControl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1188,7 +1188,7 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorGetCompositionDelayMax:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCompositionDelayMax(ctx)
@@ -1201,7 +1201,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetCompositionSizeMax:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCompositionSizeMax(ctx)
@@ -1214,7 +1214,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetSupportedPrimitives:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedPrimitives(ctx)
@@ -1228,10 +1228,10 @@ func (s *VibratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVibratorGetPrimitiveDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_primitive, _err := data.ReadInt32()
+		_raw_primitive, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1246,7 +1246,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorCompose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1264,7 +1264,7 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorGetSupportedAlwaysOnEffects:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedAlwaysOnEffects(ctx)
@@ -1278,19 +1278,19 @@ func (s *VibratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVibratorAlwaysOnEnable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_effect, _err := data.ReadInt32()
+		_raw_effect, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_effect := Effect(_raw_effect)
-		_raw_strength, _err := data.ReadPaddedByte()
+		_raw_strength, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1304,10 +1304,10 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorAlwaysOnDisable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1320,7 +1320,7 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorGetResonantFrequency:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetResonantFrequency(ctx)
@@ -1333,7 +1333,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetQFactor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetQFactor(ctx)
@@ -1346,7 +1346,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetFrequencyResolution:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFrequencyResolution(ctx)
@@ -1359,7 +1359,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetFrequencyMinimum:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFrequencyMinimum(ctx)
@@ -1372,7 +1372,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetBandwidthAmplitudeMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBandwidthAmplitudeMap(ctx)
@@ -1386,7 +1386,7 @@ func (s *VibratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVibratorGetPwlePrimitiveDurationMax:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPwlePrimitiveDurationMax(ctx)
@@ -1399,7 +1399,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetPwleCompositionSizeMax:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPwleCompositionSizeMax(ctx)
@@ -1412,7 +1412,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetSupportedBraking:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedBraking(ctx)
@@ -1426,7 +1426,7 @@ func (s *VibratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVibratorComposePwle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1444,17 +1444,17 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorPerformVendorEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_vendorEffect VendorEffect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_vendorEffect.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_vendorEffect.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1471,7 +1471,7 @@ func (s *VibratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIVibratorGetFrequencyToOutputAccelerationMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFrequencyToOutputAccelerationMap(ctx)
@@ -1485,7 +1485,7 @@ func (s *VibratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIVibratorGetPwleV2PrimitiveDurationMaxMillis:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPwleV2PrimitiveDurationMaxMillis(ctx)
@@ -1498,7 +1498,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetPwleV2CompositionSizeMax:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPwleV2CompositionSizeMax(ctx)
@@ -1511,7 +1511,7 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorGetPwleV2PrimitiveDurationMinMillis:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPwleV2PrimitiveDurationMinMillis(ctx)
@@ -1524,17 +1524,17 @@ func (s *VibratorStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIVibratorComposePwleV2:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_composite CompositePwleV2
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_composite.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_composite.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

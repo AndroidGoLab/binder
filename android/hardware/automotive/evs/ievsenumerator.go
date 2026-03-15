@@ -527,11 +527,11 @@ var _ binder.TransactionReceiver = (*EvsEnumeratorStub)(nil)
 func (s *EvsEnumeratorStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEvsEnumeratorCloseCamera:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -546,7 +546,7 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsEnumeratorCloseDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -561,7 +561,7 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsEnumeratorCloseUltrasonicsArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -576,7 +576,7 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetCameraList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCameraList(ctx)
@@ -590,7 +590,7 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetDisplayIdList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDisplayIdList(ctx)
@@ -604,7 +604,7 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetDisplayState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDisplayState(ctx)
@@ -617,17 +617,17 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetStreamList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_description CameraDesc
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_description.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_description.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -643,7 +643,7 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetUltrasonicsArrayList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUltrasonicsArrayList(ctx)
@@ -657,7 +657,7 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsEnumeratorIsHardware:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHardware(ctx)
@@ -670,21 +670,21 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIEvsEnumeratorOpenCamera:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_streamCfg Stream
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_streamCfg.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_streamCfg.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -700,10 +700,10 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsEnumeratorOpenDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -718,10 +718,10 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsEnumeratorOpenUltrasonicsArray:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ultrasonicsArrayId, _err := data.ReadString16()
+		_arg_ultrasonicsArrayId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -736,7 +736,7 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEvsEnumeratorRegisterStatusCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -751,10 +751,10 @@ func (s *EvsEnumeratorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEvsEnumeratorGetDisplayStateById:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -276,19 +276,19 @@ var _ binder.TransactionReceiver = (*HalAdapterVendorExtensionStub)(nil)
 func (s *HalAdapterVendorExtensionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIHalAdapterVendorExtensionParseVendorParameterIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_scope, _err := data.ReadInt32()
+		_raw_scope, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_scope := audioIHalAdapterVendorExtension.ParameterScope(_raw_scope)
-		_arg_rawKeys, _err := data.ReadString()
+		_arg_rawKeys, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -303,19 +303,21 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHalAdapterVendorExtensionParseVendorParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_scope, _err := data.ReadInt32()
+		_raw_scope, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_scope := audioIHalAdapterVendorExtension.ParameterScope(_raw_scope)
-		_arg_rawKeysAndValues, _err := data.ReadString()
+		_arg_rawKeysAndValues, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.ParseVendorParameters(ctx, _arg_scope, _arg_rawKeysAndValues)
+		var _arg_syncParameters []core.VendorParameter
+		var _arg_asyncParameters []core.VendorParameter
+		_err = s.Impl.ParseVendorParameters(ctx, _arg_scope, _arg_rawKeysAndValues, _arg_syncParameters, _arg_asyncParameters)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -324,10 +326,10 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIHalAdapterVendorExtensionParseBluetoothA2dpReconfigureOffload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rawValue, _err := data.ReadString()
+		_arg_rawValue, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -342,10 +344,10 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHalAdapterVendorExtensionParseBluetoothLeReconfigureOffload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rawValue, _err := data.ReadString()
+		_arg_rawValue, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -360,10 +362,10 @@ func (s *HalAdapterVendorExtensionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIHalAdapterVendorExtensionProcessVendorParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_scope, _err := data.ReadInt32()
+		_raw_scope, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

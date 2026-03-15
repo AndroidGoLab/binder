@@ -437,14 +437,14 @@ var _ binder.TransactionReceiver = (*ComponentStub)(nil)
 func (s *ComponentStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIComponentConfigureVideoTunnel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_avSyncHwId, _err := data.ReadInt32()
+		_arg_avSyncHwId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -461,7 +461,7 @@ func (s *ComponentStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComponentCreateBlockPool:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_allocator interface{}
@@ -475,10 +475,10 @@ func (s *ComponentStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComponentDestroyBlockPool:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_blockPoolId, _err := data.ReadInt64()
+		_arg_blockPoolId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -491,10 +491,10 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentDrain:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_withEos, _err := data.ReadBool()
+		_arg_withEos, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -507,7 +507,7 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Flush(ctx)
@@ -523,7 +523,7 @@ func (s *ComponentStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIComponentGetInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInterface(ctx)
@@ -537,17 +537,17 @@ func (s *ComponentStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComponentQueue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_workBundle WorkBundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_workBundle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_workBundle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -561,7 +561,7 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentRelease:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Release(ctx)
@@ -573,7 +573,7 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Reset(ctx)
@@ -585,7 +585,7 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Start(ctx)
@@ -597,7 +597,7 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Stop(ctx)
@@ -609,7 +609,7 @@ func (s *ComponentStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIComponentConnectToInputSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -626,7 +626,7 @@ func (s *ComponentStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIComponentAsInputSink:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.AsInputSink(ctx)

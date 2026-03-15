@@ -99,18 +99,18 @@ var _ binder.TransactionReceiver = (*ProxyServiceStub)(nil)
 func (s *ProxyServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIProxyServiceResolvePacFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_host, _err := data.ReadString16()
+		_arg_host, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_url, _err := data.ReadString16()
+		_arg_url, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -124,10 +124,10 @@ func (s *ProxyServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIProxyServiceSetPacFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_scriptContents, _err := data.ReadString16()
+		_arg_scriptContents, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

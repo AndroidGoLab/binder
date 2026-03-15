@@ -270,11 +270,11 @@ var _ binder.TransactionReceiver = (*StreamCommonStub)(nil)
 func (s *StreamCommonStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStreamCommonClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -286,7 +286,7 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonPrepareToClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.PrepareToClose(ctx)
@@ -298,10 +298,10 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonUpdateHwAvSyncId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hwAvSyncId, _err := data.ReadInt32()
+		_arg_hwAvSyncId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -314,7 +314,7 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonGetVendorParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -331,13 +331,13 @@ func (s *StreamCommonStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStreamCommonSetVendorParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_parameters []VendorParameter
 		_ = _arg_parameters
-		_arg_async, _err := data.ReadBool()
+		_arg_async, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -350,7 +350,7 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonAddEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -365,7 +365,7 @@ func (s *StreamCommonStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStreamCommonRemoveEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

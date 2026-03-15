@@ -406,11 +406,11 @@ var _ binder.TransactionReceiver = (*WritableIdentityCredentialStub)(nil)
 func (s *WritableIdentityCredentialStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWritableIdentityCredentialGetAttestationCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -430,10 +430,10 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialStartPersonalization:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accessControlProfileCount, _err := data.ReadInt32()
+		_arg_accessControlProfileCount, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -449,34 +449,34 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialAddAccessControlProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_readerCertificate Certificate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_readerCertificate.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_readerCertificate.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_userAuthenticationRequired, _err := data.ReadBool()
+		_arg_userAuthenticationRequired, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutMillis, _err := data.ReadInt64()
+		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_secureUserId, _err := data.ReadInt64()
+		_arg_secureUserId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -493,21 +493,21 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialBeginAddEntry:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_accessControlProfileIds []int32
 		_ = _arg_accessControlProfileIds
-		_arg_nameSpace, _err := data.ReadString()
+		_arg_nameSpace, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString()
+		_arg_name, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_entrySize, _err := data.ReadInt32()
+		_arg_entrySize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -520,7 +520,7 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialAddEntryValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -537,10 +537,12 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialFinishAddingEntries:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err := s.Impl.FinishAddingEntries(ctx)
+		var _arg_credentialData []byte
+		var _arg_proofOfProvisioningSignature []byte
+		_err := s.Impl.FinishAddingEntries(ctx, _arg_credentialData, _arg_proofOfProvisioningSignature)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -549,10 +551,10 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialSetExpectedProofOfProvisioningSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_expectedProofOfProvisioningSize, _err := data.ReadInt32()
+		_arg_expectedProofOfProvisioningSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -565,7 +567,7 @@ func (s *WritableIdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWritableIdentityCredentialSetRemotelyProvisionedAttestationKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

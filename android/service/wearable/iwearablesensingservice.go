@@ -427,14 +427,14 @@ var _ binder.TransactionReceiver = (*WearableSensingServiceStub)(nil)
 func (s *WearableSensingServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWearableSensingServiceProvideSecureConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_parcelFileDescriptor, _err := data.ReadFileDescriptor()
+		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -443,12 +443,12 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _arg_wearableSensingCallback
 		var _arg_statusCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -457,10 +457,10 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceProvideConcurrentSecureConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_parcelFileDescriptor, _err := data.ReadFileDescriptor()
+		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -470,12 +470,12 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _arg_wearableSensingCallback
 		var _arg_statusCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -484,22 +484,22 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceProvideReadOnlyParcelFileDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_parcelFileDescriptor, _err := data.ReadFileDescriptor()
+		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_metadata interface{}
 		var _arg_statusCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -508,10 +508,10 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceProvideDataStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_parcelFileDescriptor, _err := data.ReadFileDescriptor()
+		_arg_parcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -520,12 +520,12 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _arg_wearableSensingCallback
 		var _arg_statusCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -534,30 +534,30 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceProvideData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_data interface{}
 		var _arg_sharedMemory os.SharedMemory
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sharedMemory.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sharedMemory.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -566,41 +566,41 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceRegisterDataRequestObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dataType, _err := data.ReadInt32()
+		_arg_dataType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_dataRequestCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dataRequestCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dataRequestCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_dataRequestObserverId, _err := data.ReadInt32()
+		_arg_dataRequestObserverId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statusCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -609,29 +609,29 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceUnregisterDataRequestObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dataType, _err := data.ReadInt32()
+		_arg_dataType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dataRequestObserverId, _err := data.ReadInt32()
+		_arg_dataRequestObserverId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_statusCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -640,29 +640,29 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceStartHotwordRecognition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_wearableHotwordCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_wearableHotwordCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_wearableHotwordCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_statusCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -671,17 +671,17 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceStopHotwordRecognition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_statusCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -690,59 +690,59 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceOnValidatedByHotwordDetectionService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnValidatedByHotwordDetectionService(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceStopActiveHotwordAudio:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopActiveHotwordAudio(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceStartDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request ambientcontext.AmbientContextEventRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_detectionResultCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_detectionResultCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_detectionResultCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_statusCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statusCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statusCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -751,10 +751,10 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceStopDetection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -762,24 +762,24 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceQueryServiceStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_eventTypes []int32
 		_ = _arg_eventTypes
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -788,7 +788,7 @@ func (s *WearableSensingServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWearableSensingServiceKillProcess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.KillProcess(ctx)

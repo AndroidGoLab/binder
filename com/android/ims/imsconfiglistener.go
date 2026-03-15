@@ -135,26 +135,26 @@ var _ binder.TransactionReceiver = (*msConfigListenerStub)(nil)
 func (s *msConfigListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionImsConfigListenerOnGetFeatureResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_network, _err := data.ReadInt32()
+		_arg_network, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -162,22 +162,22 @@ func (s *msConfigListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionImsConfigListenerOnSetFeatureResponse:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_network, _err := data.ReadInt32()
+		_arg_network, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -185,14 +185,14 @@ func (s *msConfigListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionImsConfigListenerOnGetVideoQuality:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_quality, _err := data.ReadInt32()
+		_arg_quality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -200,10 +200,10 @@ func (s *msConfigListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionImsConfigListenerOnSetVideoQuality:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

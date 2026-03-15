@@ -1721,25 +1721,25 @@ var _ binder.TransactionReceiver = (*StatusBarStub)(nil)
 func (s *StatusBarStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStatusBarSetIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slot, _err := data.ReadString16()
+		_arg_slot, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_icon StatusBarIcon
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_icon.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1748,10 +1748,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarRemoveIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slot, _err := data.ReadString16()
+		_arg_slot, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1759,18 +1759,18 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarDisable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state1, _err := data.ReadInt32()
+		_arg_state1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state2, _err := data.ReadInt32()
+		_arg_state2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1778,17 +1778,17 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAnimateExpandNotificationsPanel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AnimateExpandNotificationsPanel(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAnimateExpandSettingsPanel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subPanel, _err := data.ReadString16()
+		_arg_subPanel, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1796,24 +1796,24 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAnimateCollapsePanels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AnimateCollapsePanels(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarToggleNotificationsPanel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ToggleNotificationsPanel(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowWirelessChargingAnimation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_batteryLevel, _err := data.ReadInt32()
+		_arg_batteryLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1821,22 +1821,22 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarSetImeWindowStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_vis, _err := data.ReadInt32()
+		_arg_vis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_backDisposition, _err := data.ReadInt32()
+		_arg_backDisposition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_showImeSwitcher, _err := data.ReadBool()
+		_arg_showImeSwitcher, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1844,18 +1844,18 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarSetWindowState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_display, _err := data.ReadInt32()
+		_arg_display, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_window, _err := data.ReadInt32()
+		_arg_window, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1863,10 +1863,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowRecentApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_triggeredFromAltTab, _err := data.ReadBool()
+		_arg_triggeredFromAltTab, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1874,14 +1874,14 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarHideRecentApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_triggeredFromAltTab, _err := data.ReadBool()
+		_arg_triggeredFromAltTab, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_triggeredFromHomeKey, _err := data.ReadBool()
+		_arg_triggeredFromHomeKey, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1889,45 +1889,45 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarToggleRecentApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ToggleRecentApps(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarToggleTaskbar:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ToggleTaskbar(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarToggleSplitScreen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ToggleSplitScreen(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarPreloadRecentApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.PreloadRecentApps(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarCancelPreloadRecentApps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CancelPreloadRecentApps(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowScreenPinningRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1935,21 +1935,21 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarConfirmImmersivePrompt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ConfirmImmersivePrompt(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarImmersiveModeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rootDisplayAreaId, _err := data.ReadInt32()
+		_arg_rootDisplayAreaId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isImmersiveMode, _err := data.ReadBool()
+		_arg_isImmersiveMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1957,17 +1957,17 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarDismissKeyboardShortcutsMenu:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DismissKeyboardShortcutsMenu(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarToggleKeyboardShortcutsMenu:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceId, _err := data.ReadInt32()
+		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1975,10 +1975,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAppTransitionPending:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1986,10 +1986,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAppTransitionCancelled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1997,18 +1997,18 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAppTransitionStarting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_statusBarAnimationsStartTime, _err := data.ReadInt64()
+		_arg_statusBarAnimationsStartTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_statusBarAnimationsDuration, _err := data.ReadInt64()
+		_arg_statusBarAnimationsDuration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2016,10 +2016,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAppTransitionFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2027,24 +2027,24 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowAssistDisclosure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShowAssistDisclosure(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarStartAssist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2053,10 +2053,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarOnCameraLaunchGestureDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadInt32()
+		_arg_source, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2064,35 +2064,35 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarOnEmergencyActionLaunchGestureDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnEmergencyActionLaunchGestureDetected(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowPictureInPictureMenu:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShowPictureInPictureMenu(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowGlobalActionsMenu:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShowGlobalActionsMenu(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarOnProposedRotationChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rotation, _err := data.ReadInt32()
+		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isValid, _err := data.ReadBool()
+		_arg_isValid, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2100,10 +2100,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarSetTopAppHidesStatusBar:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hidesStatusBar, _err := data.ReadBool()
+		_arg_hidesStatusBar, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2111,17 +2111,17 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAddQsTile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_tile content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_tile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_tile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2130,22 +2130,22 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAddQsTileToFrontOrEnd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_tile content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_tile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_tile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_end, _err := data.ReadBool()
+		_arg_end, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2153,17 +2153,17 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarRemQsTile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_tile content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_tile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_tile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2172,7 +2172,7 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarSetQsTiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2182,17 +2182,17 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarClickQsTile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_tile content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_tile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_tile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2201,17 +2201,17 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarHandleSystemKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_key view.KeyEvent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_key.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_key.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2220,10 +2220,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowPinningEnterExitToast:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_entering, _err := data.ReadBool()
+		_arg_entering, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2231,21 +2231,21 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowPinningEscapeToast:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShowPinningEscapeToast(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowShutdownUi:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isReboot, _err := data.ReadBool()
+		_arg_isReboot, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadString16()
+		_arg_reason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2253,17 +2253,17 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowAuthenticationDialog:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_promptInfo biometrics.PromptInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_promptInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_promptInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2274,25 +2274,25 @@ func (s *StatusBarStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sensorIds []int32
 		_ = _arg_sensorIds
-		_arg_credentialAllowed, _err := data.ReadBool()
+		_arg_credentialAllowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requireConfirmation, _err := data.ReadBool()
+		_arg_requireConfirmation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_operationId, _err := data.ReadInt64()
+		_arg_operationId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2300,10 +2300,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarOnBiometricAuthenticated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_modality, _err := data.ReadInt32()
+		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2311,14 +2311,14 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarOnBiometricHelp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_modality, _err := data.ReadInt32()
+		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2326,18 +2326,18 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarOnBiometricError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_modality, _err := data.ReadInt32()
+		_arg_modality, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_vendorCode, _err := data.ReadInt32()
+		_arg_vendorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2345,10 +2345,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarHideAuthenticationDialog:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt64()
+		_arg_requestId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2356,7 +2356,7 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarSetBiometicContextListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2366,7 +2366,7 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarSetUdfpsRefreshRateCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2376,10 +2376,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarOnDisplayReady:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2387,33 +2387,33 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarOnSystemBarAttributesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appearance, _err := data.ReadInt32()
+		_arg_appearance, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_appearanceRegions []internalView.AppearanceRegion
 		_ = _arg_appearanceRegions
-		_arg_navbarColorManagedByIme, _err := data.ReadBool()
+		_arg_navbarColorManagedByIme, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_behavior, _err := data.ReadInt32()
+		_arg_behavior, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestedVisibleTypes, _err := data.ReadInt32()
+		_arg_requestedVisibleTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2424,18 +2424,18 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowTransient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_types, _err := data.ReadInt32()
+		_arg_types, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isGestureOnSystemBar, _err := data.ReadBool()
+		_arg_isGestureOnSystemBar, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2443,14 +2443,14 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarAbortTransient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_types, _err := data.ReadInt32()
+		_arg_types, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2458,17 +2458,17 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowInattentiveSleepWarning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShowInattentiveSleepWarning(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarDismissInattentiveSleepWarning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_animated, _err := data.ReadBool()
+		_arg_animated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2476,14 +2476,14 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowToast:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2494,14 +2494,14 @@ func (s *StatusBarStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
 		_ = _arg_windowToken
-		_arg_duration, _err := data.ReadInt32()
+		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback app.ITransientNotificationCallback
 		_ = _arg_callback
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2509,10 +2509,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarHideToast:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2523,24 +2523,24 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarStartTracing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartTracing(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarStopTracing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopTracing(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarSuppressAmbientDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_suppress, _err := data.ReadBool()
+		_arg_suppress, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2548,10 +2548,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarRequestMagnificationConnection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_connect, _err := data.ReadBool()
+		_arg_connect, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2559,13 +2559,13 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarPassThroughShellCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []string
 		_ = _arg_args
-		_arg_pfd, _err := data.ReadFileDescriptor()
+		_arg_pfd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2573,14 +2573,14 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarSetNavigationBarLumaSamplingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2588,24 +2588,24 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarRunGcForTest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RunGcForTest(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarRequestTileServiceListeningState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2614,20 +2614,20 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarRequestAddTile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2636,12 +2636,12 @@ func (s *StatusBarStub) OnTransaction(
 		var _arg_label interface{}
 		var _arg_icon drawable.Icon
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_icon.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2653,10 +2653,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarCancelRequestAddTile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2664,21 +2664,21 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarUpdateMediaTapToTransferSenderDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayState, _err := data.ReadInt32()
+		_arg_displayState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_routeInfo media.MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_routeInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_routeInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2690,33 +2690,33 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarUpdateMediaTapToTransferReceiverDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayState, _err := data.ReadInt32()
+		_arg_displayState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_routeInfo media.MediaRoute2Info
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_routeInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_routeInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_appIcon drawable.Icon
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_appIcon.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_appIcon.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2726,7 +2726,7 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarRegisterNearbyMediaDevicesProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2736,7 +2736,7 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarUnregisterNearbyMediaDevicesProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2746,13 +2746,13 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarDumpProto:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_args []string
 		_ = _arg_args
-		_arg_pfd, _err := data.ReadFileDescriptor()
+		_arg_pfd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2760,10 +2760,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowRearDisplayDialog:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_currentBaseState, _err := data.ReadInt32()
+		_arg_currentBaseState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2771,10 +2771,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarMoveFocusedTaskToFullscreen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2782,14 +2782,14 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarMoveFocusedTaskToStageSplit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_leftOrTop, _err := data.ReadBool()
+		_arg_leftOrTop, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2797,10 +2797,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarSetSplitscreenFocus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_leftOrTop, _err := data.ReadBool()
+		_arg_leftOrTop, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2808,21 +2808,21 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarShowMediaOutputSwitcher:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_targetPackageName, _err := data.ReadString16()
+		_arg_targetPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_targetUserHandle os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_targetUserHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_targetUserHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2831,10 +2831,10 @@ func (s *StatusBarStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIStatusBarMoveFocusedTaskToDesktop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

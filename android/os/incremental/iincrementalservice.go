@@ -988,14 +988,14 @@ var _ binder.TransactionReceiver = (*IncrementalServiceStub)(nil)
 func (s *IncrementalServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIncrementalServiceOpenStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1009,15 +1009,15 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceCreateStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_params interface{}
-		_arg_createMode, _err := data.ReadInt32()
+		_arg_createMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1031,18 +1031,18 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceCreateLinkedStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_otherStorageId, _err := data.ReadInt32()
+		_arg_otherStorageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_createMode, _err := data.ReadInt32()
+		_arg_createMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1056,10 +1056,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceStartLoading:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1067,12 +1067,12 @@ func (s *IncrementalServiceStub) OnTransaction(
 		var _arg_statusListener interface{}
 		var _arg_healthCheckParams StorageHealthCheckParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_healthCheckParams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_healthCheckParams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1093,10 +1093,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceOnInstallationComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1109,22 +1109,22 @@ func (s *IncrementalServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeBindMount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sourcePath, _err := data.ReadString()
+		_arg_sourcePath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetFullPath, _err := data.ReadString()
+		_arg_targetFullPath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bindType, _err := data.ReadInt32()
+		_arg_bindType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1138,14 +1138,14 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceDeleteBindMount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetFullPath, _err := data.ReadString()
+		_arg_targetFullPath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1159,14 +1159,14 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeDirectory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1180,14 +1180,14 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeDirectories:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1201,29 +1201,29 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_params IncrementalNewFileParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1241,26 +1241,26 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeFileFromRange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_targetPath, _err := data.ReadString()
+		_arg_targetPath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sourcePath, _err := data.ReadString()
+		_arg_sourcePath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_start, _err := data.ReadInt64()
+		_arg_start, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_end, _err := data.ReadInt64()
+		_arg_end, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1274,22 +1274,22 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceMakeLink:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sourceStorageId, _err := data.ReadInt32()
+		_arg_sourceStorageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sourcePath, _err := data.ReadString()
+		_arg_sourcePath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destStorageId, _err := data.ReadInt32()
+		_arg_destStorageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destPath, _err := data.ReadString()
+		_arg_destPath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1303,14 +1303,14 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceUnlink:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1324,14 +1324,14 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceIsFileFullyLoaded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1345,10 +1345,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceIsFullyLoaded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1362,10 +1362,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceGetLoadingProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1379,14 +1379,14 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceGetMetadataByPath:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1401,10 +1401,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIncrementalServiceGetMetadataById:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1422,10 +1422,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIncrementalServiceDeleteStorage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1438,10 +1438,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncrementalServiceDisallowReadLogs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1454,26 +1454,26 @@ func (s *IncrementalServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncrementalServiceConfigureNativeBinaries:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_apkFullPath, _err := data.ReadString()
+		_arg_apkFullPath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_libDirRelativePath, _err := data.ReadString()
+		_arg_libDirRelativePath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_abi, _err := data.ReadString()
+		_arg_abi, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_extractNativeLibs, _err := data.ReadBool()
+		_arg_extractNativeLibs, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1487,10 +1487,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceWaitForNativeBinariesExtraction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1504,10 +1504,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceRegisterLoadingProgressListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1524,10 +1524,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceUnregisterLoadingProgressListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1541,10 +1541,10 @@ func (s *IncrementalServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIIncrementalServiceGetMetrics:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_storageId, _err := data.ReadInt32()
+		_arg_storageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

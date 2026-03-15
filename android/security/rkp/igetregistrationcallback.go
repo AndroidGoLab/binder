@@ -100,11 +100,11 @@ var _ binder.TransactionReceiver = (*GetRegistrationCallbackStub)(nil)
 func (s *GetRegistrationCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGetRegistrationCallbackOnSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -114,17 +114,17 @@ func (s *GetRegistrationCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIGetRegistrationCallbackOnCancel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnCancel(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIGetRegistrationCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadString16()
+		_arg_error_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

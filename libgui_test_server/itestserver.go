@@ -98,11 +98,11 @@ var _ binder.TransactionReceiver = (*TestServerStub)(nil)
 func (s *TestServerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITestServerCreateProducer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateProducer(ctx)
@@ -115,7 +115,7 @@ func (s *TestServerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITestServerKillNow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.KillNow(ctx)

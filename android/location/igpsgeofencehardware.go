@@ -224,11 +224,11 @@ var _ binder.TransactionReceiver = (*GpsGeofenceHardwareStub)(nil)
 func (s *GpsGeofenceHardwareStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGpsGeofenceHardwareIsHardwareGeofenceSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHardwareGeofenceSupported(ctx)
@@ -241,38 +241,38 @@ func (s *GpsGeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGpsGeofenceHardwareAddCircularHardwareGeofence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_geofenceId, _err := data.ReadInt32()
+		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_latitude, _err := data.ReadFloat64()
+		_arg_latitude, _err := _data.ReadFloat64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_longitude, _err := data.ReadFloat64()
+		_arg_longitude, _err := _data.ReadFloat64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_radius, _err := data.ReadFloat64()
+		_arg_radius, _err := _data.ReadFloat64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lastTransition, _err := data.ReadInt32()
+		_arg_lastTransition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_monitorTransition, _err := data.ReadInt32()
+		_arg_monitorTransition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_notificationResponsiveness, _err := data.ReadInt32()
+		_arg_notificationResponsiveness, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_unknownTimer, _err := data.ReadInt32()
+		_arg_unknownTimer, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -286,10 +286,10 @@ func (s *GpsGeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGpsGeofenceHardwareRemoveHardwareGeofence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_geofenceId, _err := data.ReadInt32()
+		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -303,10 +303,10 @@ func (s *GpsGeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGpsGeofenceHardwarePauseHardwareGeofence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_geofenceId, _err := data.ReadInt32()
+		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -320,14 +320,14 @@ func (s *GpsGeofenceHardwareStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIGpsGeofenceHardwareResumeHardwareGeofence:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_geofenceId, _err := data.ReadInt32()
+		_arg_geofenceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_monitorTransition, _err := data.ReadInt32()
+		_arg_monitorTransition, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

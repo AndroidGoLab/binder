@@ -876,11 +876,11 @@ var _ binder.TransactionReceiver = (*KeyMintDeviceStub)(nil)
 func (s *KeyMintDeviceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIKeyMintDeviceGetHardwareInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHardwareInfo(ctx)
@@ -896,7 +896,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceAddRngEntropy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -911,7 +911,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceGenerateKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -919,12 +919,12 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		_ = _arg_keyParams
 		var _arg_attestationKey *AttestationKey
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attestationKey.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attestationKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -942,13 +942,13 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceImportKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_keyParams []KeyParameter
 		_ = _arg_keyParams
-		_raw_keyFormat, _err := data.ReadInt32()
+		_raw_keyFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -958,12 +958,12 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		_ = _arg_keyData
 		var _arg_attestationKey *AttestationKey
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_attestationKey.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_attestationKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -981,7 +981,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceImportWrappedKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -996,11 +996,11 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_unwrappingParams []KeyParameter
 		_ = _arg_unwrappingParams
-		_arg_passwordSid, _err := data.ReadInt64()
+		_arg_passwordSid, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_biometricSid, _err := data.ReadInt64()
+		_arg_biometricSid, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1017,7 +1017,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceUpgradeKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1037,7 +1037,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyMintDeviceDeleteKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1052,7 +1052,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceDeleteAllKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DeleteAllKeys(ctx)
@@ -1064,7 +1064,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceDestroyAttestationIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DestroyAttestationIds(ctx)
@@ -1076,10 +1076,10 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceBegin:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_purpose, _err := data.ReadInt32()
+		_raw_purpose, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1092,12 +1092,12 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		_ = _arg_params
 		var _arg_authToken *HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_authToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1115,21 +1115,21 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyMintDeviceDeviceLocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_passwordOnly, _err := data.ReadBool()
+		_arg_passwordOnly, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_timestampToken *secureclock.TimeStampToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_timestampToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_timestampToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1143,7 +1143,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceEarlyBootEnded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EarlyBootEnded(ctx)
@@ -1155,7 +1155,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceConvertStorageKeyToEphemeral:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1172,7 +1172,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyMintDeviceGetKeyCharacteristics:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1195,7 +1195,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyMintDeviceGetRootOfTrustChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRootOfTrustChallenge(ctx)
@@ -1209,7 +1209,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyMintDeviceGetRootOfTrust:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1226,7 +1226,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyMintDeviceSendRootOfTrust:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1241,7 +1241,7 @@ func (s *KeyMintDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyMintDeviceSetAdditionalAttestationInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

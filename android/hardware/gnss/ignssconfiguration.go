@@ -260,14 +260,14 @@ var _ binder.TransactionReceiver = (*GnssConfigurationStub)(nil)
 func (s *GnssConfigurationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGnssConfigurationSetSuplVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_version, _err := data.ReadInt32()
+		_arg_version, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -280,10 +280,10 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetSuplMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -296,10 +296,10 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetLppProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lppProfile, _err := data.ReadInt32()
+		_arg_lppProfile, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -312,10 +312,10 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetGlonassPositioningProtocol:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_protocol, _err := data.ReadInt32()
+		_arg_protocol, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -328,10 +328,10 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetEmergencySuplPdn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -344,10 +344,10 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetEsExtensionSec:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_emergencyExtensionSeconds, _err := data.ReadInt32()
+		_arg_emergencyExtensionSeconds, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -360,7 +360,7 @@ func (s *GnssConfigurationStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssConfigurationSetBlocklist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

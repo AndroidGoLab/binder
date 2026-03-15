@@ -711,11 +711,11 @@ var _ binder.TransactionReceiver = (*SpatializerStub)(nil)
 func (s *SpatializerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISpatializerRelease:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Release(ctx)
@@ -727,7 +727,7 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetSupportedLevels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedLevels(ctx)
@@ -741,7 +741,7 @@ func (s *SpatializerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISpatializerSetLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_level Spatialization.Level
@@ -754,7 +754,7 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLevel(ctx)
@@ -767,7 +767,7 @@ func (s *SpatializerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISpatializerIsHeadTrackingSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHeadTrackingSupported(ctx)
@@ -780,7 +780,7 @@ func (s *SpatializerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISpatializerGetSupportedHeadTrackingModes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedHeadTrackingModes(ctx)
@@ -794,7 +794,7 @@ func (s *SpatializerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISpatializerSetDesiredHeadTrackingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_mode HeadTracking.Mode
@@ -807,7 +807,7 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetActualHeadTrackingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActualHeadTrackingMode(ctx)
@@ -820,7 +820,7 @@ func (s *SpatializerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISpatializerRecenterHeadTracker:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RecenterHeadTracker(ctx)
@@ -832,7 +832,7 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetGlobalTransform:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -847,10 +847,10 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetHeadSensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorHandle, _err := data.ReadInt32()
+		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -863,10 +863,10 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetScreenSensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorHandle, _err := data.ReadInt32()
+		_arg_sensorHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -879,10 +879,10 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetDisplayOrientation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_physicalToLogicalAngle, _err := data.ReadFloat32()
+		_arg_physicalToLogicalAngle, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -895,10 +895,10 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetHingeAngle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_hingeAngle, _err := data.ReadFloat32()
+		_arg_hingeAngle, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -911,10 +911,10 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetFoldState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_folded, _err := data.ReadBool()
+		_arg_folded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -927,7 +927,7 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetSupportedModes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedModes(ctx)
@@ -941,7 +941,7 @@ func (s *SpatializerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISpatializerRegisterHeadTrackingCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -956,10 +956,10 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerSetParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadInt32()
+		_arg_key, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -975,10 +975,10 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetParameter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadInt32()
+		_arg_key, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -994,7 +994,7 @@ func (s *SpatializerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISpatializerGetOutput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetOutput(ctx)
@@ -1007,7 +1007,7 @@ func (s *SpatializerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionISpatializerGetSpatializedChannelMasks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSpatializedChannelMasks(ctx)

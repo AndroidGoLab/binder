@@ -174,40 +174,40 @@ var _ binder.TransactionReceiver = (*VirtualDeviceActivityListenerStub)(nil)
 func (s *VirtualDeviceActivityListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVirtualDeviceActivityListenerOnTopActivityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_topActivity content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_topActivity.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_topActivity.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnTopActivityChanged(ctx, _arg_displayId, _arg_topActivity)
 		_ = _err
 		return nil, nil
 	case TransactionIVirtualDeviceActivityListenerOnDisplayEmpty:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -215,45 +215,45 @@ func (s *VirtualDeviceActivityListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVirtualDeviceActivityListenerOnActivityLaunchBlocked:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_intentSender content.IntentSender
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intentSender.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intentSender.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -262,33 +262,33 @@ func (s *VirtualDeviceActivityListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVirtualDeviceActivityListenerOnSecureWindowShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -297,10 +297,10 @@ func (s *VirtualDeviceActivityListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVirtualDeviceActivityListenerOnSecureWindowHidden:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

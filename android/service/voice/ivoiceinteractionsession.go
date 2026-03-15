@@ -258,15 +258,15 @@ var _ binder.TransactionReceiver = (*VoiceInteractionSessionStub)(nil)
 func (s *VoiceInteractionSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVoiceInteractionSessionShow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionArgs interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -275,17 +275,17 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionHide:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Hide(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionHandleAssist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -295,33 +295,33 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		var _arg_assistData interface{}
 		var _arg_structure assist.AssistStructure
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_structure.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_structure.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_content assist.AssistContent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_content.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_content.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_count, _err := data.ReadInt32()
+		_arg_count, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -329,17 +329,17 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionHandleScreenshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_screenshot graphics.Bitmap
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_screenshot.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_screenshot.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -348,11 +348,11 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionTaskStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -360,11 +360,11 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionTaskFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -372,43 +372,43 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionCloseSystemDialogs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CloseSystemDialogs(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionOnLockscreenShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnLockscreenShown(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionDestroy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Destroy(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionNotifyVisibleActivityInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_visibleActivityInfo VisibleActivityInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_visibleActivityInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_visibleActivityInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

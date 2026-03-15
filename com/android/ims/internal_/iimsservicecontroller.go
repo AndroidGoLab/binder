@@ -241,14 +241,14 @@ var _ binder.TransactionReceiver = (*ImsServiceControllerStub)(nil)
 func (s *ImsServiceControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIImsServiceControllerCreateEmergencyMMTelFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -263,10 +263,10 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsServiceControllerCreateMMTelFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -281,10 +281,10 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsServiceControllerCreateRcsFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -299,14 +299,14 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIImsServiceControllerRemoveImsFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_featureType, _err := data.ReadInt32()
+		_arg_featureType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -319,14 +319,14 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceControllerAddFeatureStatusCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_featureType, _err := data.ReadInt32()
+		_arg_featureType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -342,14 +342,14 @@ func (s *ImsServiceControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIImsServiceControllerRemoveFeatureStatusCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_featureType, _err := data.ReadInt32()
+		_arg_featureType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

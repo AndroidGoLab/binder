@@ -207,26 +207,26 @@ var _ binder.TransactionReceiver = (*CameraDeviceCallbackStub)(nil)
 func (s *CameraDeviceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICameraDeviceCallbackOnCaptureStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_resultExtras CaptureResultExtras
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultExtras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultExtras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_timestamp, _err := data.ReadInt64()
+		_arg_timestamp, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -234,22 +234,22 @@ func (s *CameraDeviceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraDeviceCallbackOnDeviceError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_errorCode, _err := data.ReadInt32()
+		_raw_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_errorCode := ErrorCode(_raw_errorCode)
 		var _arg_resultExtras CaptureResultExtras
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultExtras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultExtras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -258,17 +258,17 @@ func (s *CameraDeviceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraDeviceCallbackOnDeviceIdle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDeviceIdle(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionICameraDeviceCallbackOnPrepared:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_streamId, _err := data.ReadInt32()
+		_arg_streamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -276,14 +276,14 @@ func (s *CameraDeviceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraDeviceCallbackOnRepeatingRequestError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lastFrameNumber, _err := data.ReadInt64()
+		_arg_lastFrameNumber, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_repeatingRequestId, _err := data.ReadInt32()
+		_arg_repeatingRequestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -291,29 +291,29 @@ func (s *CameraDeviceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraDeviceCallbackOnResultReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result CaptureMetadataInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_resultExtras CaptureResultExtras
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultExtras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultExtras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -325,10 +325,10 @@ func (s *CameraDeviceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraDeviceCallbackOnClientSharedAccessPriorityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_primaryClient, _err := data.ReadBool()
+		_arg_primaryClient, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

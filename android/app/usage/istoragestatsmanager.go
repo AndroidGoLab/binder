@@ -551,18 +551,18 @@ var _ binder.TransactionReceiver = (*StorageStatsManagerStub)(nil)
 func (s *StorageStatsManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStorageStatsManagerIsQuotaSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsQuotaSupported(ctx, _arg_volumeUuid)
@@ -575,14 +575,14 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerIsReservedSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsReservedSupported(ctx, _arg_volumeUuid)
@@ -595,14 +595,14 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerGetTotalBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTotalBytes(ctx, _arg_volumeUuid)
@@ -615,14 +615,14 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerGetFreeBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFreeBytes(ctx, _arg_volumeUuid)
@@ -635,14 +635,14 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerGetCacheBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCacheBytes(ctx, _arg_volumeUuid)
@@ -655,18 +655,18 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerGetCacheQuotaBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCacheQuotaBytes(ctx, _arg_volumeUuid, _arg_uid)
@@ -679,21 +679,21 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryStatsForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryStatsForPackage(ctx, _arg_volumeUuid, _arg_packageName)
@@ -709,18 +709,18 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryStatsForUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryStatsForUid(ctx, _arg_volumeUuid, _arg_uid)
@@ -736,17 +736,17 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryStatsForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryStatsForUser(ctx, _arg_volumeUuid)
@@ -762,17 +762,17 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryExternalStatsForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryExternalStatsForUser(ctx, _arg_volumeUuid)
@@ -788,21 +788,21 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryCratesForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryCratesForPackage(ctx, _arg_volumeUuid, _arg_packageName)
@@ -818,18 +818,18 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryCratesForUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryCratesForUid(ctx, _arg_volumeUuid, _arg_uid)
@@ -845,17 +845,17 @@ func (s *StorageStatsManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIStorageStatsManagerQueryCratesForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_volumeUuid, _err := data.ReadString16()
+		_arg_volumeUuid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.QueryCratesForUser(ctx, _arg_volumeUuid)

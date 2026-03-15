@@ -150,18 +150,18 @@ var _ binder.TransactionReceiver = (*AugmentedAutofillServiceStub)(nil)
 func (s *AugmentedAutofillServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAugmentedAutofillServiceOnConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_debug, _err := data.ReadBool()
+		_arg_debug, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_verbose, _err := data.ReadBool()
+		_arg_verbose, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -169,75 +169,75 @@ func (s *AugmentedAutofillServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAugmentedAutofillServiceOnDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDisconnected(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAugmentedAutofillServiceOnFillRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionId, _err := data.ReadInt32()
+		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_autofillManagerClient binder.IBinder
 		_ = _arg_autofillManagerClient
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_activityComponent content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_activityComponent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_activityComponent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_focusedId autofill.AutofillId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_focusedId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_focusedId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_focusedValue autofill.AutofillValue
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_focusedValue.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_focusedValue.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_requestTime, _err := data.ReadInt64()
+		_arg_requestTime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_inlineSuggestionsRequest inputmethod.InlineSuggestionsRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_inlineSuggestionsRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_inlineSuggestionsRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -249,7 +249,7 @@ func (s *AugmentedAutofillServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAugmentedAutofillServiceOnDestroyAllFillWindowsRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDestroyAllFillWindowsRequest(ctx)

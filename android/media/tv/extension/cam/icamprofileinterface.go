@@ -110,14 +110,14 @@ var _ binder.TransactionReceiver = (*CamProfileInterfaceStub)(nil)
 func (s *CamProfileInterfaceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICamProfileInterfaceGetCamServiceUpdateInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotNumber, _err := data.ReadInt32()
+		_arg_slotNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -134,7 +134,7 @@ func (s *CamProfileInterfaceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICamProfileInterfaceRequestResendProfileInfoBroadcastACON:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RequestResendProfileInfoBroadcastACON(ctx)

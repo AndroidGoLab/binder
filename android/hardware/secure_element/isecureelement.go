@@ -356,14 +356,14 @@ var _ binder.TransactionReceiver = (*SecureElementStub)(nil)
 func (s *SecureElementStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISecureElementCloseChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_channelNumber, _err := data.ReadPaddedByte()
+		_arg_channelNumber, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -376,7 +376,7 @@ func (s *SecureElementStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementGetAtr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAtr(ctx)
@@ -390,7 +390,7 @@ func (s *SecureElementStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISecureElementInit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -405,7 +405,7 @@ func (s *SecureElementStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementIsCardPresent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCardPresent(ctx)
@@ -418,13 +418,13 @@ func (s *SecureElementStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISecureElementOpenBasicChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aid []byte
 		_ = _arg_aid
-		_arg_p2, _err := data.ReadPaddedByte()
+		_arg_p2, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -439,13 +439,13 @@ func (s *SecureElementStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISecureElementOpenLogicalChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_aid []byte
 		_ = _arg_aid
-		_arg_p2, _err := data.ReadPaddedByte()
+		_arg_p2, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -462,7 +462,7 @@ func (s *SecureElementStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISecureElementReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Reset(ctx)
@@ -474,7 +474,7 @@ func (s *SecureElementStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISecureElementTransmit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

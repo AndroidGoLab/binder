@@ -89,18 +89,18 @@ var _ binder.TransactionReceiver = (*SplitScreenListenerStub)(nil)
 func (s *SplitScreenListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISplitScreenListenerOnStagePositionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_stage, _err := data.ReadInt32()
+		_arg_stage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_position, _err := data.ReadInt32()
+		_arg_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -108,18 +108,18 @@ func (s *SplitScreenListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISplitScreenListenerOnTaskStageChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stage, _err := data.ReadInt32()
+		_arg_stage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

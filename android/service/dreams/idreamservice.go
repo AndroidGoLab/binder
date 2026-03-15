@@ -122,21 +122,21 @@ var _ binder.TransactionReceiver = (*DreamServiceStub)(nil)
 func (s *DreamServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDreamServiceAttach:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
 		_ = _arg_windowToken
-		_arg_canDoze, _err := data.ReadBool()
+		_arg_canDoze, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isPreviewMode, _err := data.ReadBool()
+		_arg_isPreviewMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -147,21 +147,21 @@ func (s *DreamServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDreamServiceDetach:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Detach(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIDreamServiceWakeUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.WakeUp(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIDreamServiceComeToFront:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ComeToFront(ctx)

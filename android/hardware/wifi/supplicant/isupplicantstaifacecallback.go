@@ -1147,11 +1147,11 @@ var _ binder.TransactionReceiver = (*SupplicantStaIfaceCallbackStub)(nil)
 func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISupplicantStaIfaceCallbackOnAnqpQueryDone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1159,24 +1159,24 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _arg_bssid
 		var _arg_data AnqpData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_hs20Data Hs20AnqpData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hs20Data.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hs20Data.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1185,17 +1185,17 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnAssociationRejected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_assocRejectData AssociationRejectionData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_assocRejectData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_assocRejectData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1204,7 +1204,7 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnAuthenticationTimeout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1214,10 +1214,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnAuxiliarySupplicantEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_eventCode, _err := data.ReadInt32()
+		_raw_eventCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1225,7 +1225,7 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
 		_ = _arg_bssid
-		_arg_reasonString, _err := data.ReadString16()
+		_arg_reasonString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1233,17 +1233,17 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnBssTmHandlingDone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_tmData BssTmData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_tmData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_tmData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1252,10 +1252,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnBssidChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_reason, _err := data.ReadPaddedByte()
+		_raw_reason, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1267,17 +1267,17 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
 		_ = _arg_bssid
-		_arg_locallyGenerated, _err := data.ReadBool()
+		_arg_locallyGenerated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_reasonCode, _err := data.ReadInt32()
+		_raw_reasonCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1286,19 +1286,19 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnDppFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_code, _err := data.ReadInt32()
+		_raw_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_code := DppFailureCode(_raw_code)
-		_arg_ssid, _err := data.ReadString16()
+		_arg_ssid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_channelList, _err := data.ReadString16()
+		_arg_channelList, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1309,10 +1309,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnDppProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_code, _err := data.ReadInt32()
+		_raw_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1321,10 +1321,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnDppSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_event, _err := data.ReadInt32()
+		_raw_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1333,32 +1333,32 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnDppSuccessConfigReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ssid []byte
 		_ = _arg_ssid
-		_arg_password, _err := data.ReadString16()
+		_arg_password, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_psk []byte
 		_ = _arg_psk
-		_raw_securityAkm, _err := data.ReadInt32()
+		_raw_securityAkm, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_securityAkm := DppAkm(_raw_securityAkm)
 		var _arg_dppConnectionKeys DppConnectionKeys
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dppConnectionKeys.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dppConnectionKeys.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1367,20 +1367,20 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnDppSuccessConfigSent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDppSuccessConfigSent(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnEapFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
 		_ = _arg_bssid
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1388,10 +1388,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnExtRadioWorkStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1399,10 +1399,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnExtRadioWorkTimeout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1410,21 +1410,21 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnHs20DeauthImminentNotice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
 		_ = _arg_bssid
-		_arg_reasonCode, _err := data.ReadInt32()
+		_arg_reasonCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reAuthDelayInSec, _err := data.ReadInt32()
+		_arg_reAuthDelayInSec, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_url, _err := data.ReadString16()
+		_arg_url, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1432,13 +1432,13 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnHs20IconQueryDone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
 		_ = _arg_bssid
-		_arg_fileName, _err := data.ReadString16()
+		_arg_fileName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1449,18 +1449,18 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnHs20SubscriptionRemediation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
 		_ = _arg_bssid
-		_raw_osuMethod, _err := data.ReadPaddedByte()
+		_raw_osuMethod, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_osuMethod := OsuMethod(_raw_osuMethod)
-		_arg_url, _err := data.ReadString16()
+		_arg_url, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1468,13 +1468,13 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnHs20TermsAndConditionsAcceptanceRequestedNotification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
 		_ = _arg_bssid
-		_arg_url, _err := data.ReadString16()
+		_arg_url, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1482,10 +1482,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnNetworkAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1493,7 +1493,7 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnNetworkNotFound:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1503,10 +1503,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnNetworkRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1514,10 +1514,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnPmkCacheAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_expirationTimeInSec, _err := data.ReadInt64()
+		_arg_expirationTimeInSec, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1528,10 +1528,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_newState, _err := data.ReadInt32()
+		_raw_newState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1539,14 +1539,14 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
 		_ = _arg_bssid
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_ssid []byte
 		_ = _arg_ssid
-		_arg_filsHlpSent, _err := data.ReadBool()
+		_arg_filsHlpSent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1554,18 +1554,18 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnWpsEventFail:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_bssid []byte
 		_ = _arg_bssid
-		_raw_configError, _err := data.ReadInt32()
+		_raw_configError, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_configError := WpsConfigError(_raw_configError)
-		_raw_errorInd, _err := data.ReadInt32()
+		_raw_errorInd, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1574,31 +1574,31 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnWpsEventPbcOverlap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnWpsEventPbcOverlap(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnWpsEventSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnWpsEventSuccess(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnQosPolicyReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnQosPolicyReset(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnQosPolicyRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_qosPolicyRequestId, _err := data.ReadInt32()
+		_arg_qosPolicyRequestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1609,10 +1609,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnMloLinksInfoChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_reason, _err := data.ReadInt32()
+		_raw_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1621,17 +1621,17 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnDppConfigReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_configData DppConfigurationData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_configData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_configData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1640,10 +1640,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnDppConnectionStatusResultSent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_code, _err := data.ReadInt32()
+		_raw_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1652,10 +1652,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnBssFrequencyChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frequencyMhz, _err := data.ReadInt32()
+		_arg_frequencyMhz, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1663,17 +1663,17 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnSupplicantStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_stateChangeData SupplicantStateChangeData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_stateChangeData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_stateChangeData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1682,7 +1682,7 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnQosPolicyResponseForScs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1692,17 +1692,17 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnPmkSaCacheAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pmkSaData PmkSaCacheData
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pmkSaData.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pmkSaData.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1711,14 +1711,14 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnUsdPublishStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_publishId, _err := data.ReadInt32()
+		_arg_publishId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1726,14 +1726,14 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnUsdSubscribeStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subscribeId, _err := data.ReadInt32()
+		_arg_subscribeId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1741,10 +1741,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnUsdPublishConfigFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1752,10 +1752,10 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnUsdSubscribeConfigFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdId, _err := data.ReadInt32()
+		_arg_cmdId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1763,14 +1763,14 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnUsdPublishTerminated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_publishId, _err := data.ReadInt32()
+		_arg_publishId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_reasonCode, _err := data.ReadInt32()
+		_raw_reasonCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1779,14 +1779,14 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnUsdSubscribeTerminated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscribeId, _err := data.ReadInt32()
+		_arg_subscribeId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_reasonCode, _err := data.ReadInt32()
+		_raw_reasonCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1795,17 +1795,17 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnUsdPublishReplied:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info UsdServiceDiscoveryInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1814,17 +1814,17 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnUsdServiceDiscovered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_info UsdServiceDiscoveryInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1833,17 +1833,17 @@ func (s *SupplicantStaIfaceCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISupplicantStaIfaceCallbackOnUsdMessageReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_messageInfo UsdMessageInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_messageInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_messageInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

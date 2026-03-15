@@ -161,11 +161,11 @@ var _ binder.TransactionReceiver = (*SipDelegateStateCallbackStub)(nil)
 func (s *SipDelegateStateCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISipDelegateStateCallbackOnCreated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -178,17 +178,17 @@ func (s *SipDelegateStateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISipDelegateStateCallbackOnFeatureTagRegistrationChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_registrationState ims.DelegateRegistrationState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_registrationState.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_registrationState.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -197,17 +197,17 @@ func (s *SipDelegateStateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISipDelegateStateCallbackOnImsConfigurationChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_registeredSipConfig ims.SipDelegateImsConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_registeredSipConfig.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_registeredSipConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -216,17 +216,17 @@ func (s *SipDelegateStateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISipDelegateStateCallbackOnConfigurationChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_registeredSipConfig ims.SipDelegateConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_registeredSipConfig.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_registeredSipConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -235,10 +235,10 @@ func (s *SipDelegateStateCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISipDelegateStateCallbackOnDestroyed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

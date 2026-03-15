@@ -83,14 +83,14 @@ var _ binder.TransactionReceiver = (*SpatializerHeadTrackingModeCallbackStub)(ni
 func (s *SpatializerHeadTrackingModeCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerActualHeadTrackingModeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -98,10 +98,10 @@ func (s *SpatializerHeadTrackingModeCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISpatializerHeadTrackingModeCallbackDispatchSpatializerDesiredHeadTrackingModeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

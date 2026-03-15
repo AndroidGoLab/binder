@@ -473,14 +473,14 @@ var _ binder.TransactionReceiver = (*AdvancedExtenderImplStub)(nil)
 func (s *AdvancedExtenderImplStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAdvancedExtenderImplIsExtensionAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -497,10 +497,10 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplInit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -516,26 +516,26 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetEstimatedCaptureLatencyRange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_outputSize Size
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_outputSize.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_outputSize.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_format, _err := data.ReadInt32()
+		_arg_format, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -552,10 +552,10 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetSupportedPreviewOutputResolutions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -570,10 +570,10 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetSupportedCaptureOutputResolutions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -588,17 +588,17 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetSupportedPostviewResolutions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_captureSize Size
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_captureSize.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_captureSize.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -614,7 +614,7 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetSessionProcessor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSessionProcessor(ctx)
@@ -628,10 +628,10 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetAvailableCaptureRequestKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -645,10 +645,10 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetAvailableCaptureResultKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -662,7 +662,7 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplIsCaptureProcessProgressAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCaptureProcessProgressAvailable(ctx)
@@ -675,7 +675,7 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplIsPostviewAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsPostviewAvailable(ctx)
@@ -688,10 +688,10 @@ func (s *AdvancedExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdvancedExtenderImplGetAvailableCharacteristicsKeyValues:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

@@ -383,11 +383,11 @@ var _ binder.TransactionReceiver = (*PrintServiceClientStub)(nil)
 func (s *PrintServiceClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPrintServiceClientGetPrintJobInfos:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPrintJobInfos(ctx)
@@ -401,7 +401,7 @@ func (s *PrintServiceClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPrintServiceClientGetPrintJobInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId interface{}
@@ -415,15 +415,15 @@ func (s *PrintServiceClientStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPrintServiceClientSetPrintJobState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId interface{}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadString16()
+		_arg_error_, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -437,11 +437,11 @@ func (s *PrintServiceClientStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPrintServiceClientSetPrintJobTag:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId interface{}
-		_arg_tag, _err := data.ReadString16()
+		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -455,10 +455,10 @@ func (s *PrintServiceClientStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPrintServiceClientWritePrintJobData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -467,11 +467,11 @@ func (s *PrintServiceClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceClientSetProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId interface{}
-		_arg_progress, _err := data.ReadFloat32()
+		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -484,7 +484,7 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientSetStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId interface{}
@@ -498,11 +498,11 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientSetStatusRes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId interface{}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -516,17 +516,17 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientOnPrintersAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printers pm.ParceledListSlice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printers.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printers.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -540,17 +540,17 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientOnPrintersRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printerIds pm.ParceledListSlice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printerIds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printerIds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -564,18 +564,18 @@ func (s *PrintServiceClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPrintServiceClientOnCustomPrinterIconLoaded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printerId interface{}
 		var _arg_icon drawable.Icon
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_icon.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

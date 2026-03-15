@@ -92,11 +92,11 @@ var _ binder.TransactionReceiver = (*FilterCallbackStub)(nil)
 func (s *FilterCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIFilterCallbackOnFilterEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -106,10 +106,10 @@ func (s *FilterCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFilterCallbackOnFilterStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_status, _err := data.ReadPaddedByte()
+		_raw_status, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}

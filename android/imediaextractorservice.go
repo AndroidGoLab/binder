@@ -159,17 +159,17 @@ var _ binder.TransactionReceiver = (*MediaExtractorServiceStub)(nil)
 func (s *MediaExtractorServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaExtractorServiceMakeExtractor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_source IDataSource
 		_ = _arg_source
-		_arg_mime, _err := data.ReadString16()
+		_arg_mime, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -184,15 +184,15 @@ func (s *MediaExtractorServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaExtractorServiceMakeIDataSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_fd interface{}
-		_arg_offset, _err := data.ReadInt64()
+		_arg_offset, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_length, _err := data.ReadInt64()
+		_arg_length, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -207,7 +207,7 @@ func (s *MediaExtractorServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaExtractorServiceGetSupportedTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedTypes(ctx)

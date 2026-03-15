@@ -79,26 +79,26 @@ var _ binder.TransactionReceiver = (*GameModeListenerStub)(nil)
 func (s *GameModeListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGameModeListenerOnGameModeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_gameModeFrom, _err := data.ReadInt32()
+		_arg_gameModeFrom, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_gameModeTo, _err := data.ReadInt32()
+		_arg_gameModeTo, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnGameModeChanged(ctx, _arg_packageName, _arg_gameModeFrom, _arg_gameModeTo)

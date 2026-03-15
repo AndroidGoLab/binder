@@ -259,17 +259,17 @@ var _ binder.TransactionReceiver = (*MbmsStreamingServiceStub)(nil)
 func (s *MbmsStreamingServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMbmsStreamingServiceInitialize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback mbms.IMbmsStreamingSessionCallback
 		_ = _arg_callback
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -283,10 +283,10 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceRequestUpdateStreamingServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -303,14 +303,14 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceStartStreaming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadString16()
+		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -327,14 +327,14 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceGetPlaybackUri:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadString16()
+		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -351,14 +351,14 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceStopStreaming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_serviceId, _err := data.ReadString16()
+		_arg_serviceId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -371,10 +371,10 @@ func (s *MbmsStreamingServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMbmsStreamingServiceDispose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

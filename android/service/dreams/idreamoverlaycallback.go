@@ -81,21 +81,21 @@ var _ binder.TransactionReceiver = (*DreamOverlayCallbackStub)(nil)
 func (s *DreamOverlayCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDreamOverlayCallbackOnExitRequested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnExitRequested(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIDreamOverlayCallbackOnRedirectWake:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_redirect, _err := data.ReadBool()
+		_arg_redirect, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

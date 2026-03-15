@@ -218,11 +218,11 @@ var _ binder.TransactionReceiver = (*AppOpsUserClientStub)(nil)
 func (s *AppOpsUserClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAppOpsUserClientNoteSyncOpNative:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NoteSyncOpNative(ctx)
@@ -234,7 +234,7 @@ func (s *AppOpsUserClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsUserClientNoteNonPermissionSyncOpNative:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NoteNonPermissionSyncOpNative(ctx)
@@ -246,14 +246,14 @@ func (s *AppOpsUserClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsUserClientNoteSyncOpOnewayNative:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NoteSyncOpOnewayNative(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAppOpsUserClientFreezeAndNoteSyncOp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FreezeAndNoteSyncOp(ctx)
@@ -265,7 +265,7 @@ func (s *AppOpsUserClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsUserClientNoteSyncOpOtherUidNative:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NoteSyncOpOtherUidNative(ctx)
@@ -277,7 +277,7 @@ func (s *AppOpsUserClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsUserClientNoteAsyncOpNative:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NoteAsyncOpNative(ctx)
@@ -289,7 +289,7 @@ func (s *AppOpsUserClientStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAppOpsUserClientNoteAsyncOpNativeWithCustomMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NoteAsyncOpNativeWithCustomMessage(ctx)

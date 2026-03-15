@@ -233,18 +233,18 @@ var _ binder.TransactionReceiver = (*SapStub)(nil)
 func (s *SapStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISapApduReq:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -256,14 +256,14 @@ func (s *SapStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapConnectReq:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_maxMsgSizeBytes, _err := data.ReadInt32()
+		_arg_maxMsgSizeBytes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -271,10 +271,10 @@ func (s *SapStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapDisconnectReq:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -282,14 +282,14 @@ func (s *SapStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapPowerReq:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_powerOn, _err := data.ReadBool()
+		_arg_powerOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -297,10 +297,10 @@ func (s *SapStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapResetSimReq:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -308,7 +308,7 @@ func (s *SapStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -318,14 +318,14 @@ func (s *SapStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapSetTransferProtocolReq:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_transferProtocol, _err := data.ReadInt32()
+		_raw_transferProtocol, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -334,10 +334,10 @@ func (s *SapStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapTransferAtrReq:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -345,10 +345,10 @@ func (s *SapStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISapTransferCardReaderStatusReq:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serial, _err := data.ReadInt32()
+		_arg_serial, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -510,21 +510,21 @@ var _ binder.TransactionReceiver = (*DeviceStub)(nil)
 func (s *DeviceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDeviceAllocate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_desc BufferDesc
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_desc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_desc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -551,7 +551,7 @@ func (s *DeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceGetCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCapabilities(ctx)
@@ -567,7 +567,7 @@ func (s *DeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceGetNumberOfCacheFilesNeeded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNumberOfCacheFilesNeeded(ctx)
@@ -583,7 +583,7 @@ func (s *DeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDeviceGetSupportedExtensions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedExtensions(ctx)
@@ -597,17 +597,17 @@ func (s *DeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceGetSupportedOperations:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_model Model
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_model.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_model.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -623,7 +623,7 @@ func (s *DeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDeviceGetType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetType(ctx)
@@ -636,7 +636,7 @@ func (s *DeviceStub) OnTransaction(
 		_reply.WriteInt32(int32(_result))
 		return _reply, nil
 	case TransactionIDeviceGetVersionString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVersionString(ctx)
@@ -649,32 +649,32 @@ func (s *DeviceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIDevicePrepareModel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_model Model
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_model.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_model.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_raw_preference, _err := data.ReadInt32()
+		_raw_preference, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_preference := ExecutionPreference(_raw_preference)
-		_raw_priority, _err := data.ReadInt32()
+		_raw_priority, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_priority := Priority(_raw_priority)
-		_arg_deadlineNs, _err := data.ReadInt64()
+		_arg_deadlineNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -699,10 +699,10 @@ func (s *DeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePrepareModelFromCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deadlineNs, _err := data.ReadInt64()
+		_arg_deadlineNs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -727,29 +727,29 @@ func (s *DeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDevicePrepareModelWithConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_model Model
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_model.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_model.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_config PrepareModelConfig
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_config.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

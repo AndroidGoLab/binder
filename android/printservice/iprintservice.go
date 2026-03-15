@@ -251,11 +251,11 @@ var _ binder.TransactionReceiver = (*PrintServiceStub)(nil)
 func (s *PrintServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPrintServiceSetClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -265,7 +265,7 @@ func (s *PrintServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceRequestCancelPrintJob:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobInfo interface{}
@@ -273,7 +273,7 @@ func (s *PrintServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceOnPrintJobQueued:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobInfo interface{}
@@ -281,14 +281,14 @@ func (s *PrintServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceCreatePrinterDiscoverySession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CreatePrinterDiscoverySession(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceStartPrinterDiscovery:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -298,14 +298,14 @@ func (s *PrintServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceStopPrinterDiscovery:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopPrinterDiscovery(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceValidatePrinters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -315,7 +315,7 @@ func (s *PrintServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceStartPrinterStateTracking:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printerId interface{}
@@ -323,7 +323,7 @@ func (s *PrintServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceRequestCustomPrinterIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printerId interface{}
@@ -331,7 +331,7 @@ func (s *PrintServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceStopPrinterStateTracking:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printerId interface{}
@@ -339,7 +339,7 @@ func (s *PrintServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintServiceDestroyPrinterDiscoverySession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DestroyPrinterDiscoverySession(ctx)

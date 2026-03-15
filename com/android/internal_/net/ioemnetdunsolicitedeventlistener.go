@@ -62,11 +62,11 @@ var _ binder.TransactionReceiver = (*OemNetdUnsolicitedEventListenerStub)(nil)
 func (s *OemNetdUnsolicitedEventListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOemNetdUnsolicitedEventListenerOnRegistered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRegistered(ctx)

@@ -1122,14 +1122,14 @@ var _ binder.TransactionReceiver = (*KeyChainServiceStub)(nil)
 func (s *KeyChainServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIKeyChainServiceRequestPrivateKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1143,10 +1143,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceGetCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1161,10 +1161,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyChainServiceGetCaCertificates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1179,10 +1179,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyChainServiceIsUserSelectable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1196,14 +1196,14 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceSetUserSelectable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isUserSelectable, _err := data.ReadBool()
+		_arg_isUserSelectable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1216,21 +1216,21 @@ func (s *KeyChainServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyChainServiceGenerateKeyPair:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_algorithm, _err := data.ReadString16()
+		_arg_algorithm, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_spec keystore.ParcelableKeyGenParameterSpec
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_spec.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_spec.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1245,10 +1245,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceSetKeyPairCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1268,7 +1268,7 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceInstallCaCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1284,7 +1284,7 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceInstallKeyPair:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1296,11 +1296,11 @@ func (s *KeyChainServiceStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_certChain []byte
 		_ = _arg_certChain
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1314,10 +1314,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceRemoveKeyPair:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1331,10 +1331,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceContainsKeyPair:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1348,10 +1348,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceGetGrants:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1366,10 +1366,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyChainServiceDeleteCaCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1383,7 +1383,7 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Reset(ctx)
@@ -1396,7 +1396,7 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceGetUserCaAliases:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUserCaAliases(ctx)
@@ -1412,7 +1412,7 @@ func (s *KeyChainServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyChainServiceGetSystemCaAliases:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSystemCaAliases(ctx)
@@ -1428,10 +1428,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyChainServiceContainsCaAlias:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1445,14 +1445,14 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceGetEncodedCaCertificate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeDeletedSystem, _err := data.ReadBool()
+		_arg_includeDeletedSystem, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1467,14 +1467,14 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyChainServiceGetCaCertificateChainAliases:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rootAlias, _err := data.ReadString16()
+		_arg_rootAlias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeDeletedSystem, _err := data.ReadBool()
+		_arg_includeDeletedSystem, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1489,21 +1489,21 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIKeyChainServiceSetCredentialManagementApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_policy AppUriAuthenticationPolicy
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_policy.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_policy.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1517,7 +1517,7 @@ func (s *KeyChainServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyChainServiceHasCredentialManagementApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasCredentialManagementApp(ctx)
@@ -1530,7 +1530,7 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceGetCredentialManagementAppPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCredentialManagementAppPackageName(ctx)
@@ -1543,7 +1543,7 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceGetCredentialManagementAppPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCredentialManagementAppPolicy(ctx)
@@ -1559,21 +1559,21 @@ func (s *KeyChainServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIKeyChainServiceGetPredefinedAliasForPackageAndUri:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1588,7 +1588,7 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceRemoveCredentialManagementApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveCredentialManagementApp(ctx)
@@ -1600,10 +1600,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIKeyChainServiceIsCredentialManagementApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1617,18 +1617,18 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceSetGrant:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadBool()
+		_arg_value, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1642,14 +1642,14 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceHasGrant:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1663,10 +1663,10 @@ func (s *KeyChainServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIKeyChainServiceGetWifiKeyGrantAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alias, _err := data.ReadString16()
+		_arg_alias, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

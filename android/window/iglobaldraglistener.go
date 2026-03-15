@@ -83,11 +83,11 @@ var _ binder.TransactionReceiver = (*GlobalDragListenerStub)(nil)
 func (s *GlobalDragListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGlobalDragListenerOnCrossWindowDrop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_taskInfo interface{}
@@ -95,7 +95,7 @@ func (s *GlobalDragListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIGlobalDragListenerOnUnhandledDrop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event interface{}

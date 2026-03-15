@@ -256,11 +256,11 @@ var _ binder.TransactionReceiver = (*StorageSessionStub)(nil)
 func (s *StorageSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStorageSessionCommitChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CommitChanges(ctx)
@@ -272,7 +272,7 @@ func (s *StorageSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageSessionStageChangesForCommitOnAbUpdateComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StageChangesForCommitOnAbUpdateComplete(ctx)
@@ -284,7 +284,7 @@ func (s *StorageSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageSessionAbandonChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.AbandonChanges(ctx)
@@ -296,21 +296,21 @@ func (s *StorageSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageSessionOpenFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_filePath, _err := data.ReadString()
+		_arg_filePath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options OpenOptions
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -326,10 +326,10 @@ func (s *StorageSessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIStorageSessionDeleteFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_filePath, _err := data.ReadString()
+		_arg_filePath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
@@ -342,18 +342,18 @@ func (s *StorageSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageSessionRenameFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_currentPath, _err := data.ReadString()
+		_arg_currentPath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destPath, _err := data.ReadString()
+		_arg_destPath, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_destCreateMode, _err := data.ReadInt32()
+		_raw_destCreateMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -367,10 +367,10 @@ func (s *StorageSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIStorageSessionOpenDir:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString()
+		_arg_path, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}

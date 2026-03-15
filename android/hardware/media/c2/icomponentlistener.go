@@ -176,26 +176,26 @@ var _ binder.TransactionReceiver = (*ComponentListenerStub)(nil)
 func (s *ComponentListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIComponentListenerOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_status Status
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_status.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_status.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_errorCode, _err := data.ReadInt32()
+		_arg_errorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -203,7 +203,7 @@ func (s *ComponentListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIComponentListenerOnFramesRendered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -213,7 +213,7 @@ func (s *ComponentListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIComponentListenerOnInputBuffersReleased:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -223,7 +223,7 @@ func (s *ComponentListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIComponentListenerOnTripped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -233,17 +233,17 @@ func (s *ComponentListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIComponentListenerOnWorkDone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_workBundle WorkBundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_workBundle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_workBundle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

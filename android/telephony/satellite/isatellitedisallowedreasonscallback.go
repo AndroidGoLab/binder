@@ -71,11 +71,11 @@ var _ binder.TransactionReceiver = (*SatelliteDisallowedReasonsCallbackStub)(nil
 func (s *SatelliteDisallowedReasonsCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISatelliteDisallowedReasonsCallbackOnSatelliteDisallowedReasonsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

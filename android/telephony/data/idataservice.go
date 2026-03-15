@@ -394,14 +394,14 @@ var _ binder.TransactionReceiver = (*DataServiceStub)(nil)
 func (s *DataServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDataServiceCreateDataServiceProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -409,10 +409,10 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceRemoveDataServiceProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -420,71 +420,71 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceSetupDataCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_accessNetwork, _err := data.ReadInt32()
+		_arg_accessNetwork, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_dataProfile DataProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dataProfile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dataProfile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isRoaming, _err := data.ReadBool()
+		_arg_isRoaming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allowRoaming, _err := data.ReadBool()
+		_arg_allowRoaming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_linkProperties interface{}
-		_arg_pduSessionId, _err := data.ReadInt32()
+		_arg_pduSessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sliceInfo NetworkSliceInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sliceInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sliceInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_trafficDescriptor TrafficDescriptor
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_trafficDescriptor.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_trafficDescriptor.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_matchAllRuleAllowed, _err := data.ReadBool()
+		_arg_matchAllRuleAllowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -495,18 +495,18 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceDeactivateDataCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cid, _err := data.ReadInt32()
+		_arg_cid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -517,26 +517,26 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceSetInitialAttachApn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_dataProfile DataProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dataProfile.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dataProfile.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isRoaming, _err := data.ReadBool()
+		_arg_isRoaming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -547,17 +547,17 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceSetDataProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_dps []DataProfile
 		_ = _arg_dps
-		_arg_isRoaming, _err := data.ReadBool()
+		_arg_isRoaming, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -568,10 +568,10 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceRequestDataCallList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -582,10 +582,10 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceRegisterForDataCallListChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -596,10 +596,10 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceUnregisterForDataCallListChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -610,14 +610,14 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceStartHandover:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cid, _err := data.ReadInt32()
+		_arg_cid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -628,14 +628,14 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceCancelHandover:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cid, _err := data.ReadInt32()
+		_arg_cid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -646,10 +646,10 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceRegisterForUnthrottleApn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -660,10 +660,10 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceUnregisterForUnthrottleApn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -674,14 +674,14 @@ func (s *DataServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDataServiceRequestNetworkValidation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cid, _err := data.ReadInt32()
+		_arg_cid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

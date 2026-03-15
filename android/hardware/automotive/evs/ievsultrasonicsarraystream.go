@@ -89,21 +89,21 @@ var _ binder.TransactionReceiver = (*EvsUltrasonicsArrayStreamStub)(nil)
 func (s *EvsUltrasonicsArrayStreamStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEvsUltrasonicsArrayStreamDeliverDataFrame:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_dataFrameDesc UltrasonicsDataFrameDesc
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_dataFrameDesc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_dataFrameDesc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -112,17 +112,17 @@ func (s *EvsUltrasonicsArrayStreamStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEvsUltrasonicsArrayStreamNotify:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event EvsEventDesc
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_event.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

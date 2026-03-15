@@ -775,11 +775,11 @@ var _ binder.TransactionReceiver = (*MediaQualityStub)(nil)
 func (s *MediaQualityStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaQualitySetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -794,17 +794,17 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualitySetAmbientBacklightDetector:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_settings AmbientBacklightSettings
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_settings.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_settings.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -818,10 +818,10 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualitySetAmbientBacklightDetectionEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -834,7 +834,7 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityGetAmbientBacklightDetectionEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAmbientBacklightDetectionEnabled(ctx)
@@ -847,7 +847,7 @@ func (s *MediaQualityStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityIsAutoPqSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAutoPqSupported(ctx)
@@ -860,7 +860,7 @@ func (s *MediaQualityStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityGetAutoPqEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAutoPqEnabled(ctx)
@@ -873,10 +873,10 @@ func (s *MediaQualityStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualitySetAutoPqEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -889,7 +889,7 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityIsAutoSrSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAutoSrSupported(ctx)
@@ -902,7 +902,7 @@ func (s *MediaQualityStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityGetAutoSrEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAutoSrEnabled(ctx)
@@ -915,10 +915,10 @@ func (s *MediaQualityStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualitySetAutoSrEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -931,7 +931,7 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityIsAutoAqSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAutoAqSupported(ctx)
@@ -944,7 +944,7 @@ func (s *MediaQualityStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityGetAutoAqEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAutoAqEnabled(ctx)
@@ -957,10 +957,10 @@ func (s *MediaQualityStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualitySetAutoAqEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -973,7 +973,7 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityGetPictureProfileListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPictureProfileListener(ctx)
@@ -987,7 +987,7 @@ func (s *MediaQualityStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualitySetPictureProfileAdjustmentListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1002,17 +1002,17 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualitySendDefaultPictureParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pictureParameters PictureParameters
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pictureParameters.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pictureParameters.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1026,7 +1026,7 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityGetSoundProfileListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSoundProfileListener(ctx)
@@ -1040,7 +1040,7 @@ func (s *MediaQualityStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualitySetSoundProfileAdjustmentListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1055,17 +1055,17 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualitySendDefaultSoundParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundParameters SoundParameters
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_soundParameters.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_soundParameters.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1079,13 +1079,14 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityGetParamCaps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_paramNames []ParameterName
 		_ = _arg_paramNames
-		_err := s.Impl.GetParamCaps(ctx, _arg_paramNames)
+		var _arg_caps []ParamCapability
+		_err := s.Impl.GetParamCaps(ctx, _arg_paramNames, _arg_caps)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1094,13 +1095,14 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityGetVendorParamCaps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_names []VendorParameterIdentifier
 		_ = _arg_names
-		_err := s.Impl.GetVendorParamCaps(ctx, _arg_names)
+		var _arg_caps []VendorParamCapability
+		_err := s.Impl.GetVendorParamCaps(ctx, _arg_names, _arg_caps)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -1109,17 +1111,17 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualitySendPictureParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pictureParameters PictureParameters
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pictureParameters.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pictureParameters.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1133,17 +1135,17 @@ func (s *MediaQualityStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualitySendSoundParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_soundParameters SoundParameters
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_soundParameters.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_soundParameters.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

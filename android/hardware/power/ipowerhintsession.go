@@ -254,14 +254,14 @@ var _ binder.TransactionReceiver = (*PowerHintSessionStub)(nil)
 func (s *PowerHintSessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPowerHintSessionUpdateTargetWorkDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_targetDurationNanos, _err := data.ReadInt64()
+		_arg_targetDurationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -269,7 +269,7 @@ func (s *PowerHintSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerHintSessionReportActualWorkDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -279,31 +279,31 @@ func (s *PowerHintSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerHintSessionPause:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Pause(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPowerHintSessionResume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Resume(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPowerHintSessionClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPowerHintSessionSendHint:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_hint, _err := data.ReadInt32()
+		_raw_hint, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -312,7 +312,7 @@ func (s *PowerHintSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerHintSessionSetThreads:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -327,15 +327,15 @@ func (s *PowerHintSessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPowerHintSessionSetMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := SessionMode(_raw_type_)
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -343,7 +343,7 @@ func (s *PowerHintSessionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerHintSessionGetSessionConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSessionConfig(ctx)

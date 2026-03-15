@@ -254,18 +254,18 @@ var _ binder.TransactionReceiver = (*AudioRecordStub)(nil)
 func (s *AudioRecordStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAudioRecordStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_triggerSession, _err := data.ReadInt32()
+		_arg_triggerSession, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -278,7 +278,7 @@ func (s *AudioRecordStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioRecordStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Stop(ctx)
@@ -290,10 +290,11 @@ func (s *AudioRecordStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioRecordGetActiveMicrophones:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err := s.Impl.GetActiveMicrophones(ctx)
+		var _arg_activeMicrophones []MicrophoneInfoFw
+		_err := s.Impl.GetActiveMicrophones(ctx, _arg_activeMicrophones)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -302,10 +303,10 @@ func (s *AudioRecordStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioRecordSetPreferredMicrophoneDirection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_direction, _err := data.ReadInt32()
+		_arg_direction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -318,10 +319,10 @@ func (s *AudioRecordStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioRecordSetPreferredMicrophoneFieldDimension:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_zoom, _err := data.ReadFloat32()
+		_arg_zoom, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -334,14 +335,14 @@ func (s *AudioRecordStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioRecordShareAudioHistory:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sharedAudioPackageName, _err := data.ReadString16()
+		_arg_sharedAudioPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sharedAudioStartMs, _err := data.ReadInt64()
+		_arg_sharedAudioStartMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -354,10 +355,10 @@ func (s *AudioRecordStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioRecordSetParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyValuePairs, _err := data.ReadString16()
+		_arg_keyValuePairs, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

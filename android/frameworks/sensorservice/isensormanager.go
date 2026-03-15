@@ -244,26 +244,26 @@ var _ binder.TransactionReceiver = (*SensorManagerStub)(nil)
 func (s *SensorManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISensorManagerCreateAshmemDirectChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_mem common.Ashmem
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_mem.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_mem.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_size, _err := data.ReadInt64()
+		_arg_size, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -278,7 +278,7 @@ func (s *SensorManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISensorManagerCreateEventQueue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -295,14 +295,14 @@ func (s *SensorManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISensorManagerCreateGrallocDirectChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_buffer, _err := data.ReadFileDescriptor()
+		_arg_buffer, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_size, _err := data.ReadInt64()
+		_arg_size, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -317,10 +317,10 @@ func (s *SensorManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISensorManagerGetDefaultSensor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -338,7 +338,7 @@ func (s *SensorManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISensorManagerGetSensorList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSensorList(ctx)

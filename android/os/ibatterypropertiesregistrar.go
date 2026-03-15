@@ -99,18 +99,19 @@ var _ binder.TransactionReceiver = (*BatteryPropertiesRegistrarStub)(nil)
 func (s *BatteryPropertiesRegistrarStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBatteryPropertiesRegistrarGetProperty:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetProperty(ctx, _arg_id)
+		var _arg_prop BatteryProperty
+		_result, _err := s.Impl.GetProperty(ctx, _arg_id, _arg_prop)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -120,7 +121,7 @@ func (s *BatteryPropertiesRegistrarStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBatteryPropertiesRegistrarScheduleUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleUpdate(ctx)

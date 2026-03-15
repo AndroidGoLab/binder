@@ -219,11 +219,11 @@ var _ binder.TransactionReceiver = (*TunerLnbStub)(nil)
 func (s *TunerLnbStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerLnbSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -238,10 +238,10 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbSetVoltage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_voltage, _err := data.ReadInt32()
+		_raw_voltage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -255,10 +255,10 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbSetTone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_tone, _err := data.ReadInt32()
+		_raw_tone, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -272,10 +272,10 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbSetSatellitePosition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_position, _err := data.ReadInt32()
+		_raw_position, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -289,7 +289,7 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbSendDiseqcMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -304,7 +304,7 @@ func (s *TunerLnbStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerLnbClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)

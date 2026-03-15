@@ -229,33 +229,33 @@ var _ binder.TransactionReceiver = (*ShellTransitionsStub)(nil)
 func (s *ShellTransitionsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIShellTransitionsRegisterRemote:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_filter window.TransitionFilter
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_filter.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_filter.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_remoteTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -264,17 +264,17 @@ func (s *ShellTransitionsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIShellTransitionsUnregisterRemote:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -283,7 +283,7 @@ func (s *ShellTransitionsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIShellTransitionsGetShellApplyToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetShellApplyToken(ctx)
@@ -297,7 +297,7 @@ func (s *ShellTransitionsStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIShellTransitionsSetHomeTransitionListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -307,7 +307,7 @@ func (s *ShellTransitionsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIShellTransitionsGetHomeTaskOverlayContainer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHomeTaskOverlayContainer(ctx)
@@ -323,29 +323,29 @@ func (s *ShellTransitionsStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIShellTransitionsRegisterRemoteForTakeover:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_filter window.TransitionFilter
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_filter.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_filter.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_remoteTransition window.RemoteTransition
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteTransition.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteTransition.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -354,7 +354,7 @@ func (s *ShellTransitionsStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIShellTransitionsSetFocusTransitionListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

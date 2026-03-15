@@ -341,31 +341,31 @@ var _ binder.TransactionReceiver = (*BackupAgentStub)(nil)
 func (s *BackupAgentStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBackupAgentDoBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_oldState, _err := data.ReadFileDescriptor()
+		_arg_oldState, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadFileDescriptor()
+		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newState, _err := data.ReadFileDescriptor()
+		_arg_newState, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_quotaBytes, _err := data.ReadInt64()
+		_arg_quotaBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackBinder interface{}
-		_arg_transportFlags, _err := data.ReadInt32()
+		_arg_transportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -373,22 +373,22 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentDoRestore:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadFileDescriptor()
+		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appVersionCode, _err := data.ReadInt64()
+		_arg_appVersionCode, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newState, _err := data.ReadFileDescriptor()
+		_arg_newState, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -397,22 +397,22 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentDoRestoreWithExcludedKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadFileDescriptor()
+		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appVersionCode, _err := data.ReadInt64()
+		_arg_appVersionCode, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newState, _err := data.ReadFileDescriptor()
+		_arg_newState, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -424,23 +424,23 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentDoFullBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadFileDescriptor()
+		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_quotaBytes, _err := data.ReadInt64()
+		_arg_quotaBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackBinder interface{}
-		_arg_transportFlags, _err := data.ReadInt32()
+		_arg_transportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -448,19 +448,19 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentDoMeasureFullBackup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_quotaBytes, _err := data.ReadInt64()
+		_arg_quotaBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackBinder interface{}
-		_arg_transportFlags, _err := data.ReadInt32()
+		_arg_transportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -468,14 +468,14 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentDoQuotaExceeded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_backupDataBytes, _err := data.ReadInt64()
+		_arg_backupDataBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_quotaBytes, _err := data.ReadInt64()
+		_arg_quotaBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -484,38 +484,38 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentDoRestoreFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadFileDescriptor()
+		_arg_data, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_size, _err := data.ReadInt64()
+		_arg_size, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_domain, _err := data.ReadString16()
+		_arg_domain, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_path, _err := data.ReadString16()
+		_arg_path, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt64()
+		_arg_mode, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mtime, _err := data.ReadInt64()
+		_arg_mtime, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -524,10 +524,10 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentDoRestoreFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadInt32()
+		_arg_token, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -536,10 +536,10 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentFail:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -547,17 +547,17 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentGetLoggerResults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_resultsFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resultsFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resultsFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -566,17 +566,17 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentGetOperationType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_operationTypeFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_operationTypeFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_operationTypeFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -585,7 +585,7 @@ func (s *BackupAgentStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBackupAgentClearBackupRestoreEventLogger:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearBackupRestoreEventLogger(ctx)

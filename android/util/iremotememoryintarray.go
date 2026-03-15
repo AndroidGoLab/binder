@@ -322,11 +322,11 @@ var _ binder.TransactionReceiver = (*RemoteMemoryIntArrayStub)(nil)
 func (s *RemoteMemoryIntArrayStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRemoteMemoryIntArrayPeekInstance:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.PeekInstance(ctx)
@@ -342,10 +342,10 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayCreate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_size, _err := data.ReadInt32()
+		_arg_size, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -358,7 +358,7 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayIsWritable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsWritable(ctx)
@@ -371,10 +371,10 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayGet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -388,14 +388,14 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArraySet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_index, _err := data.ReadInt32()
+		_arg_index, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -408,7 +408,7 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArraySize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Size(ctx)
@@ -421,7 +421,7 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)
@@ -433,7 +433,7 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayIsClosed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsClosed(ctx)
@@ -446,17 +446,17 @@ func (s *RemoteMemoryIntArrayStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIRemoteMemoryIntArrayAccessLastElementInRemoteProcess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_array MemoryIntArray
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_array.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_array.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

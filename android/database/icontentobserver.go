@@ -96,40 +96,40 @@ var _ binder.TransactionReceiver = (*ContentObserverStub)(nil)
 func (s *ContentObserverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContentObserverOnChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_selfUpdate, _err := data.ReadBool()
+		_arg_selfUpdate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_uri interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnChange(ctx, _arg_selfUpdate, _arg_uri)
 		_ = _err
 		return nil, nil
 	case TransactionIContentObserverOnChangeEtc:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_selfUpdate, _err := data.ReadBool()
+		_arg_selfUpdate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uri []interface{}
 		_ = _arg_uri
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnChangeEtc(ctx, _arg_selfUpdate, _arg_uri, _arg_flags)

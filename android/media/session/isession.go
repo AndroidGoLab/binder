@@ -50,7 +50,7 @@ type ISession interface {
 	SetExtras(ctx context.Context, extras interface{}) error
 	SetRatingType(ctx context.Context, type_ int32) error
 	SetPlaybackToLocal(ctx context.Context, attributes interface{}) error
-	SetPlaybackToRemote(ctx context.Context, control int32, max int32, controlId string) error
+	SetPlaybackToRemote(ctx context.Context, control int32, max_ int32, controlId string) error
 	SetCurrentVolume(ctx context.Context, currentVolume int32) error
 }
 
@@ -494,13 +494,13 @@ func (p *SessionProxy) SetPlaybackToLocal(
 func (p *SessionProxy) SetPlaybackToRemote(
 	ctx context.Context,
 	control int32,
-	max int32,
+	max_ int32,
 	controlId string,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
 	_data.WriteInt32(control)
-	_data.WriteInt32(max)
+	_data.WriteInt32(max_)
 	_data.WriteString16(controlId)
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setPlaybackToRemote")
@@ -558,14 +558,14 @@ var _ binder.TransactionReceiver = (*SessionStub)(nil)
 func (s *SessionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISessionSendEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadString16()
+		_arg_event, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -579,7 +579,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionGetController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetController(ctx)
@@ -593,10 +593,10 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionSetFlags:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -609,10 +609,10 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_active, _err := data.ReadBool()
+		_arg_active, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -625,7 +625,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetMediaButtonReceiver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_mbr interface{}
@@ -638,7 +638,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetMediaButtonBroadcastReceiver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_broadcastReceiver interface{}
@@ -651,7 +651,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetLaunchPendingIntent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pi interface{}
@@ -664,7 +664,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionDestroySession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DestroySession(ctx)
@@ -676,15 +676,15 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_metadata interface{}
-		_arg_duration, _err := data.ReadInt64()
+		_arg_duration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_metadataDescription, _err := data.ReadString16()
+		_arg_metadataDescription, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -697,17 +697,17 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetPlaybackState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_state PlaybackState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_state.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_state.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -721,7 +721,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionResetQueue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetQueue(ctx)
@@ -733,7 +733,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionGetBinderForSetQueue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetBinderForSetQueue(ctx)
@@ -747,7 +747,7 @@ func (s *SessionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISessionSetQueueTitle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_title interface{}
@@ -760,7 +760,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetExtras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_extras interface{}
@@ -773,10 +773,10 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetRatingType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -789,7 +789,7 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetPlaybackToLocal:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_attributes interface{}
@@ -802,22 +802,22 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetPlaybackToRemote:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_control, _err := data.ReadInt32()
+		_arg_control, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_max, _err := data.ReadInt32()
+		_arg_max_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_controlId, _err := data.ReadString16()
+		_arg_controlId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_err = s.Impl.SetPlaybackToRemote(ctx, _arg_control, _arg_max, _arg_controlId)
+		_err = s.Impl.SetPlaybackToRemote(ctx, _arg_control, _arg_max_, _arg_controlId)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -826,10 +826,10 @@ func (s *SessionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionISessionSetCurrentVolume:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_currentVolume, _err := data.ReadInt32()
+		_arg_currentVolume, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

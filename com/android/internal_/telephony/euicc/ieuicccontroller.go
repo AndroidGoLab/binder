@@ -790,37 +790,37 @@ var _ binder.TransactionReceiver = (*EuiccControllerStub)(nil)
 func (s *EuiccControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEuiccControllerContinueOperation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_resolutionIntent content.Intent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resolutionIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resolutionIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_resolutionExtras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resolutionExtras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resolutionExtras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -829,36 +829,36 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerGetDownloadableSubscriptionMetadata:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_subscription telephonyEuicc.DownloadableSubscription
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_subscription.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_subscription.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -867,24 +867,24 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerGetDefaultDownloadableSubscriptionList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -893,14 +893,14 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerGetEid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEid(ctx, _arg_cardId)
@@ -913,10 +913,10 @@ func (s *EuiccControllerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIEuiccControllerGetOtaStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -930,52 +930,52 @@ func (s *EuiccControllerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIEuiccControllerDownloadSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_subscription telephonyEuicc.DownloadableSubscription
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_subscription.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_subscription.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_switchAfterDownload, _err := data.ReadBool()
+		_arg_switchAfterDownload, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_resolvedBundle os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_resolvedBundle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_resolvedBundle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -984,10 +984,10 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerGetEuiccInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1004,28 +1004,28 @@ func (s *EuiccControllerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEuiccControllerDeleteSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1034,28 +1034,28 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerSwitchToSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1064,32 +1064,32 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerSwitchToSubscriptionWithPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_portIndex, _err := data.ReadInt32()
+		_arg_portIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1098,32 +1098,32 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerUpdateSubscriptionNickname:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nickname, _err := data.ReadString16()
+		_arg_nickname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1132,21 +1132,21 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerEraseSubscriptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1155,25 +1155,25 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerEraseSubscriptionsWithOptions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_options, _err := data.ReadInt32()
+		_arg_options, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1182,21 +1182,21 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerRetainSubscriptionsForFactoryReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callbackIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callbackIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callbackIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1205,10 +1205,10 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEuiccControllerSetSupportedCountries:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isSupported, _err := data.ReadBool()
+		_arg_isSupported, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1224,10 +1224,10 @@ func (s *EuiccControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEuiccControllerGetSupportedCountries:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isSupported, _err := data.ReadBool()
+		_arg_isSupported, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1242,10 +1242,10 @@ func (s *EuiccControllerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIEuiccControllerIsSupportedCountry:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_countryIso, _err := data.ReadString16()
+		_arg_countryIso, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1259,18 +1259,18 @@ func (s *EuiccControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIEuiccControllerIsSimPortAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_portIndex, _err := data.ReadInt32()
+		_arg_portIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSimPortAvailable(ctx, _arg_cardId, _arg_portIndex)
@@ -1283,10 +1283,10 @@ func (s *EuiccControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIEuiccControllerHasCarrierPrivilegesForPackageOnAnyPhone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasCarrierPrivilegesForPackageOnAnyPhone(ctx)
@@ -1299,13 +1299,13 @@ func (s *EuiccControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIEuiccControllerIsCompatChangeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_changeId, _err := data.ReadInt64()
+		_arg_changeId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1319,7 +1319,7 @@ func (s *EuiccControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIEuiccControllerSetPsimConversionSupportedCarriers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1334,10 +1334,10 @@ func (s *EuiccControllerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEuiccControllerIsPsimConversionSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_carrierId, _err := data.ReadInt32()
+		_arg_carrierId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1351,14 +1351,14 @@ func (s *EuiccControllerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIEuiccControllerGetAvailableMemoryInBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cardId, _err := data.ReadInt32()
+		_arg_cardId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAvailableMemoryInBytes(ctx, _arg_cardId)

@@ -513,19 +513,19 @@ var _ binder.TransactionReceiver = (*PowerStub)(nil)
 func (s *PowerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPowerSetMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := Mode(_raw_type_)
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -533,10 +533,10 @@ func (s *PowerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerIsModeSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -551,15 +551,15 @@ func (s *PowerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerSetBoost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := Boost(_raw_type_)
-		_arg_durationMs, _err := data.ReadInt32()
+		_arg_durationMs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -567,10 +567,10 @@ func (s *PowerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerIsBoostSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -585,21 +585,21 @@ func (s *PowerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPowerCreateHintSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tgid, _err := data.ReadInt32()
+		_arg_tgid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_threadIds []int32
 		_ = _arg_threadIds
-		_arg_durationNanos, _err := data.ReadInt64()
+		_arg_durationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -614,7 +614,7 @@ func (s *PowerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPowerGetHintSessionPreferredRate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHintSessionPreferredRate(ctx)
@@ -627,30 +627,31 @@ func (s *PowerStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIPowerCreateHintSessionWithConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tgid, _err := data.ReadInt32()
+		_arg_tgid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_threadIds []int32
 		_ = _arg_threadIds
-		_arg_durationNanos, _err := data.ReadInt64()
+		_arg_durationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_tag, _err := data.ReadInt32()
+		_raw_tag, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_tag := SessionTag(_raw_tag)
-		_result, _err := s.Impl.CreateHintSessionWithConfig(ctx, _arg_tgid, _arg_uid, _arg_threadIds, _arg_durationNanos, _arg_tag)
+		var _arg_config SessionConfig
+		_result, _err := s.Impl.CreateHintSessionWithConfig(ctx, _arg_tgid, _arg_uid, _arg_threadIds, _arg_durationNanos, _arg_tag, _arg_config)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -661,14 +662,14 @@ func (s *PowerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPowerGetSessionChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tgid, _err := data.ReadInt32()
+		_arg_tgid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -685,14 +686,14 @@ func (s *PowerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPowerCloseSessionChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tgid, _err := data.ReadInt32()
+		_arg_tgid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -700,7 +701,7 @@ func (s *PowerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerGetSupportInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportInfo(ctx)
@@ -716,17 +717,17 @@ func (s *PowerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPowerGetCpuHeadroom:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params CpuHeadroomParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -744,17 +745,17 @@ func (s *PowerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPowerGetGpuHeadroom:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params GpuHeadroomParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -772,7 +773,7 @@ func (s *PowerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPowerSendCompositionData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -782,17 +783,17 @@ func (s *PowerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPowerSendCompositionUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_update CompositionUpdate
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_update.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_update.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

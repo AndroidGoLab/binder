@@ -138,11 +138,11 @@ var _ binder.TransactionReceiver = (*SharedSecretStub)(nil)
 func (s *SharedSecretStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISharedSecretGetSharedSecretParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSharedSecretParameters(ctx)
@@ -158,7 +158,7 @@ func (s *SharedSecretStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISharedSecretComputeSharedSecret:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

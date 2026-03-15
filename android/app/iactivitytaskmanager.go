@@ -3268,50 +3268,50 @@ var _ binder.TransactionReceiver = (*ActivityTaskManagerStub)(nil)
 func (s *ActivityTaskManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIActivityTaskManagerStartActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller IApplicationThread
 		_ = _arg_caller
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultTo binder.IBinder
 		_ = _arg_resultTo
-		_arg_resultWho, _err := data.ReadString16()
+		_arg_resultWho, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profilerInfo ProfilerInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profilerInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profilerInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -3327,16 +3327,16 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartActivities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller IApplicationThread
 		_ = _arg_caller
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -3349,7 +3349,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		var _arg_resultTo binder.IBinder
 		_ = _arg_resultTo
 		var _arg_options interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartActivities(ctx, _arg_caller, _arg_intents, _arg_resolvedTypes, _arg_resultTo, _arg_options)
@@ -3362,52 +3362,52 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartActivityAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller IApplicationThread
 		_ = _arg_caller
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultTo binder.IBinder
 		_ = _arg_resultTo
-		_arg_resultWho, _err := data.ReadString16()
+		_arg_resultWho, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profilerInfo ProfilerInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profilerInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profilerInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartActivityAsUser(ctx, _arg_caller, _arg_intent, _arg_resolvedType, _arg_resultTo, _arg_resultWho, _arg_requestCode, _arg_flags, _arg_profilerInfo, _arg_options)
@@ -3420,7 +3420,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartNextMatchingActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3438,7 +3438,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartActivityIntentSender:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3449,26 +3449,26 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		var _arg_whitelistToken binder.IBinder
 		_ = _arg_whitelistToken
 		var _arg_fillInIntent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultTo binder.IBinder
 		_ = _arg_resultTo
-		_arg_resultWho, _err := data.ReadString16()
+		_arg_resultWho, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flagsMask, _err := data.ReadInt32()
+		_arg_flagsMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flagsValues, _err := data.ReadInt32()
+		_arg_flagsValues, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3483,52 +3483,52 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartActivityAndWait:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller IApplicationThread
 		_ = _arg_caller
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultTo binder.IBinder
 		_ = _arg_resultTo
-		_arg_resultWho, _err := data.ReadString16()
+		_arg_resultWho, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profilerInfo ProfilerInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profilerInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profilerInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartActivityAndWait(ctx, _arg_caller, _arg_intent, _arg_resolvedType, _arg_resultTo, _arg_resultWho, _arg_requestCode, _arg_flags, _arg_profilerInfo, _arg_options)
@@ -3544,41 +3544,41 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartActivityWithConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller IApplicationThread
 		_ = _arg_caller
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultTo binder.IBinder
 		_ = _arg_resultTo
-		_arg_resultWho, _err := data.ReadString16()
+		_arg_resultWho, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_startFlags, _err := data.ReadInt32()
+		_arg_startFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_newConfig interface{}
 		var _arg_options interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartActivityWithConfig(ctx, _arg_caller, _arg_intent, _arg_resolvedType, _arg_resultTo, _arg_resultWho, _arg_requestCode, _arg_startFlags, _arg_newConfig, _arg_options)
@@ -3591,46 +3591,46 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartVoiceActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_session interface{}
 		var _arg_interactor interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profilerInfo ProfilerInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profilerInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profilerInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartVoiceActivity(ctx, _arg_intent, _arg_resolvedType, _arg_session, _arg_interactor, _arg_flags, _arg_profilerInfo, _arg_options)
@@ -3643,7 +3643,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetVoiceInteractorPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -3659,28 +3659,28 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartAssistantActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_options interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartAssistantActivity(ctx, _arg_intent, _arg_resolvedType, _arg_options)
@@ -3693,30 +3693,30 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartActivityFromGameSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller IApplicationThread
 		_ = _arg_caller
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartActivityFromGameSession(ctx, _arg_caller, _arg_intent, _arg_taskId)
@@ -3729,10 +3729,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartActivityFromRecents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3747,53 +3747,53 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartActivityAsCaller:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller IApplicationThread
 		_ = _arg_caller
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultTo binder.IBinder
 		_ = _arg_resultTo
-		_arg_resultWho, _err := data.ReadString16()
+		_arg_resultWho, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_requestCode, _err := data.ReadInt32()
+		_arg_requestCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_profilerInfo ProfilerInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_profilerInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_profilerInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options interface{}
-		_arg_ignoreTargetSecurity, _err := data.ReadBool()
+		_arg_ignoreTargetSecurity, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.StartActivityAsCaller(ctx, _arg_caller, _arg_intent, _arg_resolvedType, _arg_resultTo, _arg_resultWho, _arg_requestCode, _arg_flags, _arg_profilerInfo, _arg_options, _arg_ignoreTargetSecurity)
@@ -3806,7 +3806,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerPreloadRecentsActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
@@ -3819,19 +3819,19 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerIsActivityStartAllowedOnDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		_arg_resolvedType, _err := data.ReadString16()
+		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsActivityStartAllowedOnDisplay(ctx, _arg_displayId, _arg_intent, _arg_resolvedType)
@@ -3844,7 +3844,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerUnhandledBack:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnhandledBack(ctx)
@@ -3856,7 +3856,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetActivityClientController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActivityClientController(ctx)
@@ -3870,7 +3870,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetFrontActivityScreenCompatMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFrontActivityScreenCompatMode(ctx)
@@ -3883,10 +3883,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetFrontActivityScreenCompatMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3899,10 +3899,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetFocusedTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3915,10 +3915,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRemoveTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3932,7 +3932,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRemoveAllVisibleRecentTasks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveAllVisibleRecentTasks(ctx)
@@ -3944,22 +3944,22 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetTasks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_maxNum, _err := data.ReadInt32()
+		_arg_maxNum, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_filterOnlyVisibleRecents, _err := data.ReadBool()
+		_arg_filterOnlyVisibleRecents, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_keepIntentExtra, _err := data.ReadBool()
+		_arg_keepIntentExtra, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -3974,20 +3974,20 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerMoveTaskToFront:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_app IApplicationThread
 		_ = _arg_app
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_task, _err := data.ReadInt32()
+		_arg_task, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4001,18 +4001,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetRecentTasks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_maxNum, _err := data.ReadInt32()
+		_arg_maxNum, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRecentTasks(ctx, _arg_maxNum, _arg_flags)
@@ -4025,7 +4025,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerIsTopActivityImmersive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsTopActivityImmersive(ctx)
@@ -4038,7 +4038,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerReportAssistContextExtras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4047,24 +4047,24 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		var _arg_extras interface{}
 		var _arg_structure assist.AssistStructure
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_structure.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_structure.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_content assist.AssistContent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_content.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_content.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4079,10 +4079,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetFocusedRootTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4095,7 +4095,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetFocusedRootTaskInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetFocusedRootTaskInfo(ctx)
@@ -4111,10 +4111,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetTaskBounds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4131,10 +4131,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerFocusTopTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4147,10 +4147,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerUpdateLockTaskPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -4165,7 +4165,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerIsInLockTaskMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInLockTaskMode(ctx)
@@ -4178,7 +4178,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetLockTaskModeState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLockTaskModeState(ctx)
@@ -4191,10 +4191,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetAppTasks:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppTasks(ctx)
@@ -4208,10 +4208,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartSystemLockTaskMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4224,7 +4224,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStopSystemLockTaskMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopSystemLockTaskMode(ctx)
@@ -4236,7 +4236,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerFinishVoiceTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_session interface{}
@@ -4249,7 +4249,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerAddAppTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4258,24 +4258,24 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		var _arg_intent interface{}
 		var _arg_description ActivityManagerTaskDescription
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_description.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_description.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_thumbnail graphics.Bitmap
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_thumbnail.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_thumbnail.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -4290,7 +4290,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetAppTaskThumbnailSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppTaskThumbnailSize(ctx)
@@ -4306,7 +4306,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerReleaseSomeActivities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4316,14 +4316,14 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIActivityTaskManagerGetTaskDescriptionIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_filename, _err := data.ReadString16()
+		_arg_filename, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTaskDescriptionIcon(ctx, _arg_filename)
@@ -4339,7 +4339,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerRegisterTaskStackListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4354,7 +4354,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerUnregisterTaskStackListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4369,14 +4369,14 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetTaskResizeable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_resizeableMode, _err := data.ReadInt32()
+		_arg_resizeableMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4389,26 +4389,26 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerResizeTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_bounds graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_bounds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_bounds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_resizeMode, _err := data.ReadInt32()
+		_arg_resizeMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4421,14 +4421,14 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerMoveRootTaskToDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4441,18 +4441,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerMoveTaskToRootTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rootTaskId, _err := data.ReadInt32()
+		_arg_rootTaskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_toTop, _err := data.ReadBool()
+		_arg_toTop, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4465,7 +4465,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRemoveRootTasksInWindowingModes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -4480,7 +4480,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRemoveRootTasksWithActivityTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -4495,7 +4495,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetAllRootTaskInfos:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllRootTaskInfos(ctx)
@@ -4509,14 +4509,14 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetRootTaskInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_windowingMode, _err := data.ReadInt32()
+		_arg_windowingMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_activityType, _err := data.ReadInt32()
+		_arg_activityType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4533,10 +4533,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetAllRootTaskInfosOnDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4551,18 +4551,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetRootTaskInfoOnDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_windowingMode, _err := data.ReadInt32()
+		_arg_windowingMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_activityType, _err := data.ReadInt32()
+		_arg_activityType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4579,14 +4579,14 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetLockScreenShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_showingKeyguard, _err := data.ReadBool()
+		_arg_showingKeyguard, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_showingAod, _err := data.ReadBool()
+		_arg_showingAod, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4599,10 +4599,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetAssistContextExtras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestType, _err := data.ReadInt32()
+		_arg_requestType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4616,10 +4616,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerRequestAssistContextExtras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestType, _err := data.ReadInt32()
+		_arg_requestType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4630,11 +4630,11 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
 		_ = _arg_activityToken
-		_arg_focused, _err := data.ReadBool()
+		_arg_focused, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newSessionId, _err := data.ReadBool()
+		_arg_newSessionId, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4648,7 +4648,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRequestAutofillData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4658,7 +4658,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
 		_ = _arg_activityToken
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4672,7 +4672,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerIsAssistDataAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAssistDataAllowed(ctx)
@@ -4685,25 +4685,25 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRequestAssistDataForTask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IAssistDataReceiver
 		_ = _arg_receiver
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callingPackageName, _err := data.ReadString16()
+		_arg_callingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callingAttributionTag, _err := data.ReadString16()
+		_arg_callingAttributionTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fetchStructure, _err := data.ReadBool()
+		_arg_fetchStructure, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4717,10 +4717,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerKeyguardGoingAway:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4733,10 +4733,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSuppressResizeConfigChanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_suppress, _err := data.ReadBool()
+		_arg_suppress, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4749,7 +4749,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetWindowOrganizerController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWindowOrganizerController(ctx)
@@ -4762,7 +4762,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerSupportsLocalVoiceInteraction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SupportsLocalVoiceInteraction(ctx)
@@ -4775,7 +4775,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRequestOpenInBrowserEducation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -4790,7 +4790,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetDeviceConfigurationInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeviceConfigurationInfo(ctx)
@@ -4803,10 +4803,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerCancelTaskWindowTransition:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4819,14 +4819,14 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetTaskSnapshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isLowResolution, _err := data.ReadBool()
+		_arg_isLowResolution, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4840,14 +4840,14 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerTakeTaskSnapshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_updateCache, _err := data.ReadBool()
+		_arg_updateCache, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4861,7 +4861,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetLastResumedActivityUserId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLastResumedActivityUserId(ctx)
@@ -4874,7 +4874,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerUpdateConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_values interface{}
@@ -4888,13 +4888,13 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerUpdateLockTaskFeatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4907,10 +4907,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRegisterRemoteAnimationForNextActivityStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4927,10 +4927,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRegisterRemoteAnimationsForDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4944,7 +4944,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerAlwaysShowUnsupportedCompileSdkWarning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_activity interface{}
@@ -4957,10 +4957,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetVrThread:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tid, _err := data.ReadInt32()
+		_arg_tid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4973,10 +4973,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetPersistentVrThread:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tid, _err := data.ReadInt32()
+		_arg_tid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -4989,7 +4989,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStopAppSwitches:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StopAppSwitches(ctx)
@@ -5001,7 +5001,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerResumeAppSwitches:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResumeAppSwitches(ctx)
@@ -5013,13 +5013,13 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetActivityController:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_watcher IActivityController
 		_ = _arg_watcher
-		_arg_imAMonkey, _err := data.ReadBool()
+		_arg_imAMonkey, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5032,11 +5032,11 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetVoiceKeepAwake:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_session interface{}
-		_arg_keepAwake, _err := data.ReadBool()
+		_arg_keepAwake, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5049,10 +5049,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetPackageScreenCompatMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5066,14 +5066,14 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetPackageScreenCompatMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5086,10 +5086,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetPackageAskScreenCompat:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5103,14 +5103,14 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetPackageAskScreenCompat:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ask, _err := data.ReadBool()
+		_arg_ask, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5123,7 +5123,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerClearLaunchParamsForPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -5138,10 +5138,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerOnSplashScreenViewCopyFinished:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -5155,17 +5155,17 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerOnPictureInPictureUiStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pipState PictureInPictureUiState
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pipState.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pipState.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -5179,7 +5179,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerDetachNavigationBarFromApp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5194,7 +5194,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerSetRunningRemoteTransitionDelegate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5209,7 +5209,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerStartBackNavigation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_navigationObserver interface{}
@@ -5224,7 +5224,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerRegisterBackgroundActivityStartCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5240,7 +5240,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIActivityTaskManagerUnregisterBackgroundActivityStartCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5255,7 +5255,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerRegisterScreenCaptureObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -5273,7 +5273,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIActivityTaskManagerUnregisterScreenCaptureObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

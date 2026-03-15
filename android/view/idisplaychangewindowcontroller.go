@@ -71,22 +71,22 @@ var _ binder.TransactionReceiver = (*DisplayChangeWindowControllerStub)(nil)
 func (s *DisplayChangeWindowControllerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDisplayChangeWindowControllerOnDisplayChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fromRotation, _err := data.ReadInt32()
+		_arg_fromRotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_toRotation, _err := data.ReadInt32()
+		_arg_toRotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -406,11 +406,11 @@ var _ binder.TransactionReceiver = (*OnDeviceIntelligenceManagerStub)(nil)
 func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIOnDeviceIntelligenceManagerGetVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_remoteCallback interface{}
@@ -423,10 +423,10 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOnDeviceIntelligenceManagerGetFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_featureId, _err := data.ReadInt32()
+		_arg_featureId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -442,7 +442,7 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOnDeviceIntelligenceManagerListFeatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -457,17 +457,17 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOnDeviceIntelligenceManagerGetFeatureDetails:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_feature Feature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -484,29 +484,29 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOnDeviceIntelligenceManagerRequestFeatureDownload:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_feature Feature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_cancellationSignalFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -523,17 +523,17 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOnDeviceIntelligenceManagerRequestTokenInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_feature Feature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -541,12 +541,12 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		var _arg_requestBundle interface{}
 		var _arg_cancellationSignalFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -563,46 +563,46 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOnDeviceIntelligenceManagerProcessRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_feature Feature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_requestBundle interface{}
-		_arg_requestType, _err := data.ReadInt32()
+		_arg_requestType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cancellationSignalFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_processingSignalFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_processingSignalFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_processingSignalFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -619,46 +619,46 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOnDeviceIntelligenceManagerProcessRequestStreaming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_feature Feature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_requestBundle interface{}
-		_arg_requestType, _err := data.ReadInt32()
+		_arg_requestType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cancellationSignalFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cancellationSignalFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_processingSignalFuture infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_processingSignalFuture.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_processingSignalFuture.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -675,7 +675,7 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIOnDeviceIntelligenceManagerGetRemoteServicePackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRemoteServicePackageName(ctx)
@@ -688,10 +688,10 @@ func (s *OnDeviceIntelligenceManagerStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIOnDeviceIntelligenceManagerGetLatestInferenceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_startTimeEpochMillis, _err := data.ReadInt64()
+		_arg_startTimeEpochMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

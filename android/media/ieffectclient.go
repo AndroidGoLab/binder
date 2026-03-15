@@ -139,14 +139,14 @@ var _ binder.TransactionReceiver = (*EffectClientStub)(nil)
 func (s *EffectClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEffectClientControlStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_controlGranted, _err := data.ReadBool()
+		_arg_controlGranted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -154,10 +154,10 @@ func (s *EffectClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEffectClientEnableStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -165,10 +165,10 @@ func (s *EffectClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEffectClientCommandExecuted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cmdCode, _err := data.ReadInt32()
+		_arg_cmdCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -182,10 +182,10 @@ func (s *EffectClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIEffectClientFramesProcessed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frames, _err := data.ReadInt32()
+		_arg_frames, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -110,14 +110,14 @@ var _ binder.TransactionReceiver = (*GnssPsdsStub)(nil)
 func (s *GnssPsdsStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIGnssPsdsInjectPsdsData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_psdsType, _err := data.ReadInt32()
+		_raw_psdsType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -134,7 +134,7 @@ func (s *GnssPsdsStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIGnssPsdsSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

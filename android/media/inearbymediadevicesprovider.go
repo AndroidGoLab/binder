@@ -83,11 +83,11 @@ var _ binder.TransactionReceiver = (*NearbyMediaDevicesProviderStub)(nil)
 func (s *NearbyMediaDevicesProviderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINearbyMediaDevicesProviderRegisterNearbyDevicesCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -97,7 +97,7 @@ func (s *NearbyMediaDevicesProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionINearbyMediaDevicesProviderUnregisterNearbyDevicesCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

@@ -108,11 +108,11 @@ var _ binder.TransactionReceiver = (*SystemUpdateManagerStub)(nil)
 func (s *SystemUpdateManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISystemUpdateManagerRetrieveSystemUpdateInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RetrieveSystemUpdateInfo(ctx)
@@ -128,7 +128,7 @@ func (s *SystemUpdateManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionISystemUpdateManagerUpdateSystemUpdateInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_data interface{}

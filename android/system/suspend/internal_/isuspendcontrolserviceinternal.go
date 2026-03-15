@@ -283,11 +283,11 @@ var _ binder.TransactionReceiver = (*SuspendControlServiceInternalStub)(nil)
 func (s *SuspendControlServiceInternalStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISuspendControlServiceInternalEnableAutosuspend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -303,7 +303,7 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISuspendControlServiceInternalForceSuspend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ForceSuspend(ctx)
@@ -316,7 +316,7 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionISuspendControlServiceInternalGetWakeLockStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWakeLockStats(ctx)
@@ -330,10 +330,10 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISuspendControlServiceInternalGetWakeLockStatsFiltered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_wakeLockInfoFieldBitMask, _err := data.ReadInt32()
+		_arg_wakeLockInfoFieldBitMask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -348,7 +348,7 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISuspendControlServiceInternalGetWakeupStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWakeupStats(ctx)
@@ -362,7 +362,7 @@ func (s *SuspendControlServiceInternalStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionISuspendControlServiceInternalGetSuspendStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSuspendStats(ctx)

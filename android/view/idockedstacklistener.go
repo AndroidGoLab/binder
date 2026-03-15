@@ -146,14 +146,14 @@ var _ binder.TransactionReceiver = (*DockedStackListenerStub)(nil)
 func (s *DockedStackListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDockedStackListenerOnDividerVisibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -161,10 +161,10 @@ func (s *DockedStackListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDockedStackListenerOnDockedStackExistsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_exists, _err := data.ReadBool()
+		_arg_exists, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -172,18 +172,18 @@ func (s *DockedStackListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDockedStackListenerOnDockedStackMinimizedChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_minimized, _err := data.ReadBool()
+		_arg_minimized, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_animDuration, _err := data.ReadInt64()
+		_arg_animDuration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isHomeStackResizable, _err := data.ReadBool()
+		_arg_isHomeStackResizable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -191,14 +191,14 @@ func (s *DockedStackListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDockedStackListenerOnAdjustedForImeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_adjustedForIme, _err := data.ReadBool()
+		_arg_adjustedForIme, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_animDuration, _err := data.ReadInt64()
+		_arg_animDuration, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -206,10 +206,10 @@ func (s *DockedStackListenerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDockedStackListenerOnDockSideChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newDockSide, _err := data.ReadInt32()
+		_arg_newDockSide, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

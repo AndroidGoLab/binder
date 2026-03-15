@@ -131,18 +131,18 @@ var _ binder.TransactionReceiver = (*CallDiagnosticServiceAdapterStub)(nil)
 func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICallDiagnosticServiceAdapterDisplayDiagnosticMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_messageId, _err := data.ReadInt32()
+		_arg_messageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -151,14 +151,14 @@ func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceAdapterClearDiagnosticMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_messageId, _err := data.ReadInt32()
+		_arg_messageId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -166,18 +166,18 @@ func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceAdapterSendDeviceToDeviceMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadInt32()
+		_arg_message, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -185,10 +185,10 @@ func (s *CallDiagnosticServiceAdapterStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICallDiagnosticServiceAdapterOverrideDisconnectMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callId, _err := data.ReadString16()
+		_arg_callId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

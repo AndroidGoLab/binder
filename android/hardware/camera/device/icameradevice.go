@@ -462,11 +462,11 @@ var _ binder.TransactionReceiver = (*CameraDeviceStub)(nil)
 func (s *CameraDeviceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICameraDeviceGetCameraCharacteristics:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCameraCharacteristics(ctx)
@@ -482,10 +482,10 @@ func (s *CameraDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceGetPhysicalCameraCharacteristics:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_physicalCameraId, _err := data.ReadString16()
+		_arg_physicalCameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -502,7 +502,7 @@ func (s *CameraDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceGetResourceCost:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetResourceCost(ctx)
@@ -518,17 +518,17 @@ func (s *CameraDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceIsStreamCombinationSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_streams StreamConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_streams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_streams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -543,7 +543,7 @@ func (s *CameraDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraDeviceOpen:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -560,7 +560,7 @@ func (s *CameraDeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceOpenInjectionSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -577,10 +577,10 @@ func (s *CameraDeviceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraDeviceSetTorchMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_on, _err := data.ReadBool()
+		_arg_on, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -593,10 +593,10 @@ func (s *CameraDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceTurnOnTorchWithStrengthLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_torchStrength, _err := data.ReadInt32()
+		_arg_torchStrength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -609,7 +609,7 @@ func (s *CameraDeviceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraDeviceGetTorchStrengthLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTorchStrengthLevel(ctx)
@@ -622,10 +622,10 @@ func (s *CameraDeviceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraDeviceConstructDefaultRequestSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -643,17 +643,17 @@ func (s *CameraDeviceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionICameraDeviceIsStreamCombinationWithSettingsSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_streams StreamConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_streams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_streams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -668,17 +668,17 @@ func (s *CameraDeviceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionICameraDeviceGetSessionCharacteristics:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_sessionConfig StreamConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sessionConfig.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sessionConfig.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

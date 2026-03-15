@@ -307,11 +307,11 @@ var _ binder.TransactionReceiver = (*CameraProviderStub)(nil)
 func (s *CameraProviderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICameraProviderSetCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -326,7 +326,7 @@ func (s *CameraProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraProviderGetVendorTags:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVendorTags(ctx)
@@ -340,7 +340,7 @@ func (s *CameraProviderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraProviderGetCameraIdList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCameraIdList(ctx)
@@ -354,10 +354,10 @@ func (s *CameraProviderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraProviderGetCameraDeviceInterface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraDeviceName, _err := data.ReadString16()
+		_arg_cameraDeviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -372,10 +372,10 @@ func (s *CameraProviderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraProviderNotifyDeviceStateChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_deviceState, _err := data.ReadInt64()
+		_arg_deviceState, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -388,7 +388,7 @@ func (s *CameraProviderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICameraProviderGetConcurrentCameraIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetConcurrentCameraIds(ctx)
@@ -402,7 +402,7 @@ func (s *CameraProviderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICameraProviderIsConcurrentStreamCombinationSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

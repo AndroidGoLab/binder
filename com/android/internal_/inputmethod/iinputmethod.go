@@ -464,11 +464,11 @@ var _ binder.TransactionReceiver = (*InputMethodStub)(nil)
 func (s *InputMethodStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIInputMethodInitializeInternal:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params interface{}
@@ -476,17 +476,17 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodOnCreateInlineSuggestionsRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_requestInfo InlineSuggestionsRequestInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_requestInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_requestInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -498,17 +498,17 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodBindInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_binding viewInputmethod.InputBinding
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_binding.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_binding.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -517,14 +517,14 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodUnbindInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UnbindInput(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodStartInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_params interface{}
@@ -532,10 +532,10 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodOnNavButtonFlagsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_navButtonFlags, _err := data.ReadInt32()
+		_arg_navButtonFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -543,7 +543,7 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodCreateSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_channel interface{}
@@ -554,13 +554,13 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSetSessionEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_session IInputMethodSession
 		_ = _arg_session
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -568,7 +568,7 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodShowSoftInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -576,17 +576,17 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _arg_showInputToken
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -595,7 +595,7 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodHideSoftInput:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -603,17 +603,17 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _arg_hideInputToken
 		var _arg_statsToken viewInputmethod.ImeTrackerToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_statsToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_statsToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -622,10 +622,10 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodUpdateEditorToolType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_toolType, _err := data.ReadInt32()
+		_arg_toolType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -633,17 +633,17 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodChangeInputMethodSubtype:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_subtype viewInputmethod.InputMethodSubtype
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_subtype.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_subtype.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -652,10 +652,10 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodCanStartStylusHandwriting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -664,17 +664,17 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _arg_connectionlessCallback
 		var _arg_cursorAnchorInfo viewInputmethod.CursorAnchorInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cursorAnchorInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cursorAnchorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_isConnectionlessForDelegation, _err := data.ReadBool()
+		_arg_isConnectionlessForDelegation, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -682,10 +682,10 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodStartStylusHandwriting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_requestId, _err := data.ReadInt32()
+		_arg_requestId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -697,45 +697,45 @@ func (s *InputMethodStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodCommitHandwritingDelegationTextIfAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.CommitHandwritingDelegationTextIfAvailable(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodDiscardHandwritingDelegationText:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DiscardHandwritingDelegationText(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodInitInkWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.InitInkWindow(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodFinishStylusHandwriting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FinishStylusHandwriting(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodRemoveStylusHandwritingWindow:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveStylusHandwritingWindow(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIInputMethodSetStylusWindowIdleTimeoutForTest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeout, _err := data.ReadInt64()
+		_arg_timeout, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

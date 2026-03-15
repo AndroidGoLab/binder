@@ -482,18 +482,18 @@ var _ binder.TransactionReceiver = (*AdbManagerStub)(nil)
 func (s *AdbManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAdbManagerAllowDebugging:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alwaysAllow, _err := data.ReadBool()
+		_arg_alwaysAllow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_publicKey, _err := data.ReadString16()
+		_arg_publicKey, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -506,7 +506,7 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerDenyDebugging:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DenyDebugging(ctx)
@@ -518,7 +518,7 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerClearDebuggingKeys:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearDebuggingKeys(ctx)
@@ -530,14 +530,14 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerAllowWirelessDebugging:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_alwaysAllow, _err := data.ReadBool()
+		_arg_alwaysAllow, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_bssid, _err := data.ReadString16()
+		_arg_bssid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -550,7 +550,7 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerDenyWirelessDebugging:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DenyWirelessDebugging(ctx)
@@ -562,7 +562,7 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerGetPairedDevices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPairedDevices(ctx)
@@ -576,10 +576,10 @@ func (s *AdbManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAdbManagerUnpairDevice:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fingerprint, _err := data.ReadString16()
+		_arg_fingerprint, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -592,7 +592,7 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerEnablePairingByPairingCode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EnablePairingByPairingCode(ctx)
@@ -604,14 +604,14 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerEnablePairingByQrCode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceName, _err := data.ReadString16()
+		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_password, _err := data.ReadString16()
+		_arg_password, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -624,7 +624,7 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerGetAdbWirelessPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAdbWirelessPort(ctx)
@@ -637,7 +637,7 @@ func (s *AdbManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAdbManagerDisablePairing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisablePairing(ctx)
@@ -649,7 +649,7 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerIsAdbWifiSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAdbWifiSupported(ctx)
@@ -662,7 +662,7 @@ func (s *AdbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdbManagerIsAdbWifiQrSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAdbWifiQrSupported(ctx)
@@ -675,7 +675,7 @@ func (s *AdbManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIAdbManagerRegisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -690,7 +690,7 @@ func (s *AdbManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAdbManagerUnregisterCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

@@ -79,18 +79,18 @@ var _ binder.TransactionReceiver = (*VoiceInteractionSessionShowCallbackStub)(ni
 func (s *VoiceInteractionSessionShowCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIVoiceInteractionSessionShowCallbackOnFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnFailed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIVoiceInteractionSessionShowCallbackOnShown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnShown(ctx)

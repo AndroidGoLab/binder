@@ -99,25 +99,25 @@ var _ binder.TransactionReceiver = (*RemoteStorageServiceStub)(nil)
 func (s *RemoteStorageServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRemoteStorageServiceGetReadOnlyFileDescriptor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_filePath, _err := data.ReadString16()
+		_arg_filePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_future infra.AndroidFuture
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_future.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_future.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -126,29 +126,29 @@ func (s *RemoteStorageServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteStorageServiceGetReadOnlyFeatureFileDescriptorMap:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_feature appOndeviceintelligence.Feature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_feature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_feature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_remoteCallback os.RemoteCallback
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_remoteCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_remoteCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

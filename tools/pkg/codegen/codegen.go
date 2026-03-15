@@ -95,8 +95,30 @@ func (g *Generator) GenerateAll() (_err error) {
 	// Build the import graph for cycle detection.
 	importGraph := BuildImportGraph(registry)
 
+	// Detect Go type name collisions within the same package. When a
+	// nested type like "VolumeShaper.Configuration" flattens to
+	// "VolumeShaperConfiguration" and a real type with that name also
+	// exists, skip the empty forward-declared one.
+	skippedDefs := g.detectGoNameCollisions(allDefs)
+
+	// Remove stale generated files for skipped definitions, which may
+	// have been written by a previous run.
+	for qualifiedName, def := range allDefs {
+		if !skippedDefs[qualifiedName] {
+			continue
+		}
+		pkg := packageFromDef(qualifiedName, def.GetName())
+		outDir := filepath.Join(g.outputDir, AIDLToGoPackage(pkg))
+		fileName := AIDLToGoFileName(def.GetName())
+		_ = os.Remove(filepath.Join(outDir, fileName))
+	}
+
 	var errs []error
 	for qualifiedName, def := range allDefs {
+		if skippedDefs[qualifiedName] {
+			continue
+		}
+
 		pkg := packageFromDef(qualifiedName, def.GetName())
 		goPackage := lastPackageSegment(pkg)
 		if goPackage == "" {
@@ -129,6 +151,64 @@ func (g *Generator) GenerateAll() (_err error) {
 	}
 
 	return errors.Join(errs...)
+}
+
+// detectGoNameCollisions finds definitions that would produce the same Go
+// type name within the same Go package. When a collision is detected, the
+// empty (forward-declared) definition is marked for skipping. If both are
+// non-empty, the nested one (containing ".") is skipped.
+func (g *Generator) detectGoNameCollisions(
+	allDefs map[string]parser.Definition,
+) map[string]bool {
+	type entry struct {
+		qualifiedName string
+		def           parser.Definition
+	}
+	// Key: "goPkgPath/GoTypeName"
+	seen := map[string]entry{}
+	skipped := map[string]bool{}
+
+	for qualifiedName, def := range allDefs {
+		pkg := packageFromDef(qualifiedName, def.GetName())
+		goPkgPath := AIDLToGoPackage(pkg)
+		goTypeName := AIDLToGoName(def.GetName())
+		key := goPkgPath + "/" + goTypeName
+
+		prev, exists := seen[key]
+		if !exists {
+			seen[key] = entry{qualifiedName, def}
+			continue
+		}
+
+		// Collision detected. Skip whichever is empty/forward-declared.
+		prevEmpty := isEmptyParcelable(prev.def)
+		currEmpty := isEmptyParcelable(def)
+		switch {
+		case currEmpty && !prevEmpty:
+			skipped[qualifiedName] = true
+		case prevEmpty && !currEmpty:
+			skipped[prev.qualifiedName] = true
+			seen[key] = entry{qualifiedName, def}
+		case strings.Contains(def.GetName(), "."):
+			// Both non-empty or both empty: skip the nested type.
+			skipped[qualifiedName] = true
+		default:
+			skipped[prev.qualifiedName] = true
+			seen[key] = entry{qualifiedName, def}
+		}
+	}
+
+	return skipped
+}
+
+// isEmptyParcelable returns true if the definition is a parcelable with
+// no fields, constants, or nested types.
+func isEmptyParcelable(def parser.Definition) bool {
+	parcDecl, ok := def.(*parser.ParcelableDecl)
+	if !ok {
+		return false
+	}
+	return len(parcDecl.Fields) == 0 && len(parcDecl.Constants) == 0 && len(parcDecl.NestedTypes) == 0
 }
 
 // GenerateAllSmokeTests generates smoke_test.go files for all packages

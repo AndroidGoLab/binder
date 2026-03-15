@@ -149,39 +149,39 @@ var _ binder.TransactionReceiver = (*QSTileServiceStub)(nil)
 func (s *QSTileServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIQSTileServiceOnTileAdded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnTileAdded(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIQSTileServiceOnTileRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnTileRemoved(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIQSTileServiceOnStartListening:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStartListening(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIQSTileServiceOnStopListening:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStopListening(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIQSTileServiceOnClick:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -191,7 +191,7 @@ func (s *QSTileServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIQSTileServiceOnUnlockComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnUnlockComplete(ctx)

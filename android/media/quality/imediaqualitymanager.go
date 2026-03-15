@@ -1500,33 +1500,33 @@ var _ binder.TransactionReceiver = (*MediaQualityManagerStub)(nil)
 func (s *MediaQualityManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaQualityManagerCreatePictureProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pp PictureProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pp.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pp.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1544,33 +1544,33 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaQualityManagerUpdatePictureProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_pp PictureProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pp.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pp.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1584,21 +1584,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerRemovePictureProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1612,21 +1612,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerSetDefaultPictureProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1641,29 +1641,29 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetPictureProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeParams, _err := data.ReadBool()
+		_arg_includeParams, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1681,25 +1681,25 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetPictureProfilesByPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeParams, _err := data.ReadBool()
+		_arg_includeParams, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1715,21 +1715,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetAvailablePictureProfiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_includeParams, _err := data.ReadBool()
+		_arg_includeParams, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1745,17 +1745,17 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetPictureProfilePackageNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1771,17 +1771,17 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetPictureProfileAllowList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1797,7 +1797,7 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerSetPictureProfileAllowList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1805,12 +1805,12 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _arg_packages
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1824,7 +1824,7 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetPictureProfileHandle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1832,12 +1832,12 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _arg_id
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1853,29 +1853,29 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerCreateSoundProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_pp SoundProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pp.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pp.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1893,33 +1893,33 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaQualityManagerUpdateSoundProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_pp SoundProfile
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pp.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pp.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1933,21 +1933,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerRemoveSoundProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1961,21 +1961,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerSetDefaultSoundProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1990,29 +1990,29 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetSoundProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_type_, _err := data.ReadInt32()
+		_arg_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeParams, _err := data.ReadBool()
+		_arg_includeParams, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2030,25 +2030,25 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetSoundProfilesByPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_includeParams, _err := data.ReadBool()
+		_arg_includeParams, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2064,21 +2064,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetAvailableSoundProfiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_includeParams, _err := data.ReadBool()
+		_arg_includeParams, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2094,17 +2094,17 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetSoundProfilePackageNames:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2120,17 +2120,17 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetSoundProfileAllowList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2146,7 +2146,7 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerSetSoundProfileAllowList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2154,12 +2154,12 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _arg_packages
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2173,7 +2173,7 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetSoundProfileHandle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2181,12 +2181,12 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _arg_id
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2202,7 +2202,7 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerRegisterPictureProfileCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2217,7 +2217,7 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerRegisterSoundProfileCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2232,7 +2232,7 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerRegisterAmbientBacklightCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2247,7 +2247,7 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerGetParamCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -2255,12 +2255,12 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _arg_names
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2276,17 +2276,17 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaQualityManagerIsSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2301,21 +2301,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityManagerSetAutoPictureQualityEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2329,17 +2329,17 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerIsAutoPictureQualityEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2354,21 +2354,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityManagerSetSuperResolutionEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2382,17 +2382,17 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerIsSuperResolutionEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2407,21 +2407,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityManagerSetAutoSoundQualityEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2435,17 +2435,17 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerIsAutoSoundQualityEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2460,29 +2460,29 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIMediaQualityManagerSetAmbientBacklightSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_settings AmbientBacklightSettings
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_settings.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_settings.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2496,21 +2496,21 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerSetAmbientBacklightEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2524,17 +2524,17 @@ func (s *MediaQualityManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMediaQualityManagerIsAmbientBacklightEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_user os.UserHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_user.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

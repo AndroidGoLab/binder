@@ -126,21 +126,21 @@ var _ binder.TransactionReceiver = (*MediaTranscodingServiceStub)(nil)
 func (s *MediaTranscodingServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaTranscodingServiceRegisterClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ITranscodingClientCallback
 		_ = _arg_callback
-		_arg_clientName, _err := data.ReadString16()
+		_arg_clientName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RegisterClient(ctx, _arg_callback, _arg_clientName)
@@ -154,7 +154,7 @@ func (s *MediaTranscodingServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMediaTranscodingServiceGetNumOfClients:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNumOfClients(ctx)

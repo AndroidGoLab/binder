@@ -233,18 +233,18 @@ var _ binder.TransactionReceiver = (*BluetoothLeBroadcastCallbackStub)(nil)
 func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothLeBroadcastCallbackOnBroadcastStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_broadcastId, _err := data.ReadInt32()
+		_arg_broadcastId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -252,10 +252,10 @@ func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeBroadcastCallbackOnBroadcastStartFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -263,14 +263,14 @@ func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeBroadcastCallbackOnBroadcastStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_broadcastId, _err := data.ReadInt32()
+		_arg_broadcastId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -278,10 +278,10 @@ func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeBroadcastCallbackOnBroadcastStopFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -289,14 +289,14 @@ func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeBroadcastCallbackOnPlaybackStarted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_broadcastId, _err := data.ReadInt32()
+		_arg_broadcastId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -304,14 +304,14 @@ func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeBroadcastCallbackOnPlaybackStopped:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_broadcastId, _err := data.ReadInt32()
+		_arg_broadcastId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -319,14 +319,14 @@ func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeBroadcastCallbackOnBroadcastUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_broadcastId, _err := data.ReadInt32()
+		_arg_broadcastId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -334,14 +334,14 @@ func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeBroadcastCallbackOnBroadcastUpdateFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_broadcastId, _err := data.ReadInt32()
+		_arg_broadcastId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -349,21 +349,21 @@ func (s *BluetoothLeBroadcastCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothLeBroadcastCallbackOnBroadcastMetadataChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_broadcastId, _err := data.ReadInt32()
+		_arg_broadcastId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_metadata BluetoothLeBroadcastMetadata
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_metadata.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_metadata.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

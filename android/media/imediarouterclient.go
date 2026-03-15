@@ -98,28 +98,28 @@ var _ binder.TransactionReceiver = (*MediaRouterClientStub)(nil)
 func (s *MediaRouterClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaRouterClientOnStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnStateChanged(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRouterClientOnRestoreRoute:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRestoreRoute(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIMediaRouterClientOnGroupRouteSelected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_routeId, _err := data.ReadString16()
+		_arg_routeId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

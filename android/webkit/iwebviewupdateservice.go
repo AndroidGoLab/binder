@@ -324,11 +324,11 @@ var _ binder.TransactionReceiver = (*WebViewUpdateServiceStub)(nil)
 func (s *WebViewUpdateServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWebViewUpdateServiceNotifyRelroCreationCompleted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyRelroCreationCompleted(ctx)
@@ -340,7 +340,7 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceWaitForAndGetProvider:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.WaitForAndGetProvider(ctx)
@@ -356,10 +356,10 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceChangeProviderAndSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_newProvider, _err := data.ReadString16()
+		_arg_newProvider, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -373,7 +373,7 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetValidWebViewPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetValidWebViewPackages(ctx)
@@ -387,7 +387,7 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetAllWebViewPackages:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllWebViewPackages(ctx)
@@ -401,7 +401,7 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetCurrentWebViewPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentWebViewPackageName(ctx)
@@ -414,7 +414,7 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetCurrentWebViewPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentWebViewPackage(ctx)
@@ -430,7 +430,7 @@ func (s *WebViewUpdateServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIWebViewUpdateServiceGetDefaultWebViewPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultWebViewPackage(ctx)

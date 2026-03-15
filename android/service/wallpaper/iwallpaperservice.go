@@ -115,11 +115,11 @@ var _ binder.TransactionReceiver = (*WallpaperServiceStub)(nil)
 func (s *WallpaperServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIWallpaperServiceAttach:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -128,62 +128,62 @@ func (s *WallpaperServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
 		_ = _arg_windowToken
-		_arg_windowType, _err := data.ReadInt32()
+		_arg_windowType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isPreview, _err := data.ReadBool()
+		_arg_isPreview, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reqWidth, _err := data.ReadInt32()
+		_arg_reqWidth, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reqHeight, _err := data.ReadInt32()
+		_arg_reqHeight, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_padding graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_padding.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_padding.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_which, _err := data.ReadInt32()
+		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_info app.WallpaperInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_description appWallpaper.WallpaperDescription
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_description.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_description.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -192,7 +192,7 @@ func (s *WallpaperServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIWallpaperServiceDetach:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs

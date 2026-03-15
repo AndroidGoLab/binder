@@ -598,11 +598,11 @@ var _ binder.TransactionReceiver = (*AudioTrackStub)(nil)
 func (s *AudioTrackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAudioTrackGetCblk:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCblk(ctx)
@@ -618,7 +618,7 @@ func (s *AudioTrackStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioTrackStart:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Start(ctx)
@@ -631,7 +631,7 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackStop:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Stop(ctx)
@@ -643,7 +643,7 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackFlush:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Flush(ctx)
@@ -655,7 +655,7 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackPause:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Pause(ctx)
@@ -667,10 +667,10 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackAttachAuxEffect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_effectId, _err := data.ReadInt32()
+		_arg_effectId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -684,10 +684,10 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackSetParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_keyValuePairs, _err := data.ReadString16()
+		_arg_keyValuePairs, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -701,14 +701,14 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackSelectPresentation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_presentationId, _err := data.ReadInt32()
+		_arg_presentationId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_programId, _err := data.ReadInt32()
+		_arg_programId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -722,10 +722,11 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackGetTimestamp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GetTimestamp(ctx)
+		var _arg_timestamp AudioTimestampInternal
+		_result, _err := s.Impl.GetTimestamp(ctx, _arg_timestamp)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -735,7 +736,7 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackSignal:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Signal(ctx)
@@ -747,29 +748,29 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackApplyVolumeShaper:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_configuration VolumeShaperConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_configuration.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_configuration.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_operation VolumeShaperOperation
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_operation.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_operation.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -784,10 +785,10 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackGetVolumeShaperState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -804,7 +805,7 @@ func (s *AudioTrackStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAudioTrackGetDualMonoMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDualMonoMode(ctx)
@@ -817,7 +818,7 @@ func (s *AudioTrackStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioTrackSetDualMonoMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_mode interface{}
@@ -830,7 +831,7 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackGetAudioDescriptionMixLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAudioDescriptionMixLevel(ctx)
@@ -843,10 +844,10 @@ func (s *AudioTrackStub) OnTransaction(
 		_reply.WriteFloat32(_result)
 		return _reply, nil
 	case TransactionIAudioTrackSetAudioDescriptionMixLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_leveldB, _err := data.ReadFloat32()
+		_arg_leveldB, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -859,7 +860,7 @@ func (s *AudioTrackStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAudioTrackGetPlaybackRateParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPlaybackRateParameters(ctx)
@@ -872,7 +873,7 @@ func (s *AudioTrackStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIAudioTrackSetPlaybackRateParameters:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_playbackRate interface{}

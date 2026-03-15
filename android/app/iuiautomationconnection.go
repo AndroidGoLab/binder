@@ -820,15 +820,15 @@ var _ binder.TransactionReceiver = (*UiAutomationConnectionStub)(nil)
 func (s *UiAutomationConnectionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUiAutomationConnectionConnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_client interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -841,7 +841,7 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Disconnect(ctx)
@@ -853,15 +853,15 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionInjectInputEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event interface{}
-		_arg_sync, _err := data.ReadBool()
+		_arg_sync, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_waitForAnimations, _err := data.ReadBool()
+		_arg_waitForAnimations, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -875,7 +875,7 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionInjectInputEventToInputFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_event interface{}
@@ -888,10 +888,10 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionSyncInputTransactions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_waitForAnimations, _err := data.ReadBool()
+		_arg_waitForAnimations, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -904,10 +904,10 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionSetRotation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rotation, _err := data.ReadInt32()
+		_arg_rotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -921,23 +921,23 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionTakeScreenshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_crop graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_crop.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_crop.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_listener interface{}
-		_arg_displayId, _err := data.ReadInt32()
+		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -951,7 +951,7 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionTakeSurfaceControlScreenshot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_surfaceControl interface{}
@@ -966,10 +966,10 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionClearWindowContentFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_windowId, _err := data.ReadInt32()
+		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -983,10 +983,10 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionGetWindowContentFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_windowId, _err := data.ReadInt32()
+		_arg_windowId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1000,7 +1000,7 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUiAutomationConnectionClearWindowAnimationFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearWindowAnimationFrameStats(ctx)
@@ -1012,7 +1012,7 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionGetWindowAnimationFrameStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetWindowAnimationFrameStats(ctx)
@@ -1025,18 +1025,18 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUiAutomationConnectionExecuteShellCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_command, _err := data.ReadString16()
+		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sink, _err := data.ReadFileDescriptor()
+		_arg_sink, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadFileDescriptor()
+		_arg_source, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1049,18 +1049,18 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionGrantRuntimePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_permission, _err := data.ReadString16()
+		_arg_permission, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.GrantRuntimePermission(ctx, _arg_packageName, _arg_permission)
@@ -1072,18 +1072,18 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionRevokeRuntimePermission:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_permission, _err := data.ReadString16()
+		_arg_permission, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RevokeRuntimePermission(ctx, _arg_packageName, _arg_permission)
@@ -1095,10 +1095,10 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionAdoptShellPermissionIdentity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1114,7 +1114,7 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionDropShellPermissionIdentity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DropShellPermissionIdentity(ctx)
@@ -1126,29 +1126,29 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionShutdown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Shutdown(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIUiAutomationConnectionExecuteShellCommandWithStderr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_command, _err := data.ReadString16()
+		_arg_command, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sink, _err := data.ReadFileDescriptor()
+		_arg_sink, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadFileDescriptor()
+		_arg_source, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stderrSink, _err := data.ReadFileDescriptor()
+		_arg_stderrSink, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1161,21 +1161,21 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionExecuteShellCommandArrayWithStderr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_command []string
 		_ = _arg_command
-		_arg_sink, _err := data.ReadFileDescriptor()
+		_arg_sink, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_source, _err := data.ReadFileDescriptor()
+		_arg_source, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stderrSink, _err := data.ReadFileDescriptor()
+		_arg_stderrSink, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1188,7 +1188,7 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionGetAdoptedShellPermissions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAdoptedShellPermissions(ctx)
@@ -1202,18 +1202,18 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIUiAutomationConnectionAddOverridePermissionState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_permission, _err := data.ReadString16()
+		_arg_permission, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_result, _err := data.ReadInt32()
+		_arg_result, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1226,14 +1226,14 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionRemoveOverridePermissionState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_permission, _err := data.ReadString16()
+		_arg_permission, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1246,10 +1246,10 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionClearOverridePermissionStates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1262,7 +1262,7 @@ func (s *UiAutomationConnectionStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIUiAutomationConnectionClearAllOverridePermissionStates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ClearAllOverridePermissionStates(ctx)

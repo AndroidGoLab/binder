@@ -98,18 +98,18 @@ var _ binder.TransactionReceiver = (*ConditionProviderStub)(nil)
 func (s *ConditionProviderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIConditionProviderOnConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnConnected(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIConditionProviderOnSubscribe:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_conditionId interface{}
@@ -117,7 +117,7 @@ func (s *ConditionProviderStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIConditionProviderOnUnsubscribe:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_conditionId interface{}

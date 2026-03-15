@@ -87,32 +87,32 @@ var _ binder.TransactionReceiver = (*StrongAuthTrackerStub)(nil)
 func (s *StrongAuthTrackerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIStrongAuthTrackerOnStrongAuthRequiredChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strongAuthRequired, _err := data.ReadInt32()
+		_arg_strongAuthRequired, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnStrongAuthRequiredChanged(ctx, _arg_strongAuthRequired)
 		_ = _err
 		return nil, nil
 	case TransactionIStrongAuthTrackerOnIsNonStrongBiometricAllowedChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_allowed, _err := data.ReadBool()
+		_arg_allowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.OnIsNonStrongBiometricAllowedChanged(ctx, _arg_allowed)

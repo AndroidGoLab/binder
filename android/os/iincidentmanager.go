@@ -301,11 +301,11 @@ var _ binder.TransactionReceiver = (*IncidentManagerStub)(nil)
 func (s *IncidentManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIncidentManagerReportIncident:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args interface{}
@@ -313,7 +313,7 @@ func (s *IncidentManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIncidentManagerReportIncidentToStream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_args interface{}
@@ -325,7 +325,7 @@ func (s *IncidentManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIncidentManagerReportIncidentToDumpstate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_stream interface{}
@@ -336,14 +336,14 @@ func (s *IncidentManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIncidentManagerRegisterSection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -354,10 +354,10 @@ func (s *IncidentManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIncidentManagerUnregisterSection:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadInt32()
+		_arg_id, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -365,21 +365,21 @@ func (s *IncidentManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIIncidentManagerSystemRunning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SystemRunning(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIIncidentManagerGetIncidentReportList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cls, _err := data.ReadString16()
+		_arg_cls, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -394,18 +394,18 @@ func (s *IncidentManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIncidentManagerGetIncidentReport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cls, _err := data.ReadString16()
+		_arg_cls, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -419,18 +419,18 @@ func (s *IncidentManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIncidentManagerDeleteIncidentReports:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cls, _err := data.ReadString16()
+		_arg_cls, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_id, _err := data.ReadString16()
+		_arg_id, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -443,10 +443,10 @@ func (s *IncidentManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIncidentManagerDeleteAllIncidentReports:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

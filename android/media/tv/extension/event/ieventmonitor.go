@@ -310,14 +310,14 @@ var _ binder.TransactionReceiver = (*EventMonitorStub)(nil)
 func (s *EventMonitorStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIEventMonitorGetPresentEventInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_channelDbId, _err := data.ReadInt64()
+		_arg_channelDbId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -334,7 +334,7 @@ func (s *EventMonitorStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEventMonitorAddPresentEventInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -349,7 +349,7 @@ func (s *EventMonitorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEventMonitorRemovePresentEventInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -364,10 +364,10 @@ func (s *EventMonitorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEventMonitorGetFollowingEventInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_channelDbId, _err := data.ReadInt64()
+		_arg_channelDbId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -384,7 +384,7 @@ func (s *EventMonitorStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEventMonitorAddFollowingEventInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -399,7 +399,7 @@ func (s *EventMonitorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEventMonitorRemoveFollowingEventInfoListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -414,10 +414,10 @@ func (s *EventMonitorStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIEventMonitorGetSdtGuidanceInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_channelDbId, _err := data.ReadInt64()
+		_arg_channelDbId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -434,7 +434,7 @@ func (s *EventMonitorStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIEventMonitorSetBgmTuneChannelInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

@@ -210,25 +210,25 @@ var _ binder.TransactionReceiver = (*MediaBrowserServiceStub)(nil)
 func (s *MediaBrowserServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaBrowserServiceConnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkg, _err := data.ReadString16()
+		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_rootHints os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_rootHints.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_rootHints.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -240,7 +240,7 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaBrowserServiceDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -250,10 +250,10 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaBrowserServiceAddSubscriptionDeprecated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uri, _err := data.ReadString16()
+		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -264,10 +264,10 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaBrowserServiceRemoveSubscriptionDeprecated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uri, _err := data.ReadString16()
+		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -278,21 +278,21 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaBrowserServiceGetMediaItem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uri, _err := data.ReadString16()
+		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cb os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cb.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cb.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -304,10 +304,10 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaBrowserServiceAddSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uri, _err := data.ReadString16()
+		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -316,12 +316,12 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 		_ = _arg_token
 		var _arg_options os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -333,10 +333,10 @@ func (s *MediaBrowserServiceStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaBrowserServiceRemoveSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uri, _err := data.ReadString16()
+		_arg_uri, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

@@ -122,18 +122,18 @@ var _ binder.TransactionReceiver = (*BluetoothHciVendorSpecificCallbackStub)(nil
 func (s *BluetoothHciVendorSpecificCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBluetoothHciVendorSpecificCallbackOnCommandStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ocf, _err := data.ReadInt32()
+		_arg_ocf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -141,10 +141,10 @@ func (s *BluetoothHciVendorSpecificCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothHciVendorSpecificCallbackOnCommandComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ocf, _err := data.ReadInt32()
+		_arg_ocf, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -155,10 +155,10 @@ func (s *BluetoothHciVendorSpecificCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBluetoothHciVendorSpecificCallbackOnEvent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_code, _err := data.ReadInt32()
+		_arg_code, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

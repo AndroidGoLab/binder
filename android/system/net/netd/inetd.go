@@ -306,18 +306,18 @@ var _ binder.TransactionReceiver = (*NetdStub)(nil)
 func (s *NetdStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINetdAddInterfaceToOemNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkHandle, _err := data.ReadInt64()
+		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -330,22 +330,22 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdAddRouteToOemNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkHandle, _err := data.ReadInt64()
+		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destination, _err := data.ReadString16()
+		_arg_destination, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nexthop, _err := data.ReadString16()
+		_arg_nexthop, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -358,7 +358,7 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdCreateOemNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateOemNetwork(ctx)
@@ -374,10 +374,10 @@ func (s *NetdStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionINetdDestroyOemNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkHandle, _err := data.ReadInt64()
+		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -390,14 +390,14 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdRemoveInterfaceFromOemNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkHandle, _err := data.ReadInt64()
+		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -410,22 +410,22 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdRemoveRouteFromOemNetwork:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_networkHandle, _err := data.ReadInt64()
+		_arg_networkHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ifname, _err := data.ReadString16()
+		_arg_ifname, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_destination, _err := data.ReadString16()
+		_arg_destination, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nexthop, _err := data.ReadString16()
+		_arg_nexthop, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -438,18 +438,18 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdSetForwardingBetweenInterfaces:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_inputIfName, _err := data.ReadString16()
+		_arg_inputIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_outputIfName, _err := data.ReadString16()
+		_arg_outputIfName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -462,10 +462,10 @@ func (s *NetdStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetdSetIpForwardEnable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

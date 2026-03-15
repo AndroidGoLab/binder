@@ -140,37 +140,37 @@ var _ binder.TransactionReceiver = (*MediaBrowserServiceCallbacksStub)(nil)
 func (s *MediaBrowserServiceCallbacksStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMediaBrowserServiceCallbacksOnConnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_root, _err := data.ReadString16()
+		_arg_root, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_session session.MediaSessionToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_session.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_session.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_extras os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -179,40 +179,40 @@ func (s *MediaBrowserServiceCallbacksStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaBrowserServiceCallbacksOnConnectFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnConnectFailed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIMediaBrowserServiceCallbacksOnLoadChildren:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mediaId, _err := data.ReadString16()
+		_arg_mediaId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_list pm.ParceledListSlice
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_list.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_list.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_options os.Bundle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -221,7 +221,7 @@ func (s *MediaBrowserServiceCallbacksStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIMediaBrowserServiceCallbacksOnDisconnect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDisconnect(ctx)

@@ -855,11 +855,11 @@ var _ binder.TransactionReceiver = (*ColorDisplayManagerStub)(nil)
 func (s *ColorDisplayManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIColorDisplayManagerIsDeviceColorManaged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDeviceColorManaged(ctx)
@@ -872,10 +872,10 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetSaturationLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_saturationLevel, _err := data.ReadInt32()
+		_arg_saturationLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -889,14 +889,14 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetAppSaturationLevel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_saturationLevel, _err := data.ReadInt32()
+		_arg_saturationLevel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -910,7 +910,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerIsSaturationActivated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSaturationActivated(ctx)
@@ -923,7 +923,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerGetTransformCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTransformCapabilities(ctx)
@@ -936,7 +936,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerIsNightDisplayActivated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsNightDisplayActivated(ctx)
@@ -949,10 +949,10 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetNightDisplayActivated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activated, _err := data.ReadBool()
+		_arg_activated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -966,7 +966,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerGetNightDisplayColorTemperature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNightDisplayColorTemperature(ctx)
@@ -979,10 +979,10 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetNightDisplayColorTemperature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_temperature, _err := data.ReadInt32()
+		_arg_temperature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -996,7 +996,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerGetNightDisplayAutoMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNightDisplayAutoMode(ctx)
@@ -1009,7 +1009,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerGetNightDisplayAutoModeRaw:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNightDisplayAutoModeRaw(ctx)
@@ -1022,10 +1022,10 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetNightDisplayAutoMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_autoMode, _err := data.ReadInt32()
+		_arg_autoMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1039,7 +1039,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerGetNightDisplayCustomStartTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNightDisplayCustomStartTime(ctx)
@@ -1055,17 +1055,17 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetNightDisplayCustomStartTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_time Time
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_time.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_time.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1080,7 +1080,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerGetNightDisplayCustomEndTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNightDisplayCustomEndTime(ctx)
@@ -1096,17 +1096,17 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetNightDisplayCustomEndTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_time Time
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_time.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_time.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1121,7 +1121,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerGetColorMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetColorMode(ctx)
@@ -1134,10 +1134,10 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetColorMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_colorMode, _err := data.ReadInt32()
+		_arg_colorMode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1150,7 +1150,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIColorDisplayManagerIsDisplayWhiteBalanceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDisplayWhiteBalanceEnabled(ctx)
@@ -1163,10 +1163,10 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetDisplayWhiteBalanceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1180,7 +1180,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerIsReduceBrightColorsActivated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsReduceBrightColorsActivated(ctx)
@@ -1193,10 +1193,10 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetReduceBrightColorsActivated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_activated, _err := data.ReadBool()
+		_arg_activated, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1210,7 +1210,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerGetReduceBrightColorsStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetReduceBrightColorsStrength(ctx)
@@ -1223,10 +1223,10 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerSetReduceBrightColorsStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_strength, _err := data.ReadInt32()
+		_arg_strength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1240,7 +1240,7 @@ func (s *ColorDisplayManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIColorDisplayManagerGetReduceBrightColorsOffsetFactor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetReduceBrightColorsOffsetFactor(ctx)

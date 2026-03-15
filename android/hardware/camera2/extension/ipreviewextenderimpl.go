@@ -483,17 +483,17 @@ var _ binder.TransactionReceiver = (*PreviewExtenderImplStub)(nil)
 func (s *PreviewExtenderImplStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPreviewExtenderImplOnInit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -507,7 +507,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplOnDeInit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -522,7 +522,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplOnPresetSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OnPresetSession(ctx)
@@ -538,7 +538,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreviewExtenderImplOnEnableSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OnEnableSession(ctx)
@@ -554,7 +554,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreviewExtenderImplOnDisableSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OnDisableSession(ctx)
@@ -570,10 +570,10 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreviewExtenderImplInit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -587,10 +587,10 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplIsExtensionAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cameraId, _err := data.ReadString16()
+		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -605,7 +605,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetCaptureStage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCaptureStage(ctx)
@@ -621,7 +621,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetSessionType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSessionType(ctx)
@@ -634,7 +634,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetProcessorType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetProcessorType(ctx)
@@ -647,7 +647,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetPreviewImageProcessor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPreviewImageProcessor(ctx)
@@ -661,7 +661,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetRequestUpdateProcessor:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRequestUpdateProcessor(ctx)
@@ -675,7 +675,7 @@ func (s *PreviewExtenderImplStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIPreviewExtenderImplGetSupportedResolutions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedResolutions(ctx)

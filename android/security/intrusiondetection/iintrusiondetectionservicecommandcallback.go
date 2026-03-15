@@ -82,21 +82,21 @@ var _ binder.TransactionReceiver = (*IntrusionDetectionServiceCommandCallbackStu
 func (s *IntrusionDetectionServiceCommandCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIntrusionDetectionServiceCommandCallbackOnSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnSuccess(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIIntrusionDetectionServiceCommandCallbackOnFailure:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_error_, _err := data.ReadInt32()
+		_raw_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

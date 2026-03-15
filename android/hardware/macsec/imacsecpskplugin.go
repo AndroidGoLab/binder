@@ -336,11 +336,11 @@ var _ binder.TransactionReceiver = (*MacsecPskPluginStub)(nil)
 func (s *MacsecPskPluginStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIMacsecPskPluginAddTestKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -361,7 +361,7 @@ func (s *MacsecPskPluginStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIMacsecPskPluginCalcIcv:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -381,7 +381,7 @@ func (s *MacsecPskPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMacsecPskPluginGenerateSak:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -390,7 +390,7 @@ func (s *MacsecPskPluginStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_data []byte
 		_ = _arg_data
-		_arg_sakLength, _err := data.ReadInt32()
+		_arg_sakLength, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -405,7 +405,7 @@ func (s *MacsecPskPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMacsecPskPluginWrapSak:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -425,7 +425,7 @@ func (s *MacsecPskPluginStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIMacsecPskPluginUnwrapSak:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

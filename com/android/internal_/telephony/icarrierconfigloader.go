@@ -269,18 +269,18 @@ var _ binder.TransactionReceiver = (*CarrierConfigLoaderStub)(nil)
 func (s *CarrierConfigLoaderStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICarrierConfigLoaderGetConfigForSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetConfigForSubId(ctx, _arg_subId)
@@ -293,17 +293,17 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICarrierConfigLoaderGetConfigForSubIdWithFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetConfigForSubIdWithFeature(ctx, _arg_subId)
@@ -316,15 +316,15 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionICarrierConfigLoaderOverrideConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_overrides interface{}
-		_arg_persistent, _err := data.ReadBool()
+		_arg_persistent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -337,10 +337,10 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarrierConfigLoaderNotifyConfigChangedForSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -353,14 +353,14 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarrierConfigLoaderUpdateConfigForPhoneId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_simState, _err := data.ReadString16()
+		_arg_simState, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -373,7 +373,7 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionICarrierConfigLoaderGetDefaultCarrierServicePackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultCarrierServicePackageName(ctx)
@@ -386,17 +386,17 @@ func (s *CarrierConfigLoaderStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionICarrierConfigLoaderGetConfigSubsetForSubIdWithFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

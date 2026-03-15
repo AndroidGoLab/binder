@@ -935,14 +935,14 @@ var _ binder.TransactionReceiver = (*BinderRpcTestStub)(nil)
 func (s *BinderRpcTestStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBinderRpcTestSendString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_str, _err := data.ReadString16()
+		_arg_str, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -950,10 +950,10 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBinderRpcTestDoubleString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_str, _err := data.ReadString16()
+		_arg_str, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -967,7 +967,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIBinderRpcTestGetClientPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetClientPort(ctx)
@@ -980,7 +980,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBinderRpcTestCountBinders:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CountBinders(ctx)
@@ -994,7 +994,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcTestGetNullBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNullBinder(ctx)
@@ -1008,7 +1008,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcTestPingMe:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1024,7 +1024,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBinderRpcTestRepeatBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1041,7 +1041,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcTestHoldBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -1056,7 +1056,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderRpcTestGetHeldBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetHeldBinder(ctx)
@@ -1070,7 +1070,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcTestRepeatBytes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1087,13 +1087,13 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcTestNestMe:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_binder_ IBinderRpcTest
 		_ = _arg_binder_
-		_arg_calls, _err := data.ReadInt32()
+		_arg_calls, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1106,7 +1106,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderRpcTestAlwaysGiveMeTheSameBinder:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.AlwaysGiveMeTheSameBinder(ctx)
@@ -1120,10 +1120,10 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcTestOpenSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1138,7 +1138,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIBinderRpcTestGetNumOpenSessions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNumOpenSessions(ctx)
@@ -1151,7 +1151,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIBinderRpcTestLock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Lock(ctx)
@@ -1163,10 +1163,10 @@ func (s *BinderRpcTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderRpcTestUnlockInMsAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ms, _err := data.ReadInt32()
+		_arg_ms, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1174,7 +1174,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBinderRpcTestLockUnlock:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.LockUnlock(ctx)
@@ -1186,10 +1186,10 @@ func (s *BinderRpcTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderRpcTestSleepMs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ms, _err := data.ReadInt32()
+		_arg_ms, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1202,10 +1202,10 @@ func (s *BinderRpcTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderRpcTestSleepMsAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ms, _err := data.ReadInt32()
+		_arg_ms, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1213,21 +1213,21 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBinderRpcTestDoCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBinderRpcCallback
 		_ = _arg_callback
-		_arg_isOneway, _err := data.ReadBool()
+		_arg_isOneway, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_delayed, _err := data.ReadBool()
+		_arg_delayed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1240,21 +1240,21 @@ func (s *BinderRpcTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderRpcTestDoCallbackAsync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBinderRpcCallback
 		_ = _arg_callback
-		_arg_isOneway, _err := data.ReadBool()
+		_arg_isOneway, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_delayed, _err := data.ReadBool()
+		_arg_delayed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1262,10 +1262,10 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBinderRpcTestDie:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cleanup, _err := data.ReadBool()
+		_arg_cleanup, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1278,7 +1278,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderRpcTestScheduleShutdown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ScheduleShutdown(ctx)
@@ -1290,7 +1290,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderRpcTestUseKernelBinderCallingId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UseKernelBinderCallingId(ctx)
@@ -1302,10 +1302,10 @@ func (s *BinderRpcTestStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIBinderRpcTestEchoAsFile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_content, _err := data.ReadString16()
+		_arg_content, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1319,7 +1319,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBinderRpcTestConcatFiles:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -1335,10 +1335,10 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBinderRpcTestBlockingSendFdOneway:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1346,7 +1346,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBinderRpcTestBlockingRecvFd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.BlockingRecvFd(ctx)
@@ -1359,10 +1359,10 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_reply.WriteFileDescriptor(_result)
 		return _reply, nil
 	case TransactionIBinderRpcTestBlockingSendIntOneway:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_n, _err := data.ReadInt32()
+		_arg_n, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1370,7 +1370,7 @@ func (s *BinderRpcTestStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBinderRpcTestBlockingRecvInt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.BlockingRecvInt(ctx)

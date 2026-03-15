@@ -950,11 +950,11 @@ var _ binder.TransactionReceiver = (*NetworkManagementServiceStub)(nil)
 func (s *NetworkManagementServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINetworkManagementServiceRegisterObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_obs interface{}
@@ -967,7 +967,7 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceUnregisterObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_obs interface{}
@@ -980,7 +980,7 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceListInterfaces:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ListInterfaces(ctx)
@@ -994,10 +994,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionINetworkManagementServiceGetInterfaceConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1011,10 +1011,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1028,10 +1028,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceClearInterfaceAddresses:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1044,10 +1044,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceDown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1060,10 +1060,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceUp:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1076,14 +1076,14 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceIpv6PrivacyExtensions:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1096,10 +1096,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceDisableIpv6:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1112,10 +1112,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceEnableIpv6:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1128,14 +1128,14 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetIPv6AddrGenMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1148,7 +1148,7 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceShutdown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Shutdown(ctx)
@@ -1160,14 +1160,14 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceQuota:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_quotaBytes, _err := data.ReadInt64()
+		_arg_quotaBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1180,10 +1180,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceRemoveInterfaceQuota:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1196,14 +1196,14 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceAlert:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_alertBytes, _err := data.ReadInt64()
+		_arg_alertBytes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1216,10 +1216,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceRemoveInterfaceAlert:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iface, _err := data.ReadString16()
+		_arg_iface, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1232,14 +1232,14 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetUidOnMeteredNetworkDenylist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1252,14 +1252,14 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetUidOnMeteredNetworkAllowlist:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1272,10 +1272,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetDataSaverModeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1289,14 +1289,14 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetUidCleartextNetworkPolicy:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_policy, _err := data.ReadInt32()
+		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1309,7 +1309,7 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceIsBandwidthControlEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsBandwidthControlEnabled(ctx)
@@ -1322,10 +1322,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetFirewallEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1338,7 +1338,7 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceIsFirewallEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsFirewallEnabled(ctx)
@@ -1351,18 +1351,18 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetFirewallUidRule:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_chain, _err := data.ReadInt32()
+		_arg_chain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_rule, _err := data.ReadInt32()
+		_arg_rule, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1375,10 +1375,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetFirewallUidRules:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_chain, _err := data.ReadInt32()
+		_arg_chain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1397,14 +1397,14 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetFirewallChainEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_chain, _err := data.ReadInt32()
+		_arg_chain, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1417,10 +1417,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceAllowProtect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1433,10 +1433,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceDenyProtect:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1449,10 +1449,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINetworkManagementServiceIsNetworkRestricted:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

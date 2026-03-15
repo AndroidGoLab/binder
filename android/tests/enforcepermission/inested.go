@@ -97,11 +97,11 @@ var _ binder.TransactionReceiver = (*NestedStub)(nil)
 func (s *NestedStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionINestedProtectedByAccessNetworkState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByAccessNetworkState(ctx)
@@ -113,7 +113,7 @@ func (s *NestedStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionINestedProtectedByReadSyncSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ProtectedByReadSyncSettings(ctx)

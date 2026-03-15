@@ -102,11 +102,11 @@ var _ binder.TransactionReceiver = (*TextToSpeechSessionCallbackStub)(nil)
 func (s *TextToSpeechSessionCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITextToSpeechSessionCallbackOnConnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -119,17 +119,17 @@ func (s *TextToSpeechSessionCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITextToSpeechSessionCallbackOnDisconnected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnDisconnected(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITextToSpeechSessionCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errorInfo, _err := data.ReadString16()
+		_arg_errorInfo, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

@@ -140,14 +140,14 @@ var _ binder.TransactionReceiver = (*BiometricSensorReceiverStub)(nil)
 func (s *BiometricSensorReceiverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIBiometricSensorReceiverOnAuthenticationSucceeded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -158,10 +158,10 @@ func (s *BiometricSensorReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricSensorReceiverOnAuthenticationFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -169,22 +169,22 @@ func (s *BiometricSensorReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricSensorReceiverOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cookie, _err := data.ReadInt32()
+		_arg_cookie, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_vendorCode, _err := data.ReadInt32()
+		_arg_vendorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -192,18 +192,18 @@ func (s *BiometricSensorReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIBiometricSensorReceiverOnAcquired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_acquiredInfo, _err := data.ReadInt32()
+		_arg_acquiredInfo, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_vendorCode, _err := data.ReadInt32()
+		_arg_vendorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

@@ -273,61 +273,61 @@ var _ binder.TransactionReceiver = (*PipStub)(nil)
 func (s *PipStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPipStartSwipePipToHome:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_activityInfo pm.ActivityInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_activityInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_activityInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_pictureInPictureParams app.PictureInPictureParams
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_pictureInPictureParams.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_pictureInPictureParams.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_launcherRotation, _err := data.ReadInt32()
+		_arg_launcherRotation, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_hotseatKeepClearArea graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_hotseatKeepClearArea.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_hotseatKeepClearArea.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -345,69 +345,69 @@ func (s *PipStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPipStopSwipePipToHome:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_destinationBounds graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_destinationBounds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_destinationBounds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_overlay view.SurfaceControl
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_overlay.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_overlay.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_appBounds graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_appBounds.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_appBounds.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_sourceRectHint graphics.Rect
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sourceRectHint.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sourceRectHint.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -416,21 +416,21 @@ func (s *PipStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPipAbortSwipePipToHome:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_taskId, _err := data.ReadInt32()
+		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -439,7 +439,7 @@ func (s *PipStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPipSetPipAnimationListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -449,14 +449,14 @@ func (s *PipStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPipSetShelfHeight:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_shelfHeight, _err := data.ReadInt32()
+		_arg_shelfHeight, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -464,21 +464,21 @@ func (s *PipStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPipSetPipAnimationTypeToAlpha:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SetPipAnimationTypeToAlpha(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPipSetLauncherKeepClearAreaHeight:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_visible, _err := data.ReadBool()
+		_arg_visible, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_height, _err := data.ReadInt32()
+		_arg_height, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -486,10 +486,10 @@ func (s *PipStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPipSetLauncherAppIconSize:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_iconSizePx, _err := data.ReadInt32()
+		_arg_iconSizePx, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

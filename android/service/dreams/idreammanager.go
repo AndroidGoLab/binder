@@ -708,11 +708,11 @@ var _ binder.TransactionReceiver = (*DreamManagerStub)(nil)
 func (s *DreamManagerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDreamManagerDream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Dream(ctx)
@@ -724,7 +724,7 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerAwaken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Awaken(ctx)
@@ -736,7 +736,7 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerSetDreamComponents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -751,7 +751,7 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerGetDreamComponents:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDreamComponents(ctx)
@@ -765,10 +765,10 @@ func (s *DreamManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDreamManagerGetDefaultDreamComponentForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDefaultDreamComponentForUser(ctx)
@@ -784,20 +784,20 @@ func (s *DreamManagerStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIDreamManagerTestDream:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -811,7 +811,7 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerIsDreaming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDreaming(ctx)
@@ -824,7 +824,7 @@ func (s *DreamManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDreamManagerIsDreamingOrInPreview:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDreamingOrInPreview(ctx)
@@ -837,10 +837,10 @@ func (s *DreamManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDreamManagerCanStartDreaming:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isScreenOn, _err := data.ReadBool()
+		_arg_isScreenOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -854,13 +854,13 @@ func (s *DreamManagerStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIDreamManagerFinishSelf:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_immediate, _err := data.ReadBool()
+		_arg_immediate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -873,29 +873,29 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerStartDozing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_screenState, _err := data.ReadInt32()
+		_arg_screenState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_screenBrightnessFloat, _err := data.ReadFloat32()
+		_arg_screenBrightnessFloat, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_screenBrightnessInt, _err := data.ReadInt32()
+		_arg_screenBrightnessInt, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_useNormalBrightnessForDoze, _err := data.ReadBool()
+		_arg_useNormalBrightnessForDoze, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -908,7 +908,7 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerStopDozing:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -923,10 +923,10 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerForceAmbientDisplayEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -939,10 +939,10 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerGetDreamComponentsForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDreamComponentsForUser(ctx)
@@ -956,10 +956,10 @@ func (s *DreamManagerStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDreamManagerSetDreamComponentsForUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -974,17 +974,17 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerSetSystemDreamComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -998,17 +998,17 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerRegisterDreamOverlayService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1022,17 +1022,17 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerStartDreamActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent content.Intent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1046,10 +1046,10 @@ func (s *DreamManagerStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIDreamManagerSetDreamIsObscured:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isObscured, _err := data.ReadBool()
+		_arg_isObscured, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1057,29 +1057,29 @@ func (s *DreamManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDreamManagerStartDozingOneway:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_screenState, _err := data.ReadInt32()
+		_arg_screenState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_screenBrightnessFloat, _err := data.ReadFloat32()
+		_arg_screenBrightnessFloat, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_screenBrightnessInt, _err := data.ReadInt32()
+		_arg_screenBrightnessInt, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_useNormalBrightnessForDoze, _err := data.ReadBool()
+		_arg_useNormalBrightnessForDoze, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1087,13 +1087,13 @@ func (s *DreamManagerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIDreamManagerFinishSelfOneway:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		_arg_immediate, _err := data.ReadBool()
+		_arg_immediate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

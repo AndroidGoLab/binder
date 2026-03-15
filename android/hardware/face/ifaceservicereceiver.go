@@ -326,26 +326,26 @@ var _ binder.TransactionReceiver = (*FaceServiceReceiverStub)(nil)
 func (s *FaceServiceReceiverStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIFaceServiceReceiverOnEnrollResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_face Face
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_face.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_face.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_remaining, _err := data.ReadInt32()
+		_arg_remaining, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -353,14 +353,14 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnAcquired:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_acquiredInfo, _err := data.ReadInt32()
+		_arg_acquiredInfo, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_vendorCode, _err := data.ReadInt32()
+		_arg_vendorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -368,25 +368,25 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnAuthenticationSucceeded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_face Face
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_face.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_face.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_isStrongBiometric, _err := data.ReadBool()
+		_arg_isStrongBiometric, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -394,17 +394,17 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnFaceDetected:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_isStrongBiometric, _err := data.ReadBool()
+		_arg_isStrongBiometric, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -412,21 +412,21 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnAuthenticationFailed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnAuthenticationFailed(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_error_, _err := data.ReadInt32()
+		_arg_error_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_vendorCode, _err := data.ReadInt32()
+		_arg_vendorCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -434,22 +434,22 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnRemoved:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_face Face
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_face.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_face.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_remaining, _err := data.ReadInt32()
+		_arg_remaining, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -457,14 +457,14 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnFeatureSet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_success, _err := data.ReadBool()
+		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -472,10 +472,10 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnFeatureGet:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_success, _err := data.ReadBool()
+		_arg_success, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -489,17 +489,17 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnChallengeGenerated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sensorId, _err := data.ReadInt32()
+		_arg_sensorId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_challenge, _err := data.ReadInt64()
+		_arg_challenge, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -507,17 +507,17 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnAuthenticationFrame:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_frame FaceAuthenticationFrame
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_frame.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_frame.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -526,17 +526,17 @@ func (s *FaceServiceReceiverStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIFaceServiceReceiverOnEnrollmentFrame:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_frame FaceEnrollFrame
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_frame.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_frame.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

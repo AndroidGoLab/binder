@@ -205,18 +205,18 @@ var _ binder.TransactionReceiver = (*CameraServiceProxyStub)(nil)
 func (s *CameraServiceProxyStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICameraServiceProxyPingForUserUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.PingForUserUpdate(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceProxyNotifyCameraState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_cameraSessionStats interface{}
@@ -224,17 +224,17 @@ func (s *CameraServiceProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceProxyNotifyFeatureCombinationStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_cameraFeatureCombinationStats CameraFeatureCombinationStats
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cameraFeatureCombinationStats.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cameraFeatureCombinationStats.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -243,18 +243,18 @@ func (s *CameraServiceProxyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionICameraServiceProxyGetRotateAndCropOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_lensFacing, _err := data.ReadInt32()
+		_arg_lensFacing, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRotateAndCropOverride(ctx, _arg_packageName, _arg_lensFacing)
@@ -267,10 +267,10 @@ func (s *CameraServiceProxyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraServiceProxyGetAutoframingOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -284,10 +284,10 @@ func (s *CameraServiceProxyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionICameraServiceProxyIsCameraDisabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCameraDisabled(ctx)

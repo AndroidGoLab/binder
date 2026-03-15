@@ -1483,11 +1483,11 @@ var _ binder.TransactionReceiver = (*ContentServiceStub)(nil)
 func (s *ContentServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIContentServiceUnregisterContentObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_observer interface{}
@@ -1500,19 +1500,19 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceRegisterContentObserver:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uri interface{}
-		_arg_notifyForDescendants, _err := data.ReadBool()
+		_arg_notifyForDescendants, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_observer interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1525,29 +1525,29 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceNotifyChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uris []interface{}
 		_ = _arg_uris
 		var _arg_observer interface{}
-		_arg_observerWantsSelfNotifications, _err := data.ReadBool()
+		_arg_observerWantsSelfNotifications, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_targetSdkVersion, _err := data.ReadInt32()
+		_arg_targetSdkVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.NotifyChange(ctx, _arg_uris, _arg_observer, _arg_observerWantsSelfNotifications, _arg_flags, _arg_targetSdkVersion)
@@ -1559,16 +1559,16 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceRequestSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras interface{}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestSync(ctx, _arg_account, _arg_authority, _arg_extras)
@@ -1580,22 +1580,22 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request SyncRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Sync(ctx, _arg_request)
@@ -1607,25 +1607,25 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSyncAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request SyncRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.SyncAsUser(ctx, _arg_request)
@@ -1637,22 +1637,22 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceCancelSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cname ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cname.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cname.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1666,27 +1666,27 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceCancelSyncAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cname ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cname.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cname.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.CancelSyncAsUser(ctx, _arg_account, _arg_authority, _arg_cname)
@@ -1698,17 +1698,17 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceCancelRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request SyncRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1722,11 +1722,11 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAutomatically:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1740,15 +1740,15 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAutomaticallyAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSyncAutomaticallyAsUser(ctx, _arg_account, _arg_providerName)
@@ -1761,15 +1761,15 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceSetSyncAutomatically:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sync, _err := data.ReadBool()
+		_arg_sync, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1782,19 +1782,19 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSetSyncAutomaticallyAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sync, _err := data.ReadBool()
+		_arg_sync, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSyncAutomaticallyAsUser(ctx, _arg_account, _arg_providerName, _arg_sync)
@@ -1806,22 +1806,22 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetPeriodicSyncs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cname ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cname.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cname.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -1837,16 +1837,16 @@ func (s *ContentServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContentServiceAddPeriodicSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_extras interface{}
-		_arg_pollFrequency, _err := data.ReadInt64()
+		_arg_pollFrequency, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1859,11 +1859,11 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceRemovePeriodicSync:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1877,11 +1877,11 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetIsSyncable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1895,15 +1895,15 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetIsSyncableAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetIsSyncableAsUser(ctx, _arg_account, _arg_providerName)
@@ -1916,15 +1916,15 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionIContentServiceSetIsSyncable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_syncable, _err := data.ReadInt32()
+		_arg_syncable, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1937,19 +1937,19 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSetIsSyncableAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_providerName, _err := data.ReadString16()
+		_arg_providerName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_syncable, _err := data.ReadInt32()
+		_arg_syncable, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetIsSyncableAsUser(ctx, _arg_account, _arg_providerName, _arg_syncable)
@@ -1961,10 +1961,10 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSetMasterSyncAutomatically:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flag, _err := data.ReadBool()
+		_arg_flag, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -1977,14 +1977,14 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceSetMasterSyncAutomaticallyAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_flag, _err := data.ReadBool()
+		_arg_flag, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetMasterSyncAutomaticallyAsUser(ctx, _arg_flag)
@@ -1996,7 +1996,7 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetMasterSyncAutomatically:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMasterSyncAutomatically(ctx)
@@ -2009,10 +2009,10 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetMasterSyncAutomaticallyAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMasterSyncAutomaticallyAsUser(ctx)
@@ -2025,7 +2025,7 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetCurrentSyncs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentSyncs(ctx)
@@ -2039,10 +2039,10 @@ func (s *ContentServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContentServiceGetCurrentSyncsAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentSyncsAsUser(ctx)
@@ -2056,7 +2056,7 @@ func (s *ContentServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAdapterTypes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSyncAdapterTypes(ctx)
@@ -2070,10 +2070,10 @@ func (s *ContentServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAdapterTypesAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSyncAdapterTypesAsUser(ctx)
@@ -2087,14 +2087,14 @@ func (s *ContentServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAdapterPackagesForAuthorityAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSyncAdapterPackagesForAuthorityAsUser(ctx, _arg_authority)
@@ -2108,18 +2108,18 @@ func (s *ContentServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContentServiceGetSyncAdapterPackageAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_accountType, _err := data.ReadString16()
+		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSyncAdapterPackageAsUser(ctx, _arg_accountType, _arg_authority)
@@ -2132,22 +2132,22 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionIContentServiceIsSyncActive:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cname ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cname.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cname.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2162,22 +2162,22 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceGetSyncStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cname ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cname.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cname.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2195,27 +2195,27 @@ func (s *ContentServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIContentServiceGetSyncStatusAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cname ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cname.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cname.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSyncStatusAsUser(ctx, _arg_account, _arg_authority, _arg_cname)
@@ -2231,22 +2231,22 @@ func (s *ContentServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIContentServiceIsSyncPending:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cname ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cname.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cname.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -2261,27 +2261,27 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceIsSyncPendingAsUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_account interface{}
-		_arg_authority, _err := data.ReadString16()
+		_arg_authority, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_cname ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_cname.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_cname.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsSyncPendingAsUser(ctx, _arg_account, _arg_authority, _arg_cname)
@@ -2294,10 +2294,10 @@ func (s *ContentServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIContentServiceAddStatusChangeListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_mask, _err := data.ReadInt32()
+		_arg_mask, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -2313,7 +2313,7 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceRemoveStatusChangeListener:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -2328,16 +2328,16 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServicePutCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_key interface{}
 		var _arg_value interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.PutCache(ctx, _arg_packageName, _arg_key, _arg_value)
@@ -2349,15 +2349,15 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceGetCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_key interface{}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCache(ctx, _arg_packageName, _arg_key)
@@ -2370,7 +2370,7 @@ func (s *ContentServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIContentServiceResetTodayStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetTodayStats(ctx)
@@ -2382,18 +2382,18 @@ func (s *ContentServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIContentServiceOnDbCorruption:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_tag, _err := data.ReadString16()
+		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadString16()
+		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stacktrace, _err := data.ReadString16()
+		_arg_stacktrace, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

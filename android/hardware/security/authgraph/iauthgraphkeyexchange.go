@@ -261,11 +261,11 @@ var _ binder.TransactionReceiver = (*AuthGraphKeyExchangeStub)(nil)
 func (s *AuthGraphKeyExchangeStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAuthGraphKeyExchangeCreate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.Create(ctx)
@@ -281,29 +281,29 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAuthGraphKeyExchangeInit:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_peerPubKey PubKey
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_peerPubKey.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_peerPubKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_peerId Identity
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_peerId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_peerId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -311,7 +311,7 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerNonce []byte
 		_ = _arg_peerNonce
-		_arg_peerVersion, _err := data.ReadInt32()
+		_arg_peerVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -328,41 +328,41 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAuthGraphKeyExchangeFinish:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_peerPubKey PubKey
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_peerPubKey.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_peerPubKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_peerId Identity
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_peerId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_peerId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_peerSignature SessionIdSignature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_peerSignature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_peerSignature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -370,18 +370,18 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_peerNonce []byte
 		_ = _arg_peerNonce
-		_arg_peerVersion, _err := data.ReadInt32()
+		_arg_peerVersion, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_ownKey Key
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_ownKey.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_ownKey.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -399,17 +399,17 @@ func (s *AuthGraphKeyExchangeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAuthGraphKeyExchangeAuthenticationComplete:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_peerSignature SessionIdSignature
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_peerSignature.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_peerSignature.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

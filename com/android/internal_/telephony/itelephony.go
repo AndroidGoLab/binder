@@ -14778,14 +14778,14 @@ var _ binder.TransactionReceiver = (*TelephonyStub)(nil)
 func (s *TelephonyStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITelephonyDial:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -14798,13 +14798,13 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyCall:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -14817,10 +14817,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsRadioOn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRadioOn(ctx)
@@ -14833,13 +14833,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRadioOnWithFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRadioOnWithFeature(ctx)
@@ -14852,14 +14852,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRadioOnForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRadioOnForSubscriber(ctx, _arg_subId)
@@ -14872,17 +14872,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRadioOnForSubscriberWithFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRadioOnForSubscriberWithFeature(ctx, _arg_subId)
@@ -14895,14 +14895,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCallComposerStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -14915,10 +14915,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCallComposerStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -14932,14 +14932,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySupplyPinForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pin, _err := data.ReadString16()
+		_arg_pin, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -14953,18 +14953,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySupplyPukForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_puk, _err := data.ReadString16()
+		_arg_puk, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pin, _err := data.ReadString16()
+		_arg_pin, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -14978,14 +14978,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySupplyPinReportResultForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pin, _err := data.ReadString16()
+		_arg_pin, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15000,18 +15000,18 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySupplyPukReportResultForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_puk, _err := data.ReadString16()
+		_arg_puk, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pin, _err := data.ReadString16()
+		_arg_pin, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15026,10 +15026,10 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyHandlePinMmi:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dialString, _err := data.ReadString16()
+		_arg_dialString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15043,25 +15043,25 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyHandleUssdRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_ussdRequest, _err := data.ReadString16()
+		_arg_ussdRequest, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_wrappedCallback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_wrappedCallback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_wrappedCallback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -15075,14 +15075,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyHandlePinMmiForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_dialString, _err := data.ReadString16()
+		_arg_dialString, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15096,7 +15096,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyToggleRadioOnOff:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ToggleRadioOnOff(ctx)
@@ -15108,10 +15108,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyToggleRadioOnOffForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15124,10 +15124,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetRadio:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_turnOn, _err := data.ReadBool()
+		_arg_turnOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15141,14 +15141,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetRadioForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_turnOn, _err := data.ReadBool()
+		_arg_turnOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15162,10 +15162,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetRadioPower:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_turnOn, _err := data.ReadBool()
+		_arg_turnOn, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15179,14 +15179,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestRadioPowerOffForReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15200,14 +15200,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyClearRadioPowerOffForReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15221,17 +15221,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetRadioPowerOffReasons:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRadioPowerOffReasons(ctx, _arg_subId)
@@ -15245,7 +15245,7 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyUpdateServiceLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UpdateServiceLocation(ctx)
@@ -15257,10 +15257,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUpdateServiceLocationWithPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15273,7 +15273,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyEnableLocationUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.EnableLocationUpdates(ctx)
@@ -15285,7 +15285,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyDisableLocationUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisableLocationUpdates(ctx)
@@ -15297,10 +15297,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyEnableDataConnectivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.EnableDataConnectivity(ctx)
@@ -15313,10 +15313,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyDisableDataConnectivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.DisableDataConnectivity(ctx)
@@ -15329,10 +15329,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsDataConnectivityPossible:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15346,14 +15346,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCellLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCellLocation(ctx, _arg_callingPkg)
@@ -15369,10 +15369,10 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetNetworkCountryIsoForPhone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15386,14 +15386,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetNeighboringCellInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNeighboringCellInfo(ctx, _arg_callingPkg)
@@ -15407,7 +15407,7 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetCallState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCallState(ctx)
@@ -15420,17 +15420,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCallStateForSubscription:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_featureId, _err := data.ReadString16()
+		_arg_featureId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15444,7 +15444,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDataActivity(ctx)
@@ -15457,10 +15457,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataActivityForSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15474,7 +15474,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDataState(ctx)
@@ -15487,10 +15487,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataStateForSubId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15504,7 +15504,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetActivePhoneType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetActivePhoneType(ctx)
@@ -15517,10 +15517,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetActivePhoneTypeForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15534,13 +15534,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaEriIconIndex:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCdmaEriIconIndex(ctx)
@@ -15553,17 +15553,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaEriIconIndexForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCdmaEriIconIndexForSubscriber(ctx, _arg_subId)
@@ -15576,13 +15576,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaEriIconMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCdmaEriIconMode(ctx)
@@ -15595,17 +15595,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaEriIconModeForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCdmaEriIconModeForSubscriber(ctx, _arg_subId)
@@ -15618,13 +15618,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaEriText:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCdmaEriText(ctx)
@@ -15637,17 +15637,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaEriTextForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCdmaEriTextForSubscriber(ctx, _arg_subId)
@@ -15660,7 +15660,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyNeedsOtaServiceProvisioning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.NeedsOtaServiceProvisioning(ctx)
@@ -15673,18 +15673,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoiceMailNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_alphaTag, _err := data.ReadString16()
+		_arg_alphaTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15698,14 +15698,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoiceActivationState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_activationState, _err := data.ReadInt32()
+		_arg_activationState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15718,14 +15718,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetDataActivationState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_activationState, _err := data.ReadInt32()
+		_arg_activationState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15738,14 +15738,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetVoiceActivationState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVoiceActivationState(ctx, _arg_subId)
@@ -15758,14 +15758,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataActivationState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDataActivationState(ctx, _arg_subId)
@@ -15778,17 +15778,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetVoiceMessageCountForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVoiceMessageCountForSubscriber(ctx, _arg_subId)
@@ -15801,10 +15801,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsConcurrentVoiceAndDataAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15818,13 +15818,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetVisualVoicemailSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15841,16 +15841,16 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetVisualVoicemailPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15864,24 +15864,24 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyEnableVisualVoicemailSmsFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_settings androidTelephony.VisualVoicemailSmsFilterSettings
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_settings.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_settings.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -15895,13 +15895,13 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyDisableVisualVoicemailSmsFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15909,13 +15909,13 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITelephonyGetVisualVoicemailSmsFilterSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15932,10 +15932,10 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetActiveVisualVoicemailSmsFilterSettings:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -15952,40 +15952,40 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonySendVisualVoicemailSmsForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingAttributeTag, _err := data.ReadString16()
+		_arg_callingAttributeTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_port, _err := data.ReadInt32()
+		_arg_port, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_text, _err := data.ReadString16()
+		_arg_text, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_sentIntent app.PendingIntent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_sentIntent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_sentIntent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -15999,14 +15999,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySendDialerSpecialCode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingPackageName, _err := data.ReadString16()
+		_arg_callingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_inputCode, _err := data.ReadString16()
+		_arg_inputCode, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16019,17 +16019,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetNetworkTypeForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNetworkTypeForSubscriber(ctx, _arg_subId)
@@ -16042,13 +16042,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataNetworkType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDataNetworkType(ctx)
@@ -16061,17 +16061,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataNetworkTypeForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDataNetworkTypeForSubscriber(ctx, _arg_subId)
@@ -16084,17 +16084,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetVoiceNetworkTypeForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetVoiceNetworkTypeForSubscriber(ctx, _arg_subId)
@@ -16107,7 +16107,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyHasIccCard:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.HasIccCard(ctx)
@@ -16120,10 +16120,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyHasIccCardUsingSlotIndex:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16137,13 +16137,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetLteOnCdmaMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLteOnCdmaMode(ctx)
@@ -16156,17 +16156,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetLteOnCdmaModeForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLteOnCdmaModeForSubscriber(ctx, _arg_subId)
@@ -16179,14 +16179,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetAllCellInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllCellInfo(ctx, _arg_callingPkg)
@@ -16200,21 +16200,21 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyRequestCellInfoUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb androidTelephony.ICellInfoCallback
 		_ = _arg_cb
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestCellInfoUpdate(ctx, _arg_subId, _arg_cb, _arg_callingPkg)
@@ -16226,21 +16226,21 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestCellInfoUpdateWithWorkSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb androidTelephony.ICellInfoCallback
 		_ = _arg_cb
-		_arg_callingPkg, _err := data.ReadString16()
+		_arg_callingPkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_ws interface{}
@@ -16253,14 +16253,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetCellInfoListRate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_rateInMillis, _err := data.ReadInt32()
+		_arg_rateInMillis, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16273,17 +16273,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIccOpenLogicalChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request IccLogicalChannelRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -16301,17 +16301,17 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyIccCloseLogicalChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_request IccLogicalChannelRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -16326,42 +16326,42 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIccTransmitApduLogicalChannelByPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_portIndex, _err := data.ReadInt32()
+		_arg_portIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_channel, _err := data.ReadInt32()
+		_arg_channel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cla, _err := data.ReadInt32()
+		_arg_cla, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_instruction, _err := data.ReadInt32()
+		_arg_instruction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p1, _err := data.ReadInt32()
+		_arg_p1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p2, _err := data.ReadInt32()
+		_arg_p2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p3, _err := data.ReadInt32()
+		_arg_p3, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadString16()
+		_arg_data, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16375,38 +16375,38 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIccTransmitApduLogicalChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_channel, _err := data.ReadInt32()
+		_arg_channel, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_cla, _err := data.ReadInt32()
+		_arg_cla, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_instruction, _err := data.ReadInt32()
+		_arg_instruction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p1, _err := data.ReadInt32()
+		_arg_p1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p2, _err := data.ReadInt32()
+		_arg_p2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p3, _err := data.ReadInt32()
+		_arg_p3, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadString16()
+		_arg_data, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16420,41 +16420,41 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIccTransmitApduBasicChannelByPort:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_portIndex, _err := data.ReadInt32()
+		_arg_portIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cla, _err := data.ReadInt32()
+		_arg_cla, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_instruction, _err := data.ReadInt32()
+		_arg_instruction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p1, _err := data.ReadInt32()
+		_arg_p1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p2, _err := data.ReadInt32()
+		_arg_p2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p3, _err := data.ReadInt32()
+		_arg_p3, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadString16()
+		_arg_data, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16468,37 +16468,37 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIccTransmitApduBasicChannel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_cla, _err := data.ReadInt32()
+		_arg_cla, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_instruction, _err := data.ReadInt32()
+		_arg_instruction, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p1, _err := data.ReadInt32()
+		_arg_p1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p2, _err := data.ReadInt32()
+		_arg_p2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p3, _err := data.ReadInt32()
+		_arg_p3, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_data, _err := data.ReadString16()
+		_arg_data, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16512,34 +16512,34 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIccExchangeSimIO:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fileID, _err := data.ReadInt32()
+		_arg_fileID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_command, _err := data.ReadInt32()
+		_arg_command, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p1, _err := data.ReadInt32()
+		_arg_p1, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p2, _err := data.ReadInt32()
+		_arg_p2, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_p3, _err := data.ReadInt32()
+		_arg_p3, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_filePath, _err := data.ReadString16()
+		_arg_filePath, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16554,14 +16554,14 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySendEnvelopeWithStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_content, _err := data.ReadString16()
+		_arg_content, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16575,10 +16575,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyNvReadItem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_itemID, _err := data.ReadInt32()
+		_arg_itemID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16592,14 +16592,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyNvWriteItem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_itemID, _err := data.ReadInt32()
+		_arg_itemID, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_itemValue, _err := data.ReadString16()
+		_arg_itemValue, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16613,7 +16613,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyNvWriteCdmaPrl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -16629,10 +16629,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyResetModemConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16646,10 +16646,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyRebootModem:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16663,10 +16663,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetAllowedNetworkTypesBitmask:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16680,10 +16680,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsTetheringApnRequiredForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16697,10 +16697,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyEnableIms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16713,10 +16713,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyDisableIms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16729,10 +16729,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyResetIms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16745,10 +16745,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterMmTelFeatureCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16764,7 +16764,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsFeatureCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -16779,14 +16779,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsRegistration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16800,14 +16800,14 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetImsConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotId, _err := data.ReadInt32()
+		_arg_slotId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16821,24 +16821,24 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetBoundImsServiceOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadInt32(); _err != nil {
+		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		_arg_isCarrierService, _err := data.ReadBool()
+		_arg_isCarrierService, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_featureTypes []int32
 		_ = _arg_featureTypes
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16852,10 +16852,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyClearCarrierImsServiceOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16869,18 +16869,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetBoundImsServicePackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isCarrierImsService, _err := data.ReadBool()
+		_arg_isCarrierImsService, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_featureType, _err := data.ReadInt32()
+		_arg_featureType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16894,10 +16894,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImsMmTelFeatureState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16913,10 +16913,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetNetworkSelectionModeAutomatic:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -16929,17 +16929,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCellNetworkScanResults:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCellNetworkScanResults(ctx, _arg_subId)
@@ -16955,37 +16955,37 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyRequestNetworkScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_renounceFineLocationAccess, _err := data.ReadBool()
+		_arg_renounceFineLocationAccess, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request network.NetworkScanRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_messenger os.Messenger
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_messenger.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_messenger.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -16993,10 +16993,10 @@ func (s *TelephonyStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_binder_ binder.IBinder
 		_ = _arg_binder_
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.RequestNetworkScan(ctx, _arg_subId, _arg_renounceFineLocationAccess, _arg_request, _arg_messenger, _arg_binder_)
@@ -17009,14 +17009,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyStopNetworkScan:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_scanId, _err := data.ReadInt32()
+		_arg_scanId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17029,26 +17029,26 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetNetworkSelectionModeManual:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_operatorInfo OperatorInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_operatorInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_operatorInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_persisSelection, _err := data.ReadBool()
+		_arg_persisSelection, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17062,14 +17062,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetAllowedNetworkTypesForReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17083,18 +17083,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITelephonySetAllowedNetworkTypesForReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_allowedNetworkTypes, _err := data.ReadInt64()
+		_arg_allowedNetworkTypes, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17108,10 +17108,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDataEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17125,10 +17125,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsUserDataEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17142,10 +17142,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsDataEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17159,22 +17159,22 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDataEnabledForReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetDataEnabledForReason(ctx, _arg_subId, _arg_reason, _arg_enable)
@@ -17186,14 +17186,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsDataEnabledForReason:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17207,10 +17207,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsManualNetworkSelectionAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17224,10 +17224,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetImsRegistrationState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_registered, _err := data.ReadBool()
+		_arg_registered, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17240,10 +17240,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaMdn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17257,10 +17257,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaMin:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17274,29 +17274,29 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestNumberVerification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_range_ androidTelephony.PhoneNumberRange
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_range_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_range_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_timeoutMillis, _err := data.ReadInt64()
+		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback INumberVerificationCallback
 		_ = _arg_callback
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RequestNumberVerification(ctx, _arg_range_, _arg_timeoutMillis, _arg_callback)
@@ -17308,10 +17308,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierPrivilegeStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17325,14 +17325,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierPrivilegeStatusForUid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_uid, _err := data.ReadInt32()
+		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17346,14 +17346,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyCheckCarrierPrivilegesForPackage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pkgName, _err := data.ReadString16()
+		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17367,10 +17367,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyCheckCarrierPrivilegesForPackageAnyPhone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkgName, _err := data.ReadString16()
+		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17384,22 +17384,22 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierPackageNamesForIntentAndPhone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_intent content.Intent
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_intent.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17414,18 +17414,18 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetLine1NumberForDisplayForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_alphaTag, _err := data.ReadString16()
+		_arg_alphaTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17439,17 +17439,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetLine1NumberForDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLine1NumberForDisplay(ctx, _arg_subId)
@@ -17462,17 +17462,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetLine1AlphaTagForDisplay:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLine1AlphaTagForDisplay(ctx, _arg_subId)
@@ -17485,17 +17485,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetMergedSubscriberIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMergedSubscriberIds(ctx, _arg_subId)
@@ -17509,14 +17509,14 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetMergedImsisFromGroup:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMergedImsisFromGroup(ctx, _arg_subId)
@@ -17530,14 +17530,14 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetOperatorBrandOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_brand, _err := data.ReadString16()
+		_arg_brand, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17551,10 +17551,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetRoamingOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17580,7 +17580,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyNeedMobileRadioShutdown:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.NeedMobileRadioShutdown(ctx)
@@ -17593,7 +17593,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyShutdownMobileRadios:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShutdownMobileRadios(ctx)
@@ -17605,14 +17605,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetRadioAccessFamily:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRadioAccessFamily(ctx, _arg_phoneId)
@@ -17625,32 +17625,32 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUploadCallComposerPicture:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contentType, _err := data.ReadString16()
+		_arg_contentType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -17664,10 +17664,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyEnableVideoCalling:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17680,13 +17680,13 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsVideoCallingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsVideoCallingEnabled(ctx)
@@ -17699,17 +17699,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyCanChangeDtmfToneLength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CanChangeDtmfToneLength(ctx, _arg_subId)
@@ -17722,17 +17722,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsWorldPhone:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsWorldPhone(ctx, _arg_subId)
@@ -17745,7 +17745,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsTtyModeSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsTtyModeSupported(ctx)
@@ -17758,10 +17758,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRttSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17775,7 +17775,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsHearingAidCompatibilitySupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsHearingAidCompatibilitySupported(ctx)
@@ -17788,10 +17788,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsImsRegistered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17805,10 +17805,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsWifiCallingAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17822,10 +17822,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsVideoTelephonyAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17839,10 +17839,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImsRegTechnologyForMmTel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17856,10 +17856,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDeviceId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeviceId(ctx)
@@ -17872,13 +17872,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDeviceIdWithFeature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeviceIdWithFeature(ctx)
@@ -17891,17 +17891,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImeiForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetImeiForSlot(ctx, _arg_slotIndex)
@@ -17914,13 +17914,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetPrimaryImei:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPrimaryImei(ctx)
@@ -17933,10 +17933,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetTypeAllocationCodeForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17950,17 +17950,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetMeidForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMeidForSlot(ctx, _arg_slotIndex)
@@ -17973,10 +17973,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetManufacturerCodeForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -17990,17 +17990,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDeviceSoftwareVersionForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeviceSoftwareVersionForSlot(ctx, _arg_slotIndex)
@@ -18013,25 +18013,25 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSubIdForPhoneAccountHandle:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_phoneAccountHandle telecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_phoneAccountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_phoneAccountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSubIdForPhoneAccountHandle(ctx, _arg_phoneAccountHandle)
@@ -18044,10 +18044,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetPhoneAccountHandleForSubscriptionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18064,14 +18064,14 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyFactoryReset:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.FactoryReset(ctx, _arg_subId)
@@ -18083,10 +18083,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetSimLocaleForSubscriber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18100,17 +18100,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestModemActivityInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -18119,25 +18119,25 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITelephonyGetServiceStateForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_renounceFineLocationAccess, _err := data.ReadBool()
+		_arg_renounceFineLocationAccess, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_renounceCoarseLocationAccess, _err := data.ReadBool()
+		_arg_renounceCoarseLocationAccess, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetServiceStateForSlot(ctx, _arg_slotIndex, _arg_renounceFineLocationAccess, _arg_renounceCoarseLocationAccess)
@@ -18153,17 +18153,17 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetVoicemailRingtoneUri:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accountHandle telecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -18181,32 +18181,32 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonySetVoicemailRingtoneUri:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_phoneAccountHandle telecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_phoneAccountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_phoneAccountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_uri net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uri.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -18220,17 +18220,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsVoicemailVibrationEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_accountHandle telecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_accountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_accountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -18245,25 +18245,25 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoicemailVibrationEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_phoneAccountHandle telecom.PhoneAccountHandle
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_phoneAccountHandle.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_phoneAccountHandle.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18276,10 +18276,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetPackagesWithCarrierPrivileges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_phoneId, _err := data.ReadInt32()
+		_arg_phoneId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18294,7 +18294,7 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetPackagesWithCarrierPrivilegesForAllPhones:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPackagesWithCarrierPrivilegesForAllPhones(ctx)
@@ -18308,14 +18308,14 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetAidForAppType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appType, _err := data.ReadInt32()
+		_arg_appType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18329,10 +18329,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetEsn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18346,10 +18346,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaPrlVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18363,7 +18363,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetTelephonyHistograms:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTelephonyHistograms(ctx)
@@ -18377,17 +18377,17 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetAllowedCarriers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_carrierRestrictionRules androidTelephony.CarrierRestrictionRules
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_carrierRestrictionRules.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_carrierRestrictionRules.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -18402,7 +18402,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetAllowedCarriers:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAllowedCarriers(ctx)
@@ -18418,10 +18418,10 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetSubscriptionCarrierId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18435,10 +18435,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSubscriptionCarrierName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18452,10 +18452,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSubscriptionSpecificCarrierId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18469,10 +18469,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSubscriptionSpecificCarrierName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18486,18 +18486,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierIdFromMccMnc:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mccmnc, _err := data.ReadString16()
+		_arg_mccmnc, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isSubscriptionMccMnc, _err := data.ReadBool()
+		_arg_isSubscriptionMccMnc, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18511,14 +18511,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyCarrierActionSetRadioEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18531,14 +18531,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyCarrierActionReportDefaultNetworkStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_report, _err := data.ReadBool()
+		_arg_report, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18551,10 +18551,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyCarrierActionResetAll:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18567,14 +18567,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCallForwarding:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_callForwardingReason, _err := data.ReadInt32()
+		_arg_callForwardingReason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18590,21 +18590,21 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetCallForwarding:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_callForwardingInfo androidTelephony.CallForwardingInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callForwardingInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callForwardingInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -18621,10 +18621,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCallWaitingStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18640,14 +18640,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetCallWaitingStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18663,16 +18663,16 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetClientRequestStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subid, _err := data.ReadInt32()
+		_arg_subid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18687,14 +18687,14 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetSimPowerStateForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18707,14 +18707,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetSimPowerStateForSlotWithCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18730,21 +18730,21 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetForbiddenPlmns:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appType, _err := data.ReadInt32()
+		_arg_appType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetForbiddenPlmns(ctx, _arg_subId, _arg_appType)
@@ -18758,24 +18758,24 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetForbiddenPlmns:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appType, _err := data.ReadInt32()
+		_arg_appType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_fplmns []string
 		_ = _arg_fplmns
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SetForbiddenPlmns(ctx, _arg_subId, _arg_appType, _arg_fplmns)
@@ -18788,10 +18788,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetEmergencyCallbackMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18805,10 +18805,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSignalStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18825,14 +18825,14 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetCardIdForDefaultEuicc:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCardIdForDefaultEuicc(ctx, _arg_subId)
@@ -18845,10 +18845,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetUiccCardsInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUiccCardsInfo(ctx)
@@ -18862,10 +18862,10 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetUiccSlotsInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetUiccSlotsInfo(ctx)
@@ -18879,7 +18879,7 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySwitchSlots:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -18895,7 +18895,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSimSlotMapping:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -18911,10 +18911,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsDataRoamingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18928,14 +18928,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDataRoamingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18948,10 +18948,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaRoamingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18965,14 +18965,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetCdmaRoamingMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -18986,10 +18986,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCdmaSubscriptionMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19003,14 +19003,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetCdmaSubscriptionMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19024,46 +19024,46 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCarrierTestOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mccmnc, _err := data.ReadString16()
+		_arg_mccmnc, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_imsi, _err := data.ReadString16()
+		_arg_imsi, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_iccid, _err := data.ReadString16()
+		_arg_iccid, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_gid1, _err := data.ReadString16()
+		_arg_gid1, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_gid2, _err := data.ReadString16()
+		_arg_gid2, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_plmn, _err := data.ReadString16()
+		_arg_plmn, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_spn, _err := data.ReadString16()
+		_arg_spn, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_carrierPrivilegeRules, _err := data.ReadString16()
+		_arg_carrierPrivilegeRules, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_apn, _err := data.ReadString16()
+		_arg_apn, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19076,18 +19076,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetCarrierServicePackageOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_carrierServicePackage, _err := data.ReadString16()
+		_arg_carrierServicePackage, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetCarrierServicePackageOverride(ctx, _arg_subId, _arg_carrierServicePackage)
@@ -19099,10 +19099,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierIdListVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19116,10 +19116,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyRefreshUiccProfile:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19132,17 +19132,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetNumberOfModemsWithSimultaneousDataConnections:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetNumberOfModemsWithSimultaneousDataConnections(ctx, _arg_subId)
@@ -19155,10 +19155,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetNetworkSelectionMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19172,7 +19172,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsInEmergencySmsMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsInEmergencySmsMode(ctx)
@@ -19185,17 +19185,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetRadioPowerState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRadioPowerState(ctx, _arg_slotIndex)
@@ -19208,10 +19208,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyRegisterImsRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19225,10 +19225,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19242,10 +19242,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterImsEmergencyRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19259,10 +19259,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsEmergencyRegistrationCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19276,10 +19276,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsMmTelRegistrationState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19295,10 +19295,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsMmTelRegistrationTransportType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19314,10 +19314,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterMmTelCapabilityCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19331,10 +19331,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterMmTelCapabilityCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19348,18 +19348,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsCapable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_regTech, _err := data.ReadInt32()
+		_arg_regTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19373,18 +19373,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsAvailable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_regTech, _err := data.ReadInt32()
+		_arg_regTech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19398,21 +19398,21 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsMmTelCapabilitySupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
 		_ = _arg_callback
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_transportType, _err := data.ReadInt32()
+		_arg_transportType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19425,10 +19425,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsAdvancedCallingSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19442,14 +19442,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetAdvancedCallingSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19462,10 +19462,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsVtSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19479,14 +19479,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVtSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19499,10 +19499,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsVoWiFiSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19516,14 +19516,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19536,10 +19536,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsCrossSimCallingEnabledByUser:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19553,14 +19553,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCrossSimCallingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19573,10 +19573,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsVoWiFiRoamingSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19590,14 +19590,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiRoamingSettingEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19610,18 +19610,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiNonPersistent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isCapable, _err := data.ReadBool()
+		_arg_isCapable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19634,10 +19634,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetVoWiFiModeSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19651,14 +19651,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiModeSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19671,10 +19671,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetVoWiFiRoamingModeSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19688,14 +19688,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoWiFiRoamingModeSetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mode, _err := data.ReadInt32()
+		_arg_mode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19708,14 +19708,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetRttCapabilitySetting:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19728,10 +19728,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsTtyOverVolteEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19745,13 +19745,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetEmergencyNumberList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEmergencyNumberList(ctx)
@@ -19765,14 +19765,14 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyIsEmergencyNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_number, _err := data.ReadString16()
+		_arg_number, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_exactMatch, _err := data.ReadBool()
+		_arg_exactMatch, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19786,10 +19786,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCertsFromCarrierPrivilegeAccessRules:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19804,10 +19804,10 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyRegisterImsProvisioningChangedCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19821,10 +19821,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsProvisioningChangedCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19838,10 +19838,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterFeatureProvisioningChangedCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19855,10 +19855,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterFeatureProvisioningChangedCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19872,22 +19872,22 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetImsProvisioningStatusForCapability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tech, _err := data.ReadInt32()
+		_arg_tech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isProvisioned, _err := data.ReadBool()
+		_arg_isProvisioned, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19900,18 +19900,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsProvisioningStatusForCapability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tech, _err := data.ReadInt32()
+		_arg_tech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19925,18 +19925,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetRcsProvisioningStatusForCapability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tech, _err := data.ReadInt32()
+		_arg_tech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19950,22 +19950,22 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetRcsProvisioningStatusForCapability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tech, _err := data.ReadInt32()
+		_arg_tech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isProvisioned, _err := data.ReadBool()
+		_arg_isProvisioned, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19978,14 +19978,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetImsProvisioningInt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadInt32()
+		_arg_key, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -19999,14 +19999,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImsProvisioningString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadInt32()
+		_arg_key, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20020,18 +20020,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonySetImsProvisioningInt:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadInt32()
+		_arg_key, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20045,18 +20045,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetImsProvisioningString:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_key, _err := data.ReadInt32()
+		_arg_key, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadString16()
+		_arg_value, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20070,7 +20070,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyStartEmergencyCallbackMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.StartEmergencyCallbackMode(ctx)
@@ -20082,21 +20082,21 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUpdateEmergencyNumberListTestMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_action, _err := data.ReadInt32()
+		_arg_action, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_num voice.EmergencyNumber
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_num.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_num.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -20110,7 +20110,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetEmergencyNumberListTestMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEmergencyNumberListTestMode(ctx)
@@ -20124,10 +20124,10 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetEmergencyNumberDbVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20141,7 +20141,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyNotifyOtaEmergencyNumberDbInstalled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.NotifyOtaEmergencyNumberDbInstalled(ctx)
@@ -20153,10 +20153,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUpdateOtaEmergencyNumberDbFilePath:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_otaParcelFileDescriptor, _err := data.ReadFileDescriptor()
+		_arg_otaParcelFileDescriptor, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20169,7 +20169,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyResetOtaEmergencyNumberDbFilePath:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ResetOtaEmergencyNumberDbFilePath(ctx)
@@ -20181,14 +20181,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyEnableModemForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20202,10 +20202,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetMultiSimCarrierRestriction:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isMultiSimCarrierRestricted, _err := data.ReadBool()
+		_arg_isMultiSimCarrierRestricted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20218,13 +20218,13 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsMultiSimSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsMultiSimSupported(ctx)
@@ -20237,10 +20237,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySwitchMultiSimConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_numOfSims, _err := data.ReadInt32()
+		_arg_numOfSims, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20253,17 +20253,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyDoesSwitchMultiSimConfigTriggerReboot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.DoesSwitchMultiSimConfigTriggerReboot(ctx, _arg_subId)
@@ -20276,10 +20276,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSlotsMapping:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSlotsMapping(ctx)
@@ -20293,7 +20293,7 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetRadioHalVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRadioHalVersion(ctx)
@@ -20306,10 +20306,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetHalVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_service, _err := data.ReadInt32()
+		_arg_service, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20323,7 +20323,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCurrentPackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetCurrentPackageName(ctx)
@@ -20336,14 +20336,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIsApplicationOnUicc:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appType, _err := data.ReadInt32()
+		_arg_appType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20357,17 +20357,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsModemEnabledForSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsModemEnabledForSlot(ctx, _arg_slotIndex)
@@ -20380,18 +20380,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsDataEnabledForApn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_apnType, _err := data.ReadInt32()
+		_arg_apnType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDataEnabledForApn(ctx, _arg_apnType, _arg_subId)
@@ -20404,14 +20404,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsApnMetered:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_apnType, _err := data.ReadInt32()
+		_arg_apnType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20425,13 +20425,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSystemSelectionChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_specifiers []network.RadioAccessSpecifier
 		_ = _arg_specifiers
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20442,10 +20442,10 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITelephonyGetSystemSelectionChannels:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20460,18 +20460,18 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyIsMvnoMatched:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mvnoType, _err := data.ReadInt32()
+		_arg_mvnoType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_mvnoMatchData, _err := data.ReadString16()
+		_arg_mvnoMatchData, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20485,13 +20485,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyEnqueueSmsPickResult:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_callingAttributeTag, _err := data.ReadString16()
+		_arg_callingAttributeTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20502,17 +20502,17 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITelephonyShowSwitchToManagedProfileDialog:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.ShowSwitchToManagedProfileDialog(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITelephonyGetMmsUserAgent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20526,10 +20526,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetMmsUAProfUrl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20543,18 +20543,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonySetMobileDataPolicyEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_policy, _err := data.ReadInt32()
+		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20567,14 +20567,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsMobileDataPolicyEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subscriptionId, _err := data.ReadInt32()
+		_arg_subscriptionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_policy, _err := data.ReadInt32()
+		_arg_policy, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20588,10 +20588,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCepEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isCepEnabled, _err := data.ReadBool()
+		_arg_isCepEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20599,17 +20599,17 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionITelephonyNotifyRcsAutoConfigurationReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_config []byte
 		_ = _arg_config
-		_arg_isCompressed, _err := data.ReadBool()
+		_arg_isCompressed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20622,10 +20622,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsIccLockEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20639,18 +20639,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetIccLockEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_password, _err := data.ReadString16()
+		_arg_password, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20664,18 +20664,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyChangeIccLockPassword:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_oldPassword, _err := data.ReadString16()
+		_arg_oldPassword, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_newPassword, _err := data.ReadString16()
+		_arg_newPassword, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20689,24 +20689,24 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestUserActivityNotification:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RequestUserActivityNotification(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITelephonyUserActivity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.UserActivity(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionITelephonyGetManualNetworkSelectionPlmn:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20720,7 +20720,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyCanConnectTo5GInDsdsMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CanConnectTo5GInDsdsMode(ctx)
@@ -20733,17 +20733,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetEquivalentHomePlmns:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetEquivalentHomePlmns(ctx, _arg_subId)
@@ -20757,14 +20757,14 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetVoNrEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20778,10 +20778,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsVoNrEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20795,14 +20795,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetNrDualConnectivityState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_nrDualConnectivityState, _err := data.ReadInt32()
+		_arg_nrDualConnectivityState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20816,10 +20816,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyIsNrDualConnectivityEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20833,10 +20833,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRadioInterfaceCapabilitySupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadString16()
+		_arg_capability, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20850,26 +20850,26 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySendThermalMitigationRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_thermalMitigationRequest androidTelephony.ThermalMitigationRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_thermalMitigationRequest.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_thermalMitigationRequest.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.SendThermalMitigationRequest(ctx, _arg_subId, _arg_thermalMitigationRequest)
@@ -20882,42 +20882,42 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyBootstrapAuthenticationRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appType, _err := data.ReadInt32()
+		_arg_appType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_nafUrl net.Uri
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_nafUrl.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_nafUrl.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_securityProtocol gba.UaSecurityProtocolIdentifier
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_securityProtocol.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_securityProtocol.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_forceBootStrapping, _err := data.ReadBool()
+		_arg_forceBootStrapping, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20933,14 +20933,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetBoundGbaServiceOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20954,10 +20954,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetBoundGbaService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20971,14 +20971,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonySetGbaReleaseTimeOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_interval, _err := data.ReadInt32()
+		_arg_interval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -20992,10 +20992,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetGbaReleaseTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21009,21 +21009,21 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonySetRcsClientConfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_rcc ims.RcsClientConfiguration
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_rcc.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_rcc.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -21037,10 +21037,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsRcsVolteSingleRegistrationCapable:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21054,10 +21054,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyRegisterRcsProvisioningCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21071,10 +21071,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterRcsProvisioningCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21088,10 +21088,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyTriggerRcsReconfiguration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21104,10 +21104,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetRcsSingleRegistrationTestModeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21120,7 +21120,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetRcsSingleRegistrationTestModeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetRcsSingleRegistrationTestModeEnabled(ctx)
@@ -21133,10 +21133,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDeviceSingleRegistrationEnabledOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadString16()
+		_arg_enabled, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21149,7 +21149,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetDeviceSingleRegistrationEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeviceSingleRegistrationEnabled(ctx)
@@ -21162,14 +21162,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCarrierSingleRegistrationEnabledOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadString16()
+		_arg_enabled, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21183,14 +21183,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySendDeviceToDeviceMessage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_message, _err := data.ReadInt32()
+		_arg_message, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_value, _err := data.ReadInt32()
+		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21203,10 +21203,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetActiveDeviceToDeviceTransport:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_transport, _err := data.ReadString16()
+		_arg_transport, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21219,10 +21219,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetDeviceToDeviceForceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isForceEnabled, _err := data.ReadBool()
+		_arg_isForceEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21235,10 +21235,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierSingleRegistrationEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21252,14 +21252,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetImsFeatureValidationOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadString16()
+		_arg_enabled, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21273,10 +21273,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetImsFeatureValidationOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21290,7 +21290,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetMobileProvisioningUrl:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetMobileProvisioningUrl(ctx)
@@ -21303,14 +21303,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyRemoveContactFromEab:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_contacts, _err := data.ReadString16()
+		_arg_contacts, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21324,10 +21324,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetContactFromEab:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contact, _err := data.ReadString16()
+		_arg_contact, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21341,10 +21341,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCapabilityFromEab:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_contact, _err := data.ReadString16()
+		_arg_contact, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21358,7 +21358,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDeviceUceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDeviceUceEnabled(ctx)
@@ -21371,10 +21371,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDeviceUceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isEnabled, _err := data.ReadBool()
+		_arg_isEnabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21387,10 +21387,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyAddUceRegistrationOverrideShell:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21410,10 +21410,10 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyRemoveUceRegistrationOverrideShell:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21433,10 +21433,10 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyClearUceRegistrationOverrideShell:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21453,10 +21453,10 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetLatestRcsContactUceCapabilityShell:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21473,10 +21473,10 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetLastUcePidfXmlShell:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21490,10 +21490,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyRemoveUceRequestDisallowedStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21507,14 +21507,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCapabilitiesRequestTimeout:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutAfterMs, _err := data.ReadInt64()
+		_arg_timeoutAfterMs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21528,26 +21528,26 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSignalStrengthUpdateRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request androidTelephony.SignalStrengthUpdateRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetSignalStrengthUpdateRequest(ctx, _arg_subId, _arg_request)
@@ -21559,26 +21559,26 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyClearSignalStrengthUpdateRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_request androidTelephony.SignalStrengthUpdateRequest
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.ClearSignalStrengthUpdateRequest(ctx, _arg_subId, _arg_request)
@@ -21590,7 +21590,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetPhoneCapability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetPhoneCapability(ctx)
@@ -21606,7 +21606,7 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyPrepareForUnattendedReboot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.PrepareForUnattendedReboot(ctx)
@@ -21619,17 +21619,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSlicingConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -21643,14 +21643,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsPremiumCapabilityAvailableForPurchase:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21664,17 +21664,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyPurchasePremiumCapability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IIntegerConsumer
 		_ = _arg_callback
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21687,21 +21687,21 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterImsStateCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_feature, _err := data.ReadInt32()
+		_arg_feature, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb IImsStateCallback
 		_ = _arg_cb
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.RegisterImsStateCallback(ctx, _arg_subId, _arg_feature, _arg_cb)
@@ -21713,7 +21713,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterImsStateCallback:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -21728,17 +21728,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetLastKnownCellIdentity:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetLastKnownCellIdentity(ctx, _arg_subId)
@@ -21754,10 +21754,10 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonySetModemService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_serviceName, _err := data.ReadString16()
+		_arg_serviceName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21771,7 +21771,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetModemService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetModemService(ctx)
@@ -21784,18 +21784,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonyIsProvisioningRequiredForCapability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tech, _err := data.ReadInt32()
+		_arg_tech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21809,18 +21809,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsRcsProvisioningRequiredForCapability:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_capability, _err := data.ReadInt32()
+		_arg_capability, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_tech, _err := data.ReadInt32()
+		_arg_tech, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21834,18 +21834,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetVoiceServiceStateOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_hasService, _err := data.ReadBool()
+		_arg_hasService, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetVoiceServiceStateOverride(ctx, _arg_subId, _arg_hasService)
@@ -21857,10 +21857,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierServicePackageNameForLogicalSlot:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_logicalSlotIndex, _err := data.ReadInt32()
+		_arg_logicalSlotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21874,14 +21874,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteString16(_result)
 		return _reply, nil
 	case TransactionITelephonySetRemovableEsimAsDefaultEuicc:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isDefault, _err := data.ReadBool()
+		_arg_isDefault, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err = s.Impl.SetRemovableEsimAsDefaultEuicc(ctx, _arg_isDefault)
@@ -21893,10 +21893,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsRemovableEsimDefaultEuicc:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsRemovableEsimDefaultEuicc(ctx)
@@ -21909,14 +21909,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetDefaultRespondViaMessageApplication:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_updateIfNeeded, _err := data.ReadBool()
+		_arg_updateIfNeeded, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21933,10 +21933,10 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyGetSimStateForSlotIndex:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21950,26 +21950,26 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyPersistEmergencyCallDiagnosticData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dropboxTag, _err := data.ReadString16()
+		_arg_dropboxTag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enableLogcat, _err := data.ReadBool()
+		_arg_enableLogcat, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_logcatStartTimestampMillis, _err := data.ReadInt64()
+		_arg_logcatStartTimestampMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enableTelecomDump, _err := data.ReadBool()
+		_arg_enableTelecomDump, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enableTelephonyDump, _err := data.ReadBool()
+		_arg_enableTelephonyDump, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21982,10 +21982,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetNullCipherAndIntegrityEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -21998,7 +21998,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsNullCipherAndIntegrityPreferenceEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsNullCipherAndIntegrityPreferenceEnabled(ctx)
@@ -22011,10 +22011,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCellBroadcastIdRanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22029,10 +22029,10 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetCellBroadcastIdRanges:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22051,7 +22051,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsDomainSelectionSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsDomainSelectionSupported(ctx)
@@ -22064,13 +22064,13 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierRestrictionStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_internalCallback IIntegerConsumer
 		_ = _arg_internalCallback
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22083,18 +22083,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestSatelliteEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enableSatellite, _err := data.ReadBool()
+		_arg_enableSatellite, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enableDemoMode, _err := data.ReadBool()
+		_arg_enableDemoMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isEmergency, _err := data.ReadBool()
+		_arg_isEmergency, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22110,17 +22110,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsSatelliteEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22134,17 +22134,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsDemoModeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22158,17 +22158,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsEmergencyModeEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22182,17 +22182,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsSatelliteSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22206,17 +22206,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestSatelliteCapabilities:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22230,7 +22230,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyStartSatelliteTransmissionUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -22246,7 +22246,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyStopSatelliteTransmissionUpdates:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -22262,10 +22262,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyProvisionSatelliteService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadString16()
+		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22286,10 +22286,10 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyDeprovisionSatelliteService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_token, _err := data.ReadString16()
+		_arg_token, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22305,7 +22305,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForSatelliteProvisionStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22319,7 +22319,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForSatelliteProvisionStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22332,17 +22332,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsSatelliteProvisioned:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22356,7 +22356,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForSatelliteModemStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22370,7 +22370,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForModemStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22383,7 +22383,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForIncomingDatagram:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22397,7 +22397,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForIncomingDatagram:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22410,7 +22410,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyPollPendingDatagrams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -22425,15 +22425,15 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySendDatagram:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_datagramType, _err := data.ReadInt32()
+		_arg_datagramType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_datagram interface{}
-		_arg_needFullScreenPointingUI, _err := data.ReadBool()
+		_arg_needFullScreenPointingUI, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22449,7 +22449,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetSatelliteDisallowedReasons:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSatelliteDisallowedReasons(ctx)
@@ -22463,7 +22463,7 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyRegisterForSatelliteDisallowedReasonsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22476,7 +22476,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForSatelliteDisallowedReasonsChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22489,21 +22489,21 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestIsCommunicationAllowedForCurrentLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22517,17 +22517,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestSatelliteAccessConfigurationForCurrentLocation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22541,17 +22541,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestTimeForNextSatelliteVisibility:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22565,17 +22565,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestSelectedNbIotSatelliteSubscriptionId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22589,7 +22589,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForSelectedNbIotSatelliteSubscriptionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22603,7 +22603,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForSelectedNbIotSatelliteSubscriptionChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -22616,10 +22616,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetDeviceAlignedWithSatellite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_isAligned, _err := data.ReadBool()
+		_arg_isAligned, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22632,14 +22632,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteServicePackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_servicePackageName, _err := data.ReadString16()
+		_arg_servicePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_provisioned, _err := data.ReadString16()
+		_arg_provisioned, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22653,10 +22653,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteGatewayServicePackageName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_servicePackageName, _err := data.ReadString16()
+		_arg_servicePackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22670,10 +22670,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteListeningTimeoutDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutMillis, _err := data.ReadInt64()
+		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22687,10 +22687,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteIgnoreCellularServiceState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22704,14 +22704,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatellitePointingUiClassName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_packageName, _err := data.ReadString16()
+		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_className, _err := data.ReadString16()
+		_arg_className, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22725,18 +22725,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDatagramControllerTimeoutDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reset, _err := data.ReadBool()
+		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutType, _err := data.ReadInt32()
+		_arg_timeoutType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutMillis, _err := data.ReadInt64()
+		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22750,18 +22750,18 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteControllerTimeoutDuration:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reset, _err := data.ReadBool()
+		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutType, _err := data.ReadInt32()
+		_arg_timeoutType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timeoutMillis, _err := data.ReadInt64()
+		_arg_timeoutMillis, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22775,14 +22775,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetEmergencyCallToSatelliteHandoverType:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_handoverType, _err := data.ReadInt32()
+		_arg_handoverType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_delaySeconds, _err := data.ReadInt32()
+		_arg_delaySeconds, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22796,10 +22796,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetCountryCodes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reset, _err := data.ReadBool()
+		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22809,11 +22809,11 @@ func (s *TelephonyStub) OnTransaction(
 		// TODO: map param unmarshaling not yet supported in stubs
 		var _arg_cachedNetworkCountryCodes map[interface{}]interface{}
 		_ = _arg_cachedNetworkCountryCodes
-		_arg_locationCountryCode, _err := data.ReadString16()
+		_arg_locationCountryCode, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_locationCountryCodeTimestampNanos, _err := data.ReadInt64()
+		_arg_locationCountryCodeTimestampNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22827,29 +22827,29 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteAccessControlOverlayConfigs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reset, _err := data.ReadBool()
+		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isAllowed, _err := data.ReadBool()
+		_arg_isAllowed, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_s2CellFile, _err := data.ReadString16()
+		_arg_s2CellFile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_locationFreshDurationNanos, _err := data.ReadInt64()
+		_arg_locationFreshDurationNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_satelliteCountryCodes []string
 		_ = _arg_satelliteCountryCodes
-		_arg_satelliteAccessConfigurationFile, _err := data.ReadString16()
+		_arg_satelliteAccessConfigurationFile, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22863,14 +22863,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetOemEnabledSatelliteProvisionStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reset, _err := data.ReadBool()
+		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_isProvisioned, _err := data.ReadBool()
+		_arg_isProvisioned, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22884,14 +22884,14 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetShaIdFromAllowList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_pkgName, _err := data.ReadString16()
+		_arg_pkgName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_carrierId, _err := data.ReadInt32()
+		_arg_carrierId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22906,14 +22906,14 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyAddAttachRestrictionForCarrier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22929,14 +22929,14 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRemoveAttachRestrictionForCarrier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_reason, _err := data.ReadInt32()
+		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22952,10 +22952,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetAttachRestrictionReasonsForCarrier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -22970,17 +22970,17 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyRequestNtnSignalStrength:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -22994,7 +22994,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForNtnSignalStrengthChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -23007,7 +23007,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForNtnSignalStrengthChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -23020,7 +23020,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForCapabilitiesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -23034,7 +23034,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForCapabilitiesChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -23047,10 +23047,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetShouldSendDatagramToModemInDemoMode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_shouldSendToModemInDemoMode, _err := data.ReadBool()
+		_arg_shouldSendToModemInDemoMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23064,17 +23064,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetDomainSelectionServiceOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -23089,7 +23089,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyClearDomainSelectionServiceOverride:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.ClearDomainSelectionServiceOverride(ctx)
@@ -23102,7 +23102,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyIsAospDomainSelectionService:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsAospDomainSelectionService(ctx)
@@ -23115,10 +23115,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetEnableCellularIdentifierDisclosureNotifications:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23131,7 +23131,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsCellularIdentifierDisclosureNotificationsEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsCellularIdentifierDisclosureNotificationsEnabled(ctx)
@@ -23144,10 +23144,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetNullCipherNotificationsEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23160,7 +23160,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyIsNullCipherNotificationsEnabled:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsNullCipherNotificationsEnabled(ctx)
@@ -23173,10 +23173,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyGetSatellitePlmnsForCarrier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23191,7 +23191,7 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyRegisterForSatelliteSupportedStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -23205,7 +23205,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForSatelliteSupportedStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_callback interface{}
@@ -23218,10 +23218,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRegisterForCommunicationAllowedStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23236,10 +23236,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITelephonyUnregisterForCommunicationAllowedStateChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23253,18 +23253,18 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetDatagramControllerBooleanConfig:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_reset, _err := data.ReadBool()
+		_arg_reset, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_booleanType, _err := data.ReadInt32()
+		_arg_booleanType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23278,10 +23278,10 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetIsSatelliteCommunicationAllowedForCurrentLocationCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadString16()
+		_arg_state, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23295,21 +23295,21 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyRequestSatelliteSessionStats:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -23323,17 +23323,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestSatelliteSubscriberProvisionStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_result os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -23347,17 +23347,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyRequestSatelliteDisplayName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_receiver os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -23371,7 +23371,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyProvisionSatellite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -23379,12 +23379,12 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _arg_list
 		var _arg_result os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -23398,10 +23398,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetSatelliteSubscriberIdListChangedIntentComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString16()
+		_arg_name, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23415,17 +23415,17 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonySetTestEuiccUiComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -23439,7 +23439,7 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetTestEuiccUiComponent:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTestEuiccUiComponent(ctx)
@@ -23455,14 +23455,14 @@ func (s *TelephonyStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITelephonyOverrideCarrierRoamingNtnEligibilityChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_status, _err := data.ReadBool()
+		_arg_status, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_resetRequired, _err := data.ReadBool()
+		_arg_resetRequired, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23476,7 +23476,7 @@ func (s *TelephonyStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITelephonyDeprovisionSatellite:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -23484,12 +23484,12 @@ func (s *TelephonyStub) OnTransaction(
 		_ = _arg_list
 		var _arg_result os.ResultReceiver
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -23503,10 +23503,10 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonySetNtnSmsSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ntnSmsSupported, _err := data.ReadBool()
+		_arg_ntnSmsSupported, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -23519,17 +23519,17 @@ func (s *TelephonyStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITelephonyGetCarrierIdFromIdentifier:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_carrierIdentifier carrier.CarrierIdentifier
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_carrierIdentifier.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_carrierIdentifier.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}

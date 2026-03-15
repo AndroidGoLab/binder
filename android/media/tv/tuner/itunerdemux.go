@@ -359,11 +359,11 @@ var _ binder.TransactionReceiver = (*TunerDemuxStub)(nil)
 func (s *TunerDemuxStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerDemuxSetFrontendDataSource:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -378,10 +378,10 @@ func (s *TunerDemuxStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDemuxSetFrontendDataSourceById:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendId, _err := data.ReadInt32()
+		_arg_frontendId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -394,22 +394,22 @@ func (s *TunerDemuxStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDemuxOpenFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_type_ tvTuner.DemuxFilterType
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_type_.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_type_.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_bufferSize, _err := data.ReadInt32()
+		_arg_bufferSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -427,7 +427,7 @@ func (s *TunerDemuxStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerDemuxOpenTimeFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.OpenTimeFilter(ctx)
@@ -441,7 +441,7 @@ func (s *TunerDemuxStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerDemuxGetAvSyncHwId:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -457,10 +457,10 @@ func (s *TunerDemuxStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerDemuxGetAvSyncTime:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_avSyncHwId, _err := data.ReadInt32()
+		_arg_avSyncHwId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -474,15 +474,15 @@ func (s *TunerDemuxStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionITunerDemuxOpenDvr:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_dvbType, _err := data.ReadPaddedByte()
+		_raw_dvbType, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_dvbType := tvTuner.DvrType(_raw_dvbType)
-		_arg_bufferSize, _err := data.ReadInt32()
+		_arg_bufferSize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -500,10 +500,10 @@ func (s *TunerDemuxStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerDemuxConnectCiCam:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_ciCamId, _err := data.ReadInt32()
+		_arg_ciCamId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -516,7 +516,7 @@ func (s *TunerDemuxStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDemuxDisconnectCiCam:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.DisconnectCiCam(ctx)
@@ -528,7 +528,7 @@ func (s *TunerDemuxStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerDemuxClose:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.Close(ctx)

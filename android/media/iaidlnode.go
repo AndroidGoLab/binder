@@ -294,11 +294,11 @@ var _ binder.TransactionReceiver = (*AidlNodeStub)(nil)
 func (s *AidlNodeStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAidlNodeFreeNode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.FreeNode(ctx)
@@ -310,7 +310,7 @@ func (s *AidlNodeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlNodeGetConsumerUsage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetConsumerUsage(ctx)
@@ -323,7 +323,7 @@ func (s *AidlNodeStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIAidlNodeGetInputBufferParams:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetInputBufferParams(ctx)
@@ -339,10 +339,10 @@ func (s *AidlNodeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIAidlNodeSetConsumerUsage:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_usage, _err := data.ReadInt64()
+		_arg_usage, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -355,10 +355,10 @@ func (s *AidlNodeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlNodeSetAdjustTimestampGapUs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_gapUs, _err := data.ReadInt32()
+		_arg_gapUs, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -371,7 +371,7 @@ func (s *AidlNodeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlNodeSetInputSurface:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -386,26 +386,27 @@ func (s *AidlNodeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlNodeSubmitBuffer:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_buffer, _err := data.ReadInt32()
+		_arg_buffer, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_hBuffer *interface{}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_timestampUs, _err := data.ReadInt64()
+		_arg_timestampUs, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_fence, _err := data.ReadFileDescriptor()
+		_raw_fence, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
+		_arg_fence := &_raw_fence
 		_err = s.Impl.SubmitBuffer(ctx, _arg_buffer, _arg_hBuffer, _arg_flags, _arg_timestampUs, _arg_fence)
 		_reply := parcel.New()
 		if _err != nil {
@@ -415,18 +416,18 @@ func (s *AidlNodeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIAidlNodeOnDataSpaceChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_dataSpace, _err := data.ReadInt32()
+		_arg_dataSpace, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_aspects, _err := data.ReadInt32()
+		_arg_aspects, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pixelFormat, _err := data.ReadInt32()
+		_arg_pixelFormat, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

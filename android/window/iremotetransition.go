@@ -160,11 +160,11 @@ var _ binder.TransactionReceiver = (*RemoteTransitionStub)(nil)
 func (s *RemoteTransitionStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRemoteTransitionStartAnimation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -172,12 +172,12 @@ func (s *RemoteTransitionStub) OnTransaction(
 		_ = _arg_token
 		var _arg_info TransitionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -190,7 +190,7 @@ func (s *RemoteTransitionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteTransitionMergeAnimation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -198,12 +198,12 @@ func (s *RemoteTransitionStub) OnTransaction(
 		_ = _arg_transition
 		var _arg_info TransitionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -219,7 +219,7 @@ func (s *RemoteTransitionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteTransitionTakeOverAnimation:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -227,12 +227,12 @@ func (s *RemoteTransitionStub) OnTransaction(
 		_ = _arg_transition
 		var _arg_info TransitionInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_info.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -248,13 +248,13 @@ func (s *RemoteTransitionStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRemoteTransitionOnTransitionConsumed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_transition binder.IBinder
 		_ = _arg_transition
-		_arg_aborted, _err := data.ReadBool()
+		_arg_aborted, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

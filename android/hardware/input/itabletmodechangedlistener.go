@@ -66,18 +66,18 @@ var _ binder.TransactionReceiver = (*TabletModeChangedListenerStub)(nil)
 func (s *TabletModeChangedListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITabletModeChangedListenerOnTabletModeChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_whenNanos, _err := data.ReadInt64()
+		_arg_whenNanos, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_inTabletMode, _err := data.ReadBool()
+		_arg_inTabletMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

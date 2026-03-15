@@ -166,26 +166,26 @@ var _ binder.TransactionReceiver = (*DrmFactoryStub)(nil)
 func (s *DrmFactoryStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIDrmFactoryCreateDrmPlugin:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid Uuid
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uuid.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_appPackageName, _err := data.ReadString16()
+		_arg_appPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -200,17 +200,17 @@ func (s *DrmFactoryStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmFactoryCreateCryptoPlugin:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_uuid Uuid
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_uuid.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_uuid.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -229,7 +229,7 @@ func (s *DrmFactoryStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIDrmFactoryGetSupportedCryptoSchemes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetSupportedCryptoSchemes(ctx)

@@ -206,18 +206,18 @@ var _ binder.TransactionReceiver = (*AudioPolicyServiceClientStub)(nil)
 func (s *AudioPolicyServiceClientStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAudioPolicyServiceClientOnAudioVolumeGroupChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_group, _err := data.ReadInt32()
+		_arg_group, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_flags, _err := data.ReadInt32()
+		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -225,28 +225,28 @@ func (s *AudioPolicyServiceClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyServiceClientOnAudioPortListUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnAudioPortListUpdate(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyServiceClientOnAudioPatchListUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnAudioPatchListUpdate(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyServiceClientOnDynamicPolicyMixStateUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_regId, _err := data.ReadString16()
+		_arg_regId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -254,21 +254,21 @@ func (s *AudioPolicyServiceClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyServiceClientOnRecordingConfigurationUpdate:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_event, _err := data.ReadInt32()
+		_arg_event, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_clientInfo RecordClientInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_clientInfo.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_clientInfo.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -281,7 +281,7 @@ func (s *AudioPolicyServiceClientStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_effects []EffectDescriptor
 		_ = _arg_effects
-		_arg_patchHandle, _err := data.ReadInt32()
+		_arg_patchHandle, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -290,14 +290,14 @@ func (s *AudioPolicyServiceClientStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyServiceClientOnRoutingUpdated:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnRoutingUpdated(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIAudioPolicyServiceClientOnVolumeRangeInitRequest:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.OnVolumeRangeInitRequest(ctx)

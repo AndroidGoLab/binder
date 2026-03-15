@@ -283,14 +283,14 @@ var _ binder.TransactionReceiver = (*RadioSimIndicationStub)(nil)
 func (s *RadioSimIndicationStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIRadioSimIndicationCarrierInfoForImsiEncryption:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_info, _err := data.ReadInt32()
+		_raw_info, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -299,15 +299,15 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationCdmaSubscriptionSourceChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_cdmaSource, _err := data.ReadInt32()
+		_raw_cdmaSource, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -316,10 +316,10 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationSimPhonebookChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -328,15 +328,15 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationSimPhonebookRecordsReceived:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_raw_status, _err := data.ReadPaddedByte()
+		_raw_status, _err := _data.ReadPaddedByte()
 		if _err != nil {
 			return nil, _err
 		}
@@ -348,22 +348,22 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationSimRefresh:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
 		var _arg_refreshResult SimRefreshResult
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_refreshResult.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_refreshResult.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -372,10 +372,10 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationSimStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -384,15 +384,15 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationStkEventNotify:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_cmd, _err := data.ReadString16()
+		_arg_cmd, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -400,15 +400,15 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationStkProactiveCommand:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_cmd, _err := data.ReadString16()
+		_arg_cmd, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -416,10 +416,10 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationStkSessionEnd:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -428,15 +428,15 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationSubscriptionStatusChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_activate, _err := data.ReadBool()
+		_arg_activate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -444,15 +444,15 @@ func (s *RadioSimIndicationStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIRadioSimIndicationUiccApplicationsEnablementChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_type_, _err := data.ReadInt32()
+		_raw_type_, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_type_ := radio.RadioIndicationType(_raw_type_)
-		_arg_enabled, _err := data.ReadBool()
+		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}

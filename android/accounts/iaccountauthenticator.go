@@ -413,21 +413,21 @@ var _ binder.TransactionReceiver = (*AccountAuthenticatorStub)(nil)
 func (s *AccountAuthenticatorStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIAccountAuthenticatorAddAccount:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
 		_ = _arg_response
-		_arg_accountType, _err := data.ReadString16()
+		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authTokenType, _err := data.ReadString16()
+		_arg_authTokenType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -439,7 +439,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorConfirmCredentials:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -447,12 +447,12 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _arg_response
 		var _arg_account Account
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -462,7 +462,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorGetAuthToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -470,17 +470,17 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _arg_response
 		var _arg_account Account
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_authTokenType, _err := data.ReadString16()
+		_arg_authTokenType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -489,13 +489,13 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorGetAuthTokenLabel:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
 		_ = _arg_response
-		_arg_authTokenType, _err := data.ReadString16()
+		_arg_authTokenType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -503,7 +503,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorUpdateCredentials:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -511,17 +511,17 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _arg_response
 		var _arg_account Account
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_authTokenType, _err := data.ReadString16()
+		_arg_authTokenType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -530,13 +530,13 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorEditProperties:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
 		_ = _arg_response
-		_arg_accountType, _err := data.ReadString16()
+		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -544,7 +544,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorHasFeatures:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -552,12 +552,12 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _arg_response
 		var _arg_account Account
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -569,7 +569,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorGetAccountRemovalAllowed:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -577,12 +577,12 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _arg_response
 		var _arg_account Account
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -591,7 +591,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorGetAccountCredentialsForCloning:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -599,12 +599,12 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _arg_response
 		var _arg_account Account
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -613,7 +613,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorAddAccountFromCredentials:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -621,12 +621,12 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _arg_response
 		var _arg_account Account
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -636,17 +636,17 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorStartAddAccountSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
 		_ = _arg_response
-		_arg_accountType, _err := data.ReadString16()
+		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_authTokenType, _err := data.ReadString16()
+		_arg_authTokenType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -658,7 +658,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorStartUpdateCredentialsSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -666,17 +666,17 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _arg_response
 		var _arg_account Account
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_authTokenType, _err := data.ReadString16()
+		_arg_authTokenType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -685,13 +685,13 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorFinishSession:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_response IAccountAuthenticatorResponse
 		_ = _arg_response
-		_arg_accountType, _err := data.ReadString16()
+		_arg_accountType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -700,7 +700,7 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIAccountAuthenticatorIsCredentialsUpdateSuggested:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -708,17 +708,17 @@ func (s *AccountAuthenticatorStub) OnTransaction(
 		_ = _arg_response
 		var _arg_account Account
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_account.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_statusToken, _err := data.ReadString16()
+		_arg_statusToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}

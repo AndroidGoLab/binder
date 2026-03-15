@@ -447,18 +447,18 @@ var _ binder.TransactionReceiver = (*PrintSpoolerStub)(nil)
 func (s *PrintSpoolerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPrintSpoolerRemoveObsoletePrintJobs:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_err := s.Impl.RemoveObsoletePrintJobs(ctx)
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerGetPrintJobInfos:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -466,25 +466,25 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _arg_callback
 		var _arg_componentName content.ComponentName
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_componentName.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_state, _err := data.ReadInt32()
+		_arg_state, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_appId, _err := data.ReadInt32()
+		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -492,17 +492,17 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerGetPrintJobInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId PrintJobId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printJobId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -510,11 +510,11 @@ func (s *PrintSpoolerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPrintSpoolerCallbacks
 		_ = _arg_callback
-		_arg_appId, _err := data.ReadInt32()
+		_arg_appId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -522,17 +522,17 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerCreatePrintJob:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJob PrintJobInfo
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printJob.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printJob.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -541,33 +541,33 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerSetPrintJobState:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId PrintJobId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printJobId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_stateReason, _err := data.ReadString16()
+		_arg_stateReason, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPrintSpoolerCallbacks
 		_ = _arg_callback
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -575,22 +575,22 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerSetProgress:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId PrintJobId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printJobId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_progress, _err := data.ReadFloat32()
+		_arg_progress, _err := _data.ReadFloat32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -598,17 +598,17 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerSetStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId PrintJobId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printJobId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -618,22 +618,22 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerSetStatusRes:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId PrintJobId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printJobId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_status, _err := data.ReadInt32()
+		_arg_status, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -642,29 +642,29 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerOnCustomPrinterIconLoaded:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printerId PrinterId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printerId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printerId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
 		var _arg_icon drawable.Icon
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_icon.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_icon.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -672,7 +672,7 @@ func (s *PrintSpoolerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IPrintSpoolerCallbacks
 		_ = _arg_callbacks
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -680,17 +680,17 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerGetCustomPrinterIcon:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printerId PrinterId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printerId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printerId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -698,7 +698,7 @@ func (s *PrintSpoolerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IPrintSpoolerCallbacks
 		_ = _arg_callbacks
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -706,13 +706,13 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerClearCustomPrinterIconCache:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callbacks IPrintSpoolerCallbacks
 		_ = _arg_callbacks
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -720,29 +720,29 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerSetPrintJobTag:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId PrintJobId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printJobId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_tag, _err := data.ReadString16()
+		_arg_tag, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IPrintSpoolerCallbacks
 		_ = _arg_callback
-		_arg_sequence, _err := data.ReadInt32()
+		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -750,21 +750,21 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerWritePrintJobData:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_fd, _err := data.ReadFileDescriptor()
+		_arg_fd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId PrintJobId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printJobId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -773,7 +773,7 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerSetClient:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
@@ -783,22 +783,22 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerSetPrintJobCancelling:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_printJobId PrintJobId
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_printJobId.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_printJobId.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_arg_cancelling, _err := data.ReadBool()
+		_arg_cancelling, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -806,7 +806,7 @@ func (s *PrintSpoolerStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIPrintSpoolerPruneApprovedPrintServices:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs

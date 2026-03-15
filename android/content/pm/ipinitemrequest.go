@@ -208,11 +208,11 @@ var _ binder.TransactionReceiver = (*PinItemRequestStub)(nil)
 func (s *PinItemRequestStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIPinItemRequestIsValid:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsValid(ctx)
@@ -225,7 +225,7 @@ func (s *PinItemRequestStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPinItemRequestAccept:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_options interface{}
@@ -239,7 +239,7 @@ func (s *PinItemRequestStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionIPinItemRequestGetShortcutInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetShortcutInfo(ctx)
@@ -255,7 +255,7 @@ func (s *PinItemRequestStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPinItemRequestGetAppWidgetProviderInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetAppWidgetProviderInfo(ctx)
@@ -271,7 +271,7 @@ func (s *PinItemRequestStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIPinItemRequestGetExtras:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetExtras(ctx)

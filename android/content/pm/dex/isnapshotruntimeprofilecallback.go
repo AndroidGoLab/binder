@@ -83,14 +83,14 @@ var _ binder.TransactionReceiver = (*SnapshotRuntimeProfileCallbackStub)(nil)
 func (s *SnapshotRuntimeProfileCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionISnapshotRuntimeProfileCallbackOnSuccess:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_profileReadFd, _err := data.ReadFileDescriptor()
+		_arg_profileReadFd, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err
 		}
@@ -98,10 +98,10 @@ func (s *SnapshotRuntimeProfileCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionISnapshotRuntimeProfileCallbackOnError:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_errCode, _err := data.ReadInt32()
+		_arg_errCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

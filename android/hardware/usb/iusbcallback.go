@@ -247,17 +247,17 @@ var _ binder.TransactionReceiver = (*UsbCallbackStub)(nil)
 func (s *UsbCallbackStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIUsbCallbackNotifyPortStatusChange:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_currentPortStatus []PortStatus
 		_ = _arg_currentPortStatus
-		_raw_retval, _err := data.ReadInt32()
+		_raw_retval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -266,31 +266,31 @@ func (s *UsbCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbCallbackNotifyRoleSwitchStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
 		var _arg_newRole PortRole
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_newRole.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_newRole.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
 		}
-		_raw_retval, _err := data.ReadInt32()
+		_raw_retval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_retval := Status(_raw_retval)
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -298,23 +298,23 @@ func (s *UsbCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbCallbackNotifyEnableUsbDataStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_retval, _err := data.ReadInt32()
+		_raw_retval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_retval := Status(_raw_retval)
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -322,19 +322,19 @@ func (s *UsbCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbCallbackNotifyEnableUsbDataWhileDockedStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_retval, _err := data.ReadInt32()
+		_raw_retval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_retval := Status(_raw_retval)
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -342,23 +342,23 @@ func (s *UsbCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbCallbackNotifyContaminantEnabledStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_enable, _err := data.ReadBool()
+		_arg_enable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_retval, _err := data.ReadInt32()
+		_raw_retval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_retval := Status(_raw_retval)
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -366,19 +366,19 @@ func (s *UsbCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbCallbackNotifyQueryPortStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_retval, _err := data.ReadInt32()
+		_raw_retval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_retval := Status(_raw_retval)
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -386,23 +386,23 @@ func (s *UsbCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbCallbackNotifyLimitPowerTransferStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_limit, _err := data.ReadBool()
+		_arg_limit, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_retval, _err := data.ReadInt32()
+		_raw_retval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_retval := Status(_raw_retval)
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -410,19 +410,19 @@ func (s *UsbCallbackStub) OnTransaction(
 		_ = _err
 		return nil, nil
 	case TransactionIUsbCallbackNotifyResetUsbPortStatus:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_portName, _err := data.ReadString16()
+		_arg_portName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_raw_retval, _err := data.ReadInt32()
+		_raw_retval, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_retval := Status(_raw_retval)
-		_arg_transactionId, _err := data.ReadInt64()
+		_arg_transactionId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}

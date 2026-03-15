@@ -744,11 +744,11 @@ var _ binder.TransactionReceiver = (*IdentityCredentialStub)(nil)
 func (s *IdentityCredentialStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionIIdentityCredentialDeleteCredential:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.DeleteCredential(ctx)
@@ -762,7 +762,7 @@ func (s *IdentityCredentialStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIdentityCredentialCreateEphemeralKeyPair:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateEphemeralKeyPair(ctx)
@@ -776,7 +776,7 @@ func (s *IdentityCredentialStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIdentityCredentialSetReaderEphemeralPublicKey:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -791,7 +791,7 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialCreateAuthChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.CreateAuthChallenge(ctx)
@@ -804,7 +804,7 @@ func (s *IdentityCredentialStub) OnTransaction(
 		_reply.WriteInt64(_result)
 		return _reply, nil
 	case TransactionIIdentityCredentialStartRetrieval:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -812,12 +812,12 @@ func (s *IdentityCredentialStub) OnTransaction(
 		_ = _arg_accessControlProfiles
 		var _arg_authToken keymaster.HardwareAuthToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_authToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_authToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -846,18 +846,18 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialStartRetrieveEntryValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_nameSpace, _err := data.ReadString()
+		_arg_nameSpace, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_name, _err := data.ReadString()
+		_arg_name, _err := _data.ReadString()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_entrySize, _err := data.ReadInt32()
+		_arg_entrySize, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -873,7 +873,7 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialRetrieveEntryValue:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -890,10 +890,12 @@ func (s *IdentityCredentialStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIdentityCredentialFinishRetrieval:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err := s.Impl.FinishRetrieval(ctx)
+		var _arg_mac []byte
+		var _arg_deviceNameSpaces []byte
+		_err := s.Impl.FinishRetrieval(ctx, _arg_mac, _arg_deviceNameSpaces)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -902,10 +904,11 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialGenerateSigningKeyPair:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_result, _err := s.Impl.GenerateSigningKeyPair(ctx)
+		var _arg_signingKeyBlob []byte
+		_result, _err := s.Impl.GenerateSigningKeyPair(ctx, _arg_signingKeyBlob)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -918,7 +921,7 @@ func (s *IdentityCredentialStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionIIdentityCredentialSetRequestedNamespaces:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -933,17 +936,17 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialSetVerificationToken:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		var _arg_verificationToken keymaster.VerificationToken
 		{
-			_nullInd, _err := data.ReadInt32()
+			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
 				return nil, _err
 			}
 			if _nullInd != 0 {
-				if _err = _arg_verificationToken.UnmarshalParcel(data); _err != nil {
+				if _err = _arg_verificationToken.UnmarshalParcel(_data); _err != nil {
 					return nil, _err
 				}
 			}
@@ -957,7 +960,7 @@ func (s *IdentityCredentialStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionIIdentityCredentialDeleteCredentialWithChallenge:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -974,7 +977,7 @@ func (s *IdentityCredentialStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIdentityCredentialProveOwnership:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
@@ -991,7 +994,7 @@ func (s *IdentityCredentialStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIdentityCredentialUpdateCredential:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.UpdateCredential(ctx)
@@ -1005,10 +1008,13 @@ func (s *IdentityCredentialStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionIIdentityCredentialFinishRetrievalWithSignature:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err := s.Impl.FinishRetrievalWithSignature(ctx)
+		var _arg_mac []byte
+		var _arg_deviceNameSpaces []byte
+		var _arg_ecdsaSignature []byte
+		_err := s.Impl.FinishRetrievalWithSignature(ctx, _arg_mac, _arg_deviceNameSpaces, _arg_ecdsaSignature)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)

@@ -597,14 +597,15 @@ var _ binder.TransactionReceiver = (*TunerServiceStub)(nil)
 func (s *TunerServiceStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITunerServiceGetFrontendIds:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_err := s.Impl.GetFrontendIds(ctx)
+		var _arg_ids []int32
+		_err := s.Impl.GetFrontendIds(ctx, _arg_ids)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -613,10 +614,10 @@ func (s *TunerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerServiceGetFrontendInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendId, _err := data.ReadInt32()
+		_arg_frontendId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -633,10 +634,10 @@ func (s *TunerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerServiceOpenFrontend:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_frontendHandle, _err := data.ReadInt64()
+		_arg_frontendHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -651,10 +652,10 @@ func (s *TunerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerServiceOpenLnb:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lnbHandle, _err := data.ReadInt64()
+		_arg_lnbHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -669,10 +670,10 @@ func (s *TunerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerServiceOpenLnbByName:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_lnbName, _err := data.ReadString16()
+		_arg_lnbName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -687,10 +688,10 @@ func (s *TunerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerServiceOpenDemux:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_demuxHandle, _err := data.ReadInt64()
+		_arg_demuxHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -705,10 +706,10 @@ func (s *TunerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerServiceGetDemuxInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_demuxHandle, _err := data.ReadInt64()
+		_arg_demuxHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -725,7 +726,7 @@ func (s *TunerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerServiceGetDemuxInfoList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDemuxInfoList(ctx)
@@ -739,7 +740,7 @@ func (s *TunerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerServiceGetDemuxCaps:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetDemuxCaps(ctx)
@@ -755,10 +756,10 @@ func (s *TunerServiceStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITunerServiceOpenDescrambler:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_descramblerHandle, _err := data.ReadInt64()
+		_arg_descramblerHandle, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err
 		}
@@ -773,7 +774,7 @@ func (s *TunerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerServiceGetTunerHalVersion:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.GetTunerHalVersion(ctx)
@@ -786,10 +787,10 @@ func (s *TunerServiceStub) OnTransaction(
 		_reply.WriteInt32(_result)
 		return _reply, nil
 	case TransactionITunerServiceOpenSharedFilter:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_filterToken, _err := data.ReadString16()
+		_arg_filterToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -807,7 +808,7 @@ func (s *TunerServiceStub) OnTransaction(
 		_ = _result
 		return _reply, nil
 	case TransactionITunerServiceIsLnaSupported:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
 		_result, _err := s.Impl.IsLnaSupported(ctx)
@@ -820,10 +821,10 @@ func (s *TunerServiceStub) OnTransaction(
 		_reply.WriteBool(_result)
 		return _reply, nil
 	case TransactionITunerServiceSetLna:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_bEnable, _err := data.ReadBool()
+		_arg_bEnable, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
@@ -836,15 +837,15 @@ func (s *TunerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerServiceSetMaxNumberOfFrontends:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_frontendType, _err := data.ReadInt32()
+		_raw_frontendType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
 		_arg_frontendType := tvTuner.FrontendType(_raw_frontendType)
-		_arg_maxNumber, _err := data.ReadInt32()
+		_arg_maxNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -857,10 +858,10 @@ func (s *TunerServiceStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITunerServiceGetMaxNumberOfFrontends:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_raw_frontendType, _err := data.ReadInt32()
+		_raw_frontendType, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

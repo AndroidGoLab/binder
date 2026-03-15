@@ -70,26 +70,26 @@ var _ binder.TransactionReceiver = (*CarrierConfigChangeListenerStub)(nil)
 func (s *CarrierConfigChangeListenerStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionICarrierConfigChangeListenerOnCarrierConfigChanged:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_slotIndex, _err := data.ReadInt32()
+		_arg_slotIndex, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_subId, _err := data.ReadInt32()
+		_arg_subId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_carrierId, _err := data.ReadInt32()
+		_arg_carrierId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_specificCarrierId, _err := data.ReadInt32()
+		_arg_specificCarrierId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}

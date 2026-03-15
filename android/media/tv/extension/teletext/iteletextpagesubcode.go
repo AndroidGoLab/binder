@@ -338,14 +338,14 @@ var _ binder.TransactionReceiver = (*TeletextPageSubCodeStub)(nil)
 func (s *TeletextPageSubCodeStub) OnTransaction(
 	ctx context.Context,
 	code binder.TransactionCode,
-	data *parcel.Parcel,
+	_data *parcel.Parcel,
 ) (*parcel.Parcel, error) {
 	switch code {
 	case TransactionITeletextPageSubCodeGetTeletextPageNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -362,14 +362,14 @@ func (s *TeletextPageSubCodeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITeletextPageSubCodeSetTeleltextPageNumber:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pageNumber, _err := data.ReadInt32()
+		_arg_pageNumber, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -382,10 +382,10 @@ func (s *TeletextPageSubCodeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITeletextPageSubCodeGetTeletextPageSubCode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -402,14 +402,14 @@ func (s *TeletextPageSubCodeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITeletextPageSubCodeSetTeletextPageSubCode:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_pageSubCode, _err := data.ReadInt32()
+		_arg_pageSubCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -422,10 +422,10 @@ func (s *TeletextPageSubCodeStub) OnTransaction(
 		binder.WriteStatus(_reply, nil)
 		return _reply, nil
 	case TransactionITeletextPageSubCodeGetTeletextHasTopInfo:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -442,10 +442,10 @@ func (s *TeletextPageSubCodeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITeletextPageSubCodeGetTeletextTopBlockList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
@@ -462,14 +462,14 @@ func (s *TeletextPageSubCodeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITeletextPageSubCodeGetTeletextTopGroupList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_indexGroup, _err := data.ReadInt32()
+		_arg_indexGroup, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
@@ -486,14 +486,14 @@ func (s *TeletextPageSubCodeStub) OnTransaction(
 		}
 		return _reply, nil
 	case TransactionITeletextPageSubCodeGetTeletextTopPageList:
-		if _, _err := data.ReadString16(); _err != nil {
+		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		_arg_sessionToken, _err := data.ReadString16()
+		_arg_sessionToken, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		_arg_indexPage, _err := data.ReadInt32()
+		_arg_indexPage, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
