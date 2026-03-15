@@ -155,6 +155,35 @@ More examples: [`examples/`](examples/)
 | [`softap_wifi_hal`](examples/softap_wifi_hal/)             | WiFi chip info, AP interface state                  |
 | [`softap_tether_offload`](examples/softap_tether_offload/) | Tethering offload config, stats                     |
 
+## bindercli Quick Start
+
+`bindercli` lets you call any Android system service from the command line — no Go code needed.
+
+**Install and deploy:**
+
+```bash
+GOOS=linux GOARCH=arm64 go build -o bindercli ./cmd/bindercli/
+adb push bindercli /data/local/tmp/
+```
+
+**Try it:**
+
+```bash
+# List all binder services
+adb shell /data/local/tmp/bindercli service list
+
+# Check battery level
+adb shell /data/local/tmp/bindercli android.hardware.health.IHealth get-health-info
+
+# Query ActivityManager
+adb shell /data/local/tmp/bindercli android.app.IActivityManager get-process-limit
+
+# Get GPS hardware info
+adb shell /data/local/tmp/bindercli android.location.ILocationManager get-gnss-hardware-model-name
+```
+
+See the full [bindercli reference](#bindercli) for all subcommands and more examples.
+
 ## Building and Running
 
 Binaries are pure Go (no CGO) and run directly on Android:
