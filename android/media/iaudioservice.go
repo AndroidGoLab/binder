@@ -3078,7 +3078,7 @@ func (p *AudioServiceProxy) GetRingtonePlayer(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewRingtonePlayerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewRingtonePlayerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -3410,7 +3410,7 @@ func (p *AudioServiceProxy) GetVolumeController(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewVolumeControllerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewVolumeControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

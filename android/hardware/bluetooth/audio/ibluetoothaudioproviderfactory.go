@@ -108,7 +108,7 @@ func (p *BluetoothAudioProviderFactoryProxy) OpenProvider(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewBluetoothAudioProviderProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewBluetoothAudioProviderProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

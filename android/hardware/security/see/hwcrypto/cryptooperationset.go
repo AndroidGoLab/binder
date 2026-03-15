@@ -46,7 +46,7 @@ func (s *CryptoOperationSet) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Context = NewCryptoOperationContextProxy(binder.NewProxyBinder(nil, _contextHandle))
+	s.Context = NewCryptoOperationContextProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _contextHandle))
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()

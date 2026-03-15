@@ -114,7 +114,7 @@ func (p *RadioServiceProxy) OpenTuner(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTunerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewTunerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -155,6 +155,6 @@ func (p *RadioServiceProxy) AddAnnouncementListener(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCloseHandleProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewCloseHandleProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

@@ -1970,7 +1970,7 @@ func (p *InstalldProxy) CreateFsveritySetupAuthToken(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = osIInstalld.NewFsveritySetupAuthTokenProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = osIInstalld.NewFsveritySetupAuthTokenProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

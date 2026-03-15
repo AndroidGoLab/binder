@@ -80,7 +80,7 @@ func (s *GenericDataParcelable) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Binder = binder.NewProxyBinder(nil, _binderHandle)
+	s.Binder = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _binderHandle)
 
 	s.FileDescriptor, _err = p.ReadFileDescriptor()
 	if _err != nil {

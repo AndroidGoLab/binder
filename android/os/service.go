@@ -95,7 +95,7 @@ func (u *Service) UnmarshalParcel(
 		if _err != nil {
 			return _err
 		}
-		u.Accessor = binder.NewProxyBinder(nil, _handle)
+		u.Accessor = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handle)
 	default:
 		return fmt.Errorf("unknown union tag %d for Service", u.Tag)
 	}

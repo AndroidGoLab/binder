@@ -39,7 +39,7 @@ func (s *KeyEntryResponse) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.ISecurityLevel = NewKeystoreSecurityLevelProxy(binder.NewProxyBinder(nil, _iSecurityLevelHandle))
+	s.ISecurityLevel = NewKeystoreSecurityLevelProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _iSecurityLevelHandle))
 
 	if _err = s.Metadata.UnmarshalParcel(p); _err != nil {
 		return _err

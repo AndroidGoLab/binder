@@ -72,7 +72,7 @@ func (p *DrmFactoryProxy) CreateDrmPlugin(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDrmPluginProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewDrmPluginProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -116,7 +116,7 @@ func (p *DrmFactoryProxy) CreateCryptoPlugin(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCryptoPluginProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewCryptoPluginProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

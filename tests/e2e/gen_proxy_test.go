@@ -27,7 +27,7 @@ func TestGenProxy_ServiceManager_IsDeclared(t *testing.T) {
 	ctx := context.Background()
 	driver := openBinder(t)
 
-	smBinder := binder.NewProxyBinder(driver, 0)
+	smBinder := binder.NewProxyBinder(driver, binder.DefaultCallerIdentity(), 0)
 	smProxy := genOs.NewServiceManagerProxy(smBinder)
 
 	declared, err := smProxy.IsDeclared(ctx, "SurfaceFlinger")
@@ -433,7 +433,7 @@ func TestGenProxy_MultiService(t *testing.T) {
 			serviceName: "",
 			description: "ServiceManager.IsDeclared",
 			testFunc: func(t *testing.T, _ binder.IBinder) {
-				smBinder := binder.NewProxyBinder(driver, 0)
+				smBinder := binder.NewProxyBinder(driver, binder.DefaultCallerIdentity(), 0)
 				proxy := genOs.NewServiceManagerProxy(smBinder)
 				declared, err := proxy.IsDeclared(ctx, "SurfaceFlinger")
 				requireOrSkip(t, err)

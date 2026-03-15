@@ -721,6 +721,6 @@ func (p *VirtualHalProxy) GetFaceHal(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = face.NewFaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = face.NewFaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

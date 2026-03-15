@@ -76,3 +76,9 @@ func (m *MockBinder) Handle() uint32 {
 func (m *MockBinder) Transport() binder.VersionAwareTransport {
 	return nil
 }
+
+// Identity returns a zero-value CallerIdentity since
+// the mock has no real caller.
+func (m *MockBinder) Identity() binder.CallerIdentity {
+	return binder.CallerIdentity{}
+}

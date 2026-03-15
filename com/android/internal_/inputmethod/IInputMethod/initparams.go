@@ -38,7 +38,7 @@ func (s *InitParams) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Token = binder.NewProxyBinder(nil, _tokenHandle)
+	s.Token = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _tokenHandle)
 
 	s.NavigationBarFlags, _err = p.ReadInt32()
 	if _err != nil {

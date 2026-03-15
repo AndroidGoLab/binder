@@ -67,7 +67,7 @@ func (s *BeginResult) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Operation = NewKeyMintOperationProxy(binder.NewProxyBinder(nil, _operationHandle))
+	s.Operation = NewKeyMintOperationProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _operationHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

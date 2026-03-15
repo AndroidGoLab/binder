@@ -625,6 +625,6 @@ func (p *BroadcastRadioProxy) RegisterAnnouncementListener(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCloseHandleProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewCloseHandleProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

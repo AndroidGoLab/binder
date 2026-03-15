@@ -124,7 +124,7 @@ func (p *IdentityCredentialStoreProxy) CreateCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWritableIdentityCredentialProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWritableIdentityCredentialProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -165,7 +165,7 @@ func (p *IdentityCredentialStoreProxy) GetCredential(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewIdentityCredentialProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewIdentityCredentialProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -197,7 +197,7 @@ func (p *IdentityCredentialStoreProxy) CreatePresentationSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPresentationSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewPresentationSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -227,6 +227,6 @@ func (p *IdentityCredentialStoreProxy) GetRemotelyProvisionedComponent(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = keymint.NewRemotelyProvisionedComponentProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = keymint.NewRemotelyProvisionedComponentProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

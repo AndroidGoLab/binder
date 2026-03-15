@@ -160,7 +160,7 @@ func (p *WindowOrganizerControllerProxy) StartNewTransition(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -297,7 +297,7 @@ func (p *WindowOrganizerControllerProxy) GetTaskOrganizerController(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTaskOrganizerControllerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewTaskOrganizerControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -327,7 +327,7 @@ func (p *WindowOrganizerControllerProxy) GetDisplayAreaOrganizerController(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDisplayAreaOrganizerControllerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewDisplayAreaOrganizerControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -357,7 +357,7 @@ func (p *WindowOrganizerControllerProxy) GetTaskFragmentOrganizerController(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTaskFragmentOrganizerControllerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewTaskFragmentOrganizerControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -439,7 +439,7 @@ func (p *WindowOrganizerControllerProxy) GetTransitionMetricsReporter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTransitionMetricsReporterProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewTransitionMetricsReporterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -469,6 +469,6 @@ func (p *WindowOrganizerControllerProxy) GetApplyToken(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }

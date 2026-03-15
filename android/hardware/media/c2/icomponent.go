@@ -234,7 +234,7 @@ func (p *ComponentProxy) GetInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewComponentInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewComponentInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -391,7 +391,7 @@ func (p *ComponentProxy) ConnectToInputSurface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewInputSurfaceConnectionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewInputSurfaceConnectionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -421,6 +421,6 @@ func (p *ComponentProxy) AsInputSink(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewInputSinkProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewInputSinkProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

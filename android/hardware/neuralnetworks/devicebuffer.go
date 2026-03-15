@@ -37,7 +37,7 @@ func (s *DeviceBuffer) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Buffer = NewBufferProxy(binder.NewProxyBinder(nil, _bufferHandle))
+	s.Buffer = NewBufferProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _bufferHandle))
 
 	s.Token, _err = p.ReadInt32()
 	if _err != nil {

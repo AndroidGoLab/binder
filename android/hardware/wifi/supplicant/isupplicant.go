@@ -93,7 +93,7 @@ func (p *SupplicantProxy) AddP2pInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSupplicantP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -125,7 +125,7 @@ func (p *SupplicantProxy) AddStaInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSupplicantStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -187,7 +187,7 @@ func (p *SupplicantProxy) GetP2pInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSupplicantP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -219,7 +219,7 @@ func (p *SupplicantProxy) GetStaInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSupplicantStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

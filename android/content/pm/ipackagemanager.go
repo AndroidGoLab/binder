@@ -5285,7 +5285,7 @@ func (p *PackageManagerProxy) GetPackageInstaller(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPackageInstallerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewPackageInstallerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -6245,7 +6245,7 @@ func (p *PackageManagerProxy) GetArtManager(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = dex.NewArtManagerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = dex.NewArtManagerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -7546,7 +7546,7 @@ func (p *PackageManagerProxy) GetHoldLockToken(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 

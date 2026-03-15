@@ -47,7 +47,7 @@ func (s *DisplayCaptureArgs) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.DisplayToken = binder.NewProxyBinder(nil, _displayTokenHandle)
+	s.DisplayToken = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _displayTokenHandle)
 
 	s.Width, _err = p.ReadInt32()
 	if _err != nil {

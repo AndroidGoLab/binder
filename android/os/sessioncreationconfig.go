@@ -107,7 +107,7 @@ func (s *SessionCreationConfig) UnmarshalParcel(
 			if _err != nil {
 				return _err
 			}
-			s.LayerTokens[_i] = binder.NewProxyBinder(nil, _handle)
+			s.LayerTokens[_i] = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handle)
 		}
 	}
 

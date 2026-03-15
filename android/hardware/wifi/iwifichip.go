@@ -195,7 +195,7 @@ func (p *WifiChipProxy) CreateApIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -225,7 +225,7 @@ func (p *WifiChipProxy) CreateBridgedApIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -255,7 +255,7 @@ func (p *WifiChipProxy) CreateNanIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiNanIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiNanIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -285,7 +285,7 @@ func (p *WifiChipProxy) CreateP2pIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -317,7 +317,7 @@ func (p *WifiChipProxy) CreateRttController(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiRttControllerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiRttControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -347,7 +347,7 @@ func (p *WifiChipProxy) CreateStaIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -455,7 +455,7 @@ func (p *WifiChipProxy) GetApIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -720,7 +720,7 @@ func (p *WifiChipProxy) GetNanIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiNanIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiNanIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -791,7 +791,7 @@ func (p *WifiChipProxy) GetP2pIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiP2pIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -862,7 +862,7 @@ func (p *WifiChipProxy) GetStaIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiStaIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -1672,7 +1672,7 @@ func (p *WifiChipProxy) CreateApOrBridgedApIface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -1728,6 +1728,6 @@ func (p *WifiChipProxy) CreateApOrBridgedApIfaceWithParams(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiApIfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

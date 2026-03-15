@@ -45,7 +45,7 @@ func (s *LayerCaptureArgs) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.LayerHandle = binder.NewProxyBinder(nil, _layerHandleHandle)
+	s.LayerHandle = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _layerHandleHandle)
 
 	s.ChildrenOnly, _err = p.ReadBool()
 	if _err != nil {

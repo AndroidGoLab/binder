@@ -52,7 +52,7 @@ func (s *CreateOperationResponse) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.IOperation = NewKeystoreOperationProxy(binder.NewProxyBinder(nil, _iOperationHandle))
+	s.IOperation = NewKeystoreOperationProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _iOperationHandle))
 
 	if _err = s.OperationChallenge.UnmarshalParcel(p); _err != nil {
 		return _err

@@ -515,7 +515,7 @@ func TestTransactionInvalidHandle(t *testing.T) {
 	ctx := context.Background()
 	driver := openBinder(t)
 
-	invalid := binder.NewProxyBinder(driver, 0xDEAD)
+	invalid := binder.NewProxyBinder(driver, binder.DefaultCallerIdentity(), 0xDEAD)
 
 	reply, err := invalid.Transact(ctx, binder.PingTransaction, 0, parcel.New())
 	require.Error(t, err, "transaction to invalid handle should fail")

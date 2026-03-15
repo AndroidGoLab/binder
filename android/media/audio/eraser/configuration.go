@@ -75,7 +75,7 @@ func (s *Configuration) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Callback = NewEraserCallbackProxy(binder.NewProxyBinder(nil, _callbackHandle))
+	s.Callback = NewEraserCallbackProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _callbackHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

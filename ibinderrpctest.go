@@ -235,7 +235,7 @@ func (p *BinderRpcTestProxy) GetNullBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -298,7 +298,7 @@ func (p *BinderRpcTestProxy) RepeatBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -354,7 +354,7 @@ func (p *BinderRpcTestProxy) GetHeldBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -460,7 +460,7 @@ func (p *BinderRpcTestProxy) AlwaysGiveMeTheSameBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -492,7 +492,7 @@ func (p *BinderRpcTestProxy) OpenSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewBinderRpcSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewBinderRpcSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

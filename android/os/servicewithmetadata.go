@@ -37,7 +37,7 @@ func (s *ServiceWithMetadata) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Service = binder.NewProxyBinder(nil, _serviceHandle)
+	s.Service = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _serviceHandle)
 
 	s.IsLazyService, _err = p.ReadBool()
 	if _err != nil {

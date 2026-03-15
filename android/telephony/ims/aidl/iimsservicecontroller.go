@@ -123,7 +123,7 @@ func (p *ImsServiceControllerProxy) CreateMmTelFeature(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsMmTelFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsMmTelFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -155,7 +155,7 @@ func (p *ImsServiceControllerProxy) CreateEmergencyOnlyMmTelFeature(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsMmTelFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsMmTelFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -189,7 +189,7 @@ func (p *ImsServiceControllerProxy) CreateRcsFeature(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsRcsFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsRcsFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -400,7 +400,7 @@ func (p *ImsServiceControllerProxy) GetConfig(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsConfigProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsConfigProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -434,7 +434,7 @@ func (p *ImsServiceControllerProxy) GetRegistration(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsRegistrationProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsRegistrationProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -466,7 +466,7 @@ func (p *ImsServiceControllerProxy) GetSipTransport(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSipTransportProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSipTransportProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

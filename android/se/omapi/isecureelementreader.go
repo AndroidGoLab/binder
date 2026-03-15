@@ -96,7 +96,7 @@ func (p *SecureElementReaderProxy) OpenSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSecureElementSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSecureElementSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

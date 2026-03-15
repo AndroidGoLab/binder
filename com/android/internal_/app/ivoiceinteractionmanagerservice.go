@@ -1148,7 +1148,7 @@ func (p *VoiceInteractionManagerServiceProxy) CreateSoundTriggerSessionAsOrigina
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewVoiceInteractionSoundTriggerSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewVoiceInteractionSoundTriggerSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

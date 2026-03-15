@@ -37,7 +37,7 @@ func (s *FencedExecutionResult) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Callback = NewFencedExecutionCallbackProxy(binder.NewProxyBinder(nil, _callbackHandle))
+	s.Callback = NewFencedExecutionCallbackProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _callbackHandle))
 
 	s.SyncFence, _err = p.ReadFileDescriptor()
 	if _err != nil {

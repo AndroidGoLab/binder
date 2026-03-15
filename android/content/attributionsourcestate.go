@@ -90,7 +90,7 @@ func (s *AttributionSourceState) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Token = binder.NewProxyBinder(nil, _tokenHandle)
+	s.Token = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _tokenHandle)
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()

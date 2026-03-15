@@ -348,7 +348,7 @@ func (p *ImsMMTelFeatureProxy) CreateCallSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsCallSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsCallSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -382,7 +382,7 @@ func (p *ImsMMTelFeatureProxy) GetPendingCallSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsCallSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsCallSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -412,7 +412,7 @@ func (p *ImsMMTelFeatureProxy) GetUtInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsUtProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsUtProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -442,7 +442,7 @@ func (p *ImsMMTelFeatureProxy) GetConfigInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsConfigProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsConfigProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -520,7 +520,7 @@ func (p *ImsMMTelFeatureProxy) GetEcbmInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsEcbmProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsEcbmProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -581,6 +581,6 @@ func (p *ImsMMTelFeatureProxy) GetMultiEndpointInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsMultiEndpointProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsMultiEndpointProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

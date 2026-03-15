@@ -177,7 +177,7 @@ func (p *PreparedModelProxy) ConfigureExecutionBurst(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewBurstProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewBurstProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -217,7 +217,7 @@ func (p *PreparedModelProxy) CreateReusableExecution(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewExecutionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewExecutionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

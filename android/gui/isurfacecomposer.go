@@ -240,7 +240,7 @@ func (p *SurfaceComposerProxy) CreateDisplayEventConnection(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDisplayEventConnectionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewDisplayEventConnectionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -270,7 +270,7 @@ func (p *SurfaceComposerProxy) CreateConnection(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSurfaceComposerClientProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSurfaceComposerClientProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -308,7 +308,7 @@ func (p *SurfaceComposerProxy) CreateVirtualDisplay(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -405,7 +405,7 @@ func (p *SurfaceComposerProxy) GetPhysicalDisplayToken(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 

@@ -46,7 +46,7 @@ func (s *StartInputParams) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.StartInputToken = binder.NewProxyBinder(nil, _startInputTokenHandle)
+	s.StartInputToken = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _startInputTokenHandle)
 
 	if _err = s.EditorInfo.UnmarshalParcel(p); _err != nil {
 		return _err

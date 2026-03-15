@@ -943,7 +943,7 @@ func (p *ActivityTaskManagerProxy) GetActivityClientController(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewActivityClientControllerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewActivityClientControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -1511,7 +1511,7 @@ func (p *ActivityTaskManagerProxy) GetAppTasks(
 			if _err != nil {
 				return _result, _err
 			}
-			_result[_i] = binder.NewProxyBinder(p.remote.Transport(), _handle)
+			_result[_i] = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 		}
 	}
 	return _result, nil

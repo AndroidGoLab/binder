@@ -11,18 +11,21 @@ import (
 // It delegates all operations to the underlying VersionAwareTransport.
 type ProxyBinder struct {
 	transport VersionAwareTransport
+	identity  CallerIdentity
 	handle    uint32
 }
 
-// NewProxyBinder creates a new ProxyBinder for the given transport and handle.
+// NewProxyBinder creates a new ProxyBinder for the given transport, identity, and handle.
 // The transport must implement VersionAwareTransport (use
 // versionaware.NewTransport to wrap a raw kernelbinder.Driver).
 func NewProxyBinder(
 	transport VersionAwareTransport,
+	identity CallerIdentity,
 	handle uint32,
 ) *ProxyBinder {
 	return &ProxyBinder{
 		transport: transport,
+		identity:  identity,
 		handle:    handle,
 	}
 }
@@ -83,6 +86,11 @@ func (b *ProxyBinder) Handle() uint32 {
 // Transport returns the underlying VersionAwareTransport used by this ProxyBinder.
 func (b *ProxyBinder) Transport() VersionAwareTransport {
 	return b.transport
+}
+
+// Identity returns the caller identity associated with this ProxyBinder.
+func (b *ProxyBinder) Identity() CallerIdentity {
+	return b.identity
 }
 
 // Verify ProxyBinder implements IBinder.

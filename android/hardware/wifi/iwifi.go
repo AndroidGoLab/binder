@@ -73,7 +73,7 @@ func (p *WifiProxy) GetChip(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewWifiChipProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewWifiChipProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

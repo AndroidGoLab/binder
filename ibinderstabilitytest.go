@@ -123,7 +123,7 @@ func (p *BinderStabilityTestProxy) ReturnNoStabilityBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -153,7 +153,7 @@ func (p *BinderStabilityTestProxy) ReturnLocalStabilityBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -183,7 +183,7 @@ func (p *BinderStabilityTestProxy) ReturnVintfStabilityBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 
@@ -213,6 +213,6 @@ func (p *BinderStabilityTestProxy) ReturnVendorStabilityBinder(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }

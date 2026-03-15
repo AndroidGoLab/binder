@@ -36,7 +36,7 @@ func (s *BufferAttachment) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Owner = NewBufferOwnerProxy(binder.NewProxyBinder(nil, _ownerHandle))
+	s.Owner = NewBufferOwnerProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _ownerHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

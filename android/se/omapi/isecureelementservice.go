@@ -106,7 +106,7 @@ func (p *SecureElementServiceProxy) GetReader(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSecureElementReaderProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSecureElementReaderProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

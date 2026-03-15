@@ -81,7 +81,7 @@ func (p *VoiceInteractorProxy) StartConfirmation(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -123,7 +123,7 @@ func (p *VoiceInteractorProxy) StartPickOption(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -159,7 +159,7 @@ func (p *VoiceInteractorProxy) StartCompleteVoice(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -195,7 +195,7 @@ func (p *VoiceInteractorProxy) StartAbortVoice(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -232,7 +232,7 @@ func (p *VoiceInteractorProxy) StartCommand(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewVoiceInteractorRequestProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

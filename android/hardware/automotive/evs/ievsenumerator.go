@@ -389,7 +389,7 @@ func (p *EvsEnumeratorProxy) OpenCamera(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewEvsCameraProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewEvsCameraProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -421,7 +421,7 @@ func (p *EvsEnumeratorProxy) OpenDisplay(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewEvsDisplayProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewEvsDisplayProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -453,7 +453,7 @@ func (p *EvsEnumeratorProxy) OpenUltrasonicsArray(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewEvsUltrasonicsArrayProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewEvsUltrasonicsArrayProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

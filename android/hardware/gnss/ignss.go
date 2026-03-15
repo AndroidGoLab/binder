@@ -171,7 +171,7 @@ func (p *GnssProxy) GetExtensionPsds(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssPsdsProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewGnssPsdsProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -201,7 +201,7 @@ func (p *GnssProxy) GetExtensionGnssConfiguration(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssConfigurationProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewGnssConfigurationProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -231,7 +231,7 @@ func (p *GnssProxy) GetExtensionGnssMeasurement(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssMeasurementInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewGnssMeasurementInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -261,7 +261,7 @@ func (p *GnssProxy) GetExtensionGnssPowerIndication(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssPowerIndicationProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewGnssPowerIndicationProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -291,7 +291,7 @@ func (p *GnssProxy) GetExtensionGnssBatching(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssBatchingProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewGnssBatchingProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -321,7 +321,7 @@ func (p *GnssProxy) GetExtensionGnssGeofence(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssGeofenceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewGnssGeofenceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -351,7 +351,7 @@ func (p *GnssProxy) GetExtensionGnssNavigationMessage(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssNavigationMessageInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewGnssNavigationMessageInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -381,7 +381,7 @@ func (p *GnssProxy) GetExtensionAGnss(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewAGnssProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewAGnssProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -411,7 +411,7 @@ func (p *GnssProxy) GetExtensionAGnssRil(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewAGnssRilProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewAGnssRilProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -441,7 +441,7 @@ func (p *GnssProxy) GetExtensionGnssDebug(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssDebugProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewGnssDebugProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -471,7 +471,7 @@ func (p *GnssProxy) GetExtensionGnssVisibilityControl(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = visibility_control.NewGnssVisibilityControlProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = visibility_control.NewGnssVisibilityControlProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -692,7 +692,7 @@ func (p *GnssProxy) GetExtensionGnssAntennaInfo(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewGnssAntennaInfoProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewGnssAntennaInfoProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

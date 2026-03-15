@@ -420,7 +420,7 @@ func (p *UceServiceProxy) GetPresenceService(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = presence.NewPresenceServiceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = presence.NewPresenceServiceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -452,7 +452,7 @@ func (p *UceServiceProxy) GetPresenceServiceForSubscription(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = presence.NewPresenceServiceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = presence.NewPresenceServiceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -482,7 +482,7 @@ func (p *UceServiceProxy) GetOptionsService(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = options.NewOptionsServiceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = options.NewOptionsServiceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -514,6 +514,6 @@ func (p *UceServiceProxy) GetOptionsServiceForSubscription(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = options.NewOptionsServiceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = options.NewOptionsServiceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

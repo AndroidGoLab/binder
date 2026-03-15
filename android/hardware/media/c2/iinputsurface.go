@@ -90,7 +90,7 @@ func (p *InputSurfaceProxy) GetConfigurable(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewConfigurableProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewConfigurableProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -122,6 +122,6 @@ func (p *InputSurfaceProxy) Connect(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewInputSurfaceConnectionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewInputSurfaceConnectionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

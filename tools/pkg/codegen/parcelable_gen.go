@@ -259,14 +259,14 @@ func writeUnmarshalParcel(
 			f.P("\tif _err != nil {")
 			f.P("\t\treturn _err")
 			f.P("\t}")
-			f.P("\ts.%s = %s(binder.NewProxyBinder(nil, _%sHandle))", goFieldName, proxyConstructor, field.FieldName)
+			f.P("\ts.%s = %s(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _%sHandle))", goFieldName, proxyConstructor, field.FieldName)
 		case info.IsIBinder:
 			f.P("")
 			f.P("\t_%sHandle, _err := %s", field.FieldName, readExpr)
 			f.P("\tif _err != nil {")
 			f.P("\t\treturn _err")
 			f.P("\t}")
-			f.P("\ts.%s = binder.NewProxyBinder(nil, _%sHandle)", goFieldName, field.FieldName)
+			f.P("\ts.%s = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _%sHandle)", goFieldName, field.FieldName)
 		case info.NeedsCast:
 			goType := resolveTypeRef(typeRef, field.Type)
 			f.P("")
@@ -339,13 +339,13 @@ func readArrayFieldFromParcel(
 		f.P("\t\t\tif _err != nil {")
 		f.P("\t\t\t\treturn _err")
 		f.P("\t\t\t}")
-		f.P("\t\t\t%s[_i] = %s(binder.NewProxyBinder(nil, _handle))", fieldAccess, proxyConstructor)
+		f.P("\t\t\t%s[_i] = %s(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handle))", fieldAccess, proxyConstructor)
 	case elemInfo.IsIBinder:
 		f.P("\t\t\t_handle, _err := %s", elemReadExpr)
 		f.P("\t\t\tif _err != nil {")
 		f.P("\t\t\t\treturn _err")
 		f.P("\t\t\t}")
-		f.P("\t\t\t%s[_i] = binder.NewProxyBinder(nil, _handle)", fieldAccess)
+		f.P("\t\t\t%s[_i] = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handle)", fieldAccess)
 	case elemInfo.NeedsCast:
 		elemGoType := resolveTypeRef(typeRef, elemType)
 		f.P("\t\t\t_raw, _err := %s", elemReadExpr)

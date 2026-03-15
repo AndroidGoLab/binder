@@ -43,7 +43,7 @@ func (s *PhraseRecognitionEventSys) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Token = binder.NewProxyBinder(nil, _tokenHandle)
+	s.Token = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _tokenHandle)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

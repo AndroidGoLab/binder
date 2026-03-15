@@ -187,7 +187,7 @@ func (p *CameraProviderProxy) GetCameraDeviceInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = device.NewCameraDeviceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = device.NewCameraDeviceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

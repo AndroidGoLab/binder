@@ -178,7 +178,7 @@ func (p *ModuleProxy) GetTelephony(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTelephonyProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewTelephonyProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -208,7 +208,7 @@ func (p *ModuleProxy) GetBluetooth(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewBluetoothProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewBluetoothProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -238,7 +238,7 @@ func (p *ModuleProxy) GetBluetoothA2dp(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewBluetoothA2dpProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewBluetoothA2dpProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -268,7 +268,7 @@ func (p *ModuleProxy) GetBluetoothLe(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewBluetoothLeProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewBluetoothLeProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -1077,7 +1077,7 @@ func (p *ModuleProxy) GetSoundDose(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = sounddose.NewSoundDoseProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = sounddose.NewSoundDoseProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

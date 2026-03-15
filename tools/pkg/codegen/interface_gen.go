@@ -437,7 +437,7 @@ func readReturnValue(
 		f.P("\tif _err != nil {")
 		f.P("\t\treturn _result, _err")
 		f.P("\t}")
-		f.P("\t_result = %s(binder.NewProxyBinder(p.remote.Transport(), _handle))", proxyConstructor)
+		f.P("\t_result = %s(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))", proxyConstructor)
 		return
 	}
 
@@ -446,7 +446,7 @@ func readReturnValue(
 		f.P("\tif _err != nil {")
 		f.P("\t\treturn _result, _err")
 		f.P("\t}")
-		f.P("\t_result = binder.NewProxyBinder(p.remote.Transport(), _handle)")
+		f.P("\t_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)")
 		return
 	}
 
@@ -506,13 +506,13 @@ func readArrayFromReply(
 		f.P("\t\t\tif _err != nil {")
 		f.P("\t\t\t\treturn _result, _err")
 		f.P("\t\t\t}")
-		f.P("\t\t\t_result[_i] = %s(binder.NewProxyBinder(p.remote.Transport(), _handle))", proxyConstructor)
+		f.P("\t\t\t_result[_i] = %s(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))", proxyConstructor)
 	case elemInfo.IsIBinder:
 		f.P("\t\t\t_handle, _err := %s", elemReadExpr)
 		f.P("\t\t\tif _err != nil {")
 		f.P("\t\t\t\treturn _result, _err")
 		f.P("\t\t\t}")
-		f.P("\t\t\t_result[_i] = binder.NewProxyBinder(p.remote.Transport(), _handle)")
+		f.P("\t\t\t_result[_i] = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)")
 	case elemInfo.NeedsCast:
 		elemGoType := resolveTypeRef(typeRef, elemType)
 		f.P("\t\t\t_raw, _err := %s", elemReadExpr)

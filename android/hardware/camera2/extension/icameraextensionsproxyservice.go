@@ -213,7 +213,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializePreviewExtension(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPreviewExtenderImplProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewPreviewExtenderImplProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -245,7 +245,7 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeImageExtension(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImageCaptureExtenderImplProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImageCaptureExtenderImplProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -277,6 +277,6 @@ func (p *CameraExtensionsProxyServiceProxy) InitializeAdvancedExtension(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewAdvancedExtenderImplProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewAdvancedExtenderImplProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

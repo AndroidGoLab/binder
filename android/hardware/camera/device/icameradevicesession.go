@@ -408,7 +408,7 @@ func (p *CameraDeviceSessionProxy) SwitchToOffline(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCameraOfflineSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewCameraOfflineSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

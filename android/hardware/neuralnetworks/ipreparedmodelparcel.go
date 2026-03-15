@@ -35,7 +35,7 @@ func (s *IPreparedModelParcel) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.PreparedModel = NewPreparedModelProxy(binder.NewProxyBinder(nil, _preparedModelHandle))
+	s.PreparedModel = NewPreparedModelProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _preparedModelHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

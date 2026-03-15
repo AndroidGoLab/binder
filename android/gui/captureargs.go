@@ -122,7 +122,7 @@ func (s *CaptureArgs) UnmarshalParcel(
 			if _err != nil {
 				return _err
 			}
-			s.ExcludeHandles[_i] = binder.NewProxyBinder(nil, _handle)
+			s.ExcludeHandles[_i] = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handle)
 		}
 	}
 

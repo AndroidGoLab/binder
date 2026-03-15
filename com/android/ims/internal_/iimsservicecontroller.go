@@ -73,7 +73,7 @@ func (p *ImsServiceControllerProxy) CreateEmergencyMMTelFeature(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsMMTelFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsMMTelFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -105,7 +105,7 @@ func (p *ImsServiceControllerProxy) CreateMMTelFeature(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsMMTelFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsMMTelFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -137,7 +137,7 @@ func (p *ImsServiceControllerProxy) CreateRcsFeature(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewImsRcsFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewImsRcsFeatureProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

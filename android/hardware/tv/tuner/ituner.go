@@ -132,7 +132,7 @@ func (p *TunerProxy) OpenFrontendById(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewFrontendProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewFrontendProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -176,7 +176,7 @@ func (p *TunerProxy) OpenDemux(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDemuxProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewDemuxProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -240,7 +240,7 @@ func (p *TunerProxy) OpenDescrambler(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDescramblerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewDescramblerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -347,7 +347,7 @@ func (p *TunerProxy) OpenLnbById(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewLnbProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewLnbProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -393,7 +393,7 @@ func (p *TunerProxy) OpenLnbByName(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewLnbProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewLnbProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -578,7 +578,7 @@ func (p *TunerProxy) OpenDemuxById(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDemuxProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewDemuxProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

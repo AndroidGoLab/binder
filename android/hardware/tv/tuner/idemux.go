@@ -112,7 +112,7 @@ func (p *DemuxProxy) OpenFilter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewFilterProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewFilterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -142,7 +142,7 @@ func (p *DemuxProxy) OpenTimeFilter(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewTimeFilterProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewTimeFilterProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -264,7 +264,7 @@ func (p *DemuxProxy) OpenDvr(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDvrProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewDvrProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

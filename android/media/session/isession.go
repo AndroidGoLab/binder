@@ -122,7 +122,7 @@ func (p *SessionProxy) GetController(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSessionControllerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSessionControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -385,7 +385,7 @@ func (p *SessionProxy) GetBinderForSetQueue(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = binder.NewProxyBinder(p.remote.Transport(), _handle)
+	_result = binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle)
 	return _result, nil
 }
 

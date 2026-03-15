@@ -161,7 +161,7 @@ func (p *SessionProxy) Enroll(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -193,7 +193,7 @@ func (p *SessionProxy) Authenticate(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -223,7 +223,7 @@ func (p *SessionProxy) DetectInteraction(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -502,7 +502,7 @@ func (p *SessionProxy) AuthenticateWithContext(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -542,7 +542,7 @@ func (p *SessionProxy) EnrollWithContext(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -577,7 +577,7 @@ func (p *SessionProxy) DetectInteractionWithContext(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

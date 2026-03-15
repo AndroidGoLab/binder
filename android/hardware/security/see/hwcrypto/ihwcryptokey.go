@@ -162,7 +162,7 @@ func (p *HwCryptoKeyProxy) GetHwCryptoOperations(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewHwCryptoOperationsProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewHwCryptoOperationsProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -198,7 +198,7 @@ func (p *HwCryptoKeyProxy) ImportClearKey(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewOpaqueKeyProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewOpaqueKeyProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -277,7 +277,7 @@ func (p *HwCryptoKeyProxy) KeyTokenImport(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewOpaqueKeyProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewOpaqueKeyProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -308,6 +308,6 @@ func (p *HwCryptoKeyProxy) GetKeyslotData(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewOpaqueKeyProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewOpaqueKeyProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

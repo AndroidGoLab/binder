@@ -65,6 +65,6 @@ func (p *MuxTuneProxy) CreateSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewMuxTuneSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewMuxTuneSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

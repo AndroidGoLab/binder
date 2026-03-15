@@ -35,7 +35,7 @@ func (s *CryptoOperationResult) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Context = NewCryptoOperationContextProxy(binder.NewProxyBinder(nil, _contextHandle))
+	s.Context = NewCryptoOperationContextProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _contextHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

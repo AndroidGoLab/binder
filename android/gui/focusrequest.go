@@ -41,7 +41,7 @@ func (s *FocusRequest) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Token = binder.NewProxyBinder(nil, _tokenHandle)
+	s.Token = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _tokenHandle)
 
 	s.WindowName, _err = p.ReadString16()
 	if _err != nil {

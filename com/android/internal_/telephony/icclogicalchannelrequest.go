@@ -84,7 +84,7 @@ func (s *IccLogicalChannelRequest) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Binder = binder.NewProxyBinder(nil, _binderHandle)
+	s.Binder = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _binderHandle)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

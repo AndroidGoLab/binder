@@ -37,7 +37,7 @@ func (s *FileSystemControlParcel) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Callback = NewPackageInstallerSessionFileSystemConnectorProxy(binder.NewProxyBinder(nil, _callbackHandle))
+	s.Callback = NewPackageInstallerSessionFileSystemConnectorProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _callbackHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

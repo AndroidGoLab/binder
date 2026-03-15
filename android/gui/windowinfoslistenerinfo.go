@@ -42,7 +42,7 @@ func (s *WindowInfosListenerInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.WindowInfosPublisher = NewWindowInfosPublisherProxy(binder.NewProxyBinder(nil, _windowInfosPublisherHandle))
+	s.WindowInfosPublisher = NewWindowInfosPublisherProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _windowInfosPublisherHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

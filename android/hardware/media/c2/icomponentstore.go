@@ -117,7 +117,7 @@ func (p *ComponentStoreProxy) CreateComponent(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewComponentProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewComponentProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -149,7 +149,7 @@ func (p *ComponentStoreProxy) CreateInterface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewComponentInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewComponentInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -179,7 +179,7 @@ func (p *ComponentStoreProxy) GetConfigurable(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewConfigurableProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewConfigurableProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -209,7 +209,7 @@ func (p *ComponentStoreProxy) GetPoolClientManager(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = bufferpool2.NewClientManagerProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = bufferpool2.NewClientManagerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -324,6 +324,6 @@ func (p *ComponentStoreProxy) CreateInputSurface(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewInputSurfaceProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewInputSurfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

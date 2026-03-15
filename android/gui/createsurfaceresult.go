@@ -41,7 +41,7 @@ func (s *CreateSurfaceResult) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.Handle = binder.NewProxyBinder(nil, _handleHandle)
+	s.Handle = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handleHandle)
 
 	s.LayerId, _err = p.ReadInt32()
 	if _err != nil {

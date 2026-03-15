@@ -224,7 +224,7 @@ func (p *CameraDeviceProxy) Open(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCameraDeviceSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewCameraDeviceSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -256,7 +256,7 @@ func (p *CameraDeviceProxy) OpenInjectionSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewCameraInjectionSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewCameraInjectionSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

@@ -338,7 +338,7 @@ func (p *SupplicantP2pIfaceProxy) AddNetwork(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantP2pNetworkProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSupplicantP2pNetworkProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -864,7 +864,7 @@ func (p *SupplicantP2pIfaceProxy) GetNetwork(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSupplicantP2pNetworkProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSupplicantP2pNetworkProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

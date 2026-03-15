@@ -37,13 +37,13 @@ func (s *AddToSurfaceSyncGroupResult) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-	s.MParentSyncGroup = NewSurfaceSyncGroupProxy(binder.NewProxyBinder(nil, _mParentSyncGroupHandle))
+	s.MParentSyncGroup = NewSurfaceSyncGroupProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _mParentSyncGroupHandle))
 
 	_mTransactionReadyCallbackHandle, _err := p.ReadStrongBinder()
 	if _err != nil {
 		return _err
 	}
-	s.MTransactionReadyCallback = NewTransactionReadyCallbackProxy(binder.NewProxyBinder(nil, _mTransactionReadyCallbackHandle))
+	s.MTransactionReadyCallback = NewTransactionReadyCallbackProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _mTransactionReadyCallbackHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

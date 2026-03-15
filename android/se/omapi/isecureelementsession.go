@@ -200,7 +200,7 @@ func (p *SecureElementSessionProxy) OpenBasicChannel(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSecureElementChannelProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSecureElementChannelProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -243,6 +243,6 @@ func (p *SecureElementSessionProxy) OpenLogicalChannel(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewSecureElementChannelProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewSecureElementChannelProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }

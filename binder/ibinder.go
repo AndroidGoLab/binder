@@ -29,4 +29,5 @@ type IBinder interface {
 	IsAlive(ctx context.Context) bool
 	Handle() uint32
 	Transport() VersionAwareTransport
+	Identity() CallerIdentity
 }

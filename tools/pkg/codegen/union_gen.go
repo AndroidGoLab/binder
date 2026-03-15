@@ -230,13 +230,13 @@ func writeUnionUnmarshalParcel(
 			f.P("\t\tif _err != nil {")
 			f.P("\t\t\treturn _err")
 			f.P("\t\t}")
-			f.P("\t\tu.%s = %s(binder.NewProxyBinder(nil, _handle))", goFieldName, proxyConstructor)
+			f.P("\t\tu.%s = %s(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handle))", goFieldName, proxyConstructor)
 		case info.IsIBinder:
 			f.P("\t\t_handle, _err := %s", readExpr)
 			f.P("\t\tif _err != nil {")
 			f.P("\t\t\treturn _err")
 			f.P("\t\t}")
-			f.P("\t\tu.%s = binder.NewProxyBinder(nil, _handle)", goFieldName)
+			f.P("\t\tu.%s = binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handle)", goFieldName)
 		case info.NeedsCast:
 			goType := resolveTypeRef(typeRef, field.Type)
 			f.P("\t\t_raw, _err := %s", readExpr)

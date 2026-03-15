@@ -202,7 +202,7 @@ func (p *PowerProxy) CreateHintSession(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPowerHintSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewPowerHintSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -282,7 +282,7 @@ func (p *PowerProxy) CreateHintSessionWithConfig(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPowerHintSessionProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewPowerHintSessionProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

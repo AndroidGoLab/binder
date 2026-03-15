@@ -21,15 +21,19 @@ const (
 
 // ServiceManager provides access to Android's ServiceManager via Binder IPC.
 type ServiceManager struct {
-	remote binder.IBinder
+	remote   binder.IBinder
+	identity binder.CallerIdentity
 }
 
 // New creates a ServiceManager client using the given transport.
 func New(
 	transport binder.VersionAwareTransport,
+	opts ...Option,
 ) *ServiceManager {
+	cfg := Options(opts).config()
 	return &ServiceManager{
-		remote: binder.NewProxyBinder(transport, serviceManagerHandle),
+		remote:   binder.NewProxyBinder(transport, cfg.Identity, serviceManagerHandle),
+		identity: cfg.Identity,
 	}
 }
 
@@ -64,7 +68,7 @@ func (sm *ServiceManager) GetService(
 		return nil, fmt.Errorf("servicemanager: GetService(%q): reading binder: %w", name, err)
 	}
 
-	return binder.NewProxyBinder(sm.transport(), handle), nil
+	return binder.NewProxyBinder(sm.transport(), sm.identity, handle), nil
 }
 
 // CheckService checks if a service is registered without blocking.
@@ -103,7 +107,7 @@ func (sm *ServiceManager) CheckService(
 		return nil, nil
 	}
 
-	return binder.NewProxyBinder(sm.transport(), handle), nil
+	return binder.NewProxyBinder(sm.transport(), sm.identity, handle), nil
 }
 
 // ListServices returns the names of all registered services.

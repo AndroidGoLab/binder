@@ -399,7 +399,7 @@ func (p *PreviewExtenderImplProxy) GetPreviewImageProcessor(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewPreviewImageProcessorImplProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewPreviewImageProcessorImplProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -429,7 +429,7 @@ func (p *PreviewExtenderImplProxy) GetRequestUpdateProcessor(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewRequestUpdateProcessorImplProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewRequestUpdateProcessorImplProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 

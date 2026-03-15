@@ -152,7 +152,7 @@ func (p *StorageSessionProxy) OpenFile(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewFileProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewFileProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -240,6 +240,6 @@ func (p *StorageSessionProxy) OpenDir(
 	if _err != nil {
 		return _result, _err
 	}
-	_result = NewDirProxy(binder.NewProxyBinder(p.remote.Transport(), _handle))
+	_result = NewDirProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
