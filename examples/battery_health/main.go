@@ -36,7 +36,7 @@ func main() {
 
 	sm := servicemanager.New(transport)
 
-	svc, err := sm.GetService(ctx, "android.hardware.health.IHealth/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get health HAL: %v (may be blocked by SELinux)\n", err)
 		os.Exit(1)

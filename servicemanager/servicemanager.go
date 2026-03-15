@@ -36,7 +36,7 @@ func New(
 // GetService retrieves a service by name. Blocks until the service is available.
 func (sm *ServiceManager) GetService(
 	ctx context.Context,
-	name string,
+	name ServiceName,
 ) (_binder binder.IBinder, _err error) {
 	logger.Tracef(ctx, "GetService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/GetService(%q): %v", name, _err) }()
@@ -48,7 +48,7 @@ func (sm *ServiceManager) GetService(
 
 	data := parcel.New()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
-	data.WriteString16(name)
+	data.WriteString16(string(name))
 
 	reply, err := sm.remote.Transact(ctx, code, 0, data)
 	if err != nil {
@@ -71,7 +71,7 @@ func (sm *ServiceManager) GetService(
 // Returns nil, nil if the service is not found.
 func (sm *ServiceManager) CheckService(
 	ctx context.Context,
-	name string,
+	name ServiceName,
 ) (_binder binder.IBinder, _err error) {
 	logger.Tracef(ctx, "CheckService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/CheckService(%q): %v", name, _err) }()
@@ -83,7 +83,7 @@ func (sm *ServiceManager) CheckService(
 
 	data := parcel.New()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
-	data.WriteString16(name)
+	data.WriteString16(string(name))
 
 	reply, err := sm.remote.Transact(ctx, code, 0, data)
 	if err != nil {
@@ -151,7 +151,7 @@ func (sm *ServiceManager) ListServices(
 // IsDeclared checks whether a service is declared in the VINTF manifest.
 func (sm *ServiceManager) IsDeclared(
 	ctx context.Context,
-	name string,
+	name ServiceName,
 ) (_declared bool, _err error) {
 	logger.Tracef(ctx, "IsDeclared(%q)", name)
 	defer func() { logger.Tracef(ctx, "/IsDeclared(%q): %v, err=%v", name, _declared, _err) }()
@@ -163,7 +163,7 @@ func (sm *ServiceManager) IsDeclared(
 
 	data := parcel.New()
 	data.WriteInterfaceToken(serviceManagerDescriptor)
-	data.WriteString16(name)
+	data.WriteString16(string(name))
 
 	reply, err := sm.remote.Transact(ctx, code, 0, data)
 	if err != nil {

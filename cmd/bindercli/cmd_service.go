@@ -13,6 +13,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
+	"github.com/xaionaro-go/binder/servicemanager"
 )
 
 func newServiceCmd() *cobra.Command {
@@ -71,7 +72,7 @@ func serviceStatus(
 	conn *Conn,
 	name string,
 ) string {
-	svc, err := conn.SM.CheckService(ctx, name)
+	svc, err := conn.SM.CheckService(ctx, servicemanager.ServiceName(name))
 	if err != nil || svc == nil {
 		return "not found"
 	}

@@ -173,7 +173,7 @@ func TestGenBatch1_HAL_CameraProvider_GetCameraIdList(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.camera.provider.ICameraProvider/internal/0")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.camera.provider.ICameraProvider/internal/0"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -190,7 +190,7 @@ func TestGenBatch1_HAL_CameraProvider_GetConcurrentCameraIds(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.camera.provider.ICameraProvider/internal/0")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.camera.provider.ICameraProvider/internal/0"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -208,7 +208,7 @@ func TestGenBatch1_HAL_MediaCas_IsDescramblerSupported(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.cas.IMediaCasService/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.cas.IMediaCasService/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -223,7 +223,7 @@ func TestGenBatch1_HAL_MediaCas_IsSystemIdSupported(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.cas.IMediaCasService/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.cas.IMediaCasService/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -238,7 +238,7 @@ func TestGenBatch1_HAL_ContextHub_GetPreloadedNanoappIds(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.contexthub.IContextHub/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.contexthub.IContextHub/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -254,7 +254,7 @@ func TestGenBatch1_HAL_DrmFactory_Ping(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.drm.IDrmFactory/widevine")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.drm.IDrmFactory/widevine"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -270,7 +270,7 @@ func TestGenBatch1_HAL_Composer_GetCapabilities(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.graphics.composer3.IComposer/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.graphics.composer3.IComposer/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -285,7 +285,7 @@ func TestGenBatch1_HAL_Health_GetCapacity(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.health.IHealth/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -300,7 +300,7 @@ func TestGenBatch1_HAL_Health_GetChargeStatus(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.health.IHealth/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -315,7 +315,7 @@ func TestGenBatch1_HAL_Health_GetChargeCounterUah(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.health.IHealth/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -330,7 +330,7 @@ func TestGenBatch1_HAL_Health_GetCurrentNowMicroamps(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.health.IHealth/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.health.IHealth/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -345,7 +345,7 @@ func TestGenBatch1_HAL_Identity_Ping(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.identity.IIdentityCredentialStore/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.identity.IIdentityCredentialStore/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -363,7 +363,7 @@ func TestGenBatch1_HAL_AuthSecret_Ping(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.authsecret.IAuthSecret/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.authsecret.IAuthSecret/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -377,7 +377,7 @@ func TestGenBatch1_HAL_BiometricsFace_Ping(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.biometrics.face.IFace/virtual")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.biometrics.face.IFace/virtual"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -390,7 +390,7 @@ func TestGenBatch1_HAL_BiometricsFingerprint_Ping(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.biometrics.fingerprint.IFingerprint/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.biometrics.fingerprint.IFingerprint/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -404,7 +404,7 @@ func TestGenBatch1_HAL_BluetoothHci_Ping(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.bluetooth.IBluetoothHci/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.bluetooth.IBluetoothHci/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -417,7 +417,7 @@ func TestGenBatch1_HAL_BluetoothAudioProviderFactory_Ping(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.bluetooth.audio.IBluetoothAudioProviderFactory/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 
@@ -431,7 +431,7 @@ func TestGenBatch1_HAL_Gnss_Ping(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "android.hardware.gnss.IGnss/default")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.gnss.IGnss/default"))
 	if err != nil { t.Skipf("HAL blocked: %v", err); return }
 	require.NotNil(t, svc)
 

@@ -37,7 +37,7 @@ func main() {
 	sm := servicemanager.New(transport)
 
 	// Display Manager — display IDs and brightness
-	svc, err := sm.GetService(ctx, "display")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("display"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get display service: %v\n", err)
 		os.Exit(1)
@@ -61,7 +61,7 @@ func main() {
 	}
 
 	// Color Display Manager — night mode and color settings
-	colorSvc, err := sm.GetService(ctx, "color_display")
+	colorSvc, err := sm.GetService(ctx, servicemanager.ServiceName("color_display"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get color_display service: %v\n", err)
 		return

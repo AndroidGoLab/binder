@@ -379,7 +379,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "NeuralNetworks.GetVersionString",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, "android.hardware.neuralnetworks.IDevice/nnapi-sample_all")
+				svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.neuralnetworks.IDevice/nnapi-sample_all"))
 				requireOrSkip(t, err)
 				proxy := genNN.NewDeviceProxy(svc)
 				ver, err := proxy.GetVersionString(ctx)
@@ -390,7 +390,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "NeuralNetworks.GetType",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, "android.hardware.neuralnetworks.IDevice/nnapi-sample_all")
+				svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.neuralnetworks.IDevice/nnapi-sample_all"))
 				requireOrSkip(t, err)
 				proxy := genNN.NewDeviceProxy(svc)
 				devType, err := proxy.GetType(ctx)
@@ -401,7 +401,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "ComponentStore.ListComponents",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, "android.hardware.media.c2.IComponentStore/software")
+				svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.media.c2.IComponentStore/software"))
 				requireOrSkip(t, err)
 				proxy := genC2.NewComponentStoreProxy(svc)
 				components, err := proxy.ListComponents(ctx)
@@ -412,7 +412,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "Audio.GetStreamMaxVolume",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, "audio")
+				svc, err := sm.GetService(ctx, servicemanager.ServiceName("audio"))
 				requireOrSkip(t, err)
 				proxy := genMedia.NewAudioServiceProxy(svc)
 				val, err := proxy.GetStreamMaxVolume(ctx, 3)
@@ -423,7 +423,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "Audio.GetMode",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, "audio")
+				svc, err := sm.GetService(ctx, servicemanager.ServiceName("audio"))
 				requireOrSkip(t, err)
 				proxy := genMedia.NewAudioServiceProxy(svc)
 				val, err := proxy.GetMode(ctx)
@@ -434,7 +434,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "Keystore2.GetNumberOfEntries",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, "android.system.keystore2.IKeystoreService/default")
+				svc, err := sm.GetService(ctx, servicemanager.ServiceName("android.system.keystore2.IKeystoreService/default"))
 				requireOrSkip(t, err)
 				proxy := genKeystore2.NewKeystoreServiceProxy(svc)
 				_, err = proxy.GetNumberOfEntries(ctx, genKeystore2.DomainSELINUX, 0)
@@ -448,7 +448,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "AppIntegrity.GetCurrentRuleSetVersion",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, "app_integrity")
+				svc, err := sm.GetService(ctx, servicemanager.ServiceName("app_integrity"))
 				requireOrSkip(t, err)
 				proxy := genIntegrity.NewAppIntegrityManagerProxy(svc)
 				_, err = proxy.GetCurrentRuleSetVersion(ctx)

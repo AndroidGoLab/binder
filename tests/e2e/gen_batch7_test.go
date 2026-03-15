@@ -45,7 +45,7 @@ func TestGenBatch7_PingServices(t *testing.T) {
 		t.Run(name, func(t *testing.T) {
 			driver := openBinder(t)
 			sm := servicemanager.New(driver)
-			svc, err := sm.GetService(ctx, name)
+			svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
 			if err != nil {
 				t.Skipf("service unavailable: %v", err)
 				return

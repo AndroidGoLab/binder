@@ -86,7 +86,7 @@ func TestGetService(t *testing.T) {
 	}
 
 	sm := New(mt)
-	result, err := sm.GetService(ctx, "my.service")
+	result, err := sm.GetService(ctx, ServiceName("my.service"))
 	require.NoError(t, err)
 	require.NotNil(t, result)
 
@@ -123,7 +123,7 @@ func TestCheckService_Found(t *testing.T) {
 	}
 
 	sm := New(mt)
-	result, err := sm.CheckService(ctx, "found.service")
+	result, err := sm.CheckService(ctx, ServiceName("found.service"))
 	require.NoError(t, err)
 	require.NotNil(t, result)
 
@@ -144,7 +144,7 @@ func TestCheckService_NotFound(t *testing.T) {
 	}
 
 	sm := New(mt)
-	result, err := sm.CheckService(ctx, "missing.service")
+	result, err := sm.CheckService(ctx, ServiceName("missing.service"))
 	require.NoError(t, err)
 	assert.Nil(t, result)
 }
@@ -205,7 +205,7 @@ func TestIsDeclared_True(t *testing.T) {
 	}
 
 	sm := New(mt)
-	result, err := sm.IsDeclared(ctx, "declared.service")
+	result, err := sm.IsDeclared(ctx, ServiceName("declared.service"))
 	require.NoError(t, err)
 	assert.True(t, result)
 
@@ -222,7 +222,7 @@ func TestIsDeclared_False(t *testing.T) {
 	}
 
 	sm := New(mt)
-	result, err := sm.IsDeclared(ctx, "undeclared.service")
+	result, err := sm.IsDeclared(ctx, ServiceName("undeclared.service"))
 	require.NoError(t, err)
 	assert.False(t, result)
 }
@@ -243,7 +243,7 @@ func TestGetService_StatusError(t *testing.T) {
 	}
 
 	sm := New(mt)
-	result, err := sm.GetService(ctx, "secure.service")
+	result, err := sm.GetService(ctx, ServiceName("secure.service"))
 	require.Error(t, err)
 	assert.Nil(t, result)
 	assert.Contains(t, err.Error(), "permission denied")
@@ -257,7 +257,7 @@ func TestGetService_TransportError(t *testing.T) {
 	}
 
 	sm := New(mt)
-	result, err := sm.GetService(ctx, "any.service")
+	result, err := sm.GetService(ctx, ServiceName("any.service"))
 	require.Error(t, err)
 	assert.Nil(t, result)
 	assert.ErrorIs(t, err, assert.AnError)

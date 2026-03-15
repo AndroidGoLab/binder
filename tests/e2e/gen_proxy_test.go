@@ -540,7 +540,7 @@ func TestGenProxy_MultiService(t *testing.T) {
 			var svc binder.IBinder
 			if tt.serviceName != "" {
 				var err error
-				svc, err = sm.GetService(ctx, tt.serviceName)
+				svc, err = sm.GetService(ctx, servicemanager.ServiceName(tt.serviceName))
 				requireOrSkip(t, err)
 				require.NotNil(t, svc)
 			}

@@ -101,7 +101,7 @@ func TestGetService(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "SurfaceFlinger")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("SurfaceFlinger"))
 	require.NoError(t, err, "GetService(SurfaceFlinger) failed")
 	require.NotNil(t, svc, "expected non-nil binder for SurfaceFlinger")
 
@@ -115,11 +115,11 @@ func TestCheckService(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.CheckService(ctx, "SurfaceFlinger")
+	svc, err := sm.CheckService(ctx, servicemanager.ServiceName("SurfaceFlinger"))
 	require.NoError(t, err, "CheckService(SurfaceFlinger) failed")
 	require.NotNil(t, svc, "expected non-nil binder for SurfaceFlinger")
 
-	nonexistent, err := sm.CheckService(ctx, "definitely.does.not.exist.12345")
+	nonexistent, err := sm.CheckService(ctx, servicemanager.ServiceName("definitely.does.not.exist.12345"))
 	require.NoError(t, err, "CheckService for non-existent should not error")
 	assert.Nil(t, nonexistent, "expected nil binder for non-existent service")
 }
@@ -129,7 +129,7 @@ func TestPingBinder(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "SurfaceFlinger")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("SurfaceFlinger"))
 	require.NoError(t, err)
 	require.NotNil(t, svc)
 
@@ -155,7 +155,7 @@ func getSurfaceFlingerAIDL(
 ) binder.IBinder {
 	t.Helper()
 	sm := servicemanager.New(driver)
-	svc, err := sm.GetService(ctx, "SurfaceFlingerAIDL")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("SurfaceFlingerAIDL"))
 	require.NoError(t, err, "GetService(SurfaceFlingerAIDL) failed")
 	require.NotNil(t, svc)
 	return svc
@@ -258,7 +258,7 @@ func getActivityManager(
 ) binder.IBinder {
 	t.Helper()
 	sm := servicemanager.New(driver)
-	svc, err := sm.GetService(ctx, "activity")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("activity"))
 	require.NoError(t, err, "GetService(activity) failed")
 	require.NotNil(t, svc)
 	return svc
@@ -331,11 +331,11 @@ func TestDistinctServiceHandles(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	sf, err := sm.GetService(ctx, "SurfaceFlingerAIDL")
+	sf, err := sm.GetService(ctx, servicemanager.ServiceName("SurfaceFlingerAIDL"))
 	require.NoError(t, err)
 	require.NotNil(t, sf)
 
-	am, err := sm.GetService(ctx, "activity")
+	am, err := sm.GetService(ctx, servicemanager.ServiceName("activity"))
 	require.NoError(t, err)
 	require.NotNil(t, am)
 
@@ -424,7 +424,7 @@ func TestOnewayTransaction(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "SurfaceFlinger")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("SurfaceFlinger"))
 	require.NoError(t, err)
 	require.NotNil(t, svc)
 
@@ -446,7 +446,7 @@ func TestDeathNotificationRegistration(t *testing.T) {
 	driver := openBinder(t)
 	sm := servicemanager.New(driver)
 
-	svc, err := sm.GetService(ctx, "SurfaceFlinger")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("SurfaceFlinger"))
 	require.NoError(t, err)
 	require.NotNil(t, svc)
 
@@ -535,7 +535,7 @@ func TestPingMultipleServices(t *testing.T) {
 
 	services := []string{"SurfaceFlinger", "activity", "SurfaceFlingerAIDL"}
 	for _, name := range services {
-		svc, err := sm.GetService(ctx, name)
+		svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
 		require.NoError(t, err, "GetService(%s)", name)
 		require.NotNil(t, svc)
 

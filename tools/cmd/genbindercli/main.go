@@ -1212,6 +1212,7 @@ func writeImports(buf *bytes.Buffer, importAliases map[string]string, needs need
 	buf.WriteString("\n")
 	buf.WriteString("\t\"github.com/spf13/cobra\"\n")
 	buf.WriteString("\t\"github.com/xaionaro-go/binder/binder\"\n")
+	buf.WriteString("\t\"github.com/xaionaro-go/binder/servicemanager\"\n")
 
 	type importEntry struct {
 		path  string
@@ -1276,7 +1277,7 @@ func writeFindServiceByDescriptorFunc(buf *bytes.Buffer) {
 	// Try the static map of well-known service names first to avoid
 	// slow enumeration of all registered services.
 	if name, ok := knownServiceNames[descriptor]; ok {
-		svc, err := conn.SM.CheckService(ctx, name)
+		svc, err := conn.SM.CheckService(ctx, servicemanager.ServiceName(name))
 		if err == nil && svc != nil {
 			return svc, nil
 		}
@@ -1289,7 +1290,7 @@ func writeFindServiceByDescriptorFunc(buf *bytes.Buffer) {
 	}
 
 	for _, name := range services {
-		svc, err := conn.SM.CheckService(ctx, name)
+		svc, err := conn.SM.CheckService(ctx, servicemanager.ServiceName(name))
 		if err != nil || svc == nil {
 			continue
 		}

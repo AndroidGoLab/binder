@@ -36,7 +36,7 @@ func main() {
 
 	sm := servicemanager.New(transport)
 
-	svc, err := sm.GetService(ctx, "package")
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName("package"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get package service: %v\n", err)
 		os.Exit(1)
@@ -81,7 +81,7 @@ func main() {
 	}
 
 	// Use the native package manager for faster queries
-	nativeSvc, err := sm.GetService(ctx, "package_native")
+	nativeSvc, err := sm.GetService(ctx, servicemanager.ServiceName("package_native"))
 	if err != nil {
 		return
 	}

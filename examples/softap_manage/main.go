@@ -26,7 +26,7 @@ import (
 	"github.com/xaionaro-go/binder/servicemanager"
 )
 
-const halServiceName = "android.hardware.wifi.hostapd.IHostapd/default"
+const halServiceName = servicemanager.ServiceName("android.hardware.wifi.hostapd.IHostapd/default")
 
 func main() {
 	if len(os.Args) < 2 {

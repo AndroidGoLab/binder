@@ -26,7 +26,7 @@ func getService(
 ) binder.IBinder {
 	t.Helper()
 	sm := servicemanager.New(driver)
-	svc, err := sm.GetService(ctx, name)
+	svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
 	requireOrSkip(t, err)
 	require.NotNil(t, svc, "expected non-nil binder for %s", name)
 	return svc
@@ -217,7 +217,7 @@ func TestException_AllTypesInventory(t *testing.T) {
 
 	for _, tc := range cases {
 		t.Run(tc.name, func(t *testing.T) {
-			svc, err := sm.GetService(ctx, tc.service)
+			svc, err := sm.GetService(ctx, servicemanager.ServiceName(tc.service))
 			requireOrSkip(t, err)
 			require.NotNil(t, svc)
 

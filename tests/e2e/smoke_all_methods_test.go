@@ -325,7 +325,7 @@ func TestE2E_SmokeAllServiceMethods(t *testing.T) {
 		totalServices++
 		entry := entry
 		t.Run(entry.name, func(t *testing.T) {
-			svc, err := sm.GetService(ctx, entry.name)
+			svc, err := sm.GetService(ctx, servicemanager.ServiceName(entry.name))
 			if err != nil {
 				t.Skipf("GetService(%s): %v", entry.name, err)
 				return

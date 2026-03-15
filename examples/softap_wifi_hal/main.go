@@ -29,7 +29,7 @@ import (
 	"github.com/xaionaro-go/binder/servicemanager"
 )
 
-const wifiHalService = "android.hardware.wifi.IWifi/default"
+const wifiHalService = servicemanager.ServiceName("android.hardware.wifi.IWifi/default")
 
 func main() {
 	ctx := context.Background()

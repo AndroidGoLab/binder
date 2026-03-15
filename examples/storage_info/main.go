@@ -39,7 +39,7 @@ func main() {
 	sm := servicemanager.New(transport)
 
 	// Storage Manager
-	mountSvc, err := sm.GetService(ctx, "mount")
+	mountSvc, err := sm.GetService(ctx, servicemanager.ServiceName("mount"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get mount service: %v\n", err)
 	} else {
@@ -55,7 +55,7 @@ func main() {
 	}
 
 	// USB Manager
-	usbSvc, err := sm.GetService(ctx, "usb")
+	usbSvc, err := sm.GetService(ctx, servicemanager.ServiceName("usb"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get usb service: %v\n", err)
 	} else {

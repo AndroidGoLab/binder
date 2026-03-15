@@ -42,7 +42,7 @@ func main() {
 	sm := servicemanager.New(transport)
 
 	// First list network interfaces to know which upstreams exist.
-	netSvc, err := sm.GetService(ctx, "network_management")
+	netSvc, err := sm.GetService(ctx, servicemanager.ServiceName("network_management"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get network_management: %v\n", err)
 	} else {
@@ -57,7 +57,7 @@ func main() {
 	}
 
 	// Try to access the tethering offload HAL.
-	offloadSvc, err := sm.GetService(ctx, "android.hardware.tetheroffload.IOffload/default")
+	offloadSvc, err := sm.GetService(ctx, servicemanager.ServiceName("android.hardware.tetheroffload.IOffload/default"))
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get tether offload HAL: %v\n", err)
 		fmt.Fprintf(os.Stderr, "(offload HAL not available — no hardware offload support or SELinux denial)\n")

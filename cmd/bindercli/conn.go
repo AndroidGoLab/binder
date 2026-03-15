@@ -86,7 +86,7 @@ func (c *Conn) GetService(
 	logger.Tracef(ctx, "GetService(%q)", name)
 	defer func() { logger.Tracef(ctx, "/GetService(%q): %v", name, _err) }()
 
-	svc, err := c.SM.CheckService(ctx, name)
+	svc, err := c.SM.CheckService(ctx, servicemanager.ServiceName(name))
 	if err != nil {
 		return nil, fmt.Errorf("checking service %q: %w", name, err)
 	}

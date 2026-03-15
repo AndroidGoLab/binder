@@ -39,7 +39,7 @@ func TestServiceBreadth_PingManyServices(t *testing.T) {
 			driver := openBinder(t)
 			sm := servicemanager.New(driver)
 
-			svc, err := sm.GetService(ctx, name)
+			svc, err := sm.GetService(ctx, servicemanager.ServiceName(name))
 			if err != nil {
 				t.Logf("GetService(%s) failed: %v", name, err)
 				return
@@ -226,7 +226,7 @@ func TestServiceBreadth_TransactAcrossCategories(t *testing.T) {
 			driver := openBinder(t)
 			sm := servicemanager.New(driver)
 
-			svc, err := sm.GetService(ctx, spec.name)
+			svc, err := sm.GetService(ctx, servicemanager.ServiceName(spec.name))
 			require.NoError(t, err, "GetService(%s) failed", spec.name)
 			require.NotNil(t, svc, "GetService(%s) returned nil", spec.name)
 

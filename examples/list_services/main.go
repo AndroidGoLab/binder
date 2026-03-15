@@ -44,7 +44,7 @@ func main() {
 	fmt.Printf("Found %d registered services:\n\n", len(services))
 
 	for i, name := range services {
-		svc, err := sm.CheckService(ctx, name)
+		svc, err := sm.CheckService(ctx, servicemanager.ServiceName(name))
 		status := "unreachable"
 		if err == nil && svc != nil {
 			if svc.IsAlive(ctx) {
