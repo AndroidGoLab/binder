@@ -5,6 +5,7 @@ package kernelbinder
 import (
 	"context"
 	"encoding/binary"
+	"errors"
 	"fmt"
 	"runtime"
 	"sync"
@@ -29,10 +30,11 @@ const readBufferSize = 256
 
 // Driver implements binder.Transport using /dev/binder.
 type Driver struct {
-	fd      int
-	mapped  []byte // mmap'd region, kept alive for munmap
-	mapSize uint32
-	mu      sync.Mutex
+	fd              int
+	mapped          []byte // mmap'd region, kept alive for munmap
+	mapSize         uint32
+	mu              sync.Mutex
+	acquiredHandles map[uint32]bool // tracks handles acquired via BC_INCREFS + BC_ACQUIRE
 }
 
 // Compile-time interface check.
@@ -104,15 +106,16 @@ func Open(
 	}
 
 	d := &Driver{
-		fd:      fd,
-		mapped:  mapped,
-		mapSize: mapSize,
+		fd:              fd,
+		mapped:          mapped,
+		mapSize:         mapSize,
+		acquiredHandles: make(map[uint32]bool),
 	}
 
 	return d, nil
 }
 
-// Close releases the mmap and closes the binder file descriptor.
+// Close releases all acquired binder handles, the mmap, and the file descriptor.
 func (d *Driver) Close(
 	ctx context.Context,
 ) (_err error) {
@@ -120,6 +123,21 @@ func (d *Driver) Close(
 	defer func() { logger.Tracef(ctx, "/Close: %v", _err) }()
 
 	var errs []error
+
+	// Release all acquired binder handles before closing the fd,
+	// so the kernel does not leak handle references.
+	for handle := range d.acquiredHandles {
+		logger.Debugf(ctx, "releasing handle %d on close", handle)
+		buf := make([]byte, 16)
+		binary.LittleEndian.PutUint32(buf[0:4], bcRelease)
+		binary.LittleEndian.PutUint32(buf[4:8], handle)
+		binary.LittleEndian.PutUint32(buf[8:12], bcDecRefs)
+		binary.LittleEndian.PutUint32(buf[12:16], handle)
+		if err := d.writeCommand(ctx, buf); err != nil {
+			errs = append(errs, fmt.Errorf("release handle %d: %w", handle, err))
+		}
+	}
+	d.acquiredHandles = nil
 
 	if d.mapped != nil {
 		if err := unix.Munmap(d.mapped); err != nil {
@@ -135,11 +153,7 @@ func (d *Driver) Close(
 		d.fd = -1
 	}
 
-	if len(errs) > 0 {
-		return fmt.Errorf("binder close: %w", errs[0])
-	}
-
-	return nil
+	return errors.Join(errs...)
 }
 
 // mapBase returns the base address of the mmap'd region.
@@ -362,7 +376,9 @@ func (d *Driver) acquireReplyHandles(
 
 			if err := d.writeCommand(ctx, buf); err != nil {
 				logger.Warnf(ctx, "failed to acquire handle %d: %v", handle, err)
+				continue
 			}
+			d.acquiredHandles[handle] = true
 		}
 	}
 }
@@ -388,7 +404,11 @@ func (d *Driver) AcquireHandle(
 	logger.Tracef(ctx, "AcquireHandle")
 	defer func() { logger.Tracef(ctx, "/AcquireHandle: %v", _err) }()
 
-	return d.writeHandleCommand(ctx, bcAcquire, handle)
+	if err := d.writeHandleCommand(ctx, bcAcquire, handle); err != nil {
+		return err
+	}
+	d.acquiredHandles[handle] = true
+	return nil
 }
 
 // ReleaseHandle decrements the strong reference count for a binder handle.
@@ -399,7 +419,11 @@ func (d *Driver) ReleaseHandle(
 	logger.Tracef(ctx, "ReleaseHandle")
 	defer func() { logger.Tracef(ctx, "/ReleaseHandle: %v", _err) }()
 
-	return d.writeHandleCommand(ctx, bcRelease, handle)
+	if err := d.writeHandleCommand(ctx, bcRelease, handle); err != nil {
+		return err
+	}
+	delete(d.acquiredHandles, handle)
+	return nil
 }
 
 // RequestDeathNotification registers a death notification for a binder handle.

@@ -16,6 +16,7 @@ var (
 	bcIncRefs           = uint32(iow('c', 4, unsafe.Sizeof(uint32(0))))
 	bcAcquire           = uint32(iow('c', 5, unsafe.Sizeof(uint32(0))))
 	bcRelease           = uint32(iow('c', 6, unsafe.Sizeof(uint32(0))))
+	bcDecRefs           = uint32(iow('c', 7, unsafe.Sizeof(uint32(0))))
 	bcRequestDeathNotif = uint32(iow('c', 14, binderHandleCookieSize))
 	bcClearDeathNotif   = uint32(iow('c', 15, binderHandleCookieSize))
 )
