@@ -1,6 +1,7 @@
 package IGnssDebug
 
 import (
+	gnss "github.com/xaionaro-go/binder/android/hardware/gnss"
 	SatellitePvt "github.com/xaionaro-go/binder/android/hardware/gnss/SatellitePvt"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -9,7 +10,7 @@ import (
 
 type SatelliteData struct {
 	Svid                        int32
-	Constellation               interface{}
+	Constellation               gnss.GnssConstellationType
 	EphemerisType               SatelliteEphemerisType
 	EphemerisSource             SatellitePvt.SatelliteEphemerisSource
 	EphemerisHealth             SatelliteEphemerisHealth
@@ -25,6 +26,7 @@ func (s *SatelliteData) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Svid)
+	p.WriteInt32(int32(s.Constellation))
 	p.WriteInt32(int32(s.EphemerisType))
 	p.WriteInt32(int32(s.EphemerisSource))
 	p.WriteInt32(int32(s.EphemerisHealth))
@@ -48,6 +50,12 @@ func (s *SatelliteData) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
+
+	_constellationRaw, _err := p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Constellation = gnss.GnssConstellationType(_constellationRaw)
 
 	_ephemerisTypeRaw, _err := p.ReadInt32()
 	if _err != nil {

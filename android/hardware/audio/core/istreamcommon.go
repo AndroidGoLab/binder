@@ -3,7 +3,7 @@ package core
 import (
 	"context"
 	"fmt"
-	effect "github.com/xaionaro-go/binder/android/hardware/audio/effect"
+	audioEffect "github.com/xaionaro-go/binder/android/hardware/audio/effect"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,8 +29,8 @@ type IStreamCommon interface {
 	UpdateHwAvSyncId(ctx context.Context, hwAvSyncId int32) error
 	GetVendorParameters(ctx context.Context, ids []string) ([]VendorParameter, error)
 	SetVendorParameters(ctx context.Context, parameters []VendorParameter, async bool) error
-	AddEffect(ctx context.Context, effect effect.IEffect) error
-	RemoveEffect(ctx context.Context, effect effect.IEffect) error
+	AddEffect(ctx context.Context, effect audioEffect.IEffect) error
+	RemoveEffect(ctx context.Context, effect audioEffect.IEffect) error
 }
 
 type StreamCommonProxy struct {
@@ -209,7 +209,7 @@ func (p *StreamCommonProxy) SetVendorParameters(
 
 func (p *StreamCommonProxy) AddEffect(
 	ctx context.Context,
-	effect effect.IEffect,
+	effect audioEffect.IEffect,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
@@ -235,7 +235,7 @@ func (p *StreamCommonProxy) AddEffect(
 
 func (p *StreamCommonProxy) RemoveEffect(
 	ctx context.Context,
-	effect effect.IEffect,
+	effect audioEffect.IEffect,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStreamCommon)
@@ -354,7 +354,7 @@ func (s *StreamCommonStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_effect effect.IEffect
+		var _arg_effect audioEffect.IEffect
 		_ = _arg_effect
 		_err := s.Impl.AddEffect(ctx, _arg_effect)
 		_reply := parcel.New()
@@ -369,7 +369,7 @@ func (s *StreamCommonStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_effect effect.IEffect
+		var _arg_effect audioEffect.IEffect
 		_ = _arg_effect
 		_err := s.Impl.RemoveEffect(ctx, _arg_effect)
 		_reply := parcel.New()

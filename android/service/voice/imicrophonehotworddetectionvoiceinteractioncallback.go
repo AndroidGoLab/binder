@@ -3,7 +3,6 @@ package voice
 import (
 	"context"
 	"fmt"
-	media "github.com/xaionaro-go/binder/android/media"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,7 +19,7 @@ const (
 
 type IMicrophoneHotwordDetectionVoiceInteractionCallback interface {
 	AsBinder() binder.IBinder
-	OnDetected(ctx context.Context, hotwordDetectedResult HotwordDetectedResult, audioFormat media.AudioFormat, audioStream int32) error
+	OnDetected(ctx context.Context, hotwordDetectedResult HotwordDetectedResult, audioFormat interface{}, audioStream int32) error
 	OnHotwordDetectionServiceFailure(ctx context.Context, hotwordDetectionServiceFailure HotwordDetectionServiceFailure) error
 	OnRejected(ctx context.Context, hotwordRejectedResult HotwordRejectedResult) error
 }
@@ -44,17 +43,13 @@ var _ IMicrophoneHotwordDetectionVoiceInteractionCallback = (*MicrophoneHotwordD
 func (p *MicrophoneHotwordDetectionVoiceInteractionCallbackProxy) OnDetected(
 	ctx context.Context,
 	hotwordDetectedResult HotwordDetectedResult,
-	audioFormat media.AudioFormat,
+	audioFormat interface{},
 	audioStream int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMicrophoneHotwordDetectionVoiceInteractionCallback)
 	_data.WriteInt32(1)
 	if _err := hotwordDetectedResult.MarshalParcel(_data); _err != nil {
-		return _err
-	}
-	_data.WriteInt32(1)
-	if _err := audioFormat.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteFileDescriptor(audioStream)
@@ -138,18 +133,7 @@ func (s *MicrophoneHotwordDetectionVoiceInteractionCallbackStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_audioFormat media.AudioFormat
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_audioFormat.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_audioFormat interface{}
 		_arg_audioStream, _err := _data.ReadFileDescriptor()
 		if _err != nil {
 			return nil, _err

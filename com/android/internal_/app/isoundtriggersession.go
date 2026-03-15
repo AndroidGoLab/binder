@@ -5,7 +5,6 @@ import (
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -42,7 +41,7 @@ type ISoundTriggerSession interface {
 	StopRecognition(ctx context.Context, soundModelId interface{}, callback soundtrigger.IRecognitionStatusCallback) (int32, error)
 	LoadGenericSoundModel(ctx context.Context, soundModel soundtrigger.SoundTriggerGenericSoundModel) (int32, error)
 	LoadKeyphraseSoundModel(ctx context.Context, soundModel soundtrigger.SoundTriggerKeyphraseSoundModel) (int32, error)
-	StartRecognitionForService(ctx context.Context, soundModelId interface{}, params os.Bundle, callbackIntent content.ComponentName, config soundtrigger.SoundTriggerRecognitionConfig) (int32, error)
+	StartRecognitionForService(ctx context.Context, soundModelId interface{}, params interface{}, callbackIntent content.ComponentName, config soundtrigger.SoundTriggerRecognitionConfig) (int32, error)
 	StopRecognitionForService(ctx context.Context, soundModelId interface{}) (int32, error)
 	UnloadSoundModel(ctx context.Context, soundModelId interface{}) (int32, error)
 	IsRecognitionActive(ctx context.Context, parcelUuid interface{}) (bool, error)
@@ -304,17 +303,13 @@ func (p *SoundTriggerSessionProxy) LoadKeyphraseSoundModel(
 func (p *SoundTriggerSessionProxy) StartRecognitionForService(
 	ctx context.Context,
 	soundModelId interface{},
-	params os.Bundle,
+	params interface{},
 	callbackIntent content.ComponentName,
 	config soundtrigger.SoundTriggerRecognitionConfig,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerSession)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	_data.WriteInt32(1)
 	if _err := callbackIntent.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -787,18 +782,7 @@ func (s *SoundTriggerSessionStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_soundModelId interface{}
-		var _arg_params os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_params interface{}
 		var _arg_callbackIntent content.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()

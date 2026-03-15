@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -48,7 +49,7 @@ const (
 
 type ISessionManager interface {
 	AsBinder() binder.IBinder
-	CreateSession(ctx context.Context, packageName string, sessionCb ISessionCallback, tag string, sessionInfo interface{}) (ISession, error)
+	CreateSession(ctx context.Context, packageName string, sessionCb ISessionCallback, tag string, sessionInfo os.Bundle) (ISession, error)
 	GetSessions(ctx context.Context, compName content.ComponentName) ([]MediaSessionToken, error)
 	GetMediaKeyEventSession(ctx context.Context, packageName string) (MediaSessionToken, error)
 	GetMediaKeyEventSessionPackageName(ctx context.Context, packageName string) (string, error)
@@ -101,7 +102,7 @@ func (p *SessionManagerProxy) CreateSession(
 	packageName string,
 	sessionCb ISessionCallback,
 	tag string,
-	sessionInfo interface{},
+	sessionInfo os.Bundle,
 ) (ISession, error) {
 	var _result ISession
 	_identity := p.remote.Identity()
@@ -110,6 +111,10 @@ func (p *SessionManagerProxy) CreateSession(
 	_data.WriteString16(packageName)
 	_data.WriteStrongBinder(sessionCb.AsBinder().Handle())
 	_data.WriteString16(tag)
+	_data.WriteInt32(1)
+	if _err := sessionInfo.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "createSession")
@@ -1051,7 +1056,18 @@ func (s *SessionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionInfo interface{}
+		var _arg_sessionInfo os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

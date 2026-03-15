@@ -1,6 +1,7 @@
 package gnss
 
 import (
+	gnssGnssData "github.com/xaionaro-go/binder/android/hardware/gnss/GnssData"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +11,7 @@ type GnssData struct {
 	Measurements    []GnssMeasurement
 	Clock           GnssClock
 	ElapsedRealtime ElapsedRealtime
-	GnssAgcs        []interface{}
+	GnssAgcs        []gnssGnssData.GnssAgc
 	IsFullTracking  bool
 }
 
@@ -40,6 +41,11 @@ func (s *GnssData) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.GnssAgcs)))
+		for _, _item := range s.GnssAgcs {
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 	p.WriteBool(s.IsFullTracking)
 
@@ -83,8 +89,11 @@ func (s *GnssData) UnmarshalParcel(
 		return _err
 	}
 	if _count1 >= 0 {
-		s.GnssAgcs = make([]interface{}, _count1)
+		s.GnssAgcs = make([]gnssGnssData.GnssAgc, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _err = s.GnssAgcs[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 

@@ -3,10 +3,8 @@ package accessibilityservice
 import (
 	"context"
 	"fmt"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	usb "github.com/xaionaro-go/binder/android/hardware/usb"
-	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	accessibility "github.com/xaionaro-go/binder/android/view/accessibility"
 	window "github.com/xaionaro-go/binder/android/window"
@@ -82,12 +80,12 @@ type IAccessibilityServiceConnection interface {
 	AsBinder() binder.IBinder
 	SetServiceInfo(ctx context.Context, info AccessibilityServiceInfo) error
 	SetAttributionTag(ctx context.Context) error
-	FindAccessibilityNodeInfoByAccessibilityId(ctx context.Context, accessibilityWindowId int32, accessibilityNodeId int64, interactionId int32, callback accessibility.IAccessibilityInteractionConnectionCallback, flags int32, threadId int64, arguments os.Bundle) ([]string, error)
+	FindAccessibilityNodeInfoByAccessibilityId(ctx context.Context, accessibilityWindowId int32, accessibilityNodeId int64, interactionId int32, callback accessibility.IAccessibilityInteractionConnectionCallback, flags int32, threadId int64, arguments interface{}) ([]string, error)
 	FindAccessibilityNodeInfosByText(ctx context.Context, accessibilityWindowId int32, accessibilityNodeId int64, text string, interactionId int32, callback accessibility.IAccessibilityInteractionConnectionCallback, threadId int64) ([]string, error)
 	FindAccessibilityNodeInfosByViewId(ctx context.Context, accessibilityWindowId int32, accessibilityNodeId int64, viewId string, interactionId int32, callback accessibility.IAccessibilityInteractionConnectionCallback, threadId int64) ([]string, error)
 	FindFocus(ctx context.Context, accessibilityWindowId int32, accessibilityNodeId int64, focusType int32, interactionId int32, callback accessibility.IAccessibilityInteractionConnectionCallback, threadId int64) ([]string, error)
 	FocusSearch(ctx context.Context, accessibilityWindowId int32, accessibilityNodeId int64, direction int32, interactionId int32, callback accessibility.IAccessibilityInteractionConnectionCallback, threadId int64) ([]string, error)
-	PerformAccessibilityAction(ctx context.Context, accessibilityWindowId int32, accessibilityNodeId int64, action int32, arguments os.Bundle, interactionId int32, callback accessibility.IAccessibilityInteractionConnectionCallback, threadId int64) (bool, error)
+	PerformAccessibilityAction(ctx context.Context, accessibilityWindowId int32, accessibilityNodeId int64, action int32, arguments interface{}, interactionId int32, callback accessibility.IAccessibilityInteractionConnectionCallback, threadId int64) (bool, error)
 	GetWindow(ctx context.Context, windowId int32) (accessibility.AccessibilityWindowInfo, error)
 	GetWindows(ctx context.Context) (accessibility.AccessibilityWindowInfoWindowListSparseArray, error)
 	GetServiceInfo(ctx context.Context) (AccessibilityServiceInfo, error)
@@ -111,18 +109,18 @@ type IAccessibilityServiceConnection interface {
 	SwitchToInputMethod(ctx context.Context, imeId string) (bool, error)
 	SetInputMethodEnabled(ctx context.Context, imeId string, enabled bool) (int32, error)
 	IsAccessibilityButtonAvailable(ctx context.Context) (bool, error)
-	SendGesture(ctx context.Context, sequence int32, gestureSteps pm.ParceledListSlice) error
-	DispatchGesture(ctx context.Context, sequence int32, gestureSteps pm.ParceledListSlice, displayId int32) error
+	SendGesture(ctx context.Context, sequence int32, gestureSteps interface{}) error
+	DispatchGesture(ctx context.Context, sequence int32, gestureSteps interface{}, displayId int32) error
 	IsFingerprintGestureDetectionAvailable(ctx context.Context) (bool, error)
 	GetOverlayWindowToken(ctx context.Context, displayid int32) (binder.IBinder, error)
 	GetWindowIdForLeashToken(ctx context.Context, token binder.IBinder) (int32, error)
-	TakeScreenshot(ctx context.Context, displayId int32, callback os.RemoteCallback) error
+	TakeScreenshot(ctx context.Context, displayId int32, callback interface{}) error
 	TakeScreenshotOfWindow(ctx context.Context, accessibilityWindowId int32, interactionId int32, listener window.ScreenCaptureScreenCaptureListener, callback accessibility.IAccessibilityInteractionConnectionCallback) error
 	SetGestureDetectionPassthroughRegion(ctx context.Context, displayId int32, region graphics.Region) error
 	SetTouchExplorationPassthroughRegion(ctx context.Context, displayId int32, region graphics.Region) error
 	SetFocusAppearance(ctx context.Context, strokeWidth int32, color int32) error
 	SetCacheEnabled(ctx context.Context, enabled bool) error
-	LogTrace(ctx context.Context, timestamp int64, where string, loggingTypes int64, callingParams string, processId int32, threadId int64, serializedCallingStackInBundle os.Bundle) error
+	LogTrace(ctx context.Context, timestamp int64, where string, loggingTypes int64, callingParams string, processId int32, threadId int64, serializedCallingStackInBundle interface{}) error
 	SetServiceDetectsGesturesEnabled(ctx context.Context, displayId int32, mode bool) error
 	RequestTouchExploration(ctx context.Context, displayId int32) error
 	RequestDragging(ctx context.Context, displayId int32, pointerId int32) error
@@ -136,7 +134,7 @@ type IAccessibilityServiceConnection interface {
 	AttachAccessibilityOverlayToWindow(ctx context.Context, interactionId int32, accessibilityWindowId int32, sc view.SurfaceControl, callback accessibility.IAccessibilityInteractionConnectionCallback) error
 	ConnectBluetoothBrailleDisplay(ctx context.Context, bluetoothAddress string, controller IBrailleDisplayController) error
 	ConnectUsbBrailleDisplay(ctx context.Context, usbDevice usb.UsbDevice, controller IBrailleDisplayController) error
-	SetTestBrailleDisplayData(ctx context.Context, brailleDisplays []os.Bundle) error
+	SetTestBrailleDisplayData(ctx context.Context, brailleDisplays []interface{}) error
 }
 
 type AccessibilityServiceConnectionProxy struct {
@@ -218,7 +216,7 @@ func (p *AccessibilityServiceConnectionProxy) FindAccessibilityNodeInfoByAccessi
 	callback accessibility.IAccessibilityInteractionConnectionCallback,
 	flags int32,
 	threadId int64,
-	arguments os.Bundle,
+	arguments interface{},
 ) ([]string, error) {
 	var _result []string
 	_data := parcel.New()
@@ -229,10 +227,6 @@ func (p *AccessibilityServiceConnectionProxy) FindAccessibilityNodeInfoByAccessi
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt32(flags)
 	_data.WriteInt64(threadId)
-	_data.WriteInt32(1)
-	if _err := arguments.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceConnection, "findAccessibilityNodeInfoByAccessibilityId")
 	if _err != nil {
@@ -475,7 +469,7 @@ func (p *AccessibilityServiceConnectionProxy) PerformAccessibilityAction(
 	accessibilityWindowId int32,
 	accessibilityNodeId int64,
 	action int32,
-	arguments os.Bundle,
+	arguments interface{},
 	interactionId int32,
 	callback accessibility.IAccessibilityInteractionConnectionCallback,
 	threadId int64,
@@ -486,10 +480,6 @@ func (p *AccessibilityServiceConnectionProxy) PerformAccessibilityAction(
 	_data.WriteInt32(accessibilityWindowId)
 	_data.WriteInt64(accessibilityNodeId)
 	_data.WriteInt32(action)
-	_data.WriteInt32(1)
-	if _err := arguments.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	_data.WriteInt32(interactionId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt64(threadId)
@@ -1247,15 +1237,11 @@ func (p *AccessibilityServiceConnectionProxy) IsAccessibilityButtonAvailable(
 func (p *AccessibilityServiceConnectionProxy) SendGesture(
 	ctx context.Context,
 	sequence int32,
-	gestureSteps pm.ParceledListSlice,
+	gestureSteps interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceConnection)
 	_data.WriteInt32(sequence)
-	_data.WriteInt32(1)
-	if _err := gestureSteps.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceConnection, "sendGesture")
 	if _err != nil {
@@ -1278,16 +1264,12 @@ func (p *AccessibilityServiceConnectionProxy) SendGesture(
 func (p *AccessibilityServiceConnectionProxy) DispatchGesture(
 	ctx context.Context,
 	sequence int32,
-	gestureSteps pm.ParceledListSlice,
+	gestureSteps interface{},
 	displayId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceConnection)
 	_data.WriteInt32(sequence)
-	_data.WriteInt32(1)
-	if _err := gestureSteps.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(displayId)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceConnection, "dispatchGesture")
@@ -1403,15 +1385,11 @@ func (p *AccessibilityServiceConnectionProxy) GetWindowIdForLeashToken(
 func (p *AccessibilityServiceConnectionProxy) TakeScreenshot(
 	ctx context.Context,
 	displayId int32,
-	callback os.RemoteCallback,
+	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceConnection)
 	_data.WriteInt32(displayId)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceConnection, "takeScreenshot")
 	if _err != nil {
@@ -1590,7 +1568,7 @@ func (p *AccessibilityServiceConnectionProxy) LogTrace(
 	callingParams string,
 	processId int32,
 	threadId int64,
-	serializedCallingStackInBundle os.Bundle,
+	serializedCallingStackInBundle interface{},
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
@@ -1602,10 +1580,6 @@ func (p *AccessibilityServiceConnectionProxy) LogTrace(
 	_data.WriteInt32(processId)
 	_data.WriteInt64(threadId)
 	_data.WriteInt32(_identity.UID)
-	_data.WriteInt32(1)
-	if _err := serializedCallingStackInBundle.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceConnection, "logTrace")
 	if _err != nil {
@@ -2006,7 +1980,7 @@ func (p *AccessibilityServiceConnectionProxy) ConnectUsbBrailleDisplay(
 
 func (p *AccessibilityServiceConnectionProxy) SetTestBrailleDisplayData(
 	ctx context.Context,
-	brailleDisplays []os.Bundle,
+	brailleDisplays []interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceConnection)
@@ -2014,11 +1988,6 @@ func (p *AccessibilityServiceConnectionProxy) SetTestBrailleDisplayData(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(brailleDisplays)))
-		for _, _item := range brailleDisplays {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _err
-			}
-		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceConnection, "setTestBrailleDisplayData")
@@ -2119,18 +2088,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_arguments os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_arguments.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_arguments interface{}
 		_result, _err := s.Impl.FindAccessibilityNodeInfoByAccessibilityId(ctx, _arg_accessibilityWindowId, _arg_accessibilityNodeId, _arg_interactionId, _arg_callback, _arg_flags, _arg_threadId, _arg_arguments)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2305,18 +2263,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_arguments os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_arguments.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_arguments interface{}
 		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2758,18 +2705,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_gestureSteps pm.ParceledListSlice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_gestureSteps.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_gestureSteps interface{}
 		_err = s.Impl.SendGesture(ctx, _arg_sequence, _arg_gestureSteps)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2786,18 +2722,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_gestureSteps pm.ParceledListSlice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_gestureSteps.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_gestureSteps interface{}
 		_arg_displayId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2865,18 +2790,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback os.RemoteCallback
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_callback interface{}
 		_err = s.Impl.TakeScreenshot(ctx, _arg_displayId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3043,18 +2957,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_serializedCallingStackInBundle os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_serializedCallingStackInBundle.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_serializedCallingStackInBundle interface{}
 		_err = s.Impl.LogTrace(ctx, _arg_timestamp, _arg_where, _arg_loggingTypes, _arg_callingParams, _arg_processId, _arg_threadId, _arg_serializedCallingStackInBundle)
 		_ = _err
 		return nil, nil
@@ -3328,7 +3231,7 @@ func (s *AccessibilityServiceConnectionStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_brailleDisplays []os.Bundle
+		var _arg_brailleDisplays []interface{}
 		_ = _arg_brailleDisplays
 		_err := s.Impl.SetTestBrailleDisplayData(ctx, _arg_brailleDisplays)
 		_reply := parcel.New()

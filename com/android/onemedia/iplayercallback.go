@@ -3,7 +3,7 @@ package onemedia
 import (
 	"context"
 	"fmt"
-	session "github.com/xaionaro-go/binder/android/media/session"
+	mediaSession "github.com/xaionaro-go/binder/android/media/session"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +18,7 @@ const (
 
 type IPlayerCallback interface {
 	AsBinder() binder.IBinder
-	OnSessionChanged(ctx context.Context, session session.MediaSessionToken) error
+	OnSessionChanged(ctx context.Context, session mediaSession.MediaSessionToken) error
 }
 
 type PlayerCallbackProxy struct {
@@ -39,7 +39,7 @@ var _ IPlayerCallback = (*PlayerCallbackProxy)(nil)
 
 func (p *PlayerCallbackProxy) OnSessionChanged(
 	ctx context.Context,
-	session session.MediaSessionToken,
+	session mediaSession.MediaSessionToken,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPlayerCallback)
@@ -84,7 +84,7 @@ func (s *PlayerCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_session session.MediaSessionToken
+		var _arg_session mediaSession.MediaSessionToken
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {

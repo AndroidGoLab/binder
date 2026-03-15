@@ -1,7 +1,6 @@
 package GnssData
 
 import (
-	gnss "github.com/xaionaro-go/binder/android/hardware/gnss"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,7 +8,7 @@ import (
 
 type GnssAgc struct {
 	AgcLevelDb         float64
-	Constellation      gnss.GnssConstellationType
+	Constellation      interface{}
 	CarrierFrequencyHz int64
 }
 
@@ -20,7 +19,6 @@ func (s *GnssAgc) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteFloat64(s.AgcLevelDb)
-	p.WriteInt32(int32(s.Constellation))
 	p.WriteInt64(s.CarrierFrequencyHz)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -39,12 +37,6 @@ func (s *GnssAgc) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-
-	_constellationRaw, _err := p.ReadInt32()
-	if _err != nil {
-		return _err
-	}
-	s.Constellation = gnss.GnssConstellationType(_constellationRaw)
 
 	s.CarrierFrequencyHz, _err = p.ReadInt64()
 	if _err != nil {

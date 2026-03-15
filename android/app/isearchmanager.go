@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,10 +25,10 @@ type ISearchManager interface {
 	AsBinder() binder.IBinder
 	GetSearchableInfo(ctx context.Context, launchActivity content.ComponentName) (SearchableInfo, error)
 	GetSearchablesInGlobalSearch(ctx context.Context) ([]SearchableInfo, error)
-	GetGlobalSearchActivities(ctx context.Context) ([]pm.ResolveInfo, error)
+	GetGlobalSearchActivities(ctx context.Context) ([]interface{}, error)
 	GetGlobalSearchActivity(ctx context.Context) (content.ComponentName, error)
 	GetWebSearchActivity(ctx context.Context) (content.ComponentName, error)
-	LaunchAssist(ctx context.Context, args os.Bundle) error
+	LaunchAssist(ctx context.Context, args interface{}) error
 }
 
 type SearchManagerProxy struct {
@@ -128,8 +126,8 @@ func (p *SearchManagerProxy) GetSearchablesInGlobalSearch(
 
 func (p *SearchManagerProxy) GetGlobalSearchActivities(
 	ctx context.Context,
-) ([]pm.ResolveInfo, error) {
-	var _result []pm.ResolveInfo
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 
@@ -154,11 +152,8 @@ func (p *SearchManagerProxy) GetGlobalSearchActivities(
 	}
 
 	if _count >= 0 {
-		_result = make([]pm.ResolveInfo, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -234,16 +229,12 @@ func (p *SearchManagerProxy) GetWebSearchActivity(
 
 func (p *SearchManagerProxy) LaunchAssist(
 	ctx context.Context,
-	args os.Bundle,
+	args interface{},
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISearchManager)
 	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISearchManager, "launchAssist")
 	if _err != nil {
@@ -372,18 +363,7 @@ func (s *SearchManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_args os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_args interface{}
 		_err := s.Impl.LaunchAssist(ctx, _arg_args)
 		_reply := parcel.New()
 		if _err != nil {

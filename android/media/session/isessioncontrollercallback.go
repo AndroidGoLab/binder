@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,13 +26,13 @@ const (
 
 type ISessionControllerCallback interface {
 	AsBinder() binder.IBinder
-	OnEvent(ctx context.Context, event string, extras interface{}) error
+	OnEvent(ctx context.Context, event string, extras os.Bundle) error
 	OnSessionDestroyed(ctx context.Context) error
 	OnPlaybackStateChanged(ctx context.Context, state PlaybackState) error
 	OnMetadataChanged(ctx context.Context, metadata interface{}) error
 	OnQueueChanged(ctx context.Context, queue pm.ParceledListSlice) error
 	OnQueueTitleChanged(ctx context.Context, title interface{}) error
-	OnExtrasChanged(ctx context.Context, extras interface{}) error
+	OnExtrasChanged(ctx context.Context, extras os.Bundle) error
 	OnVolumeInfoChanged(ctx context.Context, info MediaControllerPlaybackInfo) error
 }
 
@@ -54,11 +55,15 @@ var _ ISessionControllerCallback = (*SessionControllerCallbackProxy)(nil)
 func (p *SessionControllerCallbackProxy) OnEvent(
 	ctx context.Context,
 	event string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
 	_data.WriteString16(event)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onEvent")
 	if _err != nil {
@@ -158,10 +163,14 @@ func (p *SessionControllerCallbackProxy) OnQueueTitleChanged(
 
 func (p *SessionControllerCallbackProxy) OnExtrasChanged(
 	ctx context.Context,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onExtrasChanged")
 	if _err != nil {
@@ -214,7 +223,18 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnEvent(ctx, _arg_event, _arg_extras)
 		_ = _err
 		return nil, nil
@@ -283,7 +303,18 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnExtrasChanged(ctx, _arg_extras)
 		_ = _err
 		return nil, nil

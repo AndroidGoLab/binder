@@ -3,7 +3,6 @@ package translation
 import (
 	"context"
 	"fmt"
-	androidOs "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -25,7 +24,7 @@ type ITranslationService interface {
 	OnConnected(ctx context.Context, callback binder.IBinder) error
 	OnDisconnected(ctx context.Context) error
 	OnCreateTranslationSession(ctx context.Context, translationContext interface{}, sessionId int32, receiver os.IResultReceiver) error
-	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, targetFormat int32, receiver androidOs.ResultReceiver) error
+	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, targetFormat int32, receiver interface{}) error
 }
 
 type TranslationServiceProxy struct {
@@ -100,16 +99,12 @@ func (p *TranslationServiceProxy) OnTranslationCapabilitiesRequest(
 	ctx context.Context,
 	sourceFormat int32,
 	targetFormat int32,
-	receiver androidOs.ResultReceiver,
+	receiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationService)
 	_data.WriteInt32(sourceFormat)
 	_data.WriteInt32(targetFormat)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationService, "onTranslationCapabilitiesRequest")
 	if _err != nil {
@@ -178,18 +173,7 @@ func (s *TranslationServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_receiver androidOs.ResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver interface{}
 		_err = s.Impl.OnTranslationCapabilitiesRequest(ctx, _arg_sourceFormat, _arg_targetFormat, _arg_receiver)
 		_ = _err
 		return nil, nil

@@ -1,6 +1,7 @@
 package IWifiChipEventCallback
 
 import (
+	wifi "github.com/xaionaro-go/binder/android/hardware/wifi"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type RadioModeInfo struct {
 	RadioId    int32
-	BandInfo   interface{}
+	BandInfo   wifi.WifiBand
 	IfaceInfos []IfaceInfo
 }
 
@@ -19,6 +20,7 @@ func (s *RadioModeInfo) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.RadioId)
+	p.WriteInt32(int32(s.BandInfo))
 	if s.IfaceInfos == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -46,6 +48,12 @@ func (s *RadioModeInfo) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
+
+	_bandInfoRaw, _err := p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.BandInfo = wifi.WifiBand(_bandInfoRaw)
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()

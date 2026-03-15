@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
@@ -30,12 +29,12 @@ const (
 
 type IAccessibilityInteractionConnection interface {
 	AsBinder() binder.IBinder
-	FindAccessibilityNodeInfoByAccessibilityId(ctx context.Context, accessibilityNodeId int64, bounds graphics.Region, interactionId int32, callback IAccessibilityInteractionConnectionCallback, flags int32, interrogatingPid int32, interrogatingTid int64, spec view.MagnificationSpec, matrixValues []float32, arguments os.Bundle) error
+	FindAccessibilityNodeInfoByAccessibilityId(ctx context.Context, accessibilityNodeId int64, bounds graphics.Region, interactionId int32, callback IAccessibilityInteractionConnectionCallback, flags int32, interrogatingPid int32, interrogatingTid int64, spec view.MagnificationSpec, matrixValues []float32, arguments interface{}) error
 	FindAccessibilityNodeInfosByViewId(ctx context.Context, accessibilityNodeId int64, viewId string, bounds graphics.Region, interactionId int32, callback IAccessibilityInteractionConnectionCallback, flags int32, interrogatingPid int32, interrogatingTid int64, spec view.MagnificationSpec, matrix []float32) error
 	FindAccessibilityNodeInfosByText(ctx context.Context, accessibilityNodeId int64, text string, bounds graphics.Region, interactionId int32, callback IAccessibilityInteractionConnectionCallback, flags int32, interrogatingPid int32, interrogatingTid int64, spec view.MagnificationSpec, matrixValues []float32) error
 	FindFocus(ctx context.Context, accessibilityNodeId int64, focusType int32, bounds graphics.Region, interactionId int32, callback IAccessibilityInteractionConnectionCallback, flags int32, interrogatingPid int32, interrogatingTid int64, spec view.MagnificationSpec, matrixValues []float32) error
 	FocusSearch(ctx context.Context, accessibilityNodeId int64, direction int32, bounds graphics.Region, interactionId int32, callback IAccessibilityInteractionConnectionCallback, flags int32, interrogatingPid int32, interrogatingTid int64, spec view.MagnificationSpec, matrixValues []float32) error
-	PerformAccessibilityAction(ctx context.Context, accessibilityNodeId int64, action int32, arguments os.Bundle, interactionId int32, callback IAccessibilityInteractionConnectionCallback, flags int32, interrogatingPid int32, interrogatingTid int64) error
+	PerformAccessibilityAction(ctx context.Context, accessibilityNodeId int64, action int32, arguments interface{}, interactionId int32, callback IAccessibilityInteractionConnectionCallback, flags int32, interrogatingPid int32, interrogatingTid int64) error
 	ClearAccessibilityFocus(ctx context.Context) error
 	NotifyOutsideTouch(ctx context.Context) error
 	TakeScreenshotOfWindow(ctx context.Context, interactionId int32, listener window.ScreenCaptureScreenCaptureListener, callback IAccessibilityInteractionConnectionCallback) error
@@ -69,7 +68,7 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfoByAcc
 	interrogatingTid int64,
 	spec view.MagnificationSpec,
 	matrixValues []float32,
-	arguments os.Bundle,
+	arguments interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
@@ -94,10 +93,6 @@ func (p *AccessibilityInteractionConnectionProxy) FindAccessibilityNodeInfoByAcc
 		for _, _item := range matrixValues {
 			_data.WriteFloat32(_item)
 		}
-	}
-	_data.WriteInt32(1)
-	if _err := arguments.MarshalParcel(_data); _err != nil {
-		return _err
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityInteractionConnection, "findAccessibilityNodeInfoByAccessibilityId")
@@ -305,7 +300,7 @@ func (p *AccessibilityInteractionConnectionProxy) PerformAccessibilityAction(
 	ctx context.Context,
 	accessibilityNodeId int64,
 	action int32,
-	arguments os.Bundle,
+	arguments interface{},
 	interactionId int32,
 	callback IAccessibilityInteractionConnectionCallback,
 	flags int32,
@@ -316,10 +311,6 @@ func (p *AccessibilityInteractionConnectionProxy) PerformAccessibilityAction(
 	_data.WriteInterfaceToken(DescriptorIAccessibilityInteractionConnection)
 	_data.WriteInt64(accessibilityNodeId)
 	_data.WriteInt32(action)
-	_data.WriteInt32(1)
-	if _err := arguments.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(interactionId)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteInt32(flags)
@@ -481,18 +472,7 @@ func (s *AccessibilityInteractionConnectionStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_matrixValues []float32
 		_ = _arg_matrixValues
-		var _arg_arguments os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_arguments.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_arguments interface{}
 		_err = s.Impl.FindAccessibilityNodeInfoByAccessibilityId(ctx, _arg_accessibilityNodeId, _arg_bounds, _arg_interactionId, _arg_callback, _arg_flags, _arg_interrogatingPid, _arg_interrogatingTid, _arg_spec, _arg_matrixValues, _arg_arguments)
 		_ = _err
 		return nil, nil
@@ -752,18 +732,7 @@ func (s *AccessibilityInteractionConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_arguments os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_arguments.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_arguments interface{}
 		_arg_interactionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

@@ -3,7 +3,6 @@ package autofill
 import (
 	"context"
 	"fmt"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +20,7 @@ const (
 type IInlineSuggestionRenderService interface {
 	AsBinder() binder.IBinder
 	RenderSuggestion(ctx context.Context, callback IInlineSuggestionUiCallback, presentation InlinePresentation, width int32, height int32, hostInputToken binder.IBinder, displayId int32, sessionId int32) error
-	GetInlineSuggestionsRendererInfo(ctx context.Context, callback os.RemoteCallback) error
+	GetInlineSuggestionsRendererInfo(ctx context.Context, callback interface{}) error
 	DestroySuggestionViews(ctx context.Context, sessionId int32) error
 }
 
@@ -77,14 +76,10 @@ func (p *InlineSuggestionRenderServiceProxy) RenderSuggestion(
 
 func (p *InlineSuggestionRenderServiceProxy) GetInlineSuggestionsRendererInfo(
 	ctx context.Context,
-	callback os.RemoteCallback,
+	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionRenderService)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionRenderService, "getInlineSuggestionsRendererInfo")
 	if _err != nil {
@@ -176,18 +171,7 @@ func (s *InlineSuggestionRenderServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback os.RemoteCallback
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_callback interface{}
 		_err := s.Impl.GetInlineSuggestionsRendererInfo(ctx, _arg_callback)
 		_ = _err
 		return nil, nil

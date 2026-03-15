@@ -3,6 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
+	app "github.com/xaionaro-go/binder/android/app"
 	contexthub "github.com/xaionaro-go/binder/android/hardware/contexthub"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -51,7 +52,7 @@ type IContextHubService interface {
 	FindNanoAppOnHub(ctx context.Context, contextHubHandle int32, filter NanoAppFilter) ([]int32, error)
 	SendMessage(ctx context.Context, contextHubHandle int32, nanoAppHandle int32, msg ContextHubMessage) (int32, error)
 	CreateClient(ctx context.Context, contextHubId int32, client IContextHubClientCallback, packageName string) (IContextHubClient, error)
-	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent interface{}, nanoAppId int64) (IContextHubClient, error)
+	CreatePendingIntentClient(ctx context.Context, contextHubId int32, pendingIntent app.PendingIntent, nanoAppId int64) (IContextHubClient, error)
 	GetContextHubs(ctx context.Context) ([]ContextHubInfo, error)
 	GetHubs(ctx context.Context) ([]HubInfo, error)
 	LoadNanoAppOnHub(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback, nanoAppBinary NanoAppBinary) error
@@ -419,7 +420,7 @@ func (p *ContextHubServiceProxy) CreateClient(
 func (p *ContextHubServiceProxy) CreatePendingIntentClient(
 	ctx context.Context,
 	contextHubId int32,
-	pendingIntent interface{},
+	pendingIntent app.PendingIntent,
 	nanoAppId int64,
 ) (IContextHubClient, error) {
 	var _result IContextHubClient
@@ -427,6 +428,10 @@ func (p *ContextHubServiceProxy) CreatePendingIntentClient(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt32(contextHubId)
+	_data.WriteInt32(1)
+	if _err := pendingIntent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt64(nanoAppId)
 	_data.WriteString16(_identity.AttributionTag)
 
@@ -1183,7 +1188,18 @@ func (s *ContextHubServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pendingIntent interface{}
+		var _arg_pendingIntent app.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_nanoAppId, _err := _data.ReadInt64()
 		if _err != nil {
 			return nil, _err

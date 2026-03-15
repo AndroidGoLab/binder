@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	audio "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio"
+	wifiIWifiChip "github.com/xaionaro-go/binder/android/hardware/wifi/IWifiChip"
 	common "github.com/xaionaro-go/binder/android/hardware/wifi/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -82,7 +83,7 @@ type IWifiChip interface {
 	ForceDumpToDebugRingBuffer(ctx context.Context, ringName string) error
 	GetApIface(ctx context.Context, ifname string) (IWifiApIface, error)
 	GetApIfaceNames(ctx context.Context) ([]string, error)
-	GetAvailableModes(ctx context.Context) ([]interface{}, error)
+	GetAvailableModes(ctx context.Context) ([]wifiIWifiChip.ChipMode, error)
 	GetFeatureSet(ctx context.Context) (int32, error)
 	GetDebugHostWakeReasonStats(ctx context.Context) (WifiDebugHostWakeReasonStats, error)
 	GetDebugRingBuffersStatus(ctx context.Context) ([]WifiDebugRingBufferStatus, error)
@@ -104,24 +105,24 @@ type IWifiChip interface {
 	RemoveNanIface(ctx context.Context, ifname string) error
 	RemoveP2pIface(ctx context.Context, ifname string) error
 	RemoveStaIface(ctx context.Context, ifname string) error
-	RequestChipDebugInfo(ctx context.Context) (interface{}, error)
+	RequestChipDebugInfo(ctx context.Context) (wifiIWifiChip.ChipDebugInfo, error)
 	RequestDriverDebugDump(ctx context.Context) ([]byte, error)
 	RequestFirmwareDebugDump(ctx context.Context) ([]byte, error)
 	ResetTxPowerScenario(ctx context.Context) error
-	SelectTxPowerScenario(ctx context.Context, scenario interface{}) error
-	SetCoexUnsafeChannels(ctx context.Context, unsafeChannels []interface{}, restrictions int32) error
+	SelectTxPowerScenario(ctx context.Context, scenario wifiIWifiChip.TxPowerScenario) error
+	SetCoexUnsafeChannels(ctx context.Context, unsafeChannels []wifiIWifiChip.CoexUnsafeChannel, restrictions int32) error
 	SetCountryCode(ctx context.Context, code []byte) error
 	SetLatencyMode(ctx context.Context, mode audio.LatencyMode) error
 	SetMultiStaPrimaryConnection(ctx context.Context, ifName string) error
-	SetMultiStaUseCase(ctx context.Context, useCase interface{}) error
+	SetMultiStaUseCase(ctx context.Context, useCase wifiIWifiChip.MultiStaUseCase) error
 	StartLoggingToDebugRingBuffer(ctx context.Context, ringName string, verboseLevel WifiDebugRingBufferVerboseLevel, maxIntervalInSec int32, minDataSizeInBytes int32) error
 	StopLoggingToDebugRingBuffer(ctx context.Context) error
 	TriggerSubsystemRestart(ctx context.Context) error
 	EnableStaChannelForPeerNetwork(ctx context.Context, channelCategoryEnableFlag int32) error
-	SetMloMode(ctx context.Context, mode interface{}) error
+	SetMloMode(ctx context.Context, mode wifiIWifiChip.ChipMloMode) error
 	CreateApOrBridgedApIface(ctx context.Context, iface IfaceConcurrencyType, vendorData []common.OuiKeyedData) (IWifiApIface, error)
-	SetVoipMode(ctx context.Context, mode interface{}) error
-	CreateApOrBridgedApIfaceWithParams(ctx context.Context, params interface{}) (IWifiApIface, error)
+	SetVoipMode(ctx context.Context, mode wifiIWifiChip.VoipMode) error
+	CreateApOrBridgedApIfaceWithParams(ctx context.Context, params wifiIWifiChip.ApIfaceParams) (IWifiApIface, error)
 }
 
 const (
@@ -501,8 +502,8 @@ func (p *WifiChipProxy) GetApIfaceNames(
 
 func (p *WifiChipProxy) GetAvailableModes(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]wifiIWifiChip.ChipMode, error) {
+	var _result []wifiIWifiChip.ChipMode
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
@@ -527,8 +528,11 @@ func (p *WifiChipProxy) GetAvailableModes(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]wifiIWifiChip.ChipMode, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -1211,8 +1215,8 @@ func (p *WifiChipProxy) RemoveStaIface(
 
 func (p *WifiChipProxy) RequestChipDebugInfo(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (wifiIWifiChip.ChipDebugInfo, error) {
+	var _result wifiIWifiChip.ChipDebugInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
 
@@ -1231,6 +1235,15 @@ func (p *WifiChipProxy) RequestChipDebugInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -1338,10 +1351,11 @@ func (p *WifiChipProxy) ResetTxPowerScenario(
 
 func (p *WifiChipProxy) SelectTxPowerScenario(
 	ctx context.Context,
-	scenario interface{},
+	scenario wifiIWifiChip.TxPowerScenario,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
+	_data.WriteInt32(int32(scenario))
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChip, "selectTxPowerScenario")
 	if _err != nil {
@@ -1363,7 +1377,7 @@ func (p *WifiChipProxy) SelectTxPowerScenario(
 
 func (p *WifiChipProxy) SetCoexUnsafeChannels(
 	ctx context.Context,
-	unsafeChannels []interface{},
+	unsafeChannels []wifiIWifiChip.CoexUnsafeChannel,
 	restrictions int32,
 ) error {
 	_data := parcel.New()
@@ -1372,6 +1386,11 @@ func (p *WifiChipProxy) SetCoexUnsafeChannels(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(unsafeChannels)))
+		for _, _item := range unsafeChannels {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	_data.WriteInt32(restrictions)
 
@@ -1480,10 +1499,11 @@ func (p *WifiChipProxy) SetMultiStaPrimaryConnection(
 
 func (p *WifiChipProxy) SetMultiStaUseCase(
 	ctx context.Context,
-	useCase interface{},
+	useCase wifiIWifiChip.MultiStaUseCase,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
+	_data.WritePaddedByte(byte(useCase))
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChip, "setMultiStaUseCase")
 	if _err != nil {
@@ -1611,10 +1631,11 @@ func (p *WifiChipProxy) EnableStaChannelForPeerNetwork(
 
 func (p *WifiChipProxy) SetMloMode(
 	ctx context.Context,
-	mode interface{},
+	mode wifiIWifiChip.ChipMloMode,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
+	_data.WriteInt32(int32(mode))
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChip, "setMloMode")
 	if _err != nil {
@@ -1679,10 +1700,11 @@ func (p *WifiChipProxy) CreateApOrBridgedApIface(
 
 func (p *WifiChipProxy) SetVoipMode(
 	ctx context.Context,
-	mode interface{},
+	mode wifiIWifiChip.VoipMode,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
+	_data.WriteInt32(int32(mode))
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChip, "setVoipMode")
 	if _err != nil {
@@ -1704,11 +1726,15 @@ func (p *WifiChipProxy) SetVoipMode(
 
 func (p *WifiChipProxy) CreateApOrBridgedApIfaceWithParams(
 	ctx context.Context,
-	params interface{},
+	params wifiIWifiChip.ApIfaceParams,
 ) (IWifiApIface, error) {
 	var _result IWifiApIface
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChip)
+	_data.WriteInt32(1)
+	if _err := params.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChip, "createApOrBridgedApIfaceWithParams")
 	if _err != nil {
@@ -2296,7 +2322,10 @@ func (s *WifiChipStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIWifiChipRequestDriverDebugDump:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2342,8 +2371,12 @@ func (s *WifiChipStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_scenario interface{}
-		_err := s.Impl.SelectTxPowerScenario(ctx, _arg_scenario)
+		_raw_scenario, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_scenario := wifiIWifiChip.TxPowerScenario(_raw_scenario)
+		_err = s.Impl.SelectTxPowerScenario(ctx, _arg_scenario)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2356,7 +2389,7 @@ func (s *WifiChipStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_unsafeChannels []interface{}
+		var _arg_unsafeChannels []wifiIWifiChip.CoexUnsafeChannel
 		_ = _arg_unsafeChannels
 		_arg_restrictions, _err := _data.ReadInt32()
 		if _err != nil {
@@ -2422,8 +2455,12 @@ func (s *WifiChipStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_useCase interface{}
-		_err := s.Impl.SetMultiStaUseCase(ctx, _arg_useCase)
+		_raw_useCase, _err := _data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_useCase := wifiIWifiChip.MultiStaUseCase(_raw_useCase)
+		_err = s.Impl.SetMultiStaUseCase(ctx, _arg_useCase)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2504,8 +2541,12 @@ func (s *WifiChipStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_mode interface{}
-		_err := s.Impl.SetMloMode(ctx, _arg_mode)
+		_raw_mode, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := wifiIWifiChip.ChipMloMode(_raw_mode)
+		_err = s.Impl.SetMloMode(ctx, _arg_mode)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2539,8 +2580,12 @@ func (s *WifiChipStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_mode interface{}
-		_err := s.Impl.SetVoipMode(ctx, _arg_mode)
+		_raw_mode, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_mode := wifiIWifiChip.VoipMode(_raw_mode)
+		_err = s.Impl.SetVoipMode(ctx, _arg_mode)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -2552,7 +2597,18 @@ func (s *WifiChipStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_params interface{}
+		var _arg_params wifiIWifiChip.ApIfaceParams
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.CreateApOrBridgedApIfaceWithParams(ctx, _arg_params)
 		_reply := parcel.New()
 		if _err != nil {

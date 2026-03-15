@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"fmt"
-	androidApp "github.com/xaionaro-go/binder/android/app"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +17,7 @@ const (
 
 type IAppOpsAsyncNotedCallback interface {
 	AsBinder() binder.IBinder
-	OpNoted(ctx context.Context, op androidApp.AsyncNotedAppOp) error
+	OpNoted(ctx context.Context, op interface{}) error
 }
 
 type AppOpsAsyncNotedCallbackProxy struct {
@@ -39,14 +38,10 @@ var _ IAppOpsAsyncNotedCallback = (*AppOpsAsyncNotedCallbackProxy)(nil)
 
 func (p *AppOpsAsyncNotedCallbackProxy) OpNoted(
 	ctx context.Context,
-	op androidApp.AsyncNotedAppOp,
+	op interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsAsyncNotedCallback)
-	_data.WriteInt32(1)
-	if _err := op.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsAsyncNotedCallback, "opNoted")
 	if _err != nil {
@@ -75,18 +70,7 @@ func (s *AppOpsAsyncNotedCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_op androidApp.AsyncNotedAppOp
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_op.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_op interface{}
 		_err := s.Impl.OpNoted(ctx, _arg_op)
 		_ = _err
 		return nil, nil

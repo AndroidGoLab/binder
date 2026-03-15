@@ -7,7 +7,6 @@ import (
 	content "github.com/xaionaro-go/binder/android/content"
 	res "github.com/xaionaro-go/binder/android/content/res"
 	net "github.com/xaionaro-go/binder/android/net"
-	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
@@ -98,7 +97,7 @@ type IActivityClientController interface {
 	ActivityRefreshed(ctx context.Context, token binder.IBinder) error
 	ActivityTopResumedStateLost(ctx context.Context) error
 	ActivityPaused(ctx context.Context, token binder.IBinder) error
-	ActivityStopped(ctx context.Context, token binder.IBinder, state os.Bundle, persistentState interface{}, description interface{}) error
+	ActivityStopped(ctx context.Context, token binder.IBinder, state interface{}, persistentState interface{}, description interface{}) error
 	ActivityDestroyed(ctx context.Context, token binder.IBinder) error
 	ActivityLocalRelaunch(ctx context.Context, token binder.IBinder) error
 	ActivityRelaunched(ctx context.Context, token binder.IBinder) error
@@ -127,7 +126,7 @@ type IActivityClientController interface {
 	SetRequestedOrientation(ctx context.Context, token binder.IBinder, requestedOrientation int32) error
 	GetRequestedOrientation(ctx context.Context, token binder.IBinder) (int32, error)
 	ConvertFromTranslucent(ctx context.Context, token binder.IBinder) (bool, error)
-	ConvertToTranslucent(ctx context.Context, token binder.IBinder, options os.Bundle) (bool, error)
+	ConvertToTranslucent(ctx context.Context, token binder.IBinder, options interface{}) (bool, error)
 	IsImmersive(ctx context.Context, token binder.IBinder) (bool, error)
 	SetImmersive(ctx context.Context, token binder.IBinder, immersive bool) error
 	EnterPictureInPictureMode(ctx context.Context, token binder.IBinder, params PictureInPictureParams) (bool, error)
@@ -139,9 +138,9 @@ type IActivityClientController interface {
 	StopLockTaskModeByToken(ctx context.Context, token binder.IBinder) error
 	ShowLockTaskEscapeMessage(ctx context.Context, token binder.IBinder) error
 	SetTaskDescription(ctx context.Context, token binder.IBinder, values ActivityManagerTaskDescription) error
-	ShowAssistFromActivity(ctx context.Context, token binder.IBinder, args os.Bundle) (bool, error)
+	ShowAssistFromActivity(ctx context.Context, token binder.IBinder, args interface{}) (bool, error)
 	IsRootVoiceInteraction(ctx context.Context, token binder.IBinder) (bool, error)
-	StartLocalVoiceInteraction(ctx context.Context, token binder.IBinder, options os.Bundle) error
+	StartLocalVoiceInteraction(ctx context.Context, token binder.IBinder, options interface{}) error
 	StopLocalVoiceInteraction(ctx context.Context, token binder.IBinder) error
 	SetShowWhenLocked(ctx context.Context, token binder.IBinder, showWhenLocked bool) error
 	SetInheritShowWhenLocked(ctx context.Context, token binder.IBinder, setInheritShownWhenLocked bool) error
@@ -293,17 +292,13 @@ func (p *ActivityClientControllerProxy) ActivityPaused(
 func (p *ActivityClientControllerProxy) ActivityStopped(
 	ctx context.Context,
 	token binder.IBinder,
-	state os.Bundle,
+	state interface{},
 	persistentState interface{},
 	description interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
-	_data.WriteInt32(1)
-	if _err := state.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityClientController, "activityStopped")
 	if _err != nil {
@@ -1180,16 +1175,12 @@ func (p *ActivityClientControllerProxy) ConvertFromTranslucent(
 func (p *ActivityClientControllerProxy) ConvertToTranslucent(
 	ctx context.Context,
 	token binder.IBinder,
-	options os.Bundle,
+	options interface{},
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityClientController, "convertToTranslucent")
 	if _err != nil {
@@ -1508,16 +1499,12 @@ func (p *ActivityClientControllerProxy) SetTaskDescription(
 func (p *ActivityClientControllerProxy) ShowAssistFromActivity(
 	ctx context.Context,
 	token binder.IBinder,
-	args os.Bundle,
+	args interface{},
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityClientController, "showAssistFromActivity")
 	if _err != nil {
@@ -1575,15 +1562,11 @@ func (p *ActivityClientControllerProxy) IsRootVoiceInteraction(
 func (p *ActivityClientControllerProxy) StartLocalVoiceInteraction(
 	ctx context.Context,
 	token binder.IBinder,
-	options os.Bundle,
+	options interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	_data.WriteStrongBinder(token.Handle())
-	_data.WriteInt32(1)
-	if _err := options.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityClientController, "startLocalVoiceInteraction")
 	if _err != nil {
@@ -2192,18 +2175,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		var _arg_state os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_state.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_state interface{}
 		var _arg_persistentState interface{}
 		var _arg_description interface{}
 		_err := s.Impl.ActivityStopped(ctx, _arg_token, _arg_state, _arg_persistentState, _arg_description)
@@ -2760,18 +2732,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		var _arg_options os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_options interface{}
 		_result, _err := s.Impl.ConvertToTranslucent(ctx, _arg_token, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2991,18 +2952,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		var _arg_args os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_args interface{}
 		_result, _err := s.Impl.ShowAssistFromActivity(ctx, _arg_token, _arg_args)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3035,18 +2985,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		var _arg_options os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_options interface{}
 		_err := s.Impl.StartLocalVoiceInteraction(ctx, _arg_token, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {

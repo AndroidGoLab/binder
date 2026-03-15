@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	hardwareSoundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,7 +22,7 @@ const (
 
 type ISoundTriggerDetectionService interface {
 	AsBinder() binder.IBinder
-	SetClient(ctx context.Context, uuid interface{}, params os.Bundle, client ISoundTriggerDetectionServiceClient) error
+	SetClient(ctx context.Context, uuid interface{}, params interface{}, client ISoundTriggerDetectionServiceClient) error
 	RemoveClient(ctx context.Context, uuid interface{}) error
 	OnGenericRecognitionEvent(ctx context.Context, uuid interface{}, opId int32, event hardwareSoundtrigger.SoundTriggerGenericRecognitionEvent) error
 	OnError(ctx context.Context, uuid interface{}, opId int32, status int32) error
@@ -49,15 +48,11 @@ var _ ISoundTriggerDetectionService = (*SoundTriggerDetectionServiceProxy)(nil)
 func (p *SoundTriggerDetectionServiceProxy) SetClient(
 	ctx context.Context,
 	uuid interface{},
-	params os.Bundle,
+	params interface{},
 	client ISoundTriggerDetectionServiceClient,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerDetectionService)
-	_data.WriteInt32(1)
-	if _err := params.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteStrongBinder(client.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerDetectionService, "setClient")
@@ -165,18 +160,7 @@ func (s *SoundTriggerDetectionServiceStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_uuid interface{}
-		var _arg_params os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_params.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_params interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client ISoundTriggerDetectionServiceClient
 		_ = _arg_client

@@ -3,7 +3,7 @@ package autofill
 import (
 	"context"
 	"fmt"
-	content "github.com/xaionaro-go/binder/android/content"
+	androidContent "github.com/xaionaro-go/binder/android/content"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -29,7 +29,7 @@ type IInlineSuggestionUiCallback interface {
 	OnContent(ctx context.Context, content IInlineSuggestionUi, surface view.SurfaceControlViewHostSurfacePackage, width int32, height int32) error
 	OnError(ctx context.Context) error
 	OnTransferTouchFocusToImeWindow(ctx context.Context, sourceInputToken binder.IBinder, displayId int32) error
-	OnStartIntentSender(ctx context.Context, intentSender content.IntentSender) error
+	OnStartIntentSender(ctx context.Context, intentSender androidContent.IntentSender) error
 }
 
 type InlineSuggestionUiCallbackProxy struct {
@@ -140,7 +140,7 @@ func (p *InlineSuggestionUiCallbackProxy) OnTransferTouchFocusToImeWindow(
 
 func (p *InlineSuggestionUiCallbackProxy) OnStartIntentSender(
 	ctx context.Context,
-	intentSender content.IntentSender,
+	intentSender androidContent.IntentSender,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
@@ -241,7 +241,7 @@ func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intentSender content.IntentSender
+		var _arg_intentSender androidContent.IntentSender
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {

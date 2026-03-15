@@ -3,6 +3,7 @@ package pm
 import (
 	"context"
 	"fmt"
+	app "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
@@ -69,7 +70,7 @@ type IPackageInstaller interface {
 	RequestArchive(ctx context.Context, packageName string, callerPackageName string, flags int32, statusReceiver content.IntentSender, userHandle interface{}) error
 	RequestUnarchive(ctx context.Context, packageName string, callerPackageName string, statusReceiver content.IntentSender, userHandle interface{}) error
 	InstallPackageArchived(ctx context.Context, archivedPackageParcel ArchivedPackageParcel, params PackageInstallerSessionParams, statusReceiver content.IntentSender, installerPackageName string, userHandle interface{}) error
-	ReportUnarchivalStatus(ctx context.Context, unarchiveId int32, status int32, requiredStorageBytes int64, userActionIntent interface{}, userHandle interface{}) error
+	ReportUnarchivalStatus(ctx context.Context, unarchiveId int32, status int32, requiredStorageBytes int64, userActionIntent app.PendingIntent, userHandle interface{}) error
 }
 
 type PackageInstallerProxy struct {
@@ -930,7 +931,7 @@ func (p *PackageInstallerProxy) ReportUnarchivalStatus(
 	unarchiveId int32,
 	status int32,
 	requiredStorageBytes int64,
-	userActionIntent interface{},
+	userActionIntent app.PendingIntent,
 	userHandle interface{},
 ) error {
 	_data := parcel.New()
@@ -938,6 +939,10 @@ func (p *PackageInstallerProxy) ReportUnarchivalStatus(
 	_data.WriteInt32(unarchiveId)
 	_data.WriteInt32(status)
 	_data.WriteInt64(requiredStorageBytes)
+	_data.WriteInt32(1)
+	if _err := userActionIntent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstaller, "reportUnarchivalStatus")
 	if _err != nil {
@@ -1650,7 +1655,18 @@ func (s *PackageInstallerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userActionIntent interface{}
+		var _arg_userActionIntent app.PendingIntent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userActionIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_userHandle interface{}
 		_err = s.Impl.ReportUnarchivalStatus(ctx, _arg_unarchiveId, _arg_status, _arg_requiredStorageBytes, _arg_userActionIntent, _arg_userHandle)
 		_reply := parcel.New()

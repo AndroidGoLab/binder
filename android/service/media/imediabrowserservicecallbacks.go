@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
-	session "github.com/xaionaro-go/binder/android/media/session"
+	mediaSession "github.com/xaionaro-go/binder/android/media/session"
 	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -23,7 +23,7 @@ const (
 
 type IMediaBrowserServiceCallbacks interface {
 	AsBinder() binder.IBinder
-	OnConnect(ctx context.Context, root string, session session.MediaSessionToken, extras os.Bundle) error
+	OnConnect(ctx context.Context, root string, session mediaSession.MediaSessionToken, extras os.Bundle) error
 	OnConnectFailed(ctx context.Context) error
 	OnLoadChildren(ctx context.Context, mediaId string, list pm.ParceledListSlice, options os.Bundle) error
 	OnDisconnect(ctx context.Context) error
@@ -48,7 +48,7 @@ var _ IMediaBrowserServiceCallbacks = (*MediaBrowserServiceCallbacksProxy)(nil)
 func (p *MediaBrowserServiceCallbacksProxy) OnConnect(
 	ctx context.Context,
 	root string,
-	session session.MediaSessionToken,
+	session mediaSession.MediaSessionToken,
 	extras os.Bundle,
 ) error {
 	_data := parcel.New()
@@ -151,7 +151,7 @@ func (s *MediaBrowserServiceCallbacksStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_session session.MediaSessionToken
+		var _arg_session mediaSession.MediaSessionToken
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {

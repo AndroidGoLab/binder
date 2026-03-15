@@ -3,6 +3,7 @@ package view
 import (
 	"context"
 	"fmt"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -22,7 +23,7 @@ const (
 
 type ISurfaceControlViewHost interface {
 	AsBinder() binder.IBinder
-	OnConfigurationChanged(ctx context.Context, newConfig interface{}) error
+	OnConfigurationChanged(ctx context.Context, newConfig res.Configuration) error
 	OnDispatchDetachedFromWindow(ctx context.Context) error
 	OnInsetsChanged(ctx context.Context, state InsetsState, insetFrame graphics.Rect) error
 	GetSurfaceSyncGroup(ctx context.Context) (interface{}, error)
@@ -47,10 +48,14 @@ var _ ISurfaceControlViewHost = (*SurfaceControlViewHostProxy)(nil)
 
 func (p *SurfaceControlViewHostProxy) OnConfigurationChanged(
 	ctx context.Context,
-	newConfig interface{},
+	newConfig res.Configuration,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
+	_data.WriteInt32(1)
+	if _err := newConfig.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfaceControlViewHost, "onConfigurationChanged")
 	if _err != nil {
@@ -165,7 +170,18 @@ func (s *SurfaceControlViewHostStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_newConfig interface{}
+		var _arg_newConfig res.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newConfig.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnConfigurationChanged(ctx, _arg_newConfig)
 		_ = _err
 		return nil, nil

@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"fmt"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +17,7 @@ const (
 
 type IActivityPendingResult interface {
 	AsBinder() binder.IBinder
-	SendResult(ctx context.Context, code int32, data string, ex os.Bundle) (bool, error)
+	SendResult(ctx context.Context, code int32, data string, ex interface{}) (bool, error)
 }
 
 type ActivityPendingResultProxy struct {
@@ -41,17 +40,13 @@ func (p *ActivityPendingResultProxy) SendResult(
 	ctx context.Context,
 	code int32,
 	data string,
-	ex os.Bundle,
+	ex interface{},
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityPendingResult)
 	_data.WriteInt32(code)
 	_data.WriteString16(data)
-	_data.WriteInt32(1)
-	if _err := ex.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityPendingResult, "sendResult")
 	if _err != nil {
@@ -101,18 +96,7 @@ func (s *ActivityPendingResultStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_ex os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_ex.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_ex interface{}
 		_result, _err := s.Impl.SendResult(ctx, _arg_code, _arg_data, _arg_ex)
 		_reply := parcel.New()
 		if _err != nil {

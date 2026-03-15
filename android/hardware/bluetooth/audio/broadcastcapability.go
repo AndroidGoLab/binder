@@ -1,6 +1,7 @@
 package audio
 
 import (
+	audioBroadcastCapability "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/BroadcastCapability"
 	audioCodecSpecificConfigurationLtv "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecSpecificConfigurationLtv"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -11,7 +12,7 @@ type BroadcastCapability struct {
 	CodecType                CodecType
 	SupportedChannel         AudioLocation
 	ChannelCountPerStream    int32
-	LeAudioCodecCapabilities interface{}
+	LeAudioCodecCapabilities audioBroadcastCapability.LeAudioCodecCapabilities
 	AudioLocation            audioCodecSpecificConfigurationLtv.AudioChannelAllocation
 }
 
@@ -24,6 +25,9 @@ func (s *BroadcastCapability) MarshalParcel(
 	p.WriteInt32(int32(s.CodecType))
 	p.WriteInt32(int32(s.SupportedChannel))
 	p.WriteInt32(s.ChannelCountPerStream)
+	if _err := s.LeAudioCodecCapabilities.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if _err := s.AudioLocation.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -54,6 +58,10 @@ func (s *BroadcastCapability) UnmarshalParcel(
 
 	s.ChannelCountPerStream, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.LeAudioCodecCapabilities.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

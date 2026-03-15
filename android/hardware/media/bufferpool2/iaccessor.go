@@ -3,7 +3,6 @@ package bufferpool2
 import (
 	"context"
 	"fmt"
-	bufferpool2IAccessor "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2/IAccessor"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +17,7 @@ const (
 
 type IAccessor interface {
 	AsBinder() binder.IBinder
-	Connect(ctx context.Context, observer IObserver) (bufferpool2IAccessor.ConnectionInfo, error)
+	Connect(ctx context.Context, observer IObserver) (interface{}, error)
 }
 
 type AccessorProxy struct {
@@ -40,8 +39,8 @@ var _ IAccessor = (*AccessorProxy)(nil)
 func (p *AccessorProxy) Connect(
 	ctx context.Context,
 	observer IObserver,
-) (bufferpool2IAccessor.ConnectionInfo, error) {
-	var _result bufferpool2IAccessor.ConnectionInfo
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessor)
 	_data.WriteStrongBinder(observer.AsBinder().Handle())
@@ -61,15 +60,6 @@ func (p *AccessorProxy) Connect(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -101,10 +91,7 @@ func (s *AccessorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

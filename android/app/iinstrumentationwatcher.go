@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,8 +19,8 @@ const (
 
 type IInstrumentationWatcher interface {
 	AsBinder() binder.IBinder
-	InstrumentationStatus(ctx context.Context, name content.ComponentName, resultCode int32, results os.Bundle) error
-	InstrumentationFinished(ctx context.Context, name content.ComponentName, resultCode int32, results os.Bundle) error
+	InstrumentationStatus(ctx context.Context, name content.ComponentName, resultCode int32, results interface{}) error
+	InstrumentationFinished(ctx context.Context, name content.ComponentName, resultCode int32, results interface{}) error
 }
 
 type InstrumentationWatcherProxy struct {
@@ -44,7 +43,7 @@ func (p *InstrumentationWatcherProxy) InstrumentationStatus(
 	ctx context.Context,
 	name content.ComponentName,
 	resultCode int32,
-	results os.Bundle,
+	results interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstrumentationWatcher)
@@ -53,10 +52,6 @@ func (p *InstrumentationWatcherProxy) InstrumentationStatus(
 		return _err
 	}
 	_data.WriteInt32(resultCode)
-	_data.WriteInt32(1)
-	if _err := results.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInstrumentationWatcher, "instrumentationStatus")
 	if _err != nil {
@@ -80,7 +75,7 @@ func (p *InstrumentationWatcherProxy) InstrumentationFinished(
 	ctx context.Context,
 	name content.ComponentName,
 	resultCode int32,
-	results os.Bundle,
+	results interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstrumentationWatcher)
@@ -89,10 +84,6 @@ func (p *InstrumentationWatcherProxy) InstrumentationFinished(
 		return _err
 	}
 	_data.WriteInt32(resultCode)
-	_data.WriteInt32(1)
-	if _err := results.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInstrumentationWatcher, "instrumentationFinished")
 	if _err != nil {
@@ -146,18 +137,7 @@ func (s *InstrumentationWatcherStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_results os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_results interface{}
 		_err = s.Impl.InstrumentationStatus(ctx, _arg_name, _arg_resultCode, _arg_results)
 		_reply := parcel.New()
 		if _err != nil {
@@ -186,18 +166,7 @@ func (s *InstrumentationWatcherStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_results os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_results interface{}
 		_err = s.Impl.InstrumentationFinished(ctx, _arg_name, _arg_resultCode, _arg_results)
 		_reply := parcel.New()
 		if _err != nil {

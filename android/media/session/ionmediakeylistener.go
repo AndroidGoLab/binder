@@ -3,6 +3,7 @@ package session
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -18,7 +19,7 @@ const (
 
 type IOnMediaKeyListener interface {
 	AsBinder() binder.IBinder
-	OnMediaKey(ctx context.Context, event view.KeyEvent, result interface{}) error
+	OnMediaKey(ctx context.Context, event view.KeyEvent, result os.ResultReceiver) error
 }
 
 type OnMediaKeyListenerProxy struct {
@@ -40,12 +41,16 @@ var _ IOnMediaKeyListener = (*OnMediaKeyListenerProxy)(nil)
 func (p *OnMediaKeyListenerProxy) OnMediaKey(
 	ctx context.Context,
 	event view.KeyEvent,
-	result interface{},
+	result os.ResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnMediaKeyListener)
 	_data.WriteInt32(1)
 	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -88,7 +93,18 @@ func (s *OnMediaKeyListenerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_result interface{}
+		var _arg_result os.ResultReceiver
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnMediaKey(ctx, _arg_event, _arg_result)
 		_ = _err
 		return nil, nil

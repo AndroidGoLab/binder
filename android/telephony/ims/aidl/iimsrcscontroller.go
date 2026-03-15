@@ -8,7 +8,6 @@ import (
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
 	"github.com/xaionaro-go/binder/binder"
 	internal "github.com/xaionaro-go/binder/com/android/ims/internal_"
-	internalTelephony "github.com/xaionaro-go/binder/com/android/internal_/telephony"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -63,8 +62,8 @@ type IImsRcsController interface {
 	CreateSipDelegate(ctx context.Context, subId int32, request ims.DelegateRequest, packageName string, delegateState ISipDelegateConnectionStateCallback, delegateMessage ISipDelegateMessageCallback) error
 	DestroySipDelegate(ctx context.Context, subId int32, connection ISipDelegate, reason int32) error
 	TriggerNetworkRegistration(ctx context.Context, subId int32, connection ISipDelegate, sipCode int32, sipReason string) error
-	RegisterSipDialogStateCallback(ctx context.Context, subId int32, cb internalTelephony.ISipDialogStateCallback) error
-	UnregisterSipDialogStateCallback(ctx context.Context, subId int32, cb internalTelephony.ISipDialogStateCallback) error
+	RegisterSipDialogStateCallback(ctx context.Context, subId int32, cb interface{}) error
+	UnregisterSipDialogStateCallback(ctx context.Context, subId int32, cb interface{}) error
 	RegisterRcsFeatureCallback(ctx context.Context, slotId int32, callback internal.IImsServiceFeatureCallback) error
 	UnregisterImsFeatureCallback(ctx context.Context, callback internal.IImsServiceFeatureCallback) error
 }
@@ -683,12 +682,11 @@ func (p *ImsRcsControllerProxy) TriggerNetworkRegistration(
 func (p *ImsRcsControllerProxy) RegisterSipDialogStateCallback(
 	ctx context.Context,
 	subId int32,
-	cb internalTelephony.ISipDialogStateCallback,
+	cb interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
-	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "registerSipDialogStateCallback")
 	if _err != nil {
@@ -711,12 +709,11 @@ func (p *ImsRcsControllerProxy) RegisterSipDialogStateCallback(
 func (p *ImsRcsControllerProxy) UnregisterSipDialogStateCallback(
 	ctx context.Context,
 	subId int32,
-	cb internalTelephony.ISipDialogStateCallback,
+	cb interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIImsRcsController)
 	_data.WriteInt32(subId)
-	_data.WriteStrongBinder(cb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIImsRcsController, "unregisterSipDialogStateCallback")
 	if _err != nil {
@@ -1244,9 +1241,7 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cb internalTelephony.ISipDialogStateCallback
-		_ = _arg_cb
+		var _arg_cb interface{}
 		_err = s.Impl.RegisterSipDialogStateCallback(ctx, _arg_subId, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1263,9 +1258,7 @@ func (s *ImsRcsControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_cb internalTelephony.ISipDialogStateCallback
-		_ = _arg_cb
+		var _arg_cb interface{}
 		_err = s.Impl.UnregisterSipDialogStateCallback(ctx, _arg_subId, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {

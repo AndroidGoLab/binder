@@ -3,9 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
-	androidApp "github.com/xaionaro-go/binder/android/app"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,11 +25,11 @@ const (
 
 type IVoiceInteractor interface {
 	AsBinder() binder.IBinder
-	StartConfirmation(ctx context.Context, callback IVoiceInteractorCallback, prompt androidApp.VoiceInteractorPrompt, extras os.Bundle) (IVoiceInteractorRequest, error)
-	StartPickOption(ctx context.Context, callback IVoiceInteractorCallback, prompt androidApp.VoiceInteractorPrompt, options []androidApp.VoiceInteractorPickOptionRequestOption, extras os.Bundle) (IVoiceInteractorRequest, error)
-	StartCompleteVoice(ctx context.Context, callback IVoiceInteractorCallback, prompt androidApp.VoiceInteractorPrompt, extras os.Bundle) (IVoiceInteractorRequest, error)
-	StartAbortVoice(ctx context.Context, callback IVoiceInteractorCallback, prompt androidApp.VoiceInteractorPrompt, extras os.Bundle) (IVoiceInteractorRequest, error)
-	StartCommand(ctx context.Context, callback IVoiceInteractorCallback, command string, extras os.Bundle) (IVoiceInteractorRequest, error)
+	StartConfirmation(ctx context.Context, callback IVoiceInteractorCallback, prompt interface{}, extras interface{}) (IVoiceInteractorRequest, error)
+	StartPickOption(ctx context.Context, callback IVoiceInteractorCallback, prompt interface{}, options []interface{}, extras interface{}) (IVoiceInteractorRequest, error)
+	StartCompleteVoice(ctx context.Context, callback IVoiceInteractorCallback, prompt interface{}, extras interface{}) (IVoiceInteractorRequest, error)
+	StartAbortVoice(ctx context.Context, callback IVoiceInteractorCallback, prompt interface{}, extras interface{}) (IVoiceInteractorRequest, error)
+	StartCommand(ctx context.Context, callback IVoiceInteractorCallback, command string, extras interface{}) (IVoiceInteractorRequest, error)
 	SupportsCommands(ctx context.Context, commands []string) ([]bool, error)
 	NotifyDirectActionsChanged(ctx context.Context, taskId int32, assistToken binder.IBinder) error
 	SetKillCallback(ctx context.Context, callback ondeviceintelligence.ICancellationSignal) error
@@ -56,8 +54,8 @@ var _ IVoiceInteractor = (*VoiceInteractorProxy)(nil)
 func (p *VoiceInteractorProxy) StartConfirmation(
 	ctx context.Context,
 	callback IVoiceInteractorCallback,
-	prompt androidApp.VoiceInteractorPrompt,
-	extras os.Bundle,
+	prompt interface{},
+	extras interface{},
 ) (IVoiceInteractorRequest, error) {
 	var _result IVoiceInteractorRequest
 	_identity := p.remote.Identity()
@@ -65,14 +63,6 @@ func (p *VoiceInteractorProxy) StartConfirmation(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractor)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
-	_data.WriteInt32(1)
-	if _err := prompt.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startConfirmation")
 	if _err != nil {
@@ -100,9 +90,9 @@ func (p *VoiceInteractorProxy) StartConfirmation(
 func (p *VoiceInteractorProxy) StartPickOption(
 	ctx context.Context,
 	callback IVoiceInteractorCallback,
-	prompt androidApp.VoiceInteractorPrompt,
-	options []androidApp.VoiceInteractorPickOptionRequestOption,
-	extras os.Bundle,
+	prompt interface{},
+	options []interface{},
+	extras interface{},
 ) (IVoiceInteractorRequest, error) {
 	var _result IVoiceInteractorRequest
 	_identity := p.remote.Identity()
@@ -110,23 +100,10 @@ func (p *VoiceInteractorProxy) StartPickOption(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractor)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
-	_data.WriteInt32(1)
-	if _err := prompt.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	if options == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(options)))
-		for _, _item := range options {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
-			}
-		}
-	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _result, _err
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startPickOption")
@@ -155,8 +132,8 @@ func (p *VoiceInteractorProxy) StartPickOption(
 func (p *VoiceInteractorProxy) StartCompleteVoice(
 	ctx context.Context,
 	callback IVoiceInteractorCallback,
-	prompt androidApp.VoiceInteractorPrompt,
-	extras os.Bundle,
+	prompt interface{},
+	extras interface{},
 ) (IVoiceInteractorRequest, error) {
 	var _result IVoiceInteractorRequest
 	_identity := p.remote.Identity()
@@ -164,14 +141,6 @@ func (p *VoiceInteractorProxy) StartCompleteVoice(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractor)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
-	_data.WriteInt32(1)
-	if _err := prompt.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startCompleteVoice")
 	if _err != nil {
@@ -199,8 +168,8 @@ func (p *VoiceInteractorProxy) StartCompleteVoice(
 func (p *VoiceInteractorProxy) StartAbortVoice(
 	ctx context.Context,
 	callback IVoiceInteractorCallback,
-	prompt androidApp.VoiceInteractorPrompt,
-	extras os.Bundle,
+	prompt interface{},
+	extras interface{},
 ) (IVoiceInteractorRequest, error) {
 	var _result IVoiceInteractorRequest
 	_identity := p.remote.Identity()
@@ -208,14 +177,6 @@ func (p *VoiceInteractorProxy) StartAbortVoice(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractor)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
-	_data.WriteInt32(1)
-	if _err := prompt.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startAbortVoice")
 	if _err != nil {
@@ -244,7 +205,7 @@ func (p *VoiceInteractorProxy) StartCommand(
 	ctx context.Context,
 	callback IVoiceInteractorCallback,
 	command string,
-	extras os.Bundle,
+	extras interface{},
 ) (IVoiceInteractorRequest, error) {
 	var _result IVoiceInteractorRequest
 	_identity := p.remote.Identity()
@@ -253,10 +214,6 @@ func (p *VoiceInteractorProxy) StartCommand(
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteString16(command)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractor, "startCommand")
 	if _err != nil {
@@ -409,30 +366,8 @@ func (s *VoiceInteractorStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVoiceInteractorCallback
 		_ = _arg_callback
-		var _arg_prompt androidApp.VoiceInteractorPrompt
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_prompt.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_extras os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_prompt interface{}
+		var _arg_extras interface{}
 		_result, _err := s.Impl.StartConfirmation(ctx, _arg_callback, _arg_prompt, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -453,33 +388,11 @@ func (s *VoiceInteractorStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVoiceInteractorCallback
 		_ = _arg_callback
-		var _arg_prompt androidApp.VoiceInteractorPrompt
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_prompt.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_prompt interface{}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_options []androidApp.VoiceInteractorPickOptionRequestOption
+		var _arg_options []interface{}
 		_ = _arg_options
-		var _arg_extras os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_extras interface{}
 		_result, _err := s.Impl.StartPickOption(ctx, _arg_callback, _arg_prompt, _arg_options, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -500,30 +413,8 @@ func (s *VoiceInteractorStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVoiceInteractorCallback
 		_ = _arg_callback
-		var _arg_prompt androidApp.VoiceInteractorPrompt
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_prompt.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_extras os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_prompt interface{}
+		var _arg_extras interface{}
 		_result, _err := s.Impl.StartCompleteVoice(ctx, _arg_callback, _arg_prompt, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -544,30 +435,8 @@ func (s *VoiceInteractorStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IVoiceInteractorCallback
 		_ = _arg_callback
-		var _arg_prompt androidApp.VoiceInteractorPrompt
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_prompt.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
-		var _arg_extras os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_prompt interface{}
+		var _arg_extras interface{}
 		_result, _err := s.Impl.StartAbortVoice(ctx, _arg_callback, _arg_prompt, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -592,18 +461,7 @@ func (s *VoiceInteractorStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_extras interface{}
 		_result, _err := s.Impl.StartCommand(ctx, _arg_callback, _arg_command, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {

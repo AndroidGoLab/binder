@@ -2,8 +2,6 @@ package IHwCryptoKey
 
 import (
 	"fmt"
-	hwcrypto "github.com/xaionaro-go/binder/android/hardware/security/see/hwcrypto"
-	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -16,22 +14,22 @@ const (
 
 type DiceBoundDerivationKey struct {
 	Tag       int32
-	OpaqueKey hwcrypto.IOpaqueKey
+	OpaqueKey interface{}
 	KeyId     DeviceKeyId
 }
 
 var _ parcel.Parcelable = (*DiceBoundDerivationKey)(nil)
 
-func (u *DiceBoundDerivationKey) GetOpaqueKey() (hwcrypto.IOpaqueKey, bool) {
+func (u *DiceBoundDerivationKey) GetOpaqueKey() (interface{}, bool) {
 	if u.Tag != DiceBoundDerivationKeyTagOpaqueKey {
-		var _zero hwcrypto.IOpaqueKey
+		var _zero interface{}
 		return _zero, false
 	}
 	return u.OpaqueKey, true
 }
 
 func (u *DiceBoundDerivationKey) SetOpaqueKey(
-	v hwcrypto.IOpaqueKey,
+	v interface{},
 ) {
 	u.Tag = DiceBoundDerivationKeyTagOpaqueKey
 	u.OpaqueKey = v
@@ -60,7 +58,6 @@ func (u *DiceBoundDerivationKey) MarshalParcel(
 
 	switch u.Tag {
 	case DiceBoundDerivationKeyTagOpaqueKey:
-		p.WriteStrongBinder(u.OpaqueKey.AsBinder().Handle())
 	case DiceBoundDerivationKeyTagKeyId:
 		p.WriteInt32(int32(u.KeyId))
 	default:
@@ -86,11 +83,6 @@ func (u *DiceBoundDerivationKey) UnmarshalParcel(
 
 	switch u.Tag {
 	case DiceBoundDerivationKeyTagOpaqueKey:
-		_handle, _err := p.ReadStrongBinder()
-		if _err != nil {
-			return _err
-		}
-		u.OpaqueKey = hwcrypto.NewOpaqueKeyProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handle))
 	case DiceBoundDerivationKeyTagKeyId:
 		_raw, _err := p.ReadInt32()
 		if _err != nil {

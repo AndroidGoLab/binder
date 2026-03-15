@@ -4,8 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
-	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	accessibilityIAccessibilityManager "github.com/xaionaro-go/binder/android/view/accessibility/IAccessibilityManager"
 	"github.com/xaionaro-go/binder/binder"
@@ -73,7 +71,7 @@ type IAccessibilityManager interface {
 	SendAccessibilityEvent(ctx context.Context, uiEvent AccessibilityEvent) error
 	AddClient(ctx context.Context, client IAccessibilityManagerClient) (int64, error)
 	RemoveClient(ctx context.Context, client IAccessibilityManagerClient) (bool, error)
-	GetInstalledAccessibilityServiceList(ctx context.Context) (pm.ParceledListSlice, error)
+	GetInstalledAccessibilityServiceList(ctx context.Context) (interface{}, error)
 	GetEnabledAccessibilityServiceList(ctx context.Context, feedbackType int32) ([]interface{}, error)
 	AddAccessibilityInteractionConnection(ctx context.Context, windowToken view.IWindow, leashToken binder.IBinder, connection IAccessibilityInteractionConnection, packageName string) (int32, error)
 	RemoveAccessibilityInteractionConnection(ctx context.Context, windowToken view.IWindow) error
@@ -114,7 +112,7 @@ type IAccessibilityManager interface {
 	AttachAccessibilityOverlayToDisplay(ctx context.Context, displayId int32, surfaceControl view.SurfaceControl) error
 	NotifyQuickSettingsTilesChanged(ctx context.Context, tileComponentNames []content.ComponentName) error
 	EnableShortcutsForTargets(ctx context.Context, enable bool, shortcutTypes int32, shortcutTargets []string) error
-	GetA11yFeatureToTileMap(ctx context.Context) (os.Bundle, error)
+	GetA11yFeatureToTileMap(ctx context.Context) (interface{}, error)
 	RegisterUserInitializationCompleteCallback(ctx context.Context, callback IUserInitializationCompleteCallback) error
 	UnregisterUserInitializationCompleteCallback(ctx context.Context, callback IUserInitializationCompleteCallback) error
 }
@@ -242,8 +240,8 @@ func (p *AccessibilityManagerProxy) RemoveClient(
 
 func (p *AccessibilityManagerProxy) GetInstalledAccessibilityServiceList(
 	ctx context.Context,
-) (pm.ParceledListSlice, error) {
-	var _result pm.ParceledListSlice
+) (interface{}, error) {
+	var _result interface{}
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
@@ -264,15 +262,6 @@ func (p *AccessibilityManagerProxy) GetInstalledAccessibilityServiceList(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -1465,8 +1454,8 @@ func (p *AccessibilityManagerProxy) EnableShortcutsForTargets(
 
 func (p *AccessibilityManagerProxy) GetA11yFeatureToTileMap(
 	ctx context.Context,
-) (os.Bundle, error) {
-	var _result os.Bundle
+) (interface{}, error) {
+	var _result interface{}
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
@@ -1487,15 +1476,6 @@ func (p *AccessibilityManagerProxy) GetA11yFeatureToTileMap(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -1649,10 +1629,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetEnabledAccessibilityServiceList:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2404,10 +2381,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAccessibilityManagerRegisterUserInitializationCompleteCallback:
 		if _, _err := _data.ReadString16(); _err != nil {

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	os "github.com/xaionaro-go/binder/android/os"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -35,7 +34,7 @@ type IInputMethodSession interface {
 	ViewClicked(ctx context.Context, focusChanged bool) error
 	UpdateCursor(ctx context.Context, newCursor graphics.Rect) error
 	DisplayCompletions(ctx context.Context, completions []viewInputmethod.CompletionInfo) error
-	AppPrivateCommand(ctx context.Context, action string, data os.Bundle) error
+	AppPrivateCommand(ctx context.Context, action string, data interface{}) error
 	FinishSession(ctx context.Context) error
 	UpdateCursorAnchorInfo(ctx context.Context, cursorAnchorInfo viewInputmethod.CursorAnchorInfo) error
 	RemoveImeSurface(ctx context.Context) error
@@ -174,15 +173,11 @@ func (p *InputMethodSessionProxy) DisplayCompletions(
 func (p *InputMethodSessionProxy) AppPrivateCommand(
 	ctx context.Context,
 	action string,
-	data os.Bundle,
+	data interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodSession)
 	_data.WriteString16(action)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethodSession, "appPrivateCommand")
 	if _err != nil {
@@ -398,18 +393,7 @@ func (s *InputMethodSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_data os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_data interface{}
 		_err = s.Impl.AppPrivateCommand(ctx, _arg_action, _arg_data)
 		_ = _err
 		return nil, nil

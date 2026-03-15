@@ -3,8 +3,10 @@ package session
 import (
 	"context"
 	"fmt"
+	app "github.com/xaionaro-go/binder/android/app"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
 	net "github.com/xaionaro-go/binder/android/net"
+	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -56,26 +58,26 @@ const (
 
 type ISessionController interface {
 	AsBinder() binder.IBinder
-	SendCommand(ctx context.Context, packageName string, command string, args interface{}, cb interface{}) error
+	SendCommand(ctx context.Context, packageName string, command string, args os.Bundle, cb os.ResultReceiver) error
 	SendMediaButton(ctx context.Context, packageName string, mediaButton view.KeyEvent) (bool, error)
 	RegisterCallback(ctx context.Context, packageName string, cb ISessionControllerCallback) error
 	UnregisterCallback(ctx context.Context, cb ISessionControllerCallback) error
 	GetPackageName(ctx context.Context) (string, error)
 	GetTag(ctx context.Context) (string, error)
-	GetSessionInfo(ctx context.Context) (interface{}, error)
-	GetLaunchPendingIntent(ctx context.Context) (interface{}, error)
+	GetSessionInfo(ctx context.Context) (os.Bundle, error)
+	GetLaunchPendingIntent(ctx context.Context) (app.PendingIntent, error)
 	GetFlags(ctx context.Context) (int64, error)
 	GetVolumeAttributes(ctx context.Context) (MediaControllerPlaybackInfo, error)
 	AdjustVolume(ctx context.Context, packageName string, direction int32, flags int32) error
 	SetVolumeTo(ctx context.Context, packageName string, value int32, flags int32) error
 	Prepare(ctx context.Context, packageName string) error
-	PrepareFromMediaId(ctx context.Context, packageName string, mediaId string, extras interface{}) error
-	PrepareFromSearch(ctx context.Context, packageName string, string_ string, extras interface{}) error
-	PrepareFromUri(ctx context.Context, packageName string, uri net.Uri, extras interface{}) error
+	PrepareFromMediaId(ctx context.Context, packageName string, mediaId string, extras os.Bundle) error
+	PrepareFromSearch(ctx context.Context, packageName string, string_ string, extras os.Bundle) error
+	PrepareFromUri(ctx context.Context, packageName string, uri net.Uri, extras os.Bundle) error
 	Play(ctx context.Context, packageName string) error
-	PlayFromMediaId(ctx context.Context, packageName string, mediaId string, extras interface{}) error
-	PlayFromSearch(ctx context.Context, packageName string, string_ string, extras interface{}) error
-	PlayFromUri(ctx context.Context, packageName string, uri net.Uri, extras interface{}) error
+	PlayFromMediaId(ctx context.Context, packageName string, mediaId string, extras os.Bundle) error
+	PlayFromSearch(ctx context.Context, packageName string, string_ string, extras os.Bundle) error
+	PlayFromUri(ctx context.Context, packageName string, uri net.Uri, extras os.Bundle) error
 	SkipToQueueItem(ctx context.Context, packageName string, id int64) error
 	Pause(ctx context.Context, packageName string) error
 	Stop(ctx context.Context, packageName string) error
@@ -86,12 +88,12 @@ type ISessionController interface {
 	SeekTo(ctx context.Context, packageName string, pos int64) error
 	Rate(ctx context.Context, packageName string, rating interface{}) error
 	SetPlaybackSpeed(ctx context.Context, packageName string, speed float32) error
-	SendCustomAction(ctx context.Context, packageName string, action string, args interface{}) error
+	SendCustomAction(ctx context.Context, packageName string, action string, args os.Bundle) error
 	GetMetadata(ctx context.Context) (interface{}, error)
 	GetPlaybackState(ctx context.Context) (PlaybackState, error)
 	GetQueue(ctx context.Context) (pm.ParceledListSlice, error)
 	GetQueueTitle(ctx context.Context) (interface{}, error)
-	GetExtras(ctx context.Context) (interface{}, error)
+	GetExtras(ctx context.Context) (os.Bundle, error)
 	GetRatingType(ctx context.Context) (int32, error)
 }
 
@@ -115,13 +117,21 @@ func (p *SessionControllerProxy) SendCommand(
 	ctx context.Context,
 	packageName string,
 	command string,
-	args interface{},
-	cb interface{},
+	args os.Bundle,
+	cb os.ResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 	_data.WriteString16(command)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := cb.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "sendCommand")
 	if _err != nil {
@@ -291,8 +301,8 @@ func (p *SessionControllerProxy) GetTag(
 
 func (p *SessionControllerProxy) GetSessionInfo(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
@@ -311,13 +321,22 @@ func (p *SessionControllerProxy) GetSessionInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *SessionControllerProxy) GetLaunchPendingIntent(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (app.PendingIntent, error) {
+	var _result app.PendingIntent
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
@@ -336,6 +355,15 @@ func (p *SessionControllerProxy) GetLaunchPendingIntent(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -496,12 +524,16 @@ func (p *SessionControllerProxy) PrepareFromMediaId(
 	ctx context.Context,
 	packageName string,
 	mediaId string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 	_data.WriteString16(mediaId)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "prepareFromMediaId")
 	if _err != nil {
@@ -525,12 +557,16 @@ func (p *SessionControllerProxy) PrepareFromSearch(
 	ctx context.Context,
 	packageName string,
 	string_ string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 	_data.WriteString16(string_)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "prepareFromSearch")
 	if _err != nil {
@@ -554,13 +590,17 @@ func (p *SessionControllerProxy) PrepareFromUri(
 	ctx context.Context,
 	packageName string,
 	uri net.Uri,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -612,12 +652,16 @@ func (p *SessionControllerProxy) PlayFromMediaId(
 	ctx context.Context,
 	packageName string,
 	mediaId string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 	_data.WriteString16(mediaId)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "playFromMediaId")
 	if _err != nil {
@@ -641,12 +685,16 @@ func (p *SessionControllerProxy) PlayFromSearch(
 	ctx context.Context,
 	packageName string,
 	string_ string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 	_data.WriteString16(string_)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "playFromSearch")
 	if _err != nil {
@@ -670,13 +718,17 @@ func (p *SessionControllerProxy) PlayFromUri(
 	ctx context.Context,
 	packageName string,
 	uri net.Uri,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -969,12 +1021,16 @@ func (p *SessionControllerProxy) SendCustomAction(
 	ctx context.Context,
 	packageName string,
 	action string,
-	args interface{},
+	args os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 	_data.WriteString16(packageName)
 	_data.WriteString16(action)
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionController, "sendCustomAction")
 	if _err != nil {
@@ -1114,8 +1170,8 @@ func (p *SessionControllerProxy) GetQueueTitle(
 
 func (p *SessionControllerProxy) GetExtras(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionController)
 
@@ -1134,6 +1190,15 @@ func (p *SessionControllerProxy) GetExtras(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -1192,8 +1257,30 @@ func (s *SessionControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_args interface{}
-		var _arg_cb interface{}
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_cb os.ResultReceiver
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cb.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SendCommand(ctx, _arg_packageName, _arg_command, _arg_args, _arg_cb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1302,7 +1389,10 @@ func (s *SessionControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionISessionControllerGetLaunchPendingIntent:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -1315,7 +1405,10 @@ func (s *SessionControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionISessionControllerGetFlags:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -1428,7 +1521,18 @@ func (s *SessionControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.PrepareFromMediaId(ctx, _arg_packageName, _arg_mediaId, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1449,7 +1553,18 @@ func (s *SessionControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.PrepareFromSearch(ctx, _arg_packageName, _arg_string_, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1478,7 +1593,18 @@ func (s *SessionControllerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.PrepareFromUri(ctx, _arg_packageName, _arg_uri, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1515,7 +1641,18 @@ func (s *SessionControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.PlayFromMediaId(ctx, _arg_packageName, _arg_mediaId, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1536,7 +1673,18 @@ func (s *SessionControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.PlayFromSearch(ctx, _arg_packageName, _arg_string_, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1565,7 +1713,18 @@ func (s *SessionControllerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.PlayFromUri(ctx, _arg_packageName, _arg_uri, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1759,7 +1918,18 @@ func (s *SessionControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_args interface{}
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SendCustomAction(ctx, _arg_packageName, _arg_action, _arg_args)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1837,7 +2007,10 @@ func (s *SessionControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionISessionControllerGetRatingType:
 		if _, _err := _data.ReadString16(); _err != nil {

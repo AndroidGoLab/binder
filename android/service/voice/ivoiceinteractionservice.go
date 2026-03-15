@@ -3,7 +3,6 @@ package voice
 import (
 	"context"
 	"fmt"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	app "github.com/xaionaro-go/binder/com/android/internal_/app"
 	"github.com/xaionaro-go/binder/parcel"
@@ -31,8 +30,8 @@ type IVoiceInteractionService interface {
 	Shutdown(ctx context.Context) error
 	LaunchVoiceAssistFromKeyguard(ctx context.Context) error
 	GetActiveServiceSupportedActions(ctx context.Context, voiceActions []string, callback app.IVoiceActionCheckCallback) error
-	PrepareToShowSession(ctx context.Context, args os.Bundle, flags int32) error
-	ShowSessionFailed(ctx context.Context, args os.Bundle) error
+	PrepareToShowSession(ctx context.Context, args interface{}, flags int32) error
+	ShowSessionFailed(ctx context.Context, args interface{}) error
 	DetectorRemoteExceptionOccurred(ctx context.Context, token binder.IBinder, detectorType int32) error
 }
 
@@ -140,15 +139,11 @@ func (p *VoiceInteractionServiceProxy) GetActiveServiceSupportedActions(
 
 func (p *VoiceInteractionServiceProxy) PrepareToShowSession(
 	ctx context.Context,
-	args os.Bundle,
+	args interface{},
 	flags int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(flags)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "prepareToShowSession")
@@ -162,14 +157,10 @@ func (p *VoiceInteractionServiceProxy) PrepareToShowSession(
 
 func (p *VoiceInteractionServiceProxy) ShowSessionFailed(
 	ctx context.Context,
-	args os.Bundle,
+	args interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionService)
-	_data.WriteInt32(1)
-	if _err := args.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionService, "showSessionFailed")
 	if _err != nil {
@@ -258,18 +249,7 @@ func (s *VoiceInteractionServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_args os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_args interface{}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -281,18 +261,7 @@ func (s *VoiceInteractionServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_args os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_args interface{}
 		_err := s.Impl.ShowSessionFailed(ctx, _arg_args)
 		_ = _err
 		return nil, nil

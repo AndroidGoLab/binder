@@ -5,7 +5,7 @@ import (
 	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	audio "github.com/xaionaro-go/binder/android/companion/virtual/audio"
-	camera "github.com/xaionaro-go/binder/android/companion/virtual/camera"
+	virtualCamera "github.com/xaionaro-go/binder/android/companion/virtual/camera"
 	sensor "github.com/xaionaro-go/binder/android/companion/virtual/sensor"
 	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
@@ -115,9 +115,9 @@ type IVirtualDevice interface {
 	SetDisplayImePolicy(ctx context.Context, displayId int32, policy int32) error
 	RegisterIntentInterceptor(ctx context.Context, intentInterceptor IVirtualDeviceIntentInterceptor, filter content.IntentFilter) error
 	UnregisterIntentInterceptor(ctx context.Context, intentInterceptor IVirtualDeviceIntentInterceptor) error
-	RegisterVirtualCamera(ctx context.Context, camera camera.VirtualCameraConfig) error
-	UnregisterVirtualCamera(ctx context.Context, camera camera.VirtualCameraConfig) error
-	GetVirtualCameraId(ctx context.Context, camera camera.VirtualCameraConfig) (string, error)
+	RegisterVirtualCamera(ctx context.Context, camera virtualCamera.VirtualCameraConfig) error
+	UnregisterVirtualCamera(ctx context.Context, camera virtualCamera.VirtualCameraConfig) error
+	GetVirtualCameraId(ctx context.Context, camera virtualCamera.VirtualCameraConfig) (string, error)
 	SetListeners(ctx context.Context, activityListener IVirtualDeviceActivityListener, soundEffectListener IVirtualDeviceSoundEffectListener) error
 }
 
@@ -1487,7 +1487,7 @@ func (p *VirtualDeviceProxy) UnregisterIntentInterceptor(
 
 func (p *VirtualDeviceProxy) RegisterVirtualCamera(
 	ctx context.Context,
-	camera camera.VirtualCameraConfig,
+	camera virtualCamera.VirtualCameraConfig,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
@@ -1516,7 +1516,7 @@ func (p *VirtualDeviceProxy) RegisterVirtualCamera(
 
 func (p *VirtualDeviceProxy) UnregisterVirtualCamera(
 	ctx context.Context,
-	camera camera.VirtualCameraConfig,
+	camera virtualCamera.VirtualCameraConfig,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVirtualDevice)
@@ -1545,7 +1545,7 @@ func (p *VirtualDeviceProxy) UnregisterVirtualCamera(
 
 func (p *VirtualDeviceProxy) GetVirtualCameraId(
 	ctx context.Context,
-	camera camera.VirtualCameraConfig,
+	camera virtualCamera.VirtualCameraConfig,
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
@@ -2560,7 +2560,7 @@ func (s *VirtualDeviceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_camera camera.VirtualCameraConfig
+		var _arg_camera virtualCamera.VirtualCameraConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2584,7 +2584,7 @@ func (s *VirtualDeviceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_camera camera.VirtualCameraConfig
+		var _arg_camera virtualCamera.VirtualCameraConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -2608,7 +2608,7 @@ func (s *VirtualDeviceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_camera camera.VirtualCameraConfig
+		var _arg_camera virtualCamera.VirtualCameraConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {

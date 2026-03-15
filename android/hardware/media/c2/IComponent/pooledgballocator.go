@@ -1,8 +1,6 @@
 package IComponent
 
 import (
-	c2 "github.com/xaionaro-go/binder/android/hardware/media/c2"
-	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,7 +9,7 @@ import (
 type PooledGbAllocator struct {
 	WaitableFd int32
 	ReceiverId int64
-	Ipgba      c2.IPooledGraphicBufferAllocator
+	Ipgba      interface{}
 }
 
 var _ parcel.Parcelable = (*PooledGbAllocator)(nil)
@@ -22,7 +20,6 @@ func (s *PooledGbAllocator) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteFileDescriptor(s.WaitableFd)
 	p.WriteInt64(s.ReceiverId)
-	p.WriteStrongBinder(s.Ipgba.AsBinder().Handle())
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -45,12 +42,6 @@ func (s *PooledGbAllocator) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
-
-	_ipgbaHandle, _err := p.ReadStrongBinder()
-	if _err != nil {
-		return _err
-	}
-	s.Ipgba = c2.NewPooledGraphicBufferAllocatorProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _ipgbaHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

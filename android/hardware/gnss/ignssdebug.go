@@ -3,7 +3,6 @@ package gnss
 import (
 	"context"
 	"fmt"
-	gnssIGnssDebug "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssDebug"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +17,7 @@ const (
 
 type IGnssDebug interface {
 	AsBinder() binder.IBinder
-	GetDebugData(ctx context.Context) (gnssIGnssDebug.DebugData, error)
+	GetDebugData(ctx context.Context) (interface{}, error)
 }
 
 type GnssDebugProxy struct {
@@ -39,8 +38,8 @@ var _ IGnssDebug = (*GnssDebugProxy)(nil)
 
 func (p *GnssDebugProxy) GetDebugData(
 	ctx context.Context,
-) (gnssIGnssDebug.DebugData, error) {
-	var _result gnssIGnssDebug.DebugData
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssDebug)
 
@@ -59,15 +58,6 @@ func (p *GnssDebugProxy) GetDebugData(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -96,10 +86,7 @@ func (s *GnssDebugStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

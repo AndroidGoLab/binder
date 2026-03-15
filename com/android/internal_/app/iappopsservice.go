@@ -3,9 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
-	androidApp "github.com/xaionaro-go/binder/android/app"
 	content "github.com/xaionaro-go/binder/android/content"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -79,8 +77,8 @@ const (
 type IAppOpsService interface {
 	AsBinder() binder.IBinder
 	CheckOperation(ctx context.Context, code int32, uid int32, packageName string) (int32, error)
-	NoteOperation(ctx context.Context, code int32, uid int32, packageName string, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (androidApp.SyncNotedAppOp, error)
-	StartOperation(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (androidApp.SyncNotedAppOp, error)
+	NoteOperation(ctx context.Context, code int32, uid int32, packageName string, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (interface{}, error)
+	StartOperation(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (interface{}, error)
 	FinishOperation(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string) error
 	StartWatchingMode(ctx context.Context, op int32, packageName string, callback IAppOpsCallback) error
 	StopWatchingMode(ctx context.Context, callback IAppOpsCallback) error
@@ -89,30 +87,30 @@ type IAppOpsService interface {
 	ShouldCollectNotes(ctx context.Context, opCode int32) (bool, error)
 	SetCameraAudioRestriction(ctx context.Context, mode int32) error
 	StartWatchingModeWithFlags(ctx context.Context, op int32, packageName string, flags int32, callback IAppOpsCallback) error
-	NoteProxyOperation(ctx context.Context, code int32, attributionSource content.AttributionSource, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (androidApp.SyncNotedAppOp, error)
-	StartProxyOperation(ctx context.Context, clientId binder.IBinder, code int32, attributionSource content.AttributionSource, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (androidApp.SyncNotedAppOp, error)
+	NoteProxyOperation(ctx context.Context, code int32, attributionSource content.AttributionSource, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (interface{}, error)
+	StartProxyOperation(ctx context.Context, clientId binder.IBinder, code int32, attributionSource content.AttributionSource, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (interface{}, error)
 	FinishProxyOperation(ctx context.Context, clientId binder.IBinder, code int32, attributionSource content.AttributionSource, skipProxyOperation bool) error
 	CheckPackage(ctx context.Context, uid int32, packageName string) (int32, error)
-	CollectRuntimeAppOpAccessMessage(ctx context.Context) (androidApp.RuntimeAppOpAccessMessage, error)
-	ReportRuntimeAppOpAccessMessageAndGetConfig(ctx context.Context, packageName string, appOp androidApp.SyncNotedAppOp, message string) (MessageSamplingConfig, error)
-	GetPackagesForOps(ctx context.Context, ops []int32) ([]androidApp.AppOpsManagerPackageOps, error)
-	GetOpsForPackage(ctx context.Context, uid int32, packageName string, ops []int32) ([]androidApp.AppOpsManagerPackageOps, error)
-	GetHistoricalOps(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback os.RemoteCallback) error
-	GetHistoricalOpsFromDiskRaw(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback os.RemoteCallback) error
+	CollectRuntimeAppOpAccessMessage(ctx context.Context) (interface{}, error)
+	ReportRuntimeAppOpAccessMessageAndGetConfig(ctx context.Context, packageName string, appOp interface{}, message string) (MessageSamplingConfig, error)
+	GetPackagesForOps(ctx context.Context, ops []int32) ([]interface{}, error)
+	GetOpsForPackage(ctx context.Context, uid int32, packageName string, ops []int32) ([]interface{}, error)
+	GetHistoricalOps(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback interface{}) error
+	GetHistoricalOpsFromDiskRaw(ctx context.Context, uid int32, packageName string, ops []string, historyFlags int32, filter int32, beginTimeMillis int64, endTimeMillis int64, flags int32, callback interface{}) error
 	OffsetHistory(ctx context.Context, duration int64) error
 	SetHistoryParameters(ctx context.Context, mode int32, baseSnapshotInterval int64, compressionStep int32) error
-	AddHistoricalOps(ctx context.Context, ops androidApp.AppOpsManagerHistoricalOps) error
+	AddHistoricalOps(ctx context.Context, ops interface{}) error
 	ResetHistoryParameters(ctx context.Context) error
 	ResetPackageOpsNoHistory(ctx context.Context, packageName string) error
 	ClearHistory(ctx context.Context) error
 	RebootHistory(ctx context.Context, offlineDurationMillis int64) error
-	GetUidOps(ctx context.Context, uid int32, ops []int32) ([]androidApp.AppOpsManagerPackageOps, error)
+	GetUidOps(ctx context.Context, uid int32, ops []int32) ([]interface{}, error)
 	SetUidMode(ctx context.Context, code int32, uid int32, mode int32) error
 	SetMode(ctx context.Context, code int32, uid int32, packageName string, mode int32) error
 	ResetAllModes(ctx context.Context, reqUserId int32, reqPackageName string) error
 	SetAudioRestriction(ctx context.Context, code int32, usage int32, uid int32, mode int32, exceptionPackages []string) error
-	SetUserRestrictions(ctx context.Context, restrictions os.Bundle, token binder.IBinder) error
-	SetUserRestriction(ctx context.Context, code int32, restricted bool, token binder.IBinder, excludedPackageTags os.PackageTagsList) error
+	SetUserRestrictions(ctx context.Context, restrictions interface{}, token binder.IBinder) error
+	SetUserRestriction(ctx context.Context, code int32, restricted bool, token binder.IBinder, excludedPackageTags interface{}) error
 	RemoveUser(ctx context.Context) error
 	StartWatchingActive(ctx context.Context, ops []int32, callback IAppOpsActiveCallback) error
 	StopWatchingActive(ctx context.Context, callback IAppOpsActiveCallback) error
@@ -124,19 +122,19 @@ type IAppOpsService interface {
 	StopWatchingNoted(ctx context.Context, callback IAppOpsNotedCallback) error
 	StartWatchingAsyncNoted(ctx context.Context, packageName string, callback IAppOpsAsyncNotedCallback) error
 	StopWatchingAsyncNoted(ctx context.Context, packageName string, callback IAppOpsAsyncNotedCallback) error
-	ExtractAsyncOps(ctx context.Context, packageName string) ([]androidApp.AsyncNotedAppOp, error)
+	ExtractAsyncOps(ctx context.Context, packageName string) ([]interface{}, error)
 	CheckOperationRaw(ctx context.Context, code int32, uid int32, packageName string) (int32, error)
 	ReloadNonHistoricalState(ctx context.Context) error
 	CollectNoteOpCallsForValidation(ctx context.Context, stackTrace string, op int32, packageName string, version int64) error
-	NoteProxyOperationWithState(ctx context.Context, code int32, attributionSourceStateState content.AttributionSourceState, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (androidApp.SyncNotedAppOp, error)
-	StartProxyOperationWithState(ctx context.Context, clientId binder.IBinder, code int32, attributionSourceStateState content.AttributionSourceState, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (androidApp.SyncNotedAppOp, error)
+	NoteProxyOperationWithState(ctx context.Context, code int32, attributionSourceStateState content.AttributionSourceState, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool) (interface{}, error)
+	StartProxyOperationWithState(ctx context.Context, clientId binder.IBinder, code int32, attributionSourceStateState content.AttributionSourceState, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, skipProxyOperation bool, proxyAttributionFlags int32, proxiedAttributionFlags int32, attributionChainId int32) (interface{}, error)
 	FinishProxyOperationWithState(ctx context.Context, clientId binder.IBinder, code int32, attributionSourceStateState content.AttributionSourceState, skipProxyOperation bool) error
 	CheckOperationRawForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32) (int32, error)
 	CheckOperationForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32) (int32, error)
-	NoteOperationForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (androidApp.SyncNotedAppOp, error)
-	StartOperationForDevice(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, virtualDeviceId int32, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (androidApp.SyncNotedAppOp, error)
+	NoteOperationForDevice(ctx context.Context, code int32, uid int32, packageName string, virtualDeviceId int32, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool) (interface{}, error)
+	StartOperationForDevice(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, virtualDeviceId int32, startIfModeDefault bool, shouldCollectAsyncNotedOp bool, message string, shouldCollectMessage bool, attributionFlags int32, attributionChainId int32) (interface{}, error)
 	FinishOperationForDevice(ctx context.Context, clientId binder.IBinder, code int32, uid int32, packageName string, virtualDeviceId int32) error
-	GetPackagesForOpsForDevice(ctx context.Context, ops []int32, persistentDeviceId string) ([]androidApp.AppOpsManagerPackageOps, error)
+	GetPackagesForOpsForDevice(ctx context.Context, ops []int32, persistentDeviceId string) ([]interface{}, error)
 }
 
 type AppOpsServiceProxy struct {
@@ -198,8 +196,8 @@ func (p *AppOpsServiceProxy) NoteOperation(
 	shouldCollectAsyncNotedOp bool,
 	message string,
 	shouldCollectMessage bool,
-) (androidApp.SyncNotedAppOp, error) {
-	var _result androidApp.SyncNotedAppOp
+) (interface{}, error) {
+	var _result interface{}
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
@@ -226,15 +224,6 @@ func (p *AppOpsServiceProxy) NoteOperation(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -250,8 +239,8 @@ func (p *AppOpsServiceProxy) StartOperation(
 	shouldCollectMessage bool,
 	attributionFlags int32,
 	attributionChainId int32,
-) (androidApp.SyncNotedAppOp, error) {
-	var _result androidApp.SyncNotedAppOp
+) (interface{}, error) {
+	var _result interface{}
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
@@ -282,15 +271,6 @@ func (p *AppOpsServiceProxy) StartOperation(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -549,8 +529,8 @@ func (p *AppOpsServiceProxy) NoteProxyOperation(
 	message string,
 	shouldCollectMessage bool,
 	skipProxyOperation bool,
-) (androidApp.SyncNotedAppOp, error) {
-	var _result androidApp.SyncNotedAppOp
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
@@ -578,15 +558,6 @@ func (p *AppOpsServiceProxy) NoteProxyOperation(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -603,8 +574,8 @@ func (p *AppOpsServiceProxy) StartProxyOperation(
 	proxyAttributionFlags int32,
 	proxiedAttributionFlags int32,
 	attributionChainId int32,
-) (androidApp.SyncNotedAppOp, error) {
-	var _result androidApp.SyncNotedAppOp
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteStrongBinder(clientId.Handle())
@@ -637,15 +608,6 @@ func (p *AppOpsServiceProxy) StartProxyOperation(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -719,8 +681,8 @@ func (p *AppOpsServiceProxy) CheckPackage(
 
 func (p *AppOpsServiceProxy) CollectRuntimeAppOpAccessMessage(
 	ctx context.Context,
-) (androidApp.RuntimeAppOpAccessMessage, error) {
-	var _result androidApp.RuntimeAppOpAccessMessage
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 
@@ -739,32 +701,19 @@ func (p *AppOpsServiceProxy) CollectRuntimeAppOpAccessMessage(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
 func (p *AppOpsServiceProxy) ReportRuntimeAppOpAccessMessageAndGetConfig(
 	ctx context.Context,
 	packageName string,
-	appOp androidApp.SyncNotedAppOp,
+	appOp interface{},
 	message string,
 ) (MessageSamplingConfig, error) {
 	var _result MessageSamplingConfig
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
-	_data.WriteInt32(1)
-	if _err := appOp.MarshalParcel(_data); _err != nil {
-		return _result, _err
-	}
 	_data.WriteString16(message)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsService, "reportRuntimeAppOpAccessMessageAndGetConfig")
@@ -797,8 +746,8 @@ func (p *AppOpsServiceProxy) ReportRuntimeAppOpAccessMessageAndGetConfig(
 func (p *AppOpsServiceProxy) GetPackagesForOps(
 	ctx context.Context,
 	ops []int32,
-) ([]androidApp.AppOpsManagerPackageOps, error) {
-	var _result []androidApp.AppOpsManagerPackageOps
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	if ops == nil {
@@ -831,11 +780,8 @@ func (p *AppOpsServiceProxy) GetPackagesForOps(
 	}
 
 	if _count >= 0 {
-		_result = make([]androidApp.AppOpsManagerPackageOps, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -846,8 +792,8 @@ func (p *AppOpsServiceProxy) GetOpsForPackage(
 	uid int32,
 	packageName string,
 	ops []int32,
-) ([]androidApp.AppOpsManagerPackageOps, error) {
-	var _result []androidApp.AppOpsManagerPackageOps
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(uid)
@@ -882,11 +828,8 @@ func (p *AppOpsServiceProxy) GetOpsForPackage(
 	}
 
 	if _count >= 0 {
-		_result = make([]androidApp.AppOpsManagerPackageOps, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -902,7 +845,7 @@ func (p *AppOpsServiceProxy) GetHistoricalOps(
 	beginTimeMillis int64,
 	endTimeMillis int64,
 	flags int32,
-	callback os.RemoteCallback,
+	callback interface{},
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
@@ -923,10 +866,6 @@ func (p *AppOpsServiceProxy) GetHistoricalOps(
 	_data.WriteInt64(beginTimeMillis)
 	_data.WriteInt64(endTimeMillis)
 	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsService, "getHistoricalOps")
 	if _err != nil {
@@ -956,7 +895,7 @@ func (p *AppOpsServiceProxy) GetHistoricalOpsFromDiskRaw(
 	beginTimeMillis int64,
 	endTimeMillis int64,
 	flags int32,
-	callback os.RemoteCallback,
+	callback interface{},
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
@@ -977,10 +916,6 @@ func (p *AppOpsServiceProxy) GetHistoricalOpsFromDiskRaw(
 	_data.WriteInt64(beginTimeMillis)
 	_data.WriteInt64(endTimeMillis)
 	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsService, "getHistoricalOpsFromDiskRaw")
 	if _err != nil {
@@ -1058,14 +993,10 @@ func (p *AppOpsServiceProxy) SetHistoryParameters(
 
 func (p *AppOpsServiceProxy) AddHistoricalOps(
 	ctx context.Context,
-	ops androidApp.AppOpsManagerHistoricalOps,
+	ops interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(1)
-	if _err := ops.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsService, "addHistoricalOps")
 	if _err != nil {
@@ -1189,8 +1120,8 @@ func (p *AppOpsServiceProxy) GetUidOps(
 	ctx context.Context,
 	uid int32,
 	ops []int32,
-) ([]androidApp.AppOpsManagerPackageOps, error) {
-	var _result []androidApp.AppOpsManagerPackageOps
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(uid)
@@ -1224,11 +1155,8 @@ func (p *AppOpsServiceProxy) GetUidOps(
 	}
 
 	if _count >= 0 {
-		_result = make([]androidApp.AppOpsManagerPackageOps, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -1367,16 +1295,12 @@ func (p *AppOpsServiceProxy) SetAudioRestriction(
 
 func (p *AppOpsServiceProxy) SetUserRestrictions(
 	ctx context.Context,
-	restrictions os.Bundle,
+	restrictions interface{},
 	token binder.IBinder,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
-	_data.WriteInt32(1)
-	if _err := restrictions.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(_identity.UserID)
 
@@ -1403,7 +1327,7 @@ func (p *AppOpsServiceProxy) SetUserRestriction(
 	code int32,
 	restricted bool,
 	token binder.IBinder,
-	excludedPackageTags os.PackageTagsList,
+	excludedPackageTags interface{},
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
@@ -1412,10 +1336,6 @@ func (p *AppOpsServiceProxy) SetUserRestriction(
 	_data.WriteBool(restricted)
 	_data.WriteStrongBinder(token.Handle())
 	_data.WriteInt32(_identity.UserID)
-	_data.WriteInt32(1)
-	if _err := excludedPackageTags.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppOpsService, "setUserRestriction")
 	if _err != nil {
@@ -1777,8 +1697,8 @@ func (p *AppOpsServiceProxy) StopWatchingAsyncNoted(
 func (p *AppOpsServiceProxy) ExtractAsyncOps(
 	ctx context.Context,
 	packageName string,
-) ([]androidApp.AsyncNotedAppOp, error) {
-	var _result []androidApp.AsyncNotedAppOp
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteString16(packageName)
@@ -1804,11 +1724,8 @@ func (p *AppOpsServiceProxy) ExtractAsyncOps(
 	}
 
 	if _count >= 0 {
-		_result = make([]androidApp.AsyncNotedAppOp, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -1915,8 +1832,8 @@ func (p *AppOpsServiceProxy) NoteProxyOperationWithState(
 	message string,
 	shouldCollectMessage bool,
 	skipProxyOperation bool,
-) (androidApp.SyncNotedAppOp, error) {
-	var _result androidApp.SyncNotedAppOp
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteInt32(code)
@@ -1944,15 +1861,6 @@ func (p *AppOpsServiceProxy) NoteProxyOperationWithState(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -1969,8 +1877,8 @@ func (p *AppOpsServiceProxy) StartProxyOperationWithState(
 	proxyAttributionFlags int32,
 	proxiedAttributionFlags int32,
 	attributionChainId int32,
-) (androidApp.SyncNotedAppOp, error) {
-	var _result androidApp.SyncNotedAppOp
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	_data.WriteStrongBinder(clientId.Handle())
@@ -2003,15 +1911,6 @@ func (p *AppOpsServiceProxy) StartProxyOperationWithState(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -2137,8 +2036,8 @@ func (p *AppOpsServiceProxy) NoteOperationForDevice(
 	shouldCollectAsyncNotedOp bool,
 	message string,
 	shouldCollectMessage bool,
-) (androidApp.SyncNotedAppOp, error) {
-	var _result androidApp.SyncNotedAppOp
+) (interface{}, error) {
+	var _result interface{}
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
@@ -2166,15 +2065,6 @@ func (p *AppOpsServiceProxy) NoteOperationForDevice(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -2191,8 +2081,8 @@ func (p *AppOpsServiceProxy) StartOperationForDevice(
 	shouldCollectMessage bool,
 	attributionFlags int32,
 	attributionChainId int32,
-) (androidApp.SyncNotedAppOp, error) {
-	var _result androidApp.SyncNotedAppOp
+) (interface{}, error) {
+	var _result interface{}
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
@@ -2224,15 +2114,6 @@ func (p *AppOpsServiceProxy) StartOperationForDevice(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -2276,8 +2157,8 @@ func (p *AppOpsServiceProxy) GetPackagesForOpsForDevice(
 	ctx context.Context,
 	ops []int32,
 	persistentDeviceId string,
-) ([]androidApp.AppOpsManagerPackageOps, error) {
-	var _result []androidApp.AppOpsManagerPackageOps
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAppOpsService)
 	if ops == nil {
@@ -2311,11 +2192,8 @@ func (p *AppOpsServiceProxy) GetPackagesForOpsForDevice(
 	}
 
 	if _count >= 0 {
-		_result = make([]androidApp.AppOpsManagerPackageOps, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -2398,10 +2276,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartOperation:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2456,10 +2331,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishOperation:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2678,10 +2550,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartProxyOperation:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2745,10 +2614,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishProxyOperation:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2817,10 +2683,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceReportRuntimeAppOpAccessMessageAndGetConfig:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2830,18 +2693,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_appOp androidApp.SyncNotedAppOp
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_appOp.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_appOp interface{}
 		_arg_message, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2938,18 +2790,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback os.RemoteCallback
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_callback interface{}
 		_err = s.Impl.GetHistoricalOps(ctx, _arg_uid, _arg_packageName, _arg_ops, _arg_historyFlags, _arg_filter, _arg_beginTimeMillis, _arg_endTimeMillis, _arg_flags, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2996,18 +2837,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback os.RemoteCallback
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_callback interface{}
 		_err = s.Impl.GetHistoricalOpsFromDiskRaw(ctx, _arg_uid, _arg_packageName, _arg_ops, _arg_historyFlags, _arg_filter, _arg_beginTimeMillis, _arg_endTimeMillis, _arg_flags, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3060,18 +2890,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_ops androidApp.AppOpsManagerHistoricalOps
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_ops.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_ops interface{}
 		_err := s.Impl.AddHistoricalOps(ctx, _arg_ops)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3264,18 +3083,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_restrictions os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_restrictions.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_restrictions interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
@@ -3308,18 +3116,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_excludedPackageTags os.PackageTagsList
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_excludedPackageTags.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_excludedPackageTags interface{}
 		_err = s.Impl.SetUserRestriction(ctx, _arg_code, _arg_restricted, _arg_token, _arg_excludedPackageTags)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3667,10 +3464,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartProxyOperationWithState:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3734,10 +3528,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishProxyOperationWithState:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3880,10 +3671,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceStartOperationForDevice:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3942,10 +3730,7 @@ func (s *AppOpsServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIAppOpsServiceFinishOperationForDevice:
 		if _, _err := _data.ReadString16(); _err != nil {

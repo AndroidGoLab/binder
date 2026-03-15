@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -44,7 +43,7 @@ type IContentCaptureManager interface {
 	SetTemporaryService(ctx context.Context, serviceName string, duration int32) error
 	SetDefaultServiceEnabled(ctx context.Context, enabled bool) error
 	RegisterContentCaptureOptionsCallback(ctx context.Context, packageName string, callback IContentCaptureOptionsCallback) error
-	OnLoginDetected(ctx context.Context, events pm.ParceledListSlice) error
+	OnLoginDetected(ctx context.Context, events interface{}) error
 }
 
 type ContentCaptureManagerProxy struct {
@@ -300,14 +299,10 @@ func (p *ContentCaptureManagerProxy) RegisterContentCaptureOptionsCallback(
 
 func (p *ContentCaptureManagerProxy) OnLoginDetected(
 	ctx context.Context,
-	events pm.ParceledListSlice,
+	events interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
-	_data.WriteInt32(1)
-	if _err := events.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "onLoginDetected")
 	if _err != nil {
@@ -524,18 +519,7 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_events pm.ParceledListSlice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_events.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_events interface{}
 		_err := s.Impl.OnLoginDetected(ctx, _arg_events)
 		_ = _err
 		return nil, nil

@@ -2,9 +2,7 @@ package app
 
 import (
 	content "github.com/xaionaro-go/binder/android/content"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
 	res "github.com/xaionaro-go/binder/android/content/res"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -14,7 +12,7 @@ import (
 type ReceiverInfo struct {
 	Intent          content.Intent
 	Data            string
-	Extras          os.Bundle
+	Extras          interface{}
 	AssumeDelivered bool
 	SendingUser     int32
 	ProcessState    int32
@@ -25,7 +23,7 @@ type ReceiverInfo struct {
 	Receiver        content.IIntentReceiver
 	Ordered         bool
 	Sticky          bool
-	ActivityInfo    pm.ActivityInfo
+	ActivityInfo    interface{}
 	CompatInfo      res.CompatibilityInfo
 	Sync            bool
 }
@@ -40,9 +38,6 @@ func (s *ReceiverInfo) MarshalParcel(
 		return _err
 	}
 	p.WriteString16(s.Data)
-	if _err := s.Extras.MarshalParcel(p); _err != nil {
-		return _err
-	}
 	p.WriteBool(s.AssumeDelivered)
 	p.WriteInt32(s.SendingUser)
 	p.WriteInt32(s.ProcessState)
@@ -53,9 +48,6 @@ func (s *ReceiverInfo) MarshalParcel(
 	p.WriteStrongBinder(s.Receiver.AsBinder().Handle())
 	p.WriteBool(s.Ordered)
 	p.WriteBool(s.Sticky)
-	if _err := s.ActivityInfo.MarshalParcel(p); _err != nil {
-		return _err
-	}
 	if _err := s.CompatInfo.MarshalParcel(p); _err != nil {
 		return _err
 	}
@@ -79,10 +71,6 @@ func (s *ReceiverInfo) UnmarshalParcel(
 
 	s.Data, _err = p.ReadString16()
 	if _err != nil {
-		return _err
-	}
-
-	if _err = s.Extras.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 
@@ -134,10 +122,6 @@ func (s *ReceiverInfo) UnmarshalParcel(
 
 	s.Sticky, _err = p.ReadBool()
 	if _err != nil {
-		return _err
-	}
-
-	if _err = s.ActivityInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

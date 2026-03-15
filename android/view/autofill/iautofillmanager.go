@@ -5,7 +5,6 @@ import (
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	androidOs "github.com/xaionaro-go/binder/android/os"
 	serviceAutofill "github.com/xaionaro-go/binder/android/service/autofill"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
@@ -60,7 +59,7 @@ type IAutoFillManager interface {
 	SetViewAutofilled(ctx context.Context, sessionId int32, id AutofillId) error
 	FinishSession(ctx context.Context, sessionId int32, commitReason int32) error
 	CancelSession(ctx context.Context, sessionId int32) error
-	SetAuthenticationResult(ctx context.Context, data androidOs.Bundle, sessionId int32, authenticationId int32) error
+	SetAuthenticationResult(ctx context.Context, data interface{}, sessionId int32, authenticationId int32) error
 	SetHasCallback(ctx context.Context, sessionId int32, hasIt bool) error
 	DisableOwnedAutofillServices(ctx context.Context) error
 	IsServiceSupported(ctx context.Context, result os.IResultReceiver) error
@@ -369,17 +368,13 @@ func (p *AutoFillManagerProxy) CancelSession(
 
 func (p *AutoFillManagerProxy) SetAuthenticationResult(
 	ctx context.Context,
-	data androidOs.Bundle,
+	data interface{},
 	sessionId int32,
 	authenticationId int32,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
-	_data.WriteInt32(1)
-	if _err := data.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(authenticationId)
 	_data.WriteInt32(_identity.UserID)
@@ -1068,18 +1063,7 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_data androidOs.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_data interface{}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +18,7 @@ const (
 
 type IContentCaptureDirectManager interface {
 	AsBinder() binder.IBinder
-	SendEvents(ctx context.Context, events pm.ParceledListSlice, reason int32, options content.ContentCaptureOptions) error
+	SendEvents(ctx context.Context, events interface{}, reason int32, options content.ContentCaptureOptions) error
 }
 
 type ContentCaptureDirectManagerProxy struct {
@@ -40,16 +39,12 @@ var _ IContentCaptureDirectManager = (*ContentCaptureDirectManagerProxy)(nil)
 
 func (p *ContentCaptureDirectManagerProxy) SendEvents(
 	ctx context.Context,
-	events pm.ParceledListSlice,
+	events interface{},
 	reason int32,
 	options content.ContentCaptureOptions,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureDirectManager)
-	_data.WriteInt32(1)
-	if _err := events.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(reason)
 	_data.WriteInt32(1)
 	if _err := options.MarshalParcel(_data); _err != nil {
@@ -83,18 +78,7 @@ func (s *ContentCaptureDirectManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_events pm.ParceledListSlice
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_events.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_events interface{}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

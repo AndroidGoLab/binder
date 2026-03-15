@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,7 +19,7 @@ const (
 
 type IAssistDataReceiver interface {
 	AsBinder() binder.IBinder
-	OnHandleAssistData(ctx context.Context, resultData os.Bundle) error
+	OnHandleAssistData(ctx context.Context, resultData interface{}) error
 	OnHandleAssistScreenshot(ctx context.Context, screenshot graphics.Bitmap) error
 }
 
@@ -42,14 +41,10 @@ var _ IAssistDataReceiver = (*AssistDataReceiverProxy)(nil)
 
 func (p *AssistDataReceiverProxy) OnHandleAssistData(
 	ctx context.Context,
-	resultData os.Bundle,
+	resultData interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAssistDataReceiver)
-	_data.WriteInt32(1)
-	if _err := resultData.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAssistDataReceiver, "onHandleAssistData")
 	if _err != nil {
@@ -98,18 +93,7 @@ func (s *AssistDataReceiverStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_resultData os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_resultData.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_resultData interface{}
 		_err := s.Impl.OnHandleAssistData(ctx, _arg_resultData)
 		_ = _err
 		return nil, nil

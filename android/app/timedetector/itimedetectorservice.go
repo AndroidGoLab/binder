@@ -3,7 +3,7 @@ package timedetector
 import (
 	"context"
 	"fmt"
-	time "github.com/xaionaro-go/binder/android/app/time"
+	appTime "github.com/xaionaro-go/binder/android/app/time"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,17 +28,17 @@ const (
 
 type ITimeDetectorService interface {
 	AsBinder() binder.IBinder
-	GetCapabilitiesAndConfig(ctx context.Context) (time.TimeCapabilitiesAndConfig, error)
-	AddListener(ctx context.Context, listener time.ITimeDetectorListener) error
-	RemoveListener(ctx context.Context, listener time.ITimeDetectorListener) error
-	UpdateConfiguration(ctx context.Context, timeConfiguration time.TimeConfiguration) (bool, error)
-	GetTimeState(ctx context.Context) (time.TimeState, error)
-	ConfirmTime(ctx context.Context, time time.UnixEpochTime) (bool, error)
+	GetCapabilitiesAndConfig(ctx context.Context) (appTime.TimeCapabilitiesAndConfig, error)
+	AddListener(ctx context.Context, listener appTime.ITimeDetectorListener) error
+	RemoveListener(ctx context.Context, listener appTime.ITimeDetectorListener) error
+	UpdateConfiguration(ctx context.Context, timeConfiguration appTime.TimeConfiguration) (bool, error)
+	GetTimeState(ctx context.Context) (appTime.TimeState, error)
+	ConfirmTime(ctx context.Context, time appTime.UnixEpochTime) (bool, error)
 	SetManualTime(ctx context.Context, timeZoneSuggestion ManualTimeSuggestion) (bool, error)
-	SuggestExternalTime(ctx context.Context, timeSuggestion time.ExternalTimeSuggestion) error
+	SuggestExternalTime(ctx context.Context, timeSuggestion appTime.ExternalTimeSuggestion) error
 	SuggestManualTime(ctx context.Context, timeSuggestion ManualTimeSuggestion) (bool, error)
 	SuggestTelephonyTime(ctx context.Context, timeSuggestion TelephonyTimeSuggestion) error
-	LatestNetworkTime(ctx context.Context) (time.UnixEpochTime, error)
+	LatestNetworkTime(ctx context.Context) (appTime.UnixEpochTime, error)
 }
 
 type TimeDetectorServiceProxy struct {
@@ -59,8 +59,8 @@ var _ ITimeDetectorService = (*TimeDetectorServiceProxy)(nil)
 
 func (p *TimeDetectorServiceProxy) GetCapabilitiesAndConfig(
 	ctx context.Context,
-) (time.TimeCapabilitiesAndConfig, error) {
-	var _result time.TimeCapabilitiesAndConfig
+) (appTime.TimeCapabilitiesAndConfig, error) {
+	var _result appTime.TimeCapabilitiesAndConfig
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 
@@ -93,7 +93,7 @@ func (p *TimeDetectorServiceProxy) GetCapabilitiesAndConfig(
 
 func (p *TimeDetectorServiceProxy) AddListener(
 	ctx context.Context,
-	listener time.ITimeDetectorListener,
+	listener appTime.ITimeDetectorListener,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
@@ -119,7 +119,7 @@ func (p *TimeDetectorServiceProxy) AddListener(
 
 func (p *TimeDetectorServiceProxy) RemoveListener(
 	ctx context.Context,
-	listener time.ITimeDetectorListener,
+	listener appTime.ITimeDetectorListener,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
@@ -145,7 +145,7 @@ func (p *TimeDetectorServiceProxy) RemoveListener(
 
 func (p *TimeDetectorServiceProxy) UpdateConfiguration(
 	ctx context.Context,
-	timeConfiguration time.TimeConfiguration,
+	timeConfiguration appTime.TimeConfiguration,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -179,8 +179,8 @@ func (p *TimeDetectorServiceProxy) UpdateConfiguration(
 
 func (p *TimeDetectorServiceProxy) GetTimeState(
 	ctx context.Context,
-) (time.TimeState, error) {
-	var _result time.TimeState
+) (appTime.TimeState, error) {
+	var _result appTime.TimeState
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 
@@ -213,7 +213,7 @@ func (p *TimeDetectorServiceProxy) GetTimeState(
 
 func (p *TimeDetectorServiceProxy) ConfirmTime(
 	ctx context.Context,
-	time time.UnixEpochTime,
+	time appTime.UnixEpochTime,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -281,7 +281,7 @@ func (p *TimeDetectorServiceProxy) SetManualTime(
 
 func (p *TimeDetectorServiceProxy) SuggestExternalTime(
 	ctx context.Context,
-	timeSuggestion time.ExternalTimeSuggestion,
+	timeSuggestion appTime.ExternalTimeSuggestion,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
@@ -373,8 +373,8 @@ func (p *TimeDetectorServiceProxy) SuggestTelephonyTime(
 
 func (p *TimeDetectorServiceProxy) LatestNetworkTime(
 	ctx context.Context,
-) (time.UnixEpochTime, error) {
-	var _result time.UnixEpochTime
+) (appTime.UnixEpochTime, error) {
+	var _result appTime.UnixEpochTime
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITimeDetectorService)
 
@@ -440,7 +440,7 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener time.ITimeDetectorListener
+		var _arg_listener appTime.ITimeDetectorListener
 		_ = _arg_listener
 		_err := s.Impl.AddListener(ctx, _arg_listener)
 		_reply := parcel.New()
@@ -455,7 +455,7 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_listener time.ITimeDetectorListener
+		var _arg_listener appTime.ITimeDetectorListener
 		_ = _arg_listener
 		_err := s.Impl.RemoveListener(ctx, _arg_listener)
 		_reply := parcel.New()
@@ -469,7 +469,7 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_timeConfiguration time.TimeConfiguration
+		var _arg_timeConfiguration appTime.TimeConfiguration
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -510,7 +510,7 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_time time.UnixEpochTime
+		var _arg_time appTime.UnixEpochTime
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -560,7 +560,7 @@ func (s *TimeDetectorServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_timeSuggestion time.ExternalTimeSuggestion
+		var _arg_timeSuggestion appTime.ExternalTimeSuggestion
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {

@@ -3,7 +3,7 @@ package autofill
 import (
 	"context"
 	"fmt"
-	content "github.com/xaionaro-go/binder/android/content"
+	androidContent "github.com/xaionaro-go/binder/android/content"
 	credentials "github.com/xaionaro-go/binder/android/credentials"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	view "github.com/xaionaro-go/binder/android/view"
@@ -46,8 +46,8 @@ type IAutoFillManagerClient interface {
 	Autofill(ctx context.Context, sessionId int32, ids []AutofillId, values []AutofillValue, hideHighlight bool) error
 	OnGetCredentialResponse(ctx context.Context, sessionId int32, id AutofillId, response credentials.GetCredentialResponse) error
 	OnGetCredentialException(ctx context.Context, sessionId int32, id AutofillId, errorType string, errorMsg string) error
-	AutofillContent(ctx context.Context, sessionId int32, id AutofillId, content content.ClipData) error
-	Authenticate(ctx context.Context, sessionId int32, authenticationId int32, intent content.IntentSender, fillInIntent content.Intent, authenticateInline bool) error
+	AutofillContent(ctx context.Context, sessionId int32, id AutofillId, content androidContent.ClipData) error
+	Authenticate(ctx context.Context, sessionId int32, authenticationId int32, intent androidContent.IntentSender, fillInIntent androidContent.Intent, authenticateInline bool) error
 	SetTrackedViews(ctx context.Context, sessionId int32, savableIds []AutofillId, saveOnAllViewsInvisible bool, saveOnFinish bool, fillableIds []AutofillId, saveTriggerId AutofillId, shouldGrabViewFingerprints bool) error
 	RequestShowFillUi(ctx context.Context, sessionId int32, id AutofillId, width int32, height int32, anchorBounds graphics.Rect, presenter IAutofillWindowPresenter) error
 	RequestHideFillUi(ctx context.Context, sessionId int32, id AutofillId) error
@@ -56,11 +56,11 @@ type IAutoFillManagerClient interface {
 	NotifyFillUiShown(ctx context.Context, sessionId int32, id AutofillId) error
 	NotifyFillUiHidden(ctx context.Context, sessionId int32, id AutofillId) error
 	DispatchUnhandledKey(ctx context.Context, sessionId int32, id AutofillId, keyEvent view.KeyEvent) error
-	StartIntentSender(ctx context.Context, intentSender content.IntentSender, intent content.Intent) error
+	StartIntentSender(ctx context.Context, intentSender androidContent.IntentSender, intent androidContent.Intent) error
 	SetSaveUiState(ctx context.Context, sessionId int32, shown bool) error
 	SetSessionFinished(ctx context.Context, newState int32, autofillableIds []AutofillId) error
 	GetAugmentedAutofillClient(ctx context.Context, result os.IResultReceiver) error
-	NotifyDisableAutofill(ctx context.Context, disableDuration int64, componentName content.ComponentName) error
+	NotifyDisableAutofill(ctx context.Context, disableDuration int64, componentName androidContent.ComponentName) error
 	RequestShowSoftInput(ctx context.Context, id AutofillId) error
 	NotifyFillDialogTriggerIds(ctx context.Context, ids []AutofillId) error
 }
@@ -196,7 +196,7 @@ func (p *AutoFillManagerClientProxy) AutofillContent(
 	ctx context.Context,
 	sessionId int32,
 	id AutofillId,
-	content content.ClipData,
+	content androidContent.ClipData,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
@@ -223,8 +223,8 @@ func (p *AutoFillManagerClientProxy) Authenticate(
 	ctx context.Context,
 	sessionId int32,
 	authenticationId int32,
-	intent content.IntentSender,
-	fillInIntent content.Intent,
+	intent androidContent.IntentSender,
+	fillInIntent androidContent.Intent,
 	authenticateInline bool,
 ) error {
 	_data := parcel.New()
@@ -474,8 +474,8 @@ func (p *AutoFillManagerClientProxy) DispatchUnhandledKey(
 
 func (p *AutoFillManagerClientProxy) StartIntentSender(
 	ctx context.Context,
-	intentSender content.IntentSender,
-	intent content.Intent,
+	intentSender androidContent.IntentSender,
+	intent androidContent.Intent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
@@ -564,7 +564,7 @@ func (p *AutoFillManagerClientProxy) GetAugmentedAutofillClient(
 func (p *AutoFillManagerClientProxy) NotifyDisableAutofill(
 	ctx context.Context,
 	disableDuration int64,
-	componentName content.ComponentName,
+	componentName androidContent.ComponentName,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManagerClient)
@@ -761,7 +761,7 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_content content.ClipData
+		var _arg_content androidContent.ClipData
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -788,7 +788,7 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_intent content.IntentSender
+		var _arg_intent androidContent.IntentSender
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -800,7 +800,7 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_fillInIntent content.Intent
+		var _arg_fillInIntent androidContent.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1064,7 +1064,7 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intentSender content.IntentSender
+		var _arg_intentSender androidContent.IntentSender
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1076,7 +1076,7 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_intent content.Intent
+		var _arg_intent androidContent.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -1138,7 +1138,7 @@ func (s *AutoFillManagerClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_componentName content.ComponentName
+		var _arg_componentName androidContent.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {

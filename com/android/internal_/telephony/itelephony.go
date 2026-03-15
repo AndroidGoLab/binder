@@ -5,8 +5,8 @@ import (
 	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
-	content "github.com/xaionaro-go/binder/android/content"
-	config "github.com/xaionaro-go/binder/android/hardware/radio/config"
+	androidContent "github.com/xaionaro-go/binder/android/content"
+	radioConfig "github.com/xaionaro-go/binder/android/hardware/radio/config"
 	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
 	voice "github.com/xaionaro-go/binder/android/hardware/radio/voice"
 	net "github.com/xaionaro-go/binder/android/net"
@@ -16,6 +16,7 @@ import (
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	gba "github.com/xaionaro-go/binder/android/telephony/gba"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
+	aidl "github.com/xaionaro-go/binder/android/telephony/ims/aidl"
 	satellite "github.com/xaionaro-go/binder/android/telephony/satellite"
 	"github.com/xaionaro-go/binder/binder"
 	internal "github.com/xaionaro-go/binder/com/android/ims/internal_"
@@ -559,8 +560,8 @@ type ITelephony interface {
 	ResetIms(ctx context.Context, slotIndex int32) error
 	RegisterMmTelFeatureCallback(ctx context.Context, slotId int32, callback internal.IImsServiceFeatureCallback) error
 	UnregisterImsFeatureCallback(ctx context.Context, callback internal.IImsServiceFeatureCallback) error
-	GetImsRegistration(ctx context.Context, slotId int32, feature int32) (interface{}, error)
-	GetImsConfig(ctx context.Context, slotId int32, feature int32) (interface{}, error)
+	GetImsRegistration(ctx context.Context, slotId int32, feature int32) (aidl.IImsRegistration, error)
+	GetImsConfig(ctx context.Context, slotId int32, feature int32) (aidl.IImsConfig, error)
 	SetBoundImsServiceOverride(ctx context.Context, slotIndex int32, isCarrierService bool, featureTypes []int32, packageName string) (bool, error)
 	ClearCarrierImsServiceOverride(ctx context.Context, slotIndex int32) (bool, error)
 	GetBoundImsServicePackage(ctx context.Context, slotIndex int32, isCarrierImsService bool, featureType int32) (string, error)
@@ -586,7 +587,7 @@ type ITelephony interface {
 	GetCarrierPrivilegeStatusForUid(ctx context.Context, subId int32, uid int32) (int32, error)
 	CheckCarrierPrivilegesForPackage(ctx context.Context, subId int32, pkgName string) (int32, error)
 	CheckCarrierPrivilegesForPackageAnyPhone(ctx context.Context, pkgName string) (int32, error)
-	GetCarrierPackageNamesForIntentAndPhone(ctx context.Context, intent content.Intent, phoneId int32) ([]string, error)
+	GetCarrierPackageNamesForIntentAndPhone(ctx context.Context, intent androidContent.Intent, phoneId int32) ([]string, error)
 	SetLine1NumberForDisplayForSubscriber(ctx context.Context, subId int32, alphaTag string, number string) (bool, error)
 	GetLine1NumberForDisplay(ctx context.Context, subId int32) (string, error)
 	GetLine1AlphaTagForDisplay(ctx context.Context, subId int32) (string, error)
@@ -673,14 +674,14 @@ type ITelephony interface {
 	GetNetworkSelectionMode(ctx context.Context, subId int32) (int32, error)
 	IsInEmergencySmsMode(ctx context.Context) (bool, error)
 	GetRadioPowerState(ctx context.Context, slotIndex int32) (int32, error)
-	RegisterImsRegistrationCallback(ctx context.Context, subId int32, c interface{}) error
-	UnregisterImsRegistrationCallback(ctx context.Context, subId int32, c interface{}) error
-	RegisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c interface{}) error
-	UnregisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c interface{}) error
+	RegisterImsRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
+	UnregisterImsRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
+	RegisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
+	UnregisterImsEmergencyRegistrationCallback(ctx context.Context, subId int32, c aidl.IImsRegistrationCallback) error
 	GetImsMmTelRegistrationState(ctx context.Context, subId int32, consumer IIntegerConsumer) error
 	GetImsMmTelRegistrationTransportType(ctx context.Context, subId int32, consumer IIntegerConsumer) error
-	RegisterMmTelCapabilityCallback(ctx context.Context, subId int32, c interface{}) error
-	UnregisterMmTelCapabilityCallback(ctx context.Context, subId int32, c interface{}) error
+	RegisterMmTelCapabilityCallback(ctx context.Context, subId int32, c aidl.IImsCapabilityCallback) error
+	UnregisterMmTelCapabilityCallback(ctx context.Context, subId int32, c aidl.IImsCapabilityCallback) error
 	IsCapable(ctx context.Context, subId int32, capability int32, regTech int32) (bool, error)
 	IsAvailable(ctx context.Context, subId int32, capability int32, regTech int32) (bool, error)
 	IsMmTelCapabilitySupported(ctx context.Context, subId int32, callback IIntegerConsumer, capability int32, transportType int32) error
@@ -704,10 +705,10 @@ type ITelephony interface {
 	GetEmergencyNumberList(ctx context.Context) (map[interface{}]interface{}, error)
 	IsEmergencyNumber(ctx context.Context, number string, exactMatch bool) (bool, error)
 	GetCertsFromCarrierPrivilegeAccessRules(ctx context.Context, subId int32) ([]string, error)
-	RegisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback interface{}) error
-	UnregisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback interface{}) error
-	RegisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback interface{}) error
-	UnregisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback interface{}) error
+	RegisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IImsConfigCallback) error
+	UnregisterImsProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IImsConfigCallback) error
+	RegisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IFeatureProvisioningCallback) error
+	UnregisterFeatureProvisioningChangedCallback(ctx context.Context, subId int32, callback aidl.IFeatureProvisioningCallback) error
 	SetImsProvisioningStatusForCapability(ctx context.Context, subId int32, capability int32, tech int32, isProvisioned bool) error
 	GetImsProvisioningStatusForCapability(ctx context.Context, subId int32, capability int32, tech int32) (bool, error)
 	GetRcsProvisioningStatusForCapability(ctx context.Context, subId int32, capability int32, tech int32) (bool, error)
@@ -768,8 +769,8 @@ type ITelephony interface {
 	GetGbaReleaseTime(ctx context.Context, subId int32) (int32, error)
 	SetRcsClientConfiguration(ctx context.Context, subId int32, rcc ims.RcsClientConfiguration) error
 	IsRcsVolteSingleRegistrationCapable(ctx context.Context, subId int32) (bool, error)
-	RegisterRcsProvisioningCallback(ctx context.Context, subId int32, callback interface{}) error
-	UnregisterRcsProvisioningCallback(ctx context.Context, subId int32, callback interface{}) error
+	RegisterRcsProvisioningCallback(ctx context.Context, subId int32, callback aidl.IRcsConfigCallback) error
+	UnregisterRcsProvisioningCallback(ctx context.Context, subId int32, callback aidl.IRcsConfigCallback) error
 	TriggerRcsReconfiguration(ctx context.Context, subId int32) error
 	SetRcsSingleRegistrationTestModeEnabled(ctx context.Context, enabled bool) error
 	GetRcsSingleRegistrationTestModeEnabled(ctx context.Context) (bool, error)
@@ -797,7 +798,7 @@ type ITelephony interface {
 	SetCapabilitiesRequestTimeout(ctx context.Context, subId int32, timeoutAfterMs int64) (bool, error)
 	SetSignalStrengthUpdateRequest(ctx context.Context, subId int32, request androidTelephony.SignalStrengthUpdateRequest) error
 	ClearSignalStrengthUpdateRequest(ctx context.Context, subId int32, request androidTelephony.SignalStrengthUpdateRequest) error
-	GetPhoneCapability(ctx context.Context) (config.PhoneCapability, error)
+	GetPhoneCapability(ctx context.Context) (radioConfig.PhoneCapability, error)
 	PrepareForUnattendedReboot(ctx context.Context) (int32, error)
 	GetSlicingConfig(ctx context.Context, callback os.ResultReceiver) error
 	IsPremiumCapabilityAvailableForPurchase(ctx context.Context, capability int32, subId int32) (bool, error)
@@ -813,7 +814,7 @@ type ITelephony interface {
 	GetCarrierServicePackageNameForLogicalSlot(ctx context.Context, logicalSlotIndex int32) (string, error)
 	SetRemovableEsimAsDefaultEuicc(ctx context.Context, isDefault bool) error
 	IsRemovableEsimDefaultEuicc(ctx context.Context) (bool, error)
-	GetDefaultRespondViaMessageApplication(ctx context.Context, subId int32, updateIfNeeded bool) (content.ComponentName, error)
+	GetDefaultRespondViaMessageApplication(ctx context.Context, subId int32, updateIfNeeded bool) (androidContent.ComponentName, error)
 	GetSimStateForSlotIndex(ctx context.Context, slotIndex int32) (int32, error)
 	PersistEmergencyCallDiagnosticData(ctx context.Context, dropboxTag string, enableLogcat bool, logcatStartTimestampMillis int64, enableTelecomDump bool, enableTelephonyDump bool) error
 	SetNullCipherAndIntegrityEnabled(ctx context.Context, enabled bool) error
@@ -872,7 +873,7 @@ type ITelephony interface {
 	RegisterForCapabilitiesChanged(ctx context.Context, callback satellite.ISatelliteCapabilitiesCallback) (int32, error)
 	UnregisterForCapabilitiesChanged(ctx context.Context, callback satellite.ISatelliteCapabilitiesCallback) error
 	SetShouldSendDatagramToModemInDemoMode(ctx context.Context, shouldSendToModemInDemoMode bool) (bool, error)
-	SetDomainSelectionServiceOverride(ctx context.Context, componentName content.ComponentName) (bool, error)
+	SetDomainSelectionServiceOverride(ctx context.Context, componentName androidContent.ComponentName) (bool, error)
 	ClearDomainSelectionServiceOverride(ctx context.Context) (bool, error)
 	IsAospDomainSelectionService(ctx context.Context) (bool, error)
 	SetEnableCellularIdentifierDisclosureNotifications(ctx context.Context, enable bool) error
@@ -891,8 +892,8 @@ type ITelephony interface {
 	RequestSatelliteDisplayName(ctx context.Context, receiver os.ResultReceiver) error
 	ProvisionSatellite(ctx context.Context, list []satellite.SatelliteSubscriberInfo, result os.ResultReceiver) error
 	SetSatelliteSubscriberIdListChangedIntentComponent(ctx context.Context, name string) (bool, error)
-	SetTestEuiccUiComponent(ctx context.Context, componentName content.ComponentName) error
-	GetTestEuiccUiComponent(ctx context.Context) (content.ComponentName, error)
+	SetTestEuiccUiComponent(ctx context.Context, componentName androidContent.ComponentName) error
+	GetTestEuiccUiComponent(ctx context.Context) (androidContent.ComponentName, error)
 	OverrideCarrierRoamingNtnEligibilityChanged(ctx context.Context, status bool, resetRequired bool) (bool, error)
 	DeprovisionSatellite(ctx context.Context, list []satellite.SatelliteSubscriberInfo, result os.ResultReceiver) error
 	SetNtnSmsSupported(ctx context.Context, ntnSmsSupported bool) error
@@ -4024,8 +4025,8 @@ func (p *TelephonyProxy) GetImsRegistration(
 	ctx context.Context,
 	slotId int32,
 	feature int32,
-) (interface{}, error) {
-	var _result interface{}
+) (aidl.IImsRegistration, error) {
+	var _result aidl.IImsRegistration
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotId)
@@ -4046,6 +4047,11 @@ func (p *TelephonyProxy) GetImsRegistration(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = aidl.NewImsRegistrationProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -4053,8 +4059,8 @@ func (p *TelephonyProxy) GetImsConfig(
 	ctx context.Context,
 	slotId int32,
 	feature int32,
-) (interface{}, error) {
-	var _result interface{}
+) (aidl.IImsConfig, error) {
+	var _result aidl.IImsConfig
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(slotId)
@@ -4075,6 +4081,11 @@ func (p *TelephonyProxy) GetImsConfig(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = aidl.NewImsConfigProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -4907,7 +4918,7 @@ func (p *TelephonyProxy) CheckCarrierPrivilegesForPackageAnyPhone(
 
 func (p *TelephonyProxy) GetCarrierPackageNamesForIntentAndPhone(
 	ctx context.Context,
-	intent content.Intent,
+	intent androidContent.Intent,
 	phoneId int32,
 ) ([]string, error) {
 	var _result []string
@@ -7841,11 +7852,12 @@ func (p *TelephonyProxy) GetRadioPowerState(
 func (p *TelephonyProxy) RegisterImsRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c interface{},
+	c aidl.IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(c.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerImsRegistrationCallback")
 	if _err != nil {
@@ -7868,11 +7880,12 @@ func (p *TelephonyProxy) RegisterImsRegistrationCallback(
 func (p *TelephonyProxy) UnregisterImsRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c interface{},
+	c aidl.IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(c.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterImsRegistrationCallback")
 	if _err != nil {
@@ -7895,11 +7908,12 @@ func (p *TelephonyProxy) UnregisterImsRegistrationCallback(
 func (p *TelephonyProxy) RegisterImsEmergencyRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c interface{},
+	c aidl.IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(c.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerImsEmergencyRegistrationCallback")
 	if _err != nil {
@@ -7922,11 +7936,12 @@ func (p *TelephonyProxy) RegisterImsEmergencyRegistrationCallback(
 func (p *TelephonyProxy) UnregisterImsEmergencyRegistrationCallback(
 	ctx context.Context,
 	subId int32,
-	c interface{},
+	c aidl.IImsRegistrationCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(c.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterImsEmergencyRegistrationCallback")
 	if _err != nil {
@@ -8005,11 +8020,12 @@ func (p *TelephonyProxy) GetImsMmTelRegistrationTransportType(
 func (p *TelephonyProxy) RegisterMmTelCapabilityCallback(
 	ctx context.Context,
 	subId int32,
-	c interface{},
+	c aidl.IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(c.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerMmTelCapabilityCallback")
 	if _err != nil {
@@ -8032,11 +8048,12 @@ func (p *TelephonyProxy) RegisterMmTelCapabilityCallback(
 func (p *TelephonyProxy) UnregisterMmTelCapabilityCallback(
 	ctx context.Context,
 	subId int32,
-	c interface{},
+	c aidl.IImsCapabilityCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(c.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterMmTelCapabilityCallback")
 	if _err != nil {
@@ -8783,11 +8800,12 @@ func (p *TelephonyProxy) GetCertsFromCarrierPrivilegeAccessRules(
 func (p *TelephonyProxy) RegisterImsProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback interface{},
+	callback aidl.IImsConfigCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerImsProvisioningChangedCallback")
 	if _err != nil {
@@ -8810,11 +8828,12 @@ func (p *TelephonyProxy) RegisterImsProvisioningChangedCallback(
 func (p *TelephonyProxy) UnregisterImsProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback interface{},
+	callback aidl.IImsConfigCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterImsProvisioningChangedCallback")
 	if _err != nil {
@@ -8837,11 +8856,12 @@ func (p *TelephonyProxy) UnregisterImsProvisioningChangedCallback(
 func (p *TelephonyProxy) RegisterFeatureProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback interface{},
+	callback aidl.IFeatureProvisioningCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerFeatureProvisioningChangedCallback")
 	if _err != nil {
@@ -8864,11 +8884,12 @@ func (p *TelephonyProxy) RegisterFeatureProvisioningChangedCallback(
 func (p *TelephonyProxy) UnregisterFeatureProvisioningChangedCallback(
 	ctx context.Context,
 	subId int32,
-	callback interface{},
+	callback aidl.IFeatureProvisioningCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterFeatureProvisioningChangedCallback")
 	if _err != nil {
@@ -10759,11 +10780,12 @@ func (p *TelephonyProxy) IsRcsVolteSingleRegistrationCapable(
 func (p *TelephonyProxy) RegisterRcsProvisioningCallback(
 	ctx context.Context,
 	subId int32,
-	callback interface{},
+	callback aidl.IRcsConfigCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerRcsProvisioningCallback")
 	if _err != nil {
@@ -10786,11 +10808,12 @@ func (p *TelephonyProxy) RegisterRcsProvisioningCallback(
 func (p *TelephonyProxy) UnregisterRcsProvisioningCallback(
 	ctx context.Context,
 	subId int32,
-	callback interface{},
+	callback aidl.IRcsConfigCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterRcsProvisioningCallback")
 	if _err != nil {
@@ -11658,8 +11681,8 @@ func (p *TelephonyProxy) ClearSignalStrengthUpdateRequest(
 
 func (p *TelephonyProxy) GetPhoneCapability(
 	ctx context.Context,
-) (config.PhoneCapability, error) {
-	var _result config.PhoneCapability
+) (radioConfig.PhoneCapability, error) {
+	var _result radioConfig.PhoneCapability
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
@@ -12162,8 +12185,8 @@ func (p *TelephonyProxy) GetDefaultRespondViaMessageApplication(
 	ctx context.Context,
 	subId int32,
 	updateIfNeeded bool,
-) (content.ComponentName, error) {
-	var _result content.ComponentName
+) (androidContent.ComponentName, error) {
+	var _result androidContent.ComponentName
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
@@ -14021,7 +14044,7 @@ func (p *TelephonyProxy) SetShouldSendDatagramToModemInDemoMode(
 
 func (p *TelephonyProxy) SetDomainSelectionServiceOverride(
 	ctx context.Context,
-	componentName content.ComponentName,
+	componentName androidContent.ComponentName,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -14608,7 +14631,7 @@ func (p *TelephonyProxy) SetSatelliteSubscriberIdListChangedIntentComponent(
 
 func (p *TelephonyProxy) SetTestEuiccUiComponent(
 	ctx context.Context,
-	componentName content.ComponentName,
+	componentName androidContent.ComponentName,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
@@ -14637,8 +14660,8 @@ func (p *TelephonyProxy) SetTestEuiccUiComponent(
 
 func (p *TelephonyProxy) GetTestEuiccUiComponent(
 	ctx context.Context,
-) (content.ComponentName, error) {
-	var _result content.ComponentName
+) (androidContent.ComponentName, error) {
+	var _result androidContent.ComponentName
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 
@@ -16832,6 +16855,7 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonyGetImsConfig:
@@ -16853,6 +16877,7 @@ func (s *TelephonyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionITelephonySetBoundImsServiceOverride:
@@ -17422,7 +17447,7 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent content.Intent
+		var _arg_intent androidContent.Intent
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -19250,7 +19275,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_c interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c aidl.IImsRegistrationCallback
+		_ = _arg_c
 		_err = s.Impl.RegisterImsRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19267,7 +19294,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_c interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c aidl.IImsRegistrationCallback
+		_ = _arg_c
 		_err = s.Impl.UnregisterImsRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19284,7 +19313,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_c interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c aidl.IImsRegistrationCallback
+		_ = _arg_c
 		_err = s.Impl.RegisterImsEmergencyRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19301,7 +19332,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_c interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c aidl.IImsRegistrationCallback
+		_ = _arg_c
 		_err = s.Impl.UnregisterImsEmergencyRegistrationCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19356,7 +19389,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_c interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c aidl.IImsCapabilityCallback
+		_ = _arg_c
 		_err = s.Impl.RegisterMmTelCapabilityCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19373,7 +19408,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_c interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_c aidl.IImsCapabilityCallback
+		_ = _arg_c
 		_err = s.Impl.UnregisterMmTelCapabilityCallback(ctx, _arg_subId, _arg_c)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19846,7 +19883,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback aidl.IImsConfigCallback
+		_ = _arg_callback
 		_err = s.Impl.RegisterImsProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19863,7 +19902,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback aidl.IImsConfigCallback
+		_ = _arg_callback
 		_err = s.Impl.UnregisterImsProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19880,7 +19921,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback aidl.IFeatureProvisioningCallback
+		_ = _arg_callback
 		_err = s.Impl.RegisterFeatureProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -19897,7 +19940,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback aidl.IFeatureProvisioningCallback
+		_ = _arg_callback
 		_err = s.Impl.UnregisterFeatureProvisioningChangedCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21096,7 +21141,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback aidl.IRcsConfigCallback
+		_ = _arg_callback
 		_err = s.Impl.RegisterRcsProvisioningCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -21113,7 +21160,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback aidl.IRcsConfigCallback
+		_ = _arg_callback
 		_err = s.Impl.UnregisterRcsProvisioningCallback(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23145,7 +23194,7 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_componentName content.ComponentName
+		var _arg_componentName androidContent.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -23504,7 +23553,7 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_componentName content.ComponentName
+		var _arg_componentName androidContent.ComponentName
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {

@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,7 +24,7 @@ type ILocationProvider interface {
 	SetLocationProviderManager(ctx context.Context, manager ILocationProviderManager) error
 	SetRequest(ctx context.Context, request ProviderRequest) error
 	Flush(ctx context.Context) error
-	SendExtraCommand(ctx context.Context, command string, extras interface{}) error
+	SendExtraCommand(ctx context.Context, command string, extras os.Bundle) error
 }
 
 type LocationProviderProxy struct {
@@ -97,11 +98,15 @@ func (p *LocationProviderProxy) Flush(
 func (p *LocationProviderProxy) SendExtraCommand(
 	ctx context.Context,
 	command string,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationProvider)
 	_data.WriteString16(command)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationProvider, "sendExtraCommand")
 	if _err != nil {
@@ -170,7 +175,18 @@ func (s *LocationProviderStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SendExtraCommand(ctx, _arg_command, _arg_extras)
 		_ = _err
 		return nil, nil

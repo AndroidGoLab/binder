@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
+	c2IComponent "github.com/xaionaro-go/binder/android/hardware/media/c2/IComponent"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -31,7 +32,7 @@ const (
 type IComponent interface {
 	AsBinder() binder.IBinder
 	ConfigureVideoTunnel(ctx context.Context, avSyncHwId int32) (common.NativeHandle, error)
-	CreateBlockPool(ctx context.Context, allocator interface{}) (interface{}, error)
+	CreateBlockPool(ctx context.Context, allocator c2IComponent.BlockPoolAllocator) (c2IComponent.BlockPool, error)
 	DestroyBlockPool(ctx context.Context, blockPoolId int64) error
 	Drain(ctx context.Context, withEos bool) error
 	Flush(ctx context.Context) (WorkBundle, error)
@@ -99,11 +100,15 @@ func (p *ComponentProxy) ConfigureVideoTunnel(
 
 func (p *ComponentProxy) CreateBlockPool(
 	ctx context.Context,
-	allocator interface{},
-) (interface{}, error) {
-	var _result interface{}
+	allocator c2IComponent.BlockPoolAllocator,
+) (c2IComponent.BlockPool, error) {
+	var _result c2IComponent.BlockPool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIComponent)
+	_data.WriteInt32(1)
+	if _err := allocator.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIComponent, "createBlockPool")
 	if _err != nil {
@@ -120,6 +125,15 @@ func (p *ComponentProxy) CreateBlockPool(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -464,7 +478,18 @@ func (s *ComponentStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_allocator interface{}
+		var _arg_allocator c2IComponent.BlockPoolAllocator
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_allocator.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.CreateBlockPool(ctx, _arg_allocator)
 		_reply := parcel.New()
 		if _err != nil {
@@ -472,7 +497,10 @@ func (s *ComponentStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIComponentDestroyBlockPool:
 		if _, _err := _data.ReadString16(); _err != nil {

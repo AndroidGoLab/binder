@@ -3,7 +3,6 @@ package app
 import (
 	"context"
 	"fmt"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
 	res "github.com/xaionaro-go/binder/android/content/res"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
@@ -24,7 +23,7 @@ const (
 type IMediaContainerService interface {
 	AsBinder() binder.IBinder
 	CopyPackage(ctx context.Context, packagePath string, target os.IParcelFileDescriptorFactory) (int32, error)
-	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (pm.PackageInfoLite, error)
+	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (interface{}, error)
 	GetObbInfo(ctx context.Context, filename string) (res.ObbInfo, error)
 	CalculateInstalledSize(ctx context.Context, packagePath string, abiOverride string) (int64, error)
 }
@@ -83,8 +82,8 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 	packagePath string,
 	flags int32,
 	abiOverride string,
-) (pm.PackageInfoLite, error) {
-	var _result pm.PackageInfoLite
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(packagePath)
@@ -106,15 +105,6 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -244,10 +234,7 @@ func (s *MediaContainerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIMediaContainerServiceGetObbInfo:
 		if _, _err := _data.ReadString16(); _err != nil {

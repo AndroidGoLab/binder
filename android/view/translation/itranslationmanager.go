@@ -5,10 +5,9 @@ import (
 	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	content "github.com/xaionaro-go/binder/android/content"
-	os "github.com/xaionaro-go/binder/android/os"
 	autofill "github.com/xaionaro-go/binder/android/view/autofill"
 	"github.com/xaionaro-go/binder/binder"
-	internalOs "github.com/xaionaro-go/binder/com/android/internal_/os"
+	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -30,14 +29,14 @@ const (
 
 type ITranslationManager interface {
 	AsBinder() binder.IBinder
-	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, destFormat int32, receiver os.ResultReceiver) error
+	OnTranslationCapabilitiesRequest(ctx context.Context, sourceFormat int32, destFormat int32, receiver interface{}) error
 	RegisterTranslationCapabilityCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
 	UnregisterTranslationCapabilityCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
-	OnSessionCreated(ctx context.Context, translationContext TranslationContext, sessionId int32, receiver internalOs.IResultReceiver) error
+	OnSessionCreated(ctx context.Context, translationContext TranslationContext, sessionId int32, receiver os.IResultReceiver) error
 	UpdateUiTranslationState(ctx context.Context, state int32, sourceSpec TranslationSpec, targetSpec TranslationSpec, viewIds []autofill.AutofillId, token binder.IBinder, taskId int32, uiTranslationSpec UiTranslationSpec) error
 	RegisterUiTranslationStateCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
 	UnregisterUiTranslationStateCallback(ctx context.Context, callback ondeviceintelligence.IRemoteCallback) error
-	GetServiceSettingsActivity(ctx context.Context, result internalOs.IResultReceiver) error
+	GetServiceSettingsActivity(ctx context.Context, result os.IResultReceiver) error
 	OnTranslationFinished(ctx context.Context, activityDestroyed bool, token binder.IBinder, componentName content.ComponentName) error
 }
 
@@ -61,17 +60,13 @@ func (p *TranslationManagerProxy) OnTranslationCapabilitiesRequest(
 	ctx context.Context,
 	sourceFormat int32,
 	destFormat int32,
-	receiver os.ResultReceiver,
+	receiver interface{},
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationManager)
 	_data.WriteInt32(sourceFormat)
 	_data.WriteInt32(destFormat)
-	_data.WriteInt32(1)
-	if _err := receiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationManager, "onTranslationCapabilitiesRequest")
@@ -125,7 +120,7 @@ func (p *TranslationManagerProxy) OnSessionCreated(
 	ctx context.Context,
 	translationContext TranslationContext,
 	sessionId int32,
-	receiver internalOs.IResultReceiver,
+	receiver os.IResultReceiver,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
@@ -236,7 +231,7 @@ func (p *TranslationManagerProxy) UnregisterUiTranslationStateCallback(
 
 func (p *TranslationManagerProxy) GetServiceSettingsActivity(
 	ctx context.Context,
-	result internalOs.IResultReceiver,
+	result os.IResultReceiver,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
@@ -305,18 +300,7 @@ func (s *TranslationManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_receiver os.ResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_receiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_receiver interface{}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -370,7 +354,7 @@ func (s *TranslationManagerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_receiver internalOs.IResultReceiver
+		var _arg_receiver os.IResultReceiver
 		_ = _arg_receiver
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
@@ -469,7 +453,7 @@ func (s *TranslationManagerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_result internalOs.IResultReceiver
+		var _arg_result os.IResultReceiver
 		_ = _arg_result
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err

@@ -6,6 +6,7 @@ import (
 	content "github.com/xaionaro-go/binder/android/content"
 	drawable "github.com/xaionaro-go/binder/android/graphics/drawable"
 	os "github.com/xaionaro-go/binder/android/os"
+	printservice "github.com/xaionaro-go/binder/android/printservice"
 	recommendation "github.com/xaionaro-go/binder/android/printservice/recommendation"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -54,7 +55,7 @@ type IPrintManager interface {
 	RemovePrintJobStateChangeListener(ctx context.Context, listener IPrintJobStateChangeListener) error
 	AddPrintServicesChangeListener(ctx context.Context, listener IPrintServicesChangeListener) error
 	RemovePrintServicesChangeListener(ctx context.Context, listener IPrintServicesChangeListener) error
-	GetPrintServices(ctx context.Context, selectionFlags int32) ([]interface{}, error)
+	GetPrintServices(ctx context.Context, selectionFlags int32) ([]printservice.PrintServiceInfo, error)
 	SetPrintServiceEnabled(ctx context.Context, service content.ComponentName, isEnabled bool) error
 	IsPrintServiceEnabled(ctx context.Context, service content.ComponentName) (bool, error)
 	AddPrintServiceRecommendationsChangeListener(ctx context.Context, listener recommendation.IRecommendationsChangeListener) error
@@ -405,8 +406,8 @@ func (p *PrintManagerProxy) RemovePrintServicesChangeListener(
 func (p *PrintManagerProxy) GetPrintServices(
 	ctx context.Context,
 	selectionFlags int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]printservice.PrintServiceInfo, error) {
+	var _result []printservice.PrintServiceInfo
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintManager)
@@ -434,8 +435,11 @@ func (p *PrintManagerProxy) GetPrintServices(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]printservice.PrintServiceInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil

@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
-	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -138,7 +137,7 @@ type IBackupManager interface {
 	RequestBackup(ctx context.Context, packages []string, observer IBackupObserver, monitor IBackupManagerMonitor, flags int32) (int32, error)
 	CancelBackupsForUser(ctx context.Context) error
 	CancelBackups(ctx context.Context) error
-	GetUserForAncestralSerialNumber(ctx context.Context, ancestralSerialNumber int64) (os.UserHandle, error)
+	GetUserForAncestralSerialNumber(ctx context.Context, ancestralSerialNumber int64) (interface{}, error)
 	SetAncestralSerialNumber(ctx context.Context, ancestralSerialNumber int64) error
 	ExcludeKeysFromRestore(ctx context.Context, packageName string, keys []string) error
 	ReportDelayedRestoreResult(ctx context.Context, packageName string, results []BackupRestoreEventLoggerDataTypeResult) error
@@ -2055,8 +2054,8 @@ func (p *BackupManagerProxy) CancelBackups(
 func (p *BackupManagerProxy) GetUserForAncestralSerialNumber(
 	ctx context.Context,
 	ancestralSerialNumber int64,
-) (os.UserHandle, error) {
-	var _result os.UserHandle
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManager)
 	_data.WriteInt64(ancestralSerialNumber)
@@ -2076,15 +2075,6 @@ func (p *BackupManagerProxy) GetUserForAncestralSerialNumber(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -3411,10 +3401,7 @@ func (s *BackupManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIBackupManagerSetAncestralSerialNumber:
 		if _, _err := _data.ReadString16(); _err != nil {

@@ -3,7 +3,9 @@ package storage
 import (
 	"context"
 	"fmt"
+	app "github.com/xaionaro-go/binder/android/app"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -82,7 +84,7 @@ type IStorageManager interface {
 	RegisterListener(ctx context.Context, listener IStorageEventListener) error
 	UnregisterListener(ctx context.Context, listener IStorageEventListener) error
 	Shutdown(ctx context.Context, observer IStorageShutdownObserver) error
-	MountObb(ctx context.Context, rawPath string, canonicalPath string, token IObbActionListener, nonce int32, obbInfo interface{}) error
+	MountObb(ctx context.Context, rawPath string, canonicalPath string, token IObbActionListener, nonce int32, obbInfo res.ObbInfo) error
 	UnmountObb(ctx context.Context, rawPath string, force bool, token IObbActionListener, nonce int32) error
 	IsObbMounted(ctx context.Context, rawPath string) (bool, error)
 	GetMountedObbPath(ctx context.Context, rawPath string) (string, error)
@@ -131,7 +133,7 @@ type IStorageManager interface {
 	AbortChanges(ctx context.Context, message string, retry bool) error
 	FixupAppDir(ctx context.Context, path string) error
 	DisableAppDataIsolation(ctx context.Context, pkgName string, pid int32) error
-	GetManageSpaceActivityIntent(ctx context.Context, packageName string, requestCode int32) (interface{}, error)
+	GetManageSpaceActivityIntent(ctx context.Context, packageName string, requestCode int32) (app.PendingIntent, error)
 	NotifyAppIoBlocked(ctx context.Context, volumeUuid string, uid int32, tid int32, reason int32) error
 	NotifyAppIoResumed(ctx context.Context, volumeUuid string, uid int32, tid int32, reason int32) error
 	GetExternalStorageMountMode(ctx context.Context, uid int32, packageName string) (int32, error)
@@ -242,7 +244,7 @@ func (p *StorageManagerProxy) MountObb(
 	canonicalPath string,
 	token IObbActionListener,
 	nonce int32,
-	obbInfo interface{},
+	obbInfo res.ObbInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
@@ -250,6 +252,10 @@ func (p *StorageManagerProxy) MountObb(
 	_data.WriteString16(canonicalPath)
 	_data.WriteStrongBinder(token.AsBinder().Handle())
 	_data.WriteInt32(nonce)
+	_data.WriteInt32(1)
+	if _err := obbInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mountObb")
 	if _err != nil {
@@ -1697,8 +1703,8 @@ func (p *StorageManagerProxy) GetManageSpaceActivityIntent(
 	ctx context.Context,
 	packageName string,
 	requestCode int32,
-) (interface{}, error) {
-	var _result interface{}
+) (app.PendingIntent, error) {
+	var _result app.PendingIntent
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(packageName)
@@ -1719,6 +1725,15 @@ func (p *StorageManagerProxy) GetManageSpaceActivityIntent(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2032,7 +2047,18 @@ func (s *StorageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_obbInfo interface{}
+		var _arg_obbInfo res.ObbInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_obbInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.MountObb(ctx, _arg_rawPath, _arg_canonicalPath, _arg_token, _arg_nonce, _arg_obbInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2916,7 +2942,10 @@ func (s *StorageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIStorageManagerNotifyAppIoBlocked:
 		if _, _err := _data.ReadString16(); _err != nil {

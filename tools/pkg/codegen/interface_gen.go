@@ -24,6 +24,13 @@ func GenerateInterface(
 	opts := applyGenOptions(options)
 	f := NewGoFile(pkg)
 	typeRef := opts.newTypeRefResolver(f)
+
+	// Reserve all parameter names so that import aliases cannot shadow them.
+	// This must happen before any type resolution triggers ensureImport.
+	if typeRef != nil {
+		typeRef.ReserveNames(collectParamNames(decl.Methods))
+	}
+
 	f.AddImport("github.com/xaionaro-go/binder/binder", "")
 	// The stub's OnTransaction method always references context.Context and
 	// *parcel.Parcel, so these imports are needed even for method-less interfaces.
@@ -68,6 +75,26 @@ func GenerateInterface(
 	writeStubType(f, interfaceName, stubName, descriptorConst, decl, opts, typeRef)
 
 	return f.Bytes()
+}
+
+// collectParamNames returns the deduplicated set of Go identifier names
+// that will appear as method parameters in the generated interface file.
+// These names must be reserved so that import aliases do not shadow them.
+func collectParamNames(methods []*parser.MethodDecl) []string {
+	seen := make(map[string]bool)
+	for _, m := range methods {
+		regularParams, _ := classifyParams(m.Params)
+		for _, p := range regularParams {
+			name := sanitizeGoIdent(p.ParamName)
+			seen[name] = true
+		}
+	}
+
+	names := make([]string, 0, len(seen))
+	for name := range seen {
+		names = append(names, name)
+	}
+	return names
 }
 
 // deriveProxyName derives a proxy struct name from an interface name.

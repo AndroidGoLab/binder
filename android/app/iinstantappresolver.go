@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
-	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,8 +19,8 @@ const (
 
 type IInstantAppResolver interface {
 	AsBinder() binder.IBinder
-	GetInstantAppResolveInfoList(ctx context.Context, request pm.InstantAppRequestInfo, sequence int32, callback ondeviceintelligence.IRemoteCallback) error
-	GetInstantAppIntentFilterList(ctx context.Context, request pm.InstantAppRequestInfo, callback ondeviceintelligence.IRemoteCallback) error
+	GetInstantAppResolveInfoList(ctx context.Context, request interface{}, sequence int32, callback ondeviceintelligence.IRemoteCallback) error
+	GetInstantAppIntentFilterList(ctx context.Context, request interface{}, callback ondeviceintelligence.IRemoteCallback) error
 }
 
 type InstantAppResolverProxy struct {
@@ -42,16 +41,12 @@ var _ IInstantAppResolver = (*InstantAppResolverProxy)(nil)
 
 func (p *InstantAppResolverProxy) GetInstantAppResolveInfoList(
 	ctx context.Context,
-	request pm.InstantAppRequestInfo,
+	request interface{},
 	sequence int32,
 	callback ondeviceintelligence.IRemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteInt32(sequence)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
@@ -66,15 +61,11 @@ func (p *InstantAppResolverProxy) GetInstantAppResolveInfoList(
 
 func (p *InstantAppResolverProxy) GetInstantAppIntentFilterList(
 	ctx context.Context,
-	request pm.InstantAppRequestInfo,
+	request interface{},
 	callback ondeviceintelligence.IRemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstantAppResolver)
-	_data.WriteInt32(1)
-	if _err := request.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInstantAppResolver, "getInstantAppIntentFilterList")
@@ -104,18 +95,7 @@ func (s *InstantAppResolverStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_request pm.InstantAppRequestInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_request interface{}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -130,18 +110,7 @@ func (s *InstantAppResolverStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_request pm.InstantAppRequestInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_request interface{}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback ondeviceintelligence.IRemoteCallback
 		_ = _arg_callback

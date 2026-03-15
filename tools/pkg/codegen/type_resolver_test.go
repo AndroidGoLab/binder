@@ -120,6 +120,54 @@ func TestIsForwardDeclared_NilRegistry(t *testing.T) {
 	assert.False(t, r.isForwardDeclared("android.os.Anything"))
 }
 
+func TestReserveNames_AvoidsParamNameClash(t *testing.T) {
+	// When a parameter named "provider" exists and the import path ends
+	// in "provider", the alias must be disambiguated to avoid shadowing.
+	reg := resolver.NewTypeRegistry()
+	reg.Register("android.location.provider.ProviderProperties", &parser.ParcelableDecl{
+		ParcName: "ProviderProperties",
+	})
+
+	f := NewGoFile("location")
+	r := NewTypeRefResolver(reg, "android.location", f)
+
+	// Reserve "provider" as if a method has a parameter named "provider".
+	r.ReserveNames([]string{"provider"})
+
+	goType := r.GoTypeRef(&parser.TypeSpecifier{Name: "android.location.provider.ProviderProperties"})
+
+	// The alias must NOT be "provider" because that's a reserved param name.
+	assert.NotEqual(t, "provider.ProviderProperties", goType,
+		"import alias must not clash with reserved parameter name")
+	assert.Contains(t, goType, "ProviderProperties",
+		"type name must still reference ProviderProperties")
+
+	// Verify the alias used in the import is not "provider".
+	for _, alias := range f.imports {
+		assert.NotEqual(t, "provider", alias,
+			"import alias must not match reserved parameter name")
+	}
+}
+
+func TestReserveNames_NoClashWhenParamDiffers(t *testing.T) {
+	// When no parameter name matches the import alias, it stays short.
+	reg := resolver.NewTypeRegistry()
+	reg.Register("android.location.provider.ProviderProperties", &parser.ParcelableDecl{
+		ParcName: "ProviderProperties",
+	})
+
+	f := NewGoFile("location")
+	r := NewTypeRefResolver(reg, "android.location", f)
+
+	// Reserve a name that does NOT match "provider".
+	r.ReserveNames([]string{"name", "enabled"})
+
+	goType := r.GoTypeRef(&parser.TypeSpecifier{Name: "android.location.provider.ProviderProperties"})
+
+	// The alias should remain "provider" since no conflict exists.
+	assert.Equal(t, "provider.ProviderProperties", goType)
+}
+
 func TestIsForwardDeclared_CppHeaderWithConstants(t *testing.T) {
 	// A parcelable with CppHeader but also constants should NOT be
 	// considered forward-declared (it has real content).

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	net "github.com/xaionaro-go/binder/android/net"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -31,7 +32,7 @@ type IRingtonePlayer interface {
 	Stop(ctx context.Context, token binder.IBinder) error
 	IsPlaying(ctx context.Context, token binder.IBinder) (bool, error)
 	SetPlaybackProperties(ctx context.Context, token binder.IBinder, volume float32, looping bool, hapticGeneratorEnabled bool) error
-	PlayAsync(ctx context.Context, uri net.Uri, user interface{}, looping bool, aa AudioAttributes, volume float32) error
+	PlayAsync(ctx context.Context, uri net.Uri, user os.UserHandle, looping bool, aa AudioAttributes, volume float32) error
 	StopAsync(ctx context.Context) error
 	GetTitle(ctx context.Context, uri net.Uri) (string, error)
 	OpenRingtone(ctx context.Context, uri net.Uri) (int32, error)
@@ -197,7 +198,7 @@ func (p *RingtonePlayerProxy) SetPlaybackProperties(
 func (p *RingtonePlayerProxy) PlayAsync(
 	ctx context.Context,
 	uri net.Uri,
-	user interface{},
+	user os.UserHandle,
 	looping bool,
 	aa AudioAttributes,
 	volume float32,
@@ -206,6 +207,10 @@ func (p *RingtonePlayerProxy) PlayAsync(
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	_data.WriteInt32(1)
 	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteBool(looping)
@@ -481,7 +486,18 @@ func (s *RingtonePlayerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_looping, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err

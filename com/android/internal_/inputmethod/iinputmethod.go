@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	common "github.com/xaionaro-go/binder/android/hardware/input/common"
-	os "github.com/xaionaro-go/binder/android/os"
 	view "github.com/xaionaro-go/binder/android/view"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
@@ -49,8 +48,8 @@ type IInputMethod interface {
 	OnNavButtonFlagsChanged(ctx context.Context, navButtonFlags int32) error
 	CreateSession(ctx context.Context, channel view.InputChannel, callback IInputMethodSessionCallback) error
 	SetSessionEnabled(ctx context.Context, session IInputMethodSession, enabled bool) error
-	ShowSoftInput(ctx context.Context, showInputToken binder.IBinder, statsToken viewInputmethod.ImeTrackerToken, flags int32, resultReceiver os.ResultReceiver) error
-	HideSoftInput(ctx context.Context, hideInputToken binder.IBinder, statsToken viewInputmethod.ImeTrackerToken, flags int32, resultReceiver os.ResultReceiver) error
+	ShowSoftInput(ctx context.Context, showInputToken binder.IBinder, statsToken viewInputmethod.ImeTrackerToken, flags int32, resultReceiver interface{}) error
+	HideSoftInput(ctx context.Context, hideInputToken binder.IBinder, statsToken viewInputmethod.ImeTrackerToken, flags int32, resultReceiver interface{}) error
 	UpdateEditorToolType(ctx context.Context, toolType int32) error
 	ChangeInputMethodSubtype(ctx context.Context, subtype viewInputmethod.InputMethodSubtype) error
 	CanStartStylusHandwriting(ctx context.Context, requestId int32, connectionlessCallback IConnectionlessHandwritingCallback, cursorAnchorInfo viewInputmethod.CursorAnchorInfo, isConnectionlessForDelegation bool) error
@@ -239,7 +238,7 @@ func (p *InputMethodProxy) ShowSoftInput(
 	showInputToken binder.IBinder,
 	statsToken viewInputmethod.ImeTrackerToken,
 	flags int32,
-	resultReceiver os.ResultReceiver,
+	resultReceiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethod)
@@ -249,10 +248,6 @@ func (p *InputMethodProxy) ShowSoftInput(
 		return _err
 	}
 	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "showSoftInput")
 	if _err != nil {
@@ -268,7 +263,7 @@ func (p *InputMethodProxy) HideSoftInput(
 	hideInputToken binder.IBinder,
 	statsToken viewInputmethod.ImeTrackerToken,
 	flags int32,
-	resultReceiver os.ResultReceiver,
+	resultReceiver interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethod)
@@ -278,10 +273,6 @@ func (p *InputMethodProxy) HideSoftInput(
 		return _err
 	}
 	_data.WriteInt32(flags)
-	_data.WriteInt32(1)
-	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInputMethod, "hideSoftInput")
 	if _err != nil {
@@ -650,18 +641,7 @@ func (s *InputMethodStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_resultReceiver os.ResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_resultReceiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_resultReceiver interface{}
 		_err = s.Impl.ShowSoftInput(ctx, _arg_showInputToken, _arg_statsToken, _arg_flags, _arg_resultReceiver)
 		_ = _err
 		return nil, nil
@@ -688,18 +668,7 @@ func (s *InputMethodStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_resultReceiver os.ResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_resultReceiver.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_resultReceiver interface{}
 		_err = s.Impl.HideSoftInput(ctx, _arg_hideInputToken, _arg_statsToken, _arg_flags, _arg_resultReceiver)
 		_ = _err
 		return nil, nil

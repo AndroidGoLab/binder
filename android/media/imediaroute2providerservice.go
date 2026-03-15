@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,8 +30,8 @@ type IMediaRoute2ProviderService interface {
 	SetCallback(ctx context.Context, callback IMediaRoute2ProviderServiceCallback) error
 	UpdateDiscoveryPreference(ctx context.Context, discoveryPreference RouteDiscoveryPreference) error
 	SetRouteVolume(ctx context.Context, requestId int64, routeId string, volume int32) error
-	RequestCreateSession(ctx context.Context, requestId int64, packageName string, routeId string, sessionHints *interface{}) error
-	RequestCreateSystemMediaSession(ctx context.Context, requestId int64, uid int32, packageName string, routeId string, sessionHints *interface{}) error
+	RequestCreateSession(ctx context.Context, requestId int64, packageName string, routeId string, sessionHints *os.Bundle) error
+	RequestCreateSystemMediaSession(ctx context.Context, requestId int64, uid int32, packageName string, routeId string, sessionHints *os.Bundle) error
 	SelectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	DeselectRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
 	TransferToRoute(ctx context.Context, requestId int64, sessionId string, routeId string) error
@@ -117,13 +118,20 @@ func (p *MediaRoute2ProviderServiceProxy) RequestCreateSession(
 	requestId int64,
 	packageName string,
 	routeId string,
-	sessionHints *interface{},
+	sessionHints *os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
 	_data.WriteInt64(requestId)
 	_data.WriteString16(packageName)
 	_data.WriteString16(routeId)
+	if sessionHints != nil {
+		if _err := (*sessionHints).MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "requestCreateSession")
 	if _err != nil {
@@ -140,7 +148,7 @@ func (p *MediaRoute2ProviderServiceProxy) RequestCreateSystemMediaSession(
 	uid int32,
 	packageName string,
 	routeId string,
-	sessionHints *interface{},
+	sessionHints *os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaRoute2ProviderService)
@@ -148,6 +156,13 @@ func (p *MediaRoute2ProviderServiceProxy) RequestCreateSystemMediaSession(
 	_data.WriteInt32(uid)
 	_data.WriteString16(packageName)
 	_data.WriteString16(routeId)
+	if sessionHints != nil {
+		if _err := (*sessionHints).MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaRoute2ProviderService, "requestCreateSystemMediaSession")
 	if _err != nil {
@@ -339,7 +354,18 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionHints *interface{}
+		var _arg_sessionHints *os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionHints.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RequestCreateSession(ctx, _arg_requestId, _arg_packageName, _arg_routeId, _arg_sessionHints)
 		_ = _err
 		return nil, nil
@@ -363,7 +389,18 @@ func (s *MediaRoute2ProviderServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionHints *interface{}
+		var _arg_sessionHints *os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionHints.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RequestCreateSystemMediaSession(ctx, _arg_requestId, _arg_uid, _arg_packageName, _arg_routeId, _arg_sessionHints)
 		_ = _err
 		return nil, nil

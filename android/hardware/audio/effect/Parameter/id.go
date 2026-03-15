@@ -2,11 +2,11 @@ package Parameter
 
 import (
 	"fmt"
-	AcousticEchoCanceler "github.com/xaionaro-go/binder/android/hardware/audio/effect/AcousticEchoCanceler"
 	AutomaticGainControlV1 "github.com/xaionaro-go/binder/android/hardware/audio/effect/AutomaticGainControlV1"
 	AutomaticGainControlV2 "github.com/xaionaro-go/binder/android/hardware/audio/effect/AutomaticGainControlV2"
 	BassBoost "github.com/xaionaro-go/binder/android/hardware/audio/effect/BassBoost"
 	Downmix "github.com/xaionaro-go/binder/android/hardware/audio/effect/Downmix"
+	DynamicsProcessing "github.com/xaionaro-go/binder/android/hardware/audio/effect/DynamicsProcessing"
 	EnvironmentalReverb "github.com/xaionaro-go/binder/android/hardware/audio/effect/EnvironmentalReverb"
 	Equalizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Equalizer"
 	Eraser "github.com/xaionaro-go/binder/android/hardware/audio/effect/Eraser"
@@ -47,12 +47,12 @@ const (
 type Id struct {
 	Tag                       int32
 	VendorEffectTag           interface{}
-	AcousticEchoCancelerTag   AcousticEchoCanceler.Id
+	AcousticEchoCancelerTag   interface{}
 	AutomaticGainControlV1Tag AutomaticGainControlV1.Id
 	AutomaticGainControlV2Tag AutomaticGainControlV2.Id
 	BassBoostTag              BassBoost.Id
 	DownmixTag                Downmix.Id
-	DynamicsProcessingTag     interface{}
+	DynamicsProcessingTag     DynamicsProcessing.Id
 	EnvironmentalReverbTag    EnvironmentalReverb.Id
 	EqualizerTag              Equalizer.Id
 	HapticGeneratorTag        HapticGenerator.Id
@@ -84,16 +84,16 @@ func (u *Id) SetVendorEffectTag(
 	u.VendorEffectTag = v
 }
 
-func (u *Id) GetAcousticEchoCancelerTag() (AcousticEchoCanceler.Id, bool) {
+func (u *Id) GetAcousticEchoCancelerTag() (interface{}, bool) {
 	if u.Tag != IdTagAcousticEchoCancelerTag {
-		var _zero AcousticEchoCanceler.Id
+		var _zero interface{}
 		return _zero, false
 	}
 	return u.AcousticEchoCancelerTag, true
 }
 
 func (u *Id) SetAcousticEchoCancelerTag(
-	v AcousticEchoCanceler.Id,
+	v interface{},
 ) {
 	u.Tag = IdTagAcousticEchoCancelerTag
 	u.AcousticEchoCancelerTag = v
@@ -159,16 +159,16 @@ func (u *Id) SetDownmixTag(
 	u.DownmixTag = v
 }
 
-func (u *Id) GetDynamicsProcessingTag() (interface{}, bool) {
+func (u *Id) GetDynamicsProcessingTag() (DynamicsProcessing.Id, bool) {
 	if u.Tag != IdTagDynamicsProcessingTag {
-		var _zero interface{}
+		var _zero DynamicsProcessing.Id
 		return _zero, false
 	}
 	return u.DynamicsProcessingTag, true
 }
 
 func (u *Id) SetDynamicsProcessingTag(
-	v interface{},
+	v DynamicsProcessing.Id,
 ) {
 	u.Tag = IdTagDynamicsProcessingTag
 	u.DynamicsProcessingTag = v

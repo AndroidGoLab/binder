@@ -32,6 +32,10 @@ type TypeRefResolver struct {
 	aliasMap map[string]string
 	// usedAliases tracks aliases already assigned to detect collisions.
 	usedAliases map[string]bool
+	// reservedNames holds identifiers that must not be used as import aliases
+	// because they appear as parameter names in method signatures. An alias
+	// matching a parameter would shadow the import within that method body.
+	reservedNames map[string]bool
 	// importGraph is used to detect import cycles. When set, cross-package
 	// type references that would create cycles are replaced with interface{}.
 	importGraph *ImportGraph
@@ -56,6 +60,7 @@ func NewTypeRefResolver(
 		goFile:        goFile,
 		aliasMap:      make(map[string]string),
 		usedAliases:   make(map[string]bool),
+		reservedNames: make(map[string]bool),
 		cycleBreaks:   make(map[string]bool),
 		resolvedTypes: make(map[string]string),
 	}
@@ -431,11 +436,24 @@ func (r *TypeRefResolver) pickAlias(
 	return candidate + "Pkg"
 }
 
+// ReserveNames marks identifiers that must not be used as import aliases.
+// Call this before resolving any types to prevent aliases from colliding
+// with method parameter names in the generated file.
+func (r *TypeRefResolver) ReserveNames(names []string) {
+	for _, name := range names {
+		r.reservedNames[name] = true
+	}
+}
+
 // isValidAlias checks that a candidate import alias does not collide with
-// the current Go package name, an already-used alias, or a type name
-// defined in the current AIDL package.
+// the current Go package name, an already-used alias, a reserved identifier
+// (e.g. a method parameter name), or a type name defined in the current
+// AIDL package.
 func (r *TypeRefResolver) isValidAlias(candidate string) bool {
 	if r.usedAliases[candidate] || candidate == r.goFile.pkg {
+		return false
+	}
+	if r.reservedNames[candidate] {
 		return false
 	}
 	return !r.collidesWithLocalType(candidate)

@@ -3,6 +3,7 @@ package view
 import (
 	"context"
 	"fmt"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -24,7 +25,7 @@ const (
 type IDisplayWindowListener interface {
 	AsBinder() binder.IBinder
 	OnDisplayAdded(ctx context.Context, displayId int32) error
-	OnDisplayConfigurationChanged(ctx context.Context, displayId int32, newConfig interface{}) error
+	OnDisplayConfigurationChanged(ctx context.Context, displayId int32, newConfig res.Configuration) error
 	OnDisplayRemoved(ctx context.Context, displayId int32) error
 	OnFixedRotationStarted(ctx context.Context, displayId int32, newRotation int32) error
 	OnFixedRotationFinished(ctx context.Context, displayId int32) error
@@ -67,11 +68,15 @@ func (p *DisplayWindowListenerProxy) OnDisplayAdded(
 func (p *DisplayWindowListenerProxy) OnDisplayConfigurationChanged(
 	ctx context.Context,
 	displayId int32,
-	newConfig interface{},
+	newConfig res.Configuration,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowListener)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
+	if _err := newConfig.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowListener, "onDisplayConfigurationChanged")
 	if _err != nil {
@@ -207,7 +212,18 @@ func (s *DisplayWindowListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_newConfig interface{}
+		var _arg_newConfig res.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newConfig.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnDisplayConfigurationChanged(ctx, _arg_displayId, _arg_newConfig)
 		_ = _err
 		return nil, nil

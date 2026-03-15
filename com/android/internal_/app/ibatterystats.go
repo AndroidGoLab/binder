@@ -5,9 +5,8 @@ import (
 	"fmt"
 	bluetooth "github.com/xaionaro-go/binder/android/bluetooth"
 	network "github.com/xaionaro-go/binder/android/hardware/radio/network"
-	os "github.com/xaionaro-go/binder/android/os"
 	connectivity "github.com/xaionaro-go/binder/android/os/connectivity"
-	health "github.com/xaionaro-go/binder/android/os/health"
+	osHealth "github.com/xaionaro-go/binder/android/os/health"
 	telephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -136,7 +135,7 @@ type IBatteryStats interface {
 	NoteResetCamera(ctx context.Context) error
 	NoteResetFlashlight(ctx context.Context) error
 	NoteWakeupSensorEvent(ctx context.Context, elapsedNanos int64, uid int32, handle int32) error
-	GetBatteryUsageStats(ctx context.Context, queries []os.BatteryUsageStatsQuery) ([]os.BatteryUsageStats, error)
+	GetBatteryUsageStats(ctx context.Context, queries []interface{}) ([]interface{}, error)
 	IsCharging(ctx context.Context) (bool, error)
 	ComputeBatteryTimeRemaining(ctx context.Context) (int64, error)
 	ComputeChargeTimeRemaining(ctx context.Context) (int64, error)
@@ -206,11 +205,11 @@ type IBatteryStats interface {
 	GetCellularBatteryStats(ctx context.Context) (connectivity.CellularBatteryStats, error)
 	GetWifiBatteryStats(ctx context.Context) (connectivity.WifiBatteryStats, error)
 	GetGpsBatteryStats(ctx context.Context) (connectivity.GpsBatteryStats, error)
-	GetWakeLockStats(ctx context.Context) (os.WakeLockStats, error)
-	GetBluetoothBatteryStats(ctx context.Context) (os.BluetoothBatteryStats, error)
-	TakeUidSnapshot(ctx context.Context, uid int32) (health.HealthStatsParceler, error)
-	TakeUidSnapshots(ctx context.Context, uid []int32) ([]health.HealthStatsParceler, error)
-	TakeUidSnapshotsAsync(ctx context.Context, uid []int32, result os.ResultReceiver) error
+	GetWakeLockStats(ctx context.Context) (interface{}, error)
+	GetBluetoothBatteryStats(ctx context.Context) (interface{}, error)
+	TakeUidSnapshot(ctx context.Context, uid int32) (osHealth.HealthStatsParceler, error)
+	TakeUidSnapshots(ctx context.Context, uid []int32) ([]osHealth.HealthStatsParceler, error)
+	TakeUidSnapshotsAsync(ctx context.Context, uid []int32, result interface{}) error
 	NoteBluetoothControllerActivity(ctx context.Context, info bluetooth.BluetoothActivityEnergyInfo) error
 	NoteModemControllerActivity(ctx context.Context, info telephony.ModemActivityInfo) error
 	NoteWifiControllerActivity(ctx context.Context, info connectivity.WifiActivityEnergyInfo) error
@@ -607,20 +606,15 @@ func (p *BatteryStatsProxy) NoteWakeupSensorEvent(
 
 func (p *BatteryStatsProxy) GetBatteryUsageStats(
 	ctx context.Context,
-	queries []os.BatteryUsageStatsQuery,
-) ([]os.BatteryUsageStats, error) {
-	var _result []os.BatteryUsageStats
+	queries []interface{},
+) ([]interface{}, error) {
+	var _result []interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	if queries == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(queries)))
-		for _, _item := range queries {
-			if _err := _item.MarshalParcel(_data); _err != nil {
-				return _result, _err
-			}
-		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBatteryStats, "getBatteryUsageStats")
@@ -644,11 +638,8 @@ func (p *BatteryStatsProxy) GetBatteryUsageStats(
 	}
 
 	if _count >= 0 {
-		_result = make([]os.BatteryUsageStats, _count)
+		_result = make([]interface{}, _count)
 		for _i := int32(0); _i < _count; _i++ {
-			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
-				return _result, _err
-			}
 		}
 	}
 	return _result, nil
@@ -2626,8 +2617,8 @@ func (p *BatteryStatsProxy) GetGpsBatteryStats(
 
 func (p *BatteryStatsProxy) GetWakeLockStats(
 	ctx context.Context,
-) (os.WakeLockStats, error) {
-	var _result os.WakeLockStats
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
@@ -2646,22 +2637,13 @@ func (p *BatteryStatsProxy) GetWakeLockStats(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
 func (p *BatteryStatsProxy) GetBluetoothBatteryStats(
 	ctx context.Context,
-) (os.BluetoothBatteryStats, error) {
-	var _result os.BluetoothBatteryStats
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 
@@ -2680,23 +2662,14 @@ func (p *BatteryStatsProxy) GetBluetoothBatteryStats(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
 func (p *BatteryStatsProxy) TakeUidSnapshot(
 	ctx context.Context,
 	uid int32,
-) (health.HealthStatsParceler, error) {
-	var _result health.HealthStatsParceler
+) (osHealth.HealthStatsParceler, error) {
+	var _result osHealth.HealthStatsParceler
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	_data.WriteInt32(uid)
@@ -2731,8 +2704,8 @@ func (p *BatteryStatsProxy) TakeUidSnapshot(
 func (p *BatteryStatsProxy) TakeUidSnapshots(
 	ctx context.Context,
 	uid []int32,
-) ([]health.HealthStatsParceler, error) {
-	var _result []health.HealthStatsParceler
+) ([]osHealth.HealthStatsParceler, error) {
+	var _result []osHealth.HealthStatsParceler
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
 	if uid == nil {
@@ -2765,7 +2738,7 @@ func (p *BatteryStatsProxy) TakeUidSnapshots(
 	}
 
 	if _count >= 0 {
-		_result = make([]health.HealthStatsParceler, _count)
+		_result = make([]osHealth.HealthStatsParceler, _count)
 		for _i := int32(0); _i < _count; _i++ {
 			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
 				return _result, _err
@@ -2778,7 +2751,7 @@ func (p *BatteryStatsProxy) TakeUidSnapshots(
 func (p *BatteryStatsProxy) TakeUidSnapshotsAsync(
 	ctx context.Context,
 	uid []int32,
-	result os.ResultReceiver,
+	result interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBatteryStats)
@@ -2789,10 +2762,6 @@ func (p *BatteryStatsProxy) TakeUidSnapshotsAsync(
 		for _, _item := range uid {
 			_data.WriteInt32(_item)
 		}
-	}
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBatteryStats, "takeUidSnapshotsAsync")
@@ -3271,7 +3240,7 @@ func (s *BatteryStatsStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_queries []os.BatteryUsageStatsQuery
+		var _arg_queries []interface{}
 		_ = _arg_queries
 		_result, _err := s.Impl.GetBatteryUsageStats(ctx, _arg_queries)
 		_reply := parcel.New()
@@ -4605,10 +4574,7 @@ func (s *BatteryStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIBatteryStatsGetBluetoothBatteryStats:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4621,10 +4587,7 @@ func (s *BatteryStatsStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIBatteryStatsTakeUidSnapshot:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4670,18 +4633,7 @@ func (s *BatteryStatsStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_uid []int32
 		_ = _arg_uid
-		var _arg_result os.ResultReceiver
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_result interface{}
 		_err := s.Impl.TakeUidSnapshotsAsync(ctx, _arg_uid, _arg_result)
 		_ = _err
 		return nil, nil

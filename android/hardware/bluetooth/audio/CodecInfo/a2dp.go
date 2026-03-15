@@ -1,6 +1,7 @@
 package CodecInfo
 
 import (
+	audio "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type A2dp struct {
 	Capabilities        []byte
-	ChannelMode         []interface{}
+	ChannelMode         []audio.ChannelMode
 	SamplingFrequencyHz []int32
 	Bitdepth            []int32
 	Lossless            bool
@@ -32,6 +33,9 @@ func (s *A2dp) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.ChannelMode)))
+		for _, _item := range s.ChannelMode {
+			p.WritePaddedByte(byte(_item))
+		}
 	}
 	if s.SamplingFrequencyHz == nil {
 		p.WriteInt32(-1)
@@ -84,8 +88,13 @@ func (s *A2dp) UnmarshalParcel(
 		return _err
 	}
 	if _count1 >= 0 {
-		s.ChannelMode = make([]interface{}, _count1)
+		s.ChannelMode = make([]audio.ChannelMode, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			_raw, _err := p.ReadPaddedByte()
+			if _err != nil {
+				return _err
+			}
+			s.ChannelMode[_i] = audio.ChannelMode(_raw)
 		}
 	}
 
