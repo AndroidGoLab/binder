@@ -66,10 +66,8 @@ func main() {
 	}
 
 	// GNSS / Location hardware
-	locSvc, err := sm.GetService(ctx, servicemanager.LocationService)
+	loc, err := location.GetLocationManager(ctx, sm)
 	if err == nil {
-		loc := location.NewLocationManagerProxy(locSvc)
-
 		year, err := loc.GetGnssYearOfHardware(ctx)
 		if err != nil {
 			fmt.Fprintf(os.Stderr, "GNSS year: %v\n", err)

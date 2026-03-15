@@ -36,13 +36,11 @@ func main() {
 
 	sm := servicemanager.New(transport)
 
-	svc, err := sm.GetService(ctx, servicemanager.PowerService)
+	power, err := genOs.GetPowerManager(ctx, sm)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get power service: %v\n", err)
 		os.Exit(1)
 	}
-
-	power := genOs.NewPowerManagerProxy(svc)
 
 	interactive, err := power.IsInteractive(ctx)
 	if err != nil {
