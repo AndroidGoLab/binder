@@ -3,6 +3,7 @@ package session
 import (
 	"context"
 	"fmt"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,7 +29,7 @@ type ISessionControllerCallback interface {
 	OnSessionDestroyed(ctx context.Context) error
 	OnPlaybackStateChanged(ctx context.Context, state PlaybackState) error
 	OnMetadataChanged(ctx context.Context, metadata interface{}) error
-	OnQueueChanged(ctx context.Context, queue interface{}) error
+	OnQueueChanged(ctx context.Context, queue pm.ParceledListSlice) error
 	OnQueueTitleChanged(ctx context.Context, title interface{}) error
 	OnExtrasChanged(ctx context.Context, extras interface{}) error
 	OnVolumeInfoChanged(ctx context.Context, info MediaControllerPlaybackInfo) error
@@ -121,10 +122,14 @@ func (p *SessionControllerCallbackProxy) OnMetadataChanged(
 
 func (p *SessionControllerCallbackProxy) OnQueueChanged(
 	ctx context.Context,
-	queue interface{},
+	queue pm.ParceledListSlice,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionControllerCallback)
+	_data.WriteInt32(1)
+	if _err := queue.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionControllerCallback, "onQueueChanged")
 	if _err != nil {
@@ -251,7 +256,18 @@ func (s *SessionControllerCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_queue interface{}
+		var _arg_queue pm.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_queue.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnQueueChanged(ctx, _arg_queue)
 		_ = _err
 		return nil, nil

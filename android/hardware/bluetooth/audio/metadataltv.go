@@ -2,6 +2,7 @@ package audio
 
 import (
 	"fmt"
+	audioMetadataLtv "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/MetadataLtv"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -15,53 +16,53 @@ const (
 
 type MetadataLtv struct {
 	Tag                    int32
-	PreferredAudioContexts interface{}
-	StreamingAudioContexts interface{}
-	VendorSpecific         interface{}
+	PreferredAudioContexts audioMetadataLtv.PreferredAudioContexts
+	StreamingAudioContexts audioMetadataLtv.StreamingAudioContexts
+	VendorSpecific         audioMetadataLtv.VendorSpecific
 }
 
 var _ parcel.Parcelable = (*MetadataLtv)(nil)
 
-func (u *MetadataLtv) GetPreferredAudioContexts() (interface{}, bool) {
+func (u *MetadataLtv) GetPreferredAudioContexts() (audioMetadataLtv.PreferredAudioContexts, bool) {
 	if u.Tag != MetadataLtvTagPreferredAudioContexts {
-		var _zero interface{}
+		var _zero audioMetadataLtv.PreferredAudioContexts
 		return _zero, false
 	}
 	return u.PreferredAudioContexts, true
 }
 
 func (u *MetadataLtv) SetPreferredAudioContexts(
-	v interface{},
+	v audioMetadataLtv.PreferredAudioContexts,
 ) {
 	u.Tag = MetadataLtvTagPreferredAudioContexts
 	u.PreferredAudioContexts = v
 }
 
-func (u *MetadataLtv) GetStreamingAudioContexts() (interface{}, bool) {
+func (u *MetadataLtv) GetStreamingAudioContexts() (audioMetadataLtv.StreamingAudioContexts, bool) {
 	if u.Tag != MetadataLtvTagStreamingAudioContexts {
-		var _zero interface{}
+		var _zero audioMetadataLtv.StreamingAudioContexts
 		return _zero, false
 	}
 	return u.StreamingAudioContexts, true
 }
 
 func (u *MetadataLtv) SetStreamingAudioContexts(
-	v interface{},
+	v audioMetadataLtv.StreamingAudioContexts,
 ) {
 	u.Tag = MetadataLtvTagStreamingAudioContexts
 	u.StreamingAudioContexts = v
 }
 
-func (u *MetadataLtv) GetVendorSpecific() (interface{}, bool) {
+func (u *MetadataLtv) GetVendorSpecific() (audioMetadataLtv.VendorSpecific, bool) {
 	if u.Tag != MetadataLtvTagVendorSpecific {
-		var _zero interface{}
+		var _zero audioMetadataLtv.VendorSpecific
 		return _zero, false
 	}
 	return u.VendorSpecific, true
 }
 
 func (u *MetadataLtv) SetVendorSpecific(
-	v interface{},
+	v audioMetadataLtv.VendorSpecific,
 ) {
 	u.Tag = MetadataLtvTagVendorSpecific
 	u.VendorSpecific = v
@@ -75,8 +76,17 @@ func (u *MetadataLtv) MarshalParcel(
 
 	switch u.Tag {
 	case MetadataLtvTagPreferredAudioContexts:
+		if _err := u.PreferredAudioContexts.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case MetadataLtvTagStreamingAudioContexts:
+		if _err := u.StreamingAudioContexts.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case MetadataLtvTagVendorSpecific:
+		if _err := u.VendorSpecific.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for MetadataLtv", u.Tag)
 	}
@@ -100,8 +110,17 @@ func (u *MetadataLtv) UnmarshalParcel(
 
 	switch u.Tag {
 	case MetadataLtvTagPreferredAudioContexts:
+		if _err = u.PreferredAudioContexts.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case MetadataLtvTagStreamingAudioContexts:
+		if _err = u.StreamingAudioContexts.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case MetadataLtvTagVendorSpecific:
+		if _err = u.VendorSpecific.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for MetadataLtv", u.Tag)
 	}

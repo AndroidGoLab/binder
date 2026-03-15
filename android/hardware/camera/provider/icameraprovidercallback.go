@@ -3,6 +3,7 @@ package provider
 import (
 	"context"
 	"fmt"
+	service "github.com/xaionaro-go/binder/android/frameworks/cameraservice/service"
 	common "github.com/xaionaro-go/binder/android/hardware/camera/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -20,9 +21,9 @@ const (
 
 type ICameraProviderCallback interface {
 	AsBinder() binder.IBinder
-	CameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, newStatus interface{}) error
+	CameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, newStatus service.CameraDeviceStatus) error
 	TorchModeStatusChange(ctx context.Context, cameraDeviceName string, newStatus common.TorchModeStatus) error
-	PhysicalCameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, physicalCameraDeviceName string, newStatus interface{}) error
+	PhysicalCameraDeviceStatusChange(ctx context.Context, cameraDeviceName string, physicalCameraDeviceName string, newStatus service.CameraDeviceStatus) error
 }
 
 type CameraProviderCallbackProxy struct {
@@ -44,11 +45,12 @@ var _ ICameraProviderCallback = (*CameraProviderCallbackProxy)(nil)
 func (p *CameraProviderCallbackProxy) CameraDeviceStatusChange(
 	ctx context.Context,
 	cameraDeviceName string,
-	newStatus interface{},
+	newStatus service.CameraDeviceStatus,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraProviderCallback)
 	_data.WriteString16(cameraDeviceName)
+	_data.WriteInt32(int32(newStatus))
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProviderCallback, "cameraDeviceStatusChange")
 	if _err != nil {
@@ -100,12 +102,13 @@ func (p *CameraProviderCallbackProxy) PhysicalCameraDeviceStatusChange(
 	ctx context.Context,
 	cameraDeviceName string,
 	physicalCameraDeviceName string,
-	newStatus interface{},
+	newStatus service.CameraDeviceStatus,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraProviderCallback)
 	_data.WriteString16(cameraDeviceName)
 	_data.WriteString16(physicalCameraDeviceName)
+	_data.WriteInt32(int32(newStatus))
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraProviderCallback, "physicalCameraDeviceStatusChange")
 	if _err != nil {
@@ -147,7 +150,11 @@ func (s *CameraProviderCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_newStatus interface{}
+		_raw_newStatus, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newStatus := service.CameraDeviceStatus(_raw_newStatus)
 		_err = s.Impl.CameraDeviceStatusChange(ctx, _arg_cameraDeviceName, _arg_newStatus)
 		_reply := parcel.New()
 		if _err != nil {
@@ -189,7 +196,11 @@ func (s *CameraProviderCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_newStatus interface{}
+		_raw_newStatus, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_newStatus := service.CameraDeviceStatus(_raw_newStatus)
 		_err = s.Impl.PhysicalCameraDeviceStatusChange(ctx, _arg_cameraDeviceName, _arg_physicalCameraDeviceName, _arg_newStatus)
 		_reply := parcel.New()
 		if _err != nil {

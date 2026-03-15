@@ -3,6 +3,8 @@ package session
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -47,15 +49,15 @@ const (
 type ISessionManager interface {
 	AsBinder() binder.IBinder
 	CreateSession(ctx context.Context, packageName string, sessionCb ISessionCallback, tag string, sessionInfo interface{}) (ISession, error)
-	GetSessions(ctx context.Context, compName interface{}) ([]MediaSessionToken, error)
+	GetSessions(ctx context.Context, compName content.ComponentName) ([]MediaSessionToken, error)
 	GetMediaKeyEventSession(ctx context.Context, packageName string) (MediaSessionToken, error)
 	GetMediaKeyEventSessionPackageName(ctx context.Context, packageName string) (string, error)
-	DispatchMediaKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent interface{}, needWakeLock bool) error
-	DispatchMediaKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent interface{}, sessionToken MediaSessionToken) (bool, error)
-	DispatchVolumeKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent interface{}, stream int32, musicOnly bool) error
-	DispatchVolumeKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent interface{}, sessionToken MediaSessionToken) error
+	DispatchMediaKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent view.KeyEvent, needWakeLock bool) error
+	DispatchMediaKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent view.KeyEvent, sessionToken MediaSessionToken) (bool, error)
+	DispatchVolumeKeyEvent(ctx context.Context, packageName string, asSystemService bool, keyEvent view.KeyEvent, stream int32, musicOnly bool) error
+	DispatchVolumeKeyEventToSessionAsSystemService(ctx context.Context, packageName string, keyEvent view.KeyEvent, sessionToken MediaSessionToken) error
 	DispatchAdjustVolume(ctx context.Context, packageName string, suggestedStream int32, delta int32, flags int32) error
-	AddSessionsListener(ctx context.Context, listener IActiveSessionsListener, compName interface{}) error
+	AddSessionsListener(ctx context.Context, listener IActiveSessionsListener, compName content.ComponentName) error
 	RemoveSessionsListener(ctx context.Context, listener IActiveSessionsListener) error
 	AddSession2TokensListener(ctx context.Context, listener ISession2TokensListener) error
 	RemoveSession2TokensListener(ctx context.Context, listener ISession2TokensListener) error
@@ -135,12 +137,16 @@ func (p *SessionManagerProxy) CreateSession(
 
 func (p *SessionManagerProxy) GetSessions(
 	ctx context.Context,
-	compName interface{},
+	compName content.ComponentName,
 ) ([]MediaSessionToken, error) {
 	var _result []MediaSessionToken
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
+	_data.WriteInt32(1)
+	if _err := compName.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "getSessions")
@@ -245,13 +251,17 @@ func (p *SessionManagerProxy) DispatchMediaKeyEvent(
 	ctx context.Context,
 	packageName string,
 	asSystemService bool,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	needWakeLock bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 	_data.WriteBool(asSystemService)
+	_data.WriteInt32(1)
+	if _err := keyEvent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(needWakeLock)
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "dispatchMediaKeyEvent")
@@ -275,13 +285,17 @@ func (p *SessionManagerProxy) DispatchMediaKeyEvent(
 func (p *SessionManagerProxy) DispatchMediaKeyEventToSessionAsSystemService(
 	ctx context.Context,
 	packageName string,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	sessionToken MediaSessionToken,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := keyEvent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := sessionToken.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -313,7 +327,7 @@ func (p *SessionManagerProxy) DispatchVolumeKeyEvent(
 	ctx context.Context,
 	packageName string,
 	asSystemService bool,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	stream int32,
 	musicOnly bool,
 ) error {
@@ -323,6 +337,10 @@ func (p *SessionManagerProxy) DispatchVolumeKeyEvent(
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteBool(asSystemService)
+	_data.WriteInt32(1)
+	if _err := keyEvent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(stream)
 	_data.WriteBool(musicOnly)
 
@@ -347,7 +365,7 @@ func (p *SessionManagerProxy) DispatchVolumeKeyEvent(
 func (p *SessionManagerProxy) DispatchVolumeKeyEventToSessionAsSystemService(
 	ctx context.Context,
 	packageName string,
-	keyEvent interface{},
+	keyEvent view.KeyEvent,
 	sessionToken MediaSessionToken,
 ) error {
 	_identity := p.remote.Identity()
@@ -355,6 +373,10 @@ func (p *SessionManagerProxy) DispatchVolumeKeyEventToSessionAsSystemService(
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteString16(packageName)
 	_data.WriteString16(_identity.PackageName)
+	_data.WriteInt32(1)
+	if _err := keyEvent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := sessionToken.MarshalParcel(_data); _err != nil {
 		return _err
@@ -415,12 +437,16 @@ func (p *SessionManagerProxy) DispatchAdjustVolume(
 func (p *SessionManagerProxy) AddSessionsListener(
 	ctx context.Context,
 	listener IActiveSessionsListener,
-	compName interface{},
+	compName content.ComponentName,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISessionManager)
 	_data.WriteStrongBinder(listener.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := compName.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorISessionManager, "addSessionsListener")
@@ -1043,7 +1069,18 @@ func (s *SessionManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_compName interface{}
+		var _arg_compName content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_compName.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1106,7 +1143,18 @@ func (s *SessionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_keyEvent interface{}
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_needWakeLock, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1127,7 +1175,18 @@ func (s *SessionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_keyEvent interface{}
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_sessionToken MediaSessionToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1164,7 +1223,18 @@ func (s *SessionManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_keyEvent interface{}
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_stream, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1192,7 +1262,18 @@ func (s *SessionManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_keyEvent interface{}
+		var _arg_keyEvent view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyEvent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_sessionToken MediaSessionToken
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -1251,7 +1332,18 @@ func (s *SessionManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_listener IActiveSessionsListener
 		_ = _arg_listener
-		var _arg_compName interface{}
+		var _arg_compName content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_compName.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

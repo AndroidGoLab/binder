@@ -3,6 +3,7 @@ package os
 import (
 	"context"
 	"fmt"
+	DynamicsProcessing "github.com/xaionaro-go/binder/android/hardware/audio/effect/DynamicsProcessing"
 	power "github.com/xaionaro-go/binder/android/hardware/power"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -33,7 +34,7 @@ type IHintManager interface {
 	GetHintSessionPreferredRate(ctx context.Context) (int64, error)
 	SetHintSessionThreads(ctx context.Context, hintSession IHintSession, tids []int32) error
 	GetHintSessionThreadIds(ctx context.Context, hintSession IHintSession) ([]int32, error)
-	GetSessionChannel(ctx context.Context, token binder.IBinder) (interface{}, error)
+	GetSessionChannel(ctx context.Context, token binder.IBinder) (DynamicsProcessing.ChannelConfig, error)
 	CloseSessionChannel(ctx context.Context) error
 	GetCpuHeadroom(ctx context.Context, params CpuHeadroomParamsInternal) (power.CpuHeadroomResult, error)
 	GetCpuHeadroomMinIntervalMillis(ctx context.Context) (int64, error)
@@ -210,8 +211,8 @@ func (p *HintManagerProxy) GetHintSessionThreadIds(
 func (p *HintManagerProxy) GetSessionChannel(
 	ctx context.Context,
 	token binder.IBinder,
-) (interface{}, error) {
-	var _result interface{}
+) (DynamicsProcessing.ChannelConfig, error) {
+	var _result DynamicsProcessing.ChannelConfig
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHintManager)
 	_data.WriteStrongBinder(token.Handle())
@@ -231,6 +232,15 @@ func (p *HintManagerProxy) GetSessionChannel(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -542,7 +552,10 @@ func (s *HintManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIHintManagerCloseSessionChannel:
 		if _, _err := _data.ReadString16(); _err != nil {

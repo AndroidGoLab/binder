@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +23,7 @@ const (
 
 type IActivityController interface {
 	AsBinder() binder.IBinder
-	ActivityStarting(ctx context.Context, intent interface{}, pkg string) (bool, error)
+	ActivityStarting(ctx context.Context, intent content.Intent, pkg string) (bool, error)
 	ActivityResuming(ctx context.Context, pkg string) (bool, error)
 	AppCrashed(ctx context.Context, processName string, pid int32, shortMsg string, longMsg string, timeMillis int64, stackTrace string) (bool, error)
 	AppEarlyNotResponding(ctx context.Context, processName string, pid int32, annotation string) (int32, error)
@@ -48,12 +49,16 @@ var _ IActivityController = (*ActivityControllerProxy)(nil)
 
 func (p *ActivityControllerProxy) ActivityStarting(
 	ctx context.Context,
-	intent interface{},
+	intent content.Intent,
 	pkg string,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityController)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(pkg)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityController, "activityStarting")
@@ -269,7 +274,18 @@ func (s *ActivityControllerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_pkg, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

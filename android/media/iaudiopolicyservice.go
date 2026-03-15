@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
 	"github.com/xaionaro-go/binder/binder"
 	permission "github.com/xaionaro-go/binder/com/android/media/permission"
@@ -132,11 +133,11 @@ type IAudioPolicyService interface {
 	SetForceUse(ctx context.Context, usage AudioPolicyForceUse, config AudioPolicyForcedConfig) error
 	GetForceUse(ctx context.Context, usage AudioPolicyForceUse) (AudioPolicyForcedConfig, error)
 	GetOutput(ctx context.Context, stream tuner.AudioStreamType) (int32, error)
-	GetOutputForAttr(ctx context.Context, attr AudioAttributes, session int32, attributionSource interface{}, config interface{}, flags int32, selectedDeviceIds []int32) (GetOutputForAttrResponse, error)
+	GetOutputForAttr(ctx context.Context, attr AudioAttributes, session int32, attributionSource content.AttributionSourceState, config interface{}, flags int32, selectedDeviceIds []int32) (GetOutputForAttrResponse, error)
 	StartOutput(ctx context.Context, portId int32) error
 	StopOutput(ctx context.Context, portId int32) error
 	ReleaseOutput(ctx context.Context, portId int32) error
-	GetInputForAttr(ctx context.Context, attr AudioAttributes, input int32, riid int32, session int32, attributionSource interface{}, config interface{}, flags int32, selectedDeviceId int32) (GetInputForAttrResponse, error)
+	GetInputForAttr(ctx context.Context, attr AudioAttributes, input int32, riid int32, session int32, attributionSource content.AttributionSourceState, config interface{}, flags int32, selectedDeviceId int32) (GetInputForAttrResponse, error)
 	StartInput(ctx context.Context, portId int32) error
 	StopInput(ctx context.Context, portId int32) error
 	ReleaseInput(ctx context.Context, portId int32) error
@@ -472,7 +473,7 @@ func (p *AudioPolicyServiceProxy) GetOutputForAttr(
 	ctx context.Context,
 	attr AudioAttributes,
 	session int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSourceState,
 	config interface{},
 	flags int32,
 	selectedDeviceIds []int32,
@@ -485,6 +486,10 @@ func (p *AudioPolicyServiceProxy) GetOutputForAttr(
 		return _result, _err
 	}
 	_data.WriteInt32(session)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(flags)
 	if selectedDeviceIds == nil {
 		_data.WriteInt32(-1)
@@ -606,7 +611,7 @@ func (p *AudioPolicyServiceProxy) GetInputForAttr(
 	input int32,
 	riid int32,
 	session int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSourceState,
 	config interface{},
 	flags int32,
 	selectedDeviceId int32,
@@ -621,6 +626,10 @@ func (p *AudioPolicyServiceProxy) GetInputForAttr(
 	_data.WriteInt32(input)
 	_data.WriteInt32(riid)
 	_data.WriteInt32(session)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(flags)
 	_data.WriteInt32(selectedDeviceId)
 
@@ -3863,7 +3872,18 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSourceState
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_config interface{}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
@@ -3960,7 +3980,18 @@ func (s *AudioPolicyServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSourceState
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_config interface{}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {

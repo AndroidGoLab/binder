@@ -3,6 +3,7 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,8 +19,8 @@ const (
 
 type IBluetoothProfileServiceConnection interface {
 	AsBinder() binder.IBinder
-	OnServiceConnected(ctx context.Context, comp interface{}, service binder.IBinder) error
-	OnServiceDisconnected(ctx context.Context, comp interface{}) error
+	OnServiceConnected(ctx context.Context, comp content.ComponentName, service binder.IBinder) error
+	OnServiceDisconnected(ctx context.Context, comp content.ComponentName) error
 }
 
 type BluetoothProfileServiceConnectionProxy struct {
@@ -40,11 +41,15 @@ var _ IBluetoothProfileServiceConnection = (*BluetoothProfileServiceConnectionPr
 
 func (p *BluetoothProfileServiceConnectionProxy) OnServiceConnected(
 	ctx context.Context,
-	comp interface{},
+	comp content.ComponentName,
 	service binder.IBinder,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothProfileServiceConnection)
+	_data.WriteInt32(1)
+	if _err := comp.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteStrongBinder(service.Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothProfileServiceConnection, "onServiceConnected")
@@ -58,10 +63,14 @@ func (p *BluetoothProfileServiceConnectionProxy) OnServiceConnected(
 
 func (p *BluetoothProfileServiceConnectionProxy) OnServiceDisconnected(
 	ctx context.Context,
-	comp interface{},
+	comp content.ComponentName,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothProfileServiceConnection)
+	_data.WriteInt32(1)
+	if _err := comp.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothProfileServiceConnection, "onServiceDisconnected")
 	if _err != nil {
@@ -90,7 +99,18 @@ func (s *BluetoothProfileServiceConnectionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_comp interface{}
+		var _arg_comp content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_comp.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_service binder.IBinder
 		_ = _arg_service
@@ -101,7 +121,18 @@ func (s *BluetoothProfileServiceConnectionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_comp interface{}
+		var _arg_comp content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_comp.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnServiceDisconnected(ctx, _arg_comp)
 		_ = _err
 		return nil, nil

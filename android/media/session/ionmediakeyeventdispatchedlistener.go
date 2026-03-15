@@ -3,6 +3,7 @@ package session
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IOnMediaKeyEventDispatchedListener interface {
 	AsBinder() binder.IBinder
-	OnMediaKeyEventDispatched(ctx context.Context, event interface{}, packageName string, sessionToken MediaSessionToken) error
+	OnMediaKeyEventDispatched(ctx context.Context, event view.KeyEvent, packageName string, sessionToken MediaSessionToken) error
 }
 
 type OnMediaKeyEventDispatchedListenerProxy struct {
@@ -38,12 +39,16 @@ var _ IOnMediaKeyEventDispatchedListener = (*OnMediaKeyEventDispatchedListenerPr
 
 func (p *OnMediaKeyEventDispatchedListenerProxy) OnMediaKeyEventDispatched(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 	packageName string,
 	sessionToken MediaSessionToken,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnMediaKeyEventDispatchedListener)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
 	if _err := sessionToken.MarshalParcel(_data); _err != nil {
@@ -77,7 +82,18 @@ func (s *OnMediaKeyEventDispatchedListenerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_event interface{}
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

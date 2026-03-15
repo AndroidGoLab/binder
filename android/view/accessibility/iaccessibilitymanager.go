@@ -3,6 +3,11 @@ package accessibility
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
+	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
+	accessibilityIAccessibilityManager "github.com/xaionaro-go/binder/android/view/accessibility/IAccessibilityManager"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -68,10 +73,10 @@ type IAccessibilityManager interface {
 	SendAccessibilityEvent(ctx context.Context, uiEvent AccessibilityEvent) error
 	AddClient(ctx context.Context, client IAccessibilityManagerClient) (int64, error)
 	RemoveClient(ctx context.Context, client IAccessibilityManagerClient) (bool, error)
-	GetInstalledAccessibilityServiceList(ctx context.Context) (interface{}, error)
+	GetInstalledAccessibilityServiceList(ctx context.Context) (pm.ParceledListSlice, error)
 	GetEnabledAccessibilityServiceList(ctx context.Context, feedbackType int32) ([]interface{}, error)
-	AddAccessibilityInteractionConnection(ctx context.Context, windowToken interface{}, leashToken binder.IBinder, connection IAccessibilityInteractionConnection, packageName string) (int32, error)
-	RemoveAccessibilityInteractionConnection(ctx context.Context, windowToken interface{}) error
+	AddAccessibilityInteractionConnection(ctx context.Context, windowToken view.IWindow, leashToken binder.IBinder, connection IAccessibilityInteractionConnection, packageName string) (int32, error)
+	RemoveAccessibilityInteractionConnection(ctx context.Context, windowToken view.IWindow) error
 	SetPictureInPictureActionReplacingConnection(ctx context.Context, connection IAccessibilityInteractionConnection) error
 	RegisterUiTestAutomationService(ctx context.Context, owner binder.IBinder, client interface{}, info interface{}, flags int32) error
 	UnregisterUiTestAutomationService(ctx context.Context, client interface{}) error
@@ -98,18 +103,18 @@ type IAccessibilityManager interface {
 	SetAccessibilityWindowAttributes(ctx context.Context, displayId int32, windowId int32, attributes AccessibilityWindowAttributes) error
 	RegisterProxyForDisplay(ctx context.Context, proxy interface{}, displayId int32) (bool, error)
 	UnregisterProxyForDisplay(ctx context.Context, displayId int32) (bool, error)
-	InjectInputEventToInputFilter(ctx context.Context, event interface{}) error
+	InjectInputEventToInputFilter(ctx context.Context, event view.InputEvent) error
 	StartFlashNotificationSequence(ctx context.Context, opPkg string, reason int32, token binder.IBinder) (bool, error)
 	StopFlashNotificationSequence(ctx context.Context, opPkg string) (bool, error)
 	StartFlashNotificationEvent(ctx context.Context, opPkg string, reason int32, reasonPkg string) (bool, error)
 	IsAccessibilityTargetAllowed(ctx context.Context, packageName string, uid int32) (bool, error)
 	SendRestrictedDialogIntent(ctx context.Context, packageName string, uid int32) (bool, error)
 	IsAccessibilityServiceWarningRequired(ctx context.Context, info interface{}) (bool, error)
-	GetWindowTransformationSpec(ctx context.Context, windowId int32) (interface{}, error)
-	AttachAccessibilityOverlayToDisplay(ctx context.Context, displayId int32, surfaceControl interface{}) error
-	NotifyQuickSettingsTilesChanged(ctx context.Context, tileComponentNames []interface{}) error
+	GetWindowTransformationSpec(ctx context.Context, windowId int32) (accessibilityIAccessibilityManager.WindowTransformationSpec, error)
+	AttachAccessibilityOverlayToDisplay(ctx context.Context, displayId int32, surfaceControl view.SurfaceControl) error
+	NotifyQuickSettingsTilesChanged(ctx context.Context, tileComponentNames []content.ComponentName) error
 	EnableShortcutsForTargets(ctx context.Context, enable bool, shortcutTypes int32, shortcutTargets []string) error
-	GetA11yFeatureToTileMap(ctx context.Context) (interface{}, error)
+	GetA11yFeatureToTileMap(ctx context.Context) (os.Bundle, error)
 	RegisterUserInitializationCompleteCallback(ctx context.Context, callback IUserInitializationCompleteCallback) error
 	UnregisterUserInitializationCompleteCallback(ctx context.Context, callback IUserInitializationCompleteCallback) error
 }
@@ -237,8 +242,8 @@ func (p *AccessibilityManagerProxy) RemoveClient(
 
 func (p *AccessibilityManagerProxy) GetInstalledAccessibilityServiceList(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.ParceledListSlice, error) {
+	var _result pm.ParceledListSlice
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
@@ -259,6 +264,15 @@ func (p *AccessibilityManagerProxy) GetInstalledAccessibilityServiceList(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -303,7 +317,7 @@ func (p *AccessibilityManagerProxy) GetEnabledAccessibilityServiceList(
 
 func (p *AccessibilityManagerProxy) AddAccessibilityInteractionConnection(
 	ctx context.Context,
-	windowToken interface{},
+	windowToken view.IWindow,
 	leashToken binder.IBinder,
 	connection IAccessibilityInteractionConnection,
 	packageName string,
@@ -312,6 +326,7 @@ func (p *AccessibilityManagerProxy) AddAccessibilityInteractionConnection(
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	_data.WriteStrongBinder(windowToken.AsBinder().Handle())
 	_data.WriteStrongBinder(leashToken.Handle())
 	_data.WriteStrongBinder(connection.AsBinder().Handle())
 	_data.WriteString16(packageName)
@@ -341,10 +356,11 @@ func (p *AccessibilityManagerProxy) AddAccessibilityInteractionConnection(
 
 func (p *AccessibilityManagerProxy) RemoveAccessibilityInteractionConnection(
 	ctx context.Context,
-	windowToken interface{},
+	windowToken view.IWindow,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	_data.WriteStrongBinder(windowToken.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManager, "removeAccessibilityInteractionConnection")
 	if _err != nil {
@@ -1094,10 +1110,14 @@ func (p *AccessibilityManagerProxy) UnregisterProxyForDisplay(
 
 func (p *AccessibilityManagerProxy) InjectInputEventToInputFilter(
 	ctx context.Context,
-	event interface{},
+	event view.InputEvent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManager, "injectInputEventToInputFilter")
 	if _err != nil {
@@ -1321,8 +1341,8 @@ func (p *AccessibilityManagerProxy) IsAccessibilityServiceWarningRequired(
 func (p *AccessibilityManagerProxy) GetWindowTransformationSpec(
 	ctx context.Context,
 	windowId int32,
-) (interface{}, error) {
-	var _result interface{}
+) (accessibilityIAccessibilityManager.WindowTransformationSpec, error) {
+	var _result accessibilityIAccessibilityManager.WindowTransformationSpec
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(windowId)
@@ -1342,17 +1362,30 @@ func (p *AccessibilityManagerProxy) GetWindowTransformationSpec(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *AccessibilityManagerProxy) AttachAccessibilityOverlayToDisplay(
 	ctx context.Context,
 	displayId int32,
-	surfaceControl interface{},
+	surfaceControl view.SurfaceControl,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
+	if _err := surfaceControl.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManager, "attachAccessibilityOverlayToDisplay")
 	if _err != nil {
@@ -1374,7 +1407,7 @@ func (p *AccessibilityManagerProxy) AttachAccessibilityOverlayToDisplay(
 
 func (p *AccessibilityManagerProxy) NotifyQuickSettingsTilesChanged(
 	ctx context.Context,
-	tileComponentNames []interface{},
+	tileComponentNames []content.ComponentName,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
@@ -1384,6 +1417,11 @@ func (p *AccessibilityManagerProxy) NotifyQuickSettingsTilesChanged(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(tileComponentNames)))
+		for _, _item := range tileComponentNames {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityManager, "notifyQuickSettingsTilesChanged")
@@ -1427,8 +1465,8 @@ func (p *AccessibilityManagerProxy) EnableShortcutsForTargets(
 
 func (p *AccessibilityManagerProxy) GetA11yFeatureToTileMap(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityManager)
@@ -1449,6 +1487,15 @@ func (p *AccessibilityManagerProxy) GetA11yFeatureToTileMap(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -1602,7 +1649,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAccessibilityManagerGetEnabledAccessibilityServiceList:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -1629,7 +1679,9 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_windowToken interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken view.IWindow
+		_ = _arg_windowToken
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_leashToken binder.IBinder
 		_ = _arg_leashToken
@@ -1656,7 +1708,9 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_windowToken interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_windowToken view.IWindow
+		_ = _arg_windowToken
 		_err := s.Impl.RemoveAccessibilityInteractionConnection(ctx, _arg_windowToken)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2106,7 +2160,18 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_event interface{}
+		var _arg_event view.InputEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.InjectInputEventToInputFilter(ctx, _arg_event)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2258,7 +2323,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAccessibilityManagerAttachAccessibilityOverlayToDisplay:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2268,7 +2336,18 @@ func (s *AccessibilityManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_surfaceControl interface{}
+		var _arg_surfaceControl view.SurfaceControl
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surfaceControl.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.AttachAccessibilityOverlayToDisplay(ctx, _arg_displayId, _arg_surfaceControl)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2285,7 +2364,7 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_tileComponentNames []interface{}
+		var _arg_tileComponentNames []content.ComponentName
 		_ = _arg_tileComponentNames
 		_err := s.Impl.NotifyQuickSettingsTilesChanged(ctx, _arg_tileComponentNames)
 		_ = _err
@@ -2325,7 +2404,10 @@ func (s *AccessibilityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIAccessibilityManagerRegisterUserInitializationCompleteCallback:
 		if _, _err := _data.ReadString16(); _err != nil {

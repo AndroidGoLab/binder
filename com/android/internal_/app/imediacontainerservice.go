@@ -3,7 +3,10 @@ package app
 import (
 	"context"
 	"fmt"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	"github.com/xaionaro-go/binder/binder"
+	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -20,9 +23,9 @@ const (
 
 type IMediaContainerService interface {
 	AsBinder() binder.IBinder
-	CopyPackage(ctx context.Context, packagePath string, target interface{}) (int32, error)
-	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (interface{}, error)
-	GetObbInfo(ctx context.Context, filename string) (interface{}, error)
+	CopyPackage(ctx context.Context, packagePath string, target os.IParcelFileDescriptorFactory) (int32, error)
+	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (pm.PackageInfoLite, error)
+	GetObbInfo(ctx context.Context, filename string) (res.ObbInfo, error)
 	CalculateInstalledSize(ctx context.Context, packagePath string, abiOverride string) (int64, error)
 }
 
@@ -45,12 +48,13 @@ var _ IMediaContainerService = (*MediaContainerServiceProxy)(nil)
 func (p *MediaContainerServiceProxy) CopyPackage(
 	ctx context.Context,
 	packagePath string,
-	target interface{},
+	target os.IParcelFileDescriptorFactory,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(packagePath)
+	_data.WriteStrongBinder(target.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaContainerService, "copyPackage")
 	if _err != nil {
@@ -79,8 +83,8 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 	packagePath string,
 	flags int32,
 	abiOverride string,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.PackageInfoLite, error) {
+	var _result pm.PackageInfoLite
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(packagePath)
@@ -102,14 +106,23 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *MediaContainerServiceProxy) GetObbInfo(
 	ctx context.Context,
 	filename string,
-) (interface{}, error) {
-	var _result interface{}
+) (res.ObbInfo, error) {
+	var _result res.ObbInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(filename)
@@ -129,6 +142,15 @@ func (p *MediaContainerServiceProxy) GetObbInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -187,7 +209,9 @@ func (s *MediaContainerServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_target interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_target os.IParcelFileDescriptorFactory
+		_ = _arg_target
 		_result, _err := s.Impl.CopyPackage(ctx, _arg_packagePath, _arg_target)
 		_reply := parcel.New()
 		if _err != nil {
@@ -220,7 +244,10 @@ func (s *MediaContainerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIMediaContainerServiceGetObbInfo:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -237,7 +264,10 @@ func (s *MediaContainerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIMediaContainerServiceCalculateInstalledSize:
 		if _, _err := _data.ReadString16(); _err != nil {

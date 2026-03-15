@@ -3,6 +3,7 @@ package inputmethod
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -31,7 +32,7 @@ type IRemoteAccessibilityInputConnection interface {
 	SetSelection(ctx context.Context, header InputConnectionCommandHeader, start int32, end int32) error
 	GetSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32, flags int32, future infra.AndroidFuture) error
 	DeleteSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32) error
-	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event interface{}) error
+	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event view.KeyEvent) error
 	PerformEditorAction(ctx context.Context, header InputConnectionCommandHeader, actionCode int32) error
 	PerformContextMenuAction(ctx context.Context, header InputConnectionCommandHeader, id int32) error
 	GetCursorCapsMode(ctx context.Context, header InputConnectionCommandHeader, reqModes int32, future infra.AndroidFuture) error
@@ -164,12 +165,16 @@ func (p *RemoteAccessibilityInputConnectionProxy) DeleteSurroundingText(
 func (p *RemoteAccessibilityInputConnectionProxy) SendKeyEvent(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
-	event interface{},
+	event view.KeyEvent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteAccessibilityInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -438,7 +443,18 @@ func (s *RemoteAccessibilityInputConnectionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_event interface{}
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SendKeyEvent(ctx, _arg_header, _arg_event)
 		_ = _err
 		return nil, nil

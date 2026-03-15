@@ -3,6 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
+	hardwareLocation "github.com/xaionaro-go/binder/android/hardware/location"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,7 +24,7 @@ const (
 type IFusedGeofenceHardware interface {
 	AsBinder() binder.IBinder
 	IsSupported(ctx context.Context) (bool, error)
-	AddGeofences(ctx context.Context, geofenceRequestsArray []interface{}) error
+	AddGeofences(ctx context.Context, geofenceRequestsArray []hardwareLocation.GeofenceHardwareRequestParcelable) error
 	RemoveGeofences(ctx context.Context, geofenceIds []int32) error
 	PauseMonitoringGeofence(ctx context.Context, geofenceId int32) error
 	ResumeMonitoringGeofence(ctx context.Context, geofenceId int32, monitorTransitions int32) error
@@ -77,7 +78,7 @@ func (p *FusedGeofenceHardwareProxy) IsSupported(
 
 func (p *FusedGeofenceHardwareProxy) AddGeofences(
 	ctx context.Context,
-	geofenceRequestsArray []interface{},
+	geofenceRequestsArray []hardwareLocation.GeofenceHardwareRequestParcelable,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFusedGeofenceHardware)
@@ -85,6 +86,11 @@ func (p *FusedGeofenceHardwareProxy) AddGeofences(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(geofenceRequestsArray)))
+		for _, _item := range geofenceRequestsArray {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFusedGeofenceHardware, "addGeofences")
@@ -260,7 +266,7 @@ func (s *FusedGeofenceHardwareStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_geofenceRequestsArray []interface{}
+		var _arg_geofenceRequestsArray []hardwareLocation.GeofenceHardwareRequestParcelable
 		_ = _arg_geofenceRequestsArray
 		_err := s.Impl.AddGeofences(ctx, _arg_geofenceRequestsArray)
 		_reply := parcel.New()

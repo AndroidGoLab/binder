@@ -3,6 +3,8 @@ package os
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,11 +31,11 @@ type ISystemConfig interface {
 	GetDisabledUntilUsedPreinstalledCarrierAssociatedApps(ctx context.Context) (map[interface{}]interface{}, error)
 	GetDisabledUntilUsedPreinstalledCarrierAssociatedAppEntries(ctx context.Context) (map[interface{}]interface{}, error)
 	GetSystemPermissionUids(ctx context.Context, permissionName string) ([]int32, error)
-	GetEnabledComponentOverrides(ctx context.Context, packageName string) ([]interface{}, error)
-	GetDefaultVrComponents(ctx context.Context) ([]interface{}, error)
+	GetEnabledComponentOverrides(ctx context.Context, packageName string) ([]content.ComponentName, error)
+	GetDefaultVrComponents(ctx context.Context) ([]content.ComponentName, error)
 	GetPreventUserDisablePackages(ctx context.Context) ([]string, error)
-	GetEnhancedConfirmationTrustedPackages(ctx context.Context) ([]interface{}, error)
-	GetEnhancedConfirmationTrustedInstallers(ctx context.Context) ([]interface{}, error)
+	GetEnhancedConfirmationTrustedPackages(ctx context.Context) ([]pm.SignedPackageParcel, error)
+	GetEnhancedConfirmationTrustedInstallers(ctx context.Context) ([]pm.SignedPackageParcel, error)
 }
 
 type SystemConfigProxy struct {
@@ -221,8 +223,8 @@ func (p *SystemConfigProxy) GetSystemPermissionUids(
 func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 	ctx context.Context,
 	packageName string,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]content.ComponentName, error) {
+	var _result []content.ComponentName
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 	_data.WriteString16(packageName)
@@ -248,8 +250,11 @@ func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]content.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -257,8 +262,8 @@ func (p *SystemConfigProxy) GetEnabledComponentOverrides(
 
 func (p *SystemConfigProxy) GetDefaultVrComponents(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]content.ComponentName, error) {
+	var _result []content.ComponentName
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
@@ -283,8 +288,11 @@ func (p *SystemConfigProxy) GetDefaultVrComponents(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]content.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -331,8 +339,8 @@ func (p *SystemConfigProxy) GetPreventUserDisablePackages(
 
 func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]pm.SignedPackageParcel, error) {
+	var _result []pm.SignedPackageParcel
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
@@ -357,8 +365,11 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]pm.SignedPackageParcel, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -366,8 +377,8 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedPackages(
 
 func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedInstallers(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]pm.SignedPackageParcel, error) {
+	var _result []pm.SignedPackageParcel
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISystemConfig)
 
@@ -392,8 +403,11 @@ func (p *SystemConfigProxy) GetEnhancedConfirmationTrustedInstallers(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]pm.SignedPackageParcel, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil

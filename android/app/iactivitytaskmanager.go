@@ -4,7 +4,14 @@ import (
 	"context"
 	"fmt"
 	assist "github.com/xaionaro-go/binder/android/app/assist"
+	content "github.com/xaionaro-go/binder/android/content"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	net "github.com/xaionaro-go/binder/android/net"
+	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
+	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -113,21 +120,21 @@ const (
 
 type IActivityTaskManager interface {
 	AsBinder() binder.IBinder
-	StartActivity(ctx context.Context, caller IApplicationThread, intent interface{}, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options interface{}) (int32, error)
-	StartActivities(ctx context.Context, caller IApplicationThread, intents []interface{}, resolvedTypes []string, resultTo binder.IBinder, options interface{}) (int32, error)
-	StartActivityAsUser(ctx context.Context, caller IApplicationThread, intent interface{}, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options interface{}) (int32, error)
-	StartNextMatchingActivity(ctx context.Context, callingActivity binder.IBinder, intent interface{}, options interface{}) (bool, error)
-	StartActivityIntentSender(ctx context.Context, caller IApplicationThread, target interface{}, whitelistToken binder.IBinder, fillInIntent interface{}, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flagsMask int32, flagsValues int32, options interface{}) (int32, error)
-	StartActivityAndWait(ctx context.Context, caller IApplicationThread, intent interface{}, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options interface{}) (WaitResult, error)
-	StartActivityWithConfig(ctx context.Context, caller IApplicationThread, intent interface{}, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, startFlags int32, newConfig interface{}, options interface{}) (int32, error)
-	StartVoiceActivity(ctx context.Context, intent interface{}, resolvedType string, session interface{}, interactor interface{}, flags int32, profilerInfo ProfilerInfo, options interface{}) (int32, error)
+	StartActivity(ctx context.Context, caller IApplicationThread, intent content.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options os.Bundle) (int32, error)
+	StartActivities(ctx context.Context, caller IApplicationThread, intents []content.Intent, resolvedTypes []string, resultTo binder.IBinder, options os.Bundle) (int32, error)
+	StartActivityAsUser(ctx context.Context, caller IApplicationThread, intent content.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options os.Bundle) (int32, error)
+	StartNextMatchingActivity(ctx context.Context, callingActivity binder.IBinder, intent content.Intent, options os.Bundle) (bool, error)
+	StartActivityIntentSender(ctx context.Context, caller IApplicationThread, target content.IIntentSender, whitelistToken binder.IBinder, fillInIntent content.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flagsMask int32, flagsValues int32, options os.Bundle) (int32, error)
+	StartActivityAndWait(ctx context.Context, caller IApplicationThread, intent content.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options os.Bundle) (WaitResult, error)
+	StartActivityWithConfig(ctx context.Context, caller IApplicationThread, intent content.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, startFlags int32, newConfig res.Configuration, options os.Bundle) (int32, error)
+	StartVoiceActivity(ctx context.Context, intent content.Intent, resolvedType string, session interface{}, interactor interface{}, flags int32, profilerInfo ProfilerInfo, options os.Bundle) (int32, error)
 	GetVoiceInteractorPackageName(ctx context.Context, callingVoiceInteractor binder.IBinder) (string, error)
-	StartAssistantActivity(ctx context.Context, intent interface{}, resolvedType string, options interface{}) (int32, error)
-	StartActivityFromGameSession(ctx context.Context, caller IApplicationThread, intent interface{}, taskId int32) (int32, error)
-	StartActivityFromRecents(ctx context.Context, taskId int32, options interface{}) (int32, error)
-	StartActivityAsCaller(ctx context.Context, caller IApplicationThread, intent interface{}, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options interface{}, ignoreTargetSecurity bool) (int32, error)
-	PreloadRecentsActivity(ctx context.Context, intent interface{}) error
-	IsActivityStartAllowedOnDisplay(ctx context.Context, displayId int32, intent interface{}, resolvedType string) (bool, error)
+	StartAssistantActivity(ctx context.Context, intent content.Intent, resolvedType string, options os.Bundle) (int32, error)
+	StartActivityFromGameSession(ctx context.Context, caller IApplicationThread, intent content.Intent, taskId int32) (int32, error)
+	StartActivityFromRecents(ctx context.Context, taskId int32, options os.Bundle) (int32, error)
+	StartActivityAsCaller(ctx context.Context, caller IApplicationThread, intent content.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options os.Bundle, ignoreTargetSecurity bool) (int32, error)
+	PreloadRecentsActivity(ctx context.Context, intent content.Intent) error
+	IsActivityStartAllowedOnDisplay(ctx context.Context, displayId int32, intent content.Intent, resolvedType string) (bool, error)
 	UnhandledBack(ctx context.Context) error
 	GetActivityClientController(ctx context.Context) (IActivityClientController, error)
 	GetFrontActivityScreenCompatMode(ctx context.Context) (int32, error)
@@ -136,10 +143,10 @@ type IActivityTaskManager interface {
 	RemoveTask(ctx context.Context, taskId int32) (bool, error)
 	RemoveAllVisibleRecentTasks(ctx context.Context) error
 	GetTasks(ctx context.Context, maxNum int32, filterOnlyVisibleRecents bool, keepIntentExtra bool, displayId int32) ([]ActivityManagerRunningTaskInfo, error)
-	MoveTaskToFront(ctx context.Context, app IApplicationThread, task int32, flags int32, options interface{}) error
-	GetRecentTasks(ctx context.Context, maxNum int32, flags int32) (interface{}, error)
+	MoveTaskToFront(ctx context.Context, app IApplicationThread, task int32, flags int32, options os.Bundle) error
+	GetRecentTasks(ctx context.Context, maxNum int32, flags int32) (pm.ParceledListSlice, error)
 	IsTopActivityImmersive(ctx context.Context) (bool, error)
-	ReportAssistContextExtras(ctx context.Context, assistToken binder.IBinder, extras interface{}, structure assist.AssistStructure, content assist.AssistContent, referrer interface{}) error
+	ReportAssistContextExtras(ctx context.Context, assistToken binder.IBinder, extras os.Bundle, structure assist.AssistStructure, content assist.AssistContent, referrer net.Uri) error
 	SetFocusedRootTask(ctx context.Context, taskId int32) error
 	GetFocusedRootTaskInfo(ctx context.Context) (ActivityTaskManagerRootTaskInfo, error)
 	GetTaskBounds(ctx context.Context, taskId int32) (graphics.Rect, error)
@@ -151,7 +158,7 @@ type IActivityTaskManager interface {
 	StartSystemLockTaskMode(ctx context.Context, taskId int32) error
 	StopSystemLockTaskMode(ctx context.Context) error
 	FinishVoiceTask(ctx context.Context, session interface{}) error
-	AddAppTask(ctx context.Context, activityToken binder.IBinder, intent interface{}, description ActivityManagerTaskDescription, thumbnail graphics.Bitmap) (int32, error)
+	AddAppTask(ctx context.Context, activityToken binder.IBinder, intent content.Intent, description ActivityManagerTaskDescription, thumbnail graphics.Bitmap) (int32, error)
 	GetAppTaskThumbnailSize(ctx context.Context) (graphics.Point, error)
 	ReleaseSomeActivities(ctx context.Context, app IApplicationThread) error
 	GetTaskDescriptionIcon(ctx context.Context, filename string) (graphics.Bitmap, error)
@@ -168,26 +175,26 @@ type IActivityTaskManager interface {
 	GetAllRootTaskInfosOnDisplay(ctx context.Context, displayId int32) ([]ActivityTaskManagerRootTaskInfo, error)
 	GetRootTaskInfoOnDisplay(ctx context.Context, windowingMode int32, activityType int32, displayId int32) (ActivityTaskManagerRootTaskInfo, error)
 	SetLockScreenShown(ctx context.Context, showingKeyguard bool, showingAod bool) error
-	GetAssistContextExtras(ctx context.Context, requestType int32) (interface{}, error)
-	RequestAssistContextExtras(ctx context.Context, requestType int32, receiver IAssistDataReceiver, receiverExtras interface{}, activityToken binder.IBinder, focused bool, newSessionId bool) (bool, error)
-	RequestAutofillData(ctx context.Context, receiver IAssistDataReceiver, receiverExtras interface{}, activityToken binder.IBinder, flags int32) (bool, error)
+	GetAssistContextExtras(ctx context.Context, requestType int32) (os.Bundle, error)
+	RequestAssistContextExtras(ctx context.Context, requestType int32, receiver IAssistDataReceiver, receiverExtras os.Bundle, activityToken binder.IBinder, focused bool, newSessionId bool) (bool, error)
+	RequestAutofillData(ctx context.Context, receiver IAssistDataReceiver, receiverExtras os.Bundle, activityToken binder.IBinder, flags int32) (bool, error)
 	IsAssistDataAllowed(ctx context.Context) (bool, error)
 	RequestAssistDataForTask(ctx context.Context, receiver IAssistDataReceiver, taskId int32, callingPackageName string, callingAttributionTag string, fetchStructure bool) (bool, error)
 	KeyguardGoingAway(ctx context.Context, flags int32) error
 	SuppressResizeConfigChanges(ctx context.Context, suppress bool) error
-	GetWindowOrganizerController(ctx context.Context) (interface{}, error)
+	GetWindowOrganizerController(ctx context.Context) (window.IWindowOrganizerController, error)
 	SupportsLocalVoiceInteraction(ctx context.Context) (bool, error)
 	RequestOpenInBrowserEducation(ctx context.Context, appToken binder.IBinder) error
-	GetDeviceConfigurationInfo(ctx context.Context) (interface{}, error)
+	GetDeviceConfigurationInfo(ctx context.Context) (pm.ConfigurationInfo, error)
 	CancelTaskWindowTransition(ctx context.Context, taskId int32) error
-	GetTaskSnapshot(ctx context.Context, taskId int32, isLowResolution bool) (interface{}, error)
-	TakeTaskSnapshot(ctx context.Context, taskId int32, updateCache bool) (interface{}, error)
+	GetTaskSnapshot(ctx context.Context, taskId int32, isLowResolution bool) (window.TaskSnapshot, error)
+	TakeTaskSnapshot(ctx context.Context, taskId int32, updateCache bool) (window.TaskSnapshot, error)
 	GetLastResumedActivityUserId(ctx context.Context) (int32, error)
-	UpdateConfiguration(ctx context.Context, values interface{}) (bool, error)
+	UpdateConfiguration(ctx context.Context, values res.Configuration) (bool, error)
 	UpdateLockTaskFeatures(ctx context.Context, flags int32) error
-	RegisterRemoteAnimationForNextActivityStart(ctx context.Context, packageName string, adapter interface{}, launchCookie binder.IBinder) error
-	RegisterRemoteAnimationsForDisplay(ctx context.Context, displayId int32, definition interface{}) error
-	AlwaysShowUnsupportedCompileSdkWarning(ctx context.Context, activity interface{}) error
+	RegisterRemoteAnimationForNextActivityStart(ctx context.Context, packageName string, adapter view.RemoteAnimationAdapter, launchCookie binder.IBinder) error
+	RegisterRemoteAnimationsForDisplay(ctx context.Context, displayId int32, definition view.RemoteAnimationDefinition) error
+	AlwaysShowUnsupportedCompileSdkWarning(ctx context.Context, activity content.ComponentName) error
 	SetVrThread(ctx context.Context, tid int32) error
 	SetPersistentVrThread(ctx context.Context, tid int32) error
 	StopAppSwitches(ctx context.Context) error
@@ -199,11 +206,11 @@ type IActivityTaskManager interface {
 	GetPackageAskScreenCompat(ctx context.Context, packageName string) (bool, error)
 	SetPackageAskScreenCompat(ctx context.Context, packageName string, ask bool) error
 	ClearLaunchParamsForPackages(ctx context.Context, packageNames []string) error
-	OnSplashScreenViewCopyFinished(ctx context.Context, taskId int32, material *interface{}) error
+	OnSplashScreenViewCopyFinished(ctx context.Context, taskId int32, material *window.SplashScreenViewSplashScreenViewParcelable) error
 	OnPictureInPictureUiStateChanged(ctx context.Context, pipState PictureInPictureUiState) error
 	DetachNavigationBarFromApp(ctx context.Context, transition binder.IBinder) error
 	SetRunningRemoteTransitionDelegate(ctx context.Context, caller IApplicationThread) error
-	StartBackNavigation(ctx context.Context, navigationObserver interface{}, adaptor interface{}) (interface{}, error)
+	StartBackNavigation(ctx context.Context, navigationObserver os.RemoteCallback, adaptor window.BackAnimationAdapter) (window.BackNavigationInfo, error)
 	RegisterBackgroundActivityStartCallback(ctx context.Context, binder_ binder.IBinder) (bool, error)
 	UnregisterBackgroundActivityStartCallback(ctx context.Context, binder_ binder.IBinder) error
 	RegisterScreenCaptureObserver(ctx context.Context, activityToken binder.IBinder, observer IScreenCaptureObserver) error
@@ -229,14 +236,14 @@ var _ IActivityTaskManager = (*ActivityTaskManagerProxy)(nil)
 func (p *ActivityTaskManagerProxy) StartActivity(
 	ctx context.Context,
 	caller IApplicationThread,
-	intent interface{},
+	intent content.Intent,
 	resolvedType string,
 	resultTo binder.IBinder,
 	resultWho string,
 	requestCode int32,
 	flags int32,
 	profilerInfo ProfilerInfo,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.remote.Identity()
@@ -245,6 +252,10 @@ func (p *ActivityTaskManagerProxy) StartActivity(
 	_data.WriteStrongBinder(caller.AsBinder().Handle())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
 	_data.WriteStrongBinder(resultTo.Handle())
 	_data.WriteString16(resultWho)
@@ -252,6 +263,10 @@ func (p *ActivityTaskManagerProxy) StartActivity(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -280,10 +295,10 @@ func (p *ActivityTaskManagerProxy) StartActivity(
 func (p *ActivityTaskManagerProxy) StartActivities(
 	ctx context.Context,
 	caller IApplicationThread,
-	intents []interface{},
+	intents []content.Intent,
 	resolvedTypes []string,
 	resultTo binder.IBinder,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.remote.Identity()
@@ -296,6 +311,11 @@ func (p *ActivityTaskManagerProxy) StartActivities(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(intents)))
+		for _, _item := range intents {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 	if resolvedTypes == nil {
 		_data.WriteInt32(-1)
@@ -306,6 +326,10 @@ func (p *ActivityTaskManagerProxy) StartActivities(
 		}
 	}
 	_data.WriteStrongBinder(resultTo.Handle())
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivities")
@@ -333,14 +357,14 @@ func (p *ActivityTaskManagerProxy) StartActivities(
 func (p *ActivityTaskManagerProxy) StartActivityAsUser(
 	ctx context.Context,
 	caller IApplicationThread,
-	intent interface{},
+	intent content.Intent,
 	resolvedType string,
 	resultTo binder.IBinder,
 	resultWho string,
 	requestCode int32,
 	flags int32,
 	profilerInfo ProfilerInfo,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.remote.Identity()
@@ -349,6 +373,10 @@ func (p *ActivityTaskManagerProxy) StartActivityAsUser(
 	_data.WriteStrongBinder(caller.AsBinder().Handle())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
 	_data.WriteStrongBinder(resultTo.Handle())
 	_data.WriteString16(resultWho)
@@ -356,6 +384,10 @@ func (p *ActivityTaskManagerProxy) StartActivityAsUser(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(_identity.UserID)
@@ -385,13 +417,21 @@ func (p *ActivityTaskManagerProxy) StartActivityAsUser(
 func (p *ActivityTaskManagerProxy) StartNextMatchingActivity(
 	ctx context.Context,
 	callingActivity binder.IBinder,
-	intent interface{},
-	options interface{},
+	intent content.Intent,
+	options os.Bundle,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteStrongBinder(callingActivity.Handle())
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startNextMatchingActivity")
 	if _err != nil {
@@ -418,28 +458,37 @@ func (p *ActivityTaskManagerProxy) StartNextMatchingActivity(
 func (p *ActivityTaskManagerProxy) StartActivityIntentSender(
 	ctx context.Context,
 	caller IApplicationThread,
-	target interface{},
+	target content.IIntentSender,
 	whitelistToken binder.IBinder,
-	fillInIntent interface{},
+	fillInIntent content.Intent,
 	resolvedType string,
 	resultTo binder.IBinder,
 	resultWho string,
 	requestCode int32,
 	flagsMask int32,
 	flagsValues int32,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteStrongBinder(caller.AsBinder().Handle())
+	_data.WriteStrongBinder(target.AsBinder().Handle())
 	_data.WriteStrongBinder(whitelistToken.Handle())
+	_data.WriteInt32(1)
+	if _err := fillInIntent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
 	_data.WriteStrongBinder(resultTo.Handle())
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(flagsMask)
 	_data.WriteInt32(flagsValues)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityIntentSender")
 	if _err != nil {
@@ -466,14 +515,14 @@ func (p *ActivityTaskManagerProxy) StartActivityIntentSender(
 func (p *ActivityTaskManagerProxy) StartActivityAndWait(
 	ctx context.Context,
 	caller IApplicationThread,
-	intent interface{},
+	intent content.Intent,
 	resolvedType string,
 	resultTo binder.IBinder,
 	resultWho string,
 	requestCode int32,
 	flags int32,
 	profilerInfo ProfilerInfo,
-	options interface{},
+	options os.Bundle,
 ) (WaitResult, error) {
 	var _result WaitResult
 	_identity := p.remote.Identity()
@@ -482,6 +531,10 @@ func (p *ActivityTaskManagerProxy) StartActivityAndWait(
 	_data.WriteStrongBinder(caller.AsBinder().Handle())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
 	_data.WriteStrongBinder(resultTo.Handle())
 	_data.WriteString16(resultWho)
@@ -489,6 +542,10 @@ func (p *ActivityTaskManagerProxy) StartActivityAndWait(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(_identity.UserID)
@@ -523,14 +580,14 @@ func (p *ActivityTaskManagerProxy) StartActivityAndWait(
 func (p *ActivityTaskManagerProxy) StartActivityWithConfig(
 	ctx context.Context,
 	caller IApplicationThread,
-	intent interface{},
+	intent content.Intent,
 	resolvedType string,
 	resultTo binder.IBinder,
 	resultWho string,
 	requestCode int32,
 	startFlags int32,
-	newConfig interface{},
-	options interface{},
+	newConfig res.Configuration,
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.remote.Identity()
@@ -539,11 +596,23 @@ func (p *ActivityTaskManagerProxy) StartActivityWithConfig(
 	_data.WriteStrongBinder(caller.AsBinder().Handle())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
 	_data.WriteStrongBinder(resultTo.Handle())
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(startFlags)
+	_data.WriteInt32(1)
+	if _err := newConfig.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityWithConfig")
@@ -570,13 +639,13 @@ func (p *ActivityTaskManagerProxy) StartActivityWithConfig(
 
 func (p *ActivityTaskManagerProxy) StartVoiceActivity(
 	ctx context.Context,
-	intent interface{},
+	intent content.Intent,
 	resolvedType string,
 	session interface{},
 	interactor interface{},
 	flags int32,
 	profilerInfo ProfilerInfo,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.remote.Identity()
@@ -586,10 +655,18 @@ func (p *ActivityTaskManagerProxy) StartVoiceActivity(
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(_identity.PID)
 	_data.WriteInt32(_identity.UID)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
 	_data.WriteInt32(flags)
 	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteInt32(_identity.UserID)
@@ -649,9 +726,9 @@ func (p *ActivityTaskManagerProxy) GetVoiceInteractorPackageName(
 
 func (p *ActivityTaskManagerProxy) StartAssistantActivity(
 	ctx context.Context,
-	intent interface{},
+	intent content.Intent,
 	resolvedType string,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.remote.Identity()
@@ -661,7 +738,15 @@ func (p *ActivityTaskManagerProxy) StartAssistantActivity(
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(_identity.PID)
 	_data.WriteInt32(_identity.UID)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startAssistantActivity")
@@ -689,7 +774,7 @@ func (p *ActivityTaskManagerProxy) StartAssistantActivity(
 func (p *ActivityTaskManagerProxy) StartActivityFromGameSession(
 	ctx context.Context,
 	caller IApplicationThread,
-	intent interface{},
+	intent content.Intent,
 	taskId int32,
 ) (int32, error) {
 	var _result int32
@@ -701,6 +786,10 @@ func (p *ActivityTaskManagerProxy) StartActivityFromGameSession(
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(_identity.PID)
 	_data.WriteInt32(_identity.UID)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(taskId)
 	_data.WriteInt32(_identity.UserID)
 
@@ -729,12 +818,16 @@ func (p *ActivityTaskManagerProxy) StartActivityFromGameSession(
 func (p *ActivityTaskManagerProxy) StartActivityFromRecents(
 	ctx context.Context,
 	taskId int32,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityFromRecents")
 	if _err != nil {
@@ -761,14 +854,14 @@ func (p *ActivityTaskManagerProxy) StartActivityFromRecents(
 func (p *ActivityTaskManagerProxy) StartActivityAsCaller(
 	ctx context.Context,
 	caller IApplicationThread,
-	intent interface{},
+	intent content.Intent,
 	resolvedType string,
 	resultTo binder.IBinder,
 	resultWho string,
 	requestCode int32,
 	flags int32,
 	profilerInfo ProfilerInfo,
-	options interface{},
+	options os.Bundle,
 	ignoreTargetSecurity bool,
 ) (int32, error) {
 	var _result int32
@@ -777,6 +870,10 @@ func (p *ActivityTaskManagerProxy) StartActivityAsCaller(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteStrongBinder(caller.AsBinder().Handle())
 	_data.WriteString16(_identity.PackageName)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
 	_data.WriteStrongBinder(resultTo.Handle())
 	_data.WriteString16(resultWho)
@@ -784,6 +881,10 @@ func (p *ActivityTaskManagerProxy) StartActivityAsCaller(
 	_data.WriteInt32(flags)
 	_data.WriteInt32(1)
 	if _err := profilerInfo.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 	_data.WriteBool(ignoreTargetSecurity)
@@ -813,10 +914,14 @@ func (p *ActivityTaskManagerProxy) StartActivityAsCaller(
 
 func (p *ActivityTaskManagerProxy) PreloadRecentsActivity(
 	ctx context.Context,
-	intent interface{},
+	intent content.Intent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "preloadRecentsActivity")
 	if _err != nil {
@@ -839,7 +944,7 @@ func (p *ActivityTaskManagerProxy) PreloadRecentsActivity(
 func (p *ActivityTaskManagerProxy) IsActivityStartAllowedOnDisplay(
 	ctx context.Context,
 	displayId int32,
-	intent interface{},
+	intent content.Intent,
 	resolvedType string,
 ) (bool, error) {
 	var _result bool
@@ -847,6 +952,10 @@ func (p *ActivityTaskManagerProxy) IsActivityStartAllowedOnDisplay(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
 	_data.WriteInt32(_identity.UserID)
 
@@ -1113,7 +1222,7 @@ func (p *ActivityTaskManagerProxy) MoveTaskToFront(
 	app IApplicationThread,
 	task int32,
 	flags int32,
-	options interface{},
+	options os.Bundle,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
@@ -1122,6 +1231,10 @@ func (p *ActivityTaskManagerProxy) MoveTaskToFront(
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteInt32(task)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "moveTaskToFront")
 	if _err != nil {
@@ -1145,8 +1258,8 @@ func (p *ActivityTaskManagerProxy) GetRecentTasks(
 	ctx context.Context,
 	maxNum int32,
 	flags int32,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.ParceledListSlice, error) {
+	var _result pm.ParceledListSlice
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
@@ -1169,6 +1282,15 @@ func (p *ActivityTaskManagerProxy) GetRecentTasks(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -1204,20 +1326,28 @@ func (p *ActivityTaskManagerProxy) IsTopActivityImmersive(
 func (p *ActivityTaskManagerProxy) ReportAssistContextExtras(
 	ctx context.Context,
 	assistToken binder.IBinder,
-	extras interface{},
+	extras os.Bundle,
 	structure assist.AssistStructure,
 	content assist.AssistContent,
-	referrer interface{},
+	referrer net.Uri,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteStrongBinder(assistToken.Handle())
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := structure.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(1)
 	if _err := content.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := referrer.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -1574,7 +1704,7 @@ func (p *ActivityTaskManagerProxy) FinishVoiceTask(
 func (p *ActivityTaskManagerProxy) AddAppTask(
 	ctx context.Context,
 	activityToken binder.IBinder,
-	intent interface{},
+	intent content.Intent,
 	description ActivityManagerTaskDescription,
 	thumbnail graphics.Bitmap,
 ) (int32, error) {
@@ -1582,6 +1712,10 @@ func (p *ActivityTaskManagerProxy) AddAppTask(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteStrongBinder(activityToken.Handle())
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := description.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -2126,8 +2260,8 @@ func (p *ActivityTaskManagerProxy) SetLockScreenShown(
 func (p *ActivityTaskManagerProxy) GetAssistContextExtras(
 	ctx context.Context,
 	requestType int32,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(requestType)
@@ -2147,6 +2281,15 @@ func (p *ActivityTaskManagerProxy) GetAssistContextExtras(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2154,7 +2297,7 @@ func (p *ActivityTaskManagerProxy) RequestAssistContextExtras(
 	ctx context.Context,
 	requestType int32,
 	receiver IAssistDataReceiver,
-	receiverExtras interface{},
+	receiverExtras os.Bundle,
 	activityToken binder.IBinder,
 	focused bool,
 	newSessionId bool,
@@ -2164,6 +2307,10 @@ func (p *ActivityTaskManagerProxy) RequestAssistContextExtras(
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(requestType)
 	_data.WriteStrongBinder(receiver.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := receiverExtras.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteBool(focused)
 	_data.WriteBool(newSessionId)
@@ -2193,7 +2340,7 @@ func (p *ActivityTaskManagerProxy) RequestAssistContextExtras(
 func (p *ActivityTaskManagerProxy) RequestAutofillData(
 	ctx context.Context,
 	receiver IAssistDataReceiver,
-	receiverExtras interface{},
+	receiverExtras os.Bundle,
 	activityToken binder.IBinder,
 	flags int32,
 ) (bool, error) {
@@ -2201,6 +2348,10 @@ func (p *ActivityTaskManagerProxy) RequestAutofillData(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteStrongBinder(receiver.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := receiverExtras.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteInt32(flags)
 
@@ -2348,8 +2499,8 @@ func (p *ActivityTaskManagerProxy) SuppressResizeConfigChanges(
 
 func (p *ActivityTaskManagerProxy) GetWindowOrganizerController(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (window.IWindowOrganizerController, error) {
+	var _result window.IWindowOrganizerController
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
@@ -2368,6 +2519,11 @@ func (p *ActivityTaskManagerProxy) GetWindowOrganizerController(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = window.NewWindowOrganizerControllerProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -2428,8 +2584,8 @@ func (p *ActivityTaskManagerProxy) RequestOpenInBrowserEducation(
 
 func (p *ActivityTaskManagerProxy) GetDeviceConfigurationInfo(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.ConfigurationInfo, error) {
+	var _result pm.ConfigurationInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 
@@ -2448,6 +2604,15 @@ func (p *ActivityTaskManagerProxy) GetDeviceConfigurationInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2481,8 +2646,8 @@ func (p *ActivityTaskManagerProxy) GetTaskSnapshot(
 	ctx context.Context,
 	taskId int32,
 	isLowResolution bool,
-) (interface{}, error) {
-	var _result interface{}
+) (window.TaskSnapshot, error) {
+	var _result window.TaskSnapshot
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
@@ -2503,6 +2668,15 @@ func (p *ActivityTaskManagerProxy) GetTaskSnapshot(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2510,8 +2684,8 @@ func (p *ActivityTaskManagerProxy) TakeTaskSnapshot(
 	ctx context.Context,
 	taskId int32,
 	updateCache bool,
-) (interface{}, error) {
-	var _result interface{}
+) (window.TaskSnapshot, error) {
+	var _result window.TaskSnapshot
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
@@ -2532,6 +2706,15 @@ func (p *ActivityTaskManagerProxy) TakeTaskSnapshot(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2566,11 +2749,15 @@ func (p *ActivityTaskManagerProxy) GetLastResumedActivityUserId(
 
 func (p *ActivityTaskManagerProxy) UpdateConfiguration(
 	ctx context.Context,
-	values interface{},
+	values res.Configuration,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
+	_data.WriteInt32(1)
+	if _err := values.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "updateConfiguration")
 	if _err != nil {
@@ -2625,12 +2812,16 @@ func (p *ActivityTaskManagerProxy) UpdateLockTaskFeatures(
 func (p *ActivityTaskManagerProxy) RegisterRemoteAnimationForNextActivityStart(
 	ctx context.Context,
 	packageName string,
-	adapter interface{},
+	adapter view.RemoteAnimationAdapter,
 	launchCookie binder.IBinder,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := adapter.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteStrongBinder(launchCookie.Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "registerRemoteAnimationForNextActivityStart")
@@ -2654,11 +2845,15 @@ func (p *ActivityTaskManagerProxy) RegisterRemoteAnimationForNextActivityStart(
 func (p *ActivityTaskManagerProxy) RegisterRemoteAnimationsForDisplay(
 	ctx context.Context,
 	displayId int32,
-	definition interface{},
+	definition view.RemoteAnimationDefinition,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(displayId)
+	_data.WriteInt32(1)
+	if _err := definition.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "registerRemoteAnimationsForDisplay")
 	if _err != nil {
@@ -2680,10 +2875,14 @@ func (p *ActivityTaskManagerProxy) RegisterRemoteAnimationsForDisplay(
 
 func (p *ActivityTaskManagerProxy) AlwaysShowUnsupportedCompileSdkWarning(
 	ctx context.Context,
-	activity interface{},
+	activity content.ComponentName,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
+	_data.WriteInt32(1)
+	if _err := activity.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "alwaysShowUnsupportedCompileSdkWarning")
 	if _err != nil {
@@ -3012,11 +3211,18 @@ func (p *ActivityTaskManagerProxy) ClearLaunchParamsForPackages(
 func (p *ActivityTaskManagerProxy) OnSplashScreenViewCopyFinished(
 	ctx context.Context,
 	taskId int32,
-	material *interface{},
+	material *window.SplashScreenViewSplashScreenViewParcelable,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
 	_data.WriteInt32(taskId)
+	if material != nil {
+		if _err := (*material).MarshalParcel(_data); _err != nil {
+			return _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "onSplashScreenViewCopyFinished")
 	if _err != nil {
@@ -3119,12 +3325,20 @@ func (p *ActivityTaskManagerProxy) SetRunningRemoteTransitionDelegate(
 
 func (p *ActivityTaskManagerProxy) StartBackNavigation(
 	ctx context.Context,
-	navigationObserver interface{},
-	adaptor interface{},
-) (interface{}, error) {
-	var _result interface{}
+	navigationObserver os.RemoteCallback,
+	adaptor window.BackAnimationAdapter,
+) (window.BackNavigationInfo, error) {
+	var _result window.BackNavigationInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
+	_data.WriteInt32(1)
+	if _err := navigationObserver.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := adaptor.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startBackNavigation")
 	if _err != nil {
@@ -3141,6 +3355,15 @@ func (p *ActivityTaskManagerProxy) StartBackNavigation(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -3284,7 +3507,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3316,7 +3550,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.StartActivity(ctx, _arg_caller, _arg_intent, _arg_resolvedType, _arg_resultTo, _arg_resultWho, _arg_requestCode, _arg_flags, _arg_profilerInfo, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3340,7 +3585,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_intents []interface{}
+		var _arg_intents []content.Intent
 		_ = _arg_intents
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_resolvedTypes []string
@@ -3348,7 +3593,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultTo binder.IBinder
 		_ = _arg_resultTo
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3374,7 +3630,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3406,7 +3673,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3426,8 +3704,30 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callingActivity binder.IBinder
 		_ = _arg_callingActivity
-		var _arg_intent interface{}
-		var _arg_options interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.StartNextMatchingActivity(ctx, _arg_callingActivity, _arg_intent, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3444,11 +3744,24 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_caller IApplicationThread
 		_ = _arg_caller
-		var _arg_target interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_target content.IIntentSender
+		_ = _arg_target
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_whitelistToken binder.IBinder
 		_ = _arg_whitelistToken
-		var _arg_fillInIntent interface{}
+		var _arg_fillInIntent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_fillInIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3472,7 +3785,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.StartActivityIntentSender(ctx, _arg_caller, _arg_target, _arg_whitelistToken, _arg_fillInIntent, _arg_resolvedType, _arg_resultTo, _arg_resultWho, _arg_requestCode, _arg_flagsMask, _arg_flagsValues, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3495,7 +3819,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3527,7 +3862,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3556,7 +3902,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3576,8 +3933,30 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_newConfig interface{}
-		var _arg_options interface{}
+		var _arg_newConfig res.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newConfig.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3606,7 +3985,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3629,7 +4019,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3674,12 +4075,34 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -3711,7 +4134,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -3736,7 +4170,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.StartActivityFromRecents(ctx, _arg_taskId, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3756,7 +4201,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3788,7 +4244,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_ignoreTargetSecurity, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -3809,7 +4276,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.PreloadRecentsActivity(ctx, _arg_intent)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3826,7 +4304,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -3991,7 +4480,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.MoveTaskToFront(ctx, _arg_app, _arg_task, _arg_flags, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4022,7 +4522,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerIsTopActivityImmersive:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4044,7 +4547,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_assistToken binder.IBinder
 		_ = _arg_assistToken
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_structure assist.AssistStructure
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -4069,7 +4583,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_referrer interface{}
+		var _arg_referrer net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_referrer.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.ReportAssistContextExtras(ctx, _arg_assistToken, _arg_extras, _arg_structure, _arg_content, _arg_referrer)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4255,7 +4780,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
 		_ = _arg_activityToken
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_description ActivityManagerTaskDescription
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -4613,7 +5149,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerRequestAssistContextExtras:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4626,7 +5165,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IAssistDataReceiver
 		_ = _arg_receiver
-		var _arg_receiverExtras interface{}
+		var _arg_receiverExtras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiverExtras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
 		_ = _arg_activityToken
@@ -4654,7 +5204,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_receiver IAssistDataReceiver
 		_ = _arg_receiver
-		var _arg_receiverExtras interface{}
+		var _arg_receiverExtras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_receiverExtras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityToken binder.IBinder
 		_ = _arg_activityToken
@@ -4759,6 +5320,7 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionIActivityTaskManagerSupportsLocalVoiceInteraction:
@@ -4800,7 +5362,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerCancelTaskWindowTransition:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4837,7 +5402,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerTakeTaskSnapshot:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4858,7 +5426,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerGetLastResumedActivityUserId:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4877,7 +5448,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_values interface{}
+		var _arg_values res.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_values.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.UpdateConfiguration(ctx, _arg_values)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4914,7 +5496,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_adapter interface{}
+		var _arg_adapter view.RemoteAnimationAdapter
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_adapter.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_launchCookie binder.IBinder
 		_ = _arg_launchCookie
@@ -4934,7 +5527,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_definition interface{}
+		var _arg_definition view.RemoteAnimationDefinition
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_definition.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RegisterRemoteAnimationsForDisplay(ctx, _arg_displayId, _arg_definition)
 		_reply := parcel.New()
 		if _err != nil {
@@ -4947,7 +5551,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_activity interface{}
+		var _arg_activity content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_activity.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.AlwaysShowUnsupportedCompileSdkWarning(ctx, _arg_activity)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5145,7 +5760,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_material *interface{}
+		var _arg_material *window.SplashScreenViewSplashScreenViewParcelable
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_material.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnSplashScreenViewCopyFinished(ctx, _arg_taskId, _arg_material)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5212,8 +5838,30 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_navigationObserver interface{}
-		var _arg_adaptor interface{}
+		var _arg_navigationObserver os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_navigationObserver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_adaptor window.BackAnimationAdapter
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_adaptor.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.StartBackNavigation(ctx, _arg_navigationObserver, _arg_adaptor)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5221,7 +5869,10 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityTaskManagerRegisterBackgroundActivityStartCallback:
 		if _, _err := _data.ReadString16(); _err != nil {

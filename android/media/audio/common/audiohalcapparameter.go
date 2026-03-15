@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	commonAudioHalCapParameter "github.com/xaionaro-go/binder/android/media/audio/common/AudioHalCapParameter"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -16,69 +17,69 @@ const (
 
 type AudioHalCapParameter struct {
 	Tag                       int32
-	SelectedStrategyDevice    interface{}
-	SelectedInputSourceDevice interface{}
-	StrategyDeviceAddress     interface{}
-	StreamVolumeProfile       interface{}
+	SelectedStrategyDevice    commonAudioHalCapParameter.StrategyDevice
+	SelectedInputSourceDevice commonAudioHalCapParameter.InputSourceDevice
+	StrategyDeviceAddress     commonAudioHalCapParameter.StrategyDeviceAddress
+	StreamVolumeProfile       commonAudioHalCapParameter.StreamVolumeProfile
 }
 
 var _ parcel.Parcelable = (*AudioHalCapParameter)(nil)
 
-func (u *AudioHalCapParameter) GetSelectedStrategyDevice() (interface{}, bool) {
+func (u *AudioHalCapParameter) GetSelectedStrategyDevice() (commonAudioHalCapParameter.StrategyDevice, bool) {
 	if u.Tag != AudioHalCapParameterTagSelectedStrategyDevice {
-		var _zero interface{}
+		var _zero commonAudioHalCapParameter.StrategyDevice
 		return _zero, false
 	}
 	return u.SelectedStrategyDevice, true
 }
 
 func (u *AudioHalCapParameter) SetSelectedStrategyDevice(
-	v interface{},
+	v commonAudioHalCapParameter.StrategyDevice,
 ) {
 	u.Tag = AudioHalCapParameterTagSelectedStrategyDevice
 	u.SelectedStrategyDevice = v
 }
 
-func (u *AudioHalCapParameter) GetSelectedInputSourceDevice() (interface{}, bool) {
+func (u *AudioHalCapParameter) GetSelectedInputSourceDevice() (commonAudioHalCapParameter.InputSourceDevice, bool) {
 	if u.Tag != AudioHalCapParameterTagSelectedInputSourceDevice {
-		var _zero interface{}
+		var _zero commonAudioHalCapParameter.InputSourceDevice
 		return _zero, false
 	}
 	return u.SelectedInputSourceDevice, true
 }
 
 func (u *AudioHalCapParameter) SetSelectedInputSourceDevice(
-	v interface{},
+	v commonAudioHalCapParameter.InputSourceDevice,
 ) {
 	u.Tag = AudioHalCapParameterTagSelectedInputSourceDevice
 	u.SelectedInputSourceDevice = v
 }
 
-func (u *AudioHalCapParameter) GetStrategyDeviceAddress() (interface{}, bool) {
+func (u *AudioHalCapParameter) GetStrategyDeviceAddress() (commonAudioHalCapParameter.StrategyDeviceAddress, bool) {
 	if u.Tag != AudioHalCapParameterTagStrategyDeviceAddress {
-		var _zero interface{}
+		var _zero commonAudioHalCapParameter.StrategyDeviceAddress
 		return _zero, false
 	}
 	return u.StrategyDeviceAddress, true
 }
 
 func (u *AudioHalCapParameter) SetStrategyDeviceAddress(
-	v interface{},
+	v commonAudioHalCapParameter.StrategyDeviceAddress,
 ) {
 	u.Tag = AudioHalCapParameterTagStrategyDeviceAddress
 	u.StrategyDeviceAddress = v
 }
 
-func (u *AudioHalCapParameter) GetStreamVolumeProfile() (interface{}, bool) {
+func (u *AudioHalCapParameter) GetStreamVolumeProfile() (commonAudioHalCapParameter.StreamVolumeProfile, bool) {
 	if u.Tag != AudioHalCapParameterTagStreamVolumeProfile {
-		var _zero interface{}
+		var _zero commonAudioHalCapParameter.StreamVolumeProfile
 		return _zero, false
 	}
 	return u.StreamVolumeProfile, true
 }
 
 func (u *AudioHalCapParameter) SetStreamVolumeProfile(
-	v interface{},
+	v commonAudioHalCapParameter.StreamVolumeProfile,
 ) {
 	u.Tag = AudioHalCapParameterTagStreamVolumeProfile
 	u.StreamVolumeProfile = v
@@ -92,9 +93,21 @@ func (u *AudioHalCapParameter) MarshalParcel(
 
 	switch u.Tag {
 	case AudioHalCapParameterTagSelectedStrategyDevice:
+		if _err := u.SelectedStrategyDevice.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapParameterTagSelectedInputSourceDevice:
+		if _err := u.SelectedInputSourceDevice.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapParameterTagStrategyDeviceAddress:
+		if _err := u.StrategyDeviceAddress.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapParameterTagStreamVolumeProfile:
+		if _err := u.StreamVolumeProfile.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for AudioHalCapParameter", u.Tag)
 	}
@@ -118,9 +131,21 @@ func (u *AudioHalCapParameter) UnmarshalParcel(
 
 	switch u.Tag {
 	case AudioHalCapParameterTagSelectedStrategyDevice:
+		if _err = u.SelectedStrategyDevice.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapParameterTagSelectedInputSourceDevice:
+		if _err = u.SelectedInputSourceDevice.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapParameterTagStrategyDeviceAddress:
+		if _err = u.StrategyDeviceAddress.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapParameterTagStreamVolumeProfile:
+		if _err = u.StreamVolumeProfile.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for AudioHalCapParameter", u.Tag)
 	}

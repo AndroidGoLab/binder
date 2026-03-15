@@ -3,6 +3,7 @@ package autofill
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +19,7 @@ const (
 
 type ISaveCallback interface {
 	AsBinder() binder.IBinder
-	OnSuccess(ctx context.Context, intentSender interface{}) error
+	OnSuccess(ctx context.Context, intentSender content.IntentSender) error
 	OnFailure(ctx context.Context, message interface{}) error
 }
 
@@ -40,10 +41,14 @@ var _ ISaveCallback = (*SaveCallbackProxy)(nil)
 
 func (p *SaveCallbackProxy) OnSuccess(
 	ctx context.Context,
-	intentSender interface{},
+	intentSender content.IntentSender,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISaveCallback)
+	_data.WriteInt32(1)
+	if _err := intentSender.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISaveCallback, "onSuccess")
 	if _err != nil {
@@ -106,7 +111,18 @@ func (s *SaveCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intentSender interface{}
+		var _arg_intentSender content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intentSender.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnSuccess(ctx, _arg_intentSender)
 		_reply := parcel.New()
 		if _err != nil {

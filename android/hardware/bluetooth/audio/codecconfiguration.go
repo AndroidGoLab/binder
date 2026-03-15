@@ -1,6 +1,7 @@
 package audio
 
 import (
+	audioCodecConfiguration "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecConfiguration"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -11,7 +12,7 @@ type CodecConfiguration struct {
 	EncodedAudioBitrate int32
 	PeerMtu             int32
 	IsScmstEnabled      bool
-	Config              interface{}
+	Config              audioCodecConfiguration.CodecSpecific
 }
 
 var _ parcel.Parcelable = (*CodecConfiguration)(nil)
@@ -24,6 +25,9 @@ func (s *CodecConfiguration) MarshalParcel(
 	p.WriteInt32(s.EncodedAudioBitrate)
 	p.WriteInt32(s.PeerMtu)
 	p.WriteBool(s.IsScmstEnabled)
+	if _err := s.Config.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -55,6 +59,10 @@ func (s *CodecConfiguration) UnmarshalParcel(
 
 	s.IsScmstEnabled, _err = p.ReadBool()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.Config.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

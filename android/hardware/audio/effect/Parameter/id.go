@@ -2,6 +2,21 @@ package Parameter
 
 import (
 	"fmt"
+	AcousticEchoCanceler "github.com/xaionaro-go/binder/android/hardware/audio/effect/AcousticEchoCanceler"
+	AutomaticGainControlV1 "github.com/xaionaro-go/binder/android/hardware/audio/effect/AutomaticGainControlV1"
+	AutomaticGainControlV2 "github.com/xaionaro-go/binder/android/hardware/audio/effect/AutomaticGainControlV2"
+	BassBoost "github.com/xaionaro-go/binder/android/hardware/audio/effect/BassBoost"
+	Downmix "github.com/xaionaro-go/binder/android/hardware/audio/effect/Downmix"
+	EnvironmentalReverb "github.com/xaionaro-go/binder/android/hardware/audio/effect/EnvironmentalReverb"
+	Equalizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Equalizer"
+	Eraser "github.com/xaionaro-go/binder/android/hardware/audio/effect/Eraser"
+	HapticGenerator "github.com/xaionaro-go/binder/android/hardware/audio/effect/HapticGenerator"
+	LoudnessEnhancer "github.com/xaionaro-go/binder/android/hardware/audio/effect/LoudnessEnhancer"
+	NoiseSuppression "github.com/xaionaro-go/binder/android/hardware/audio/effect/NoiseSuppression"
+	PresetReverb "github.com/xaionaro-go/binder/android/hardware/audio/effect/PresetReverb"
+	Spatializer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Spatializer"
+	Virtualizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Virtualizer"
+	Visualizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Visualizer"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -32,24 +47,24 @@ const (
 type Id struct {
 	Tag                       int32
 	VendorEffectTag           interface{}
-	AcousticEchoCancelerTag   interface{}
-	AutomaticGainControlV1Tag interface{}
-	AutomaticGainControlV2Tag interface{}
-	BassBoostTag              interface{}
-	DownmixTag                interface{}
+	AcousticEchoCancelerTag   AcousticEchoCanceler.Id
+	AutomaticGainControlV1Tag AutomaticGainControlV1.Id
+	AutomaticGainControlV2Tag AutomaticGainControlV2.Id
+	BassBoostTag              BassBoost.Id
+	DownmixTag                Downmix.Id
 	DynamicsProcessingTag     interface{}
-	EnvironmentalReverbTag    interface{}
-	EqualizerTag              interface{}
-	HapticGeneratorTag        interface{}
-	LoudnessEnhancerTag       interface{}
-	NoiseSuppressionTag       interface{}
-	PresetReverbTag           interface{}
-	VirtualizerTag            interface{}
-	VisualizerTag             interface{}
+	EnvironmentalReverbTag    EnvironmentalReverb.Id
+	EqualizerTag              Equalizer.Id
+	HapticGeneratorTag        HapticGenerator.Id
+	LoudnessEnhancerTag       LoudnessEnhancer.Id
+	NoiseSuppressionTag       NoiseSuppression.Id
+	PresetReverbTag           PresetReverb.Id
+	VirtualizerTag            Virtualizer.Id
+	VisualizerTag             Visualizer.Id
 	VolumeTag                 interface{}
 	CommonTag                 interface{}
-	SpatializerTag            interface{}
-	EraserTag                 interface{}
+	SpatializerTag            Spatializer.Id
+	EraserTag                 Eraser.Id
 }
 
 var _ parcel.Parcelable = (*Id)(nil)
@@ -69,76 +84,76 @@ func (u *Id) SetVendorEffectTag(
 	u.VendorEffectTag = v
 }
 
-func (u *Id) GetAcousticEchoCancelerTag() (interface{}, bool) {
+func (u *Id) GetAcousticEchoCancelerTag() (AcousticEchoCanceler.Id, bool) {
 	if u.Tag != IdTagAcousticEchoCancelerTag {
-		var _zero interface{}
+		var _zero AcousticEchoCanceler.Id
 		return _zero, false
 	}
 	return u.AcousticEchoCancelerTag, true
 }
 
 func (u *Id) SetAcousticEchoCancelerTag(
-	v interface{},
+	v AcousticEchoCanceler.Id,
 ) {
 	u.Tag = IdTagAcousticEchoCancelerTag
 	u.AcousticEchoCancelerTag = v
 }
 
-func (u *Id) GetAutomaticGainControlV1Tag() (interface{}, bool) {
+func (u *Id) GetAutomaticGainControlV1Tag() (AutomaticGainControlV1.Id, bool) {
 	if u.Tag != IdTagAutomaticGainControlV1Tag {
-		var _zero interface{}
+		var _zero AutomaticGainControlV1.Id
 		return _zero, false
 	}
 	return u.AutomaticGainControlV1Tag, true
 }
 
 func (u *Id) SetAutomaticGainControlV1Tag(
-	v interface{},
+	v AutomaticGainControlV1.Id,
 ) {
 	u.Tag = IdTagAutomaticGainControlV1Tag
 	u.AutomaticGainControlV1Tag = v
 }
 
-func (u *Id) GetAutomaticGainControlV2Tag() (interface{}, bool) {
+func (u *Id) GetAutomaticGainControlV2Tag() (AutomaticGainControlV2.Id, bool) {
 	if u.Tag != IdTagAutomaticGainControlV2Tag {
-		var _zero interface{}
+		var _zero AutomaticGainControlV2.Id
 		return _zero, false
 	}
 	return u.AutomaticGainControlV2Tag, true
 }
 
 func (u *Id) SetAutomaticGainControlV2Tag(
-	v interface{},
+	v AutomaticGainControlV2.Id,
 ) {
 	u.Tag = IdTagAutomaticGainControlV2Tag
 	u.AutomaticGainControlV2Tag = v
 }
 
-func (u *Id) GetBassBoostTag() (interface{}, bool) {
+func (u *Id) GetBassBoostTag() (BassBoost.Id, bool) {
 	if u.Tag != IdTagBassBoostTag {
-		var _zero interface{}
+		var _zero BassBoost.Id
 		return _zero, false
 	}
 	return u.BassBoostTag, true
 }
 
 func (u *Id) SetBassBoostTag(
-	v interface{},
+	v BassBoost.Id,
 ) {
 	u.Tag = IdTagBassBoostTag
 	u.BassBoostTag = v
 }
 
-func (u *Id) GetDownmixTag() (interface{}, bool) {
+func (u *Id) GetDownmixTag() (Downmix.Id, bool) {
 	if u.Tag != IdTagDownmixTag {
-		var _zero interface{}
+		var _zero Downmix.Id
 		return _zero, false
 	}
 	return u.DownmixTag, true
 }
 
 func (u *Id) SetDownmixTag(
-	v interface{},
+	v Downmix.Id,
 ) {
 	u.Tag = IdTagDownmixTag
 	u.DownmixTag = v
@@ -159,121 +174,121 @@ func (u *Id) SetDynamicsProcessingTag(
 	u.DynamicsProcessingTag = v
 }
 
-func (u *Id) GetEnvironmentalReverbTag() (interface{}, bool) {
+func (u *Id) GetEnvironmentalReverbTag() (EnvironmentalReverb.Id, bool) {
 	if u.Tag != IdTagEnvironmentalReverbTag {
-		var _zero interface{}
+		var _zero EnvironmentalReverb.Id
 		return _zero, false
 	}
 	return u.EnvironmentalReverbTag, true
 }
 
 func (u *Id) SetEnvironmentalReverbTag(
-	v interface{},
+	v EnvironmentalReverb.Id,
 ) {
 	u.Tag = IdTagEnvironmentalReverbTag
 	u.EnvironmentalReverbTag = v
 }
 
-func (u *Id) GetEqualizerTag() (interface{}, bool) {
+func (u *Id) GetEqualizerTag() (Equalizer.Id, bool) {
 	if u.Tag != IdTagEqualizerTag {
-		var _zero interface{}
+		var _zero Equalizer.Id
 		return _zero, false
 	}
 	return u.EqualizerTag, true
 }
 
 func (u *Id) SetEqualizerTag(
-	v interface{},
+	v Equalizer.Id,
 ) {
 	u.Tag = IdTagEqualizerTag
 	u.EqualizerTag = v
 }
 
-func (u *Id) GetHapticGeneratorTag() (interface{}, bool) {
+func (u *Id) GetHapticGeneratorTag() (HapticGenerator.Id, bool) {
 	if u.Tag != IdTagHapticGeneratorTag {
-		var _zero interface{}
+		var _zero HapticGenerator.Id
 		return _zero, false
 	}
 	return u.HapticGeneratorTag, true
 }
 
 func (u *Id) SetHapticGeneratorTag(
-	v interface{},
+	v HapticGenerator.Id,
 ) {
 	u.Tag = IdTagHapticGeneratorTag
 	u.HapticGeneratorTag = v
 }
 
-func (u *Id) GetLoudnessEnhancerTag() (interface{}, bool) {
+func (u *Id) GetLoudnessEnhancerTag() (LoudnessEnhancer.Id, bool) {
 	if u.Tag != IdTagLoudnessEnhancerTag {
-		var _zero interface{}
+		var _zero LoudnessEnhancer.Id
 		return _zero, false
 	}
 	return u.LoudnessEnhancerTag, true
 }
 
 func (u *Id) SetLoudnessEnhancerTag(
-	v interface{},
+	v LoudnessEnhancer.Id,
 ) {
 	u.Tag = IdTagLoudnessEnhancerTag
 	u.LoudnessEnhancerTag = v
 }
 
-func (u *Id) GetNoiseSuppressionTag() (interface{}, bool) {
+func (u *Id) GetNoiseSuppressionTag() (NoiseSuppression.Id, bool) {
 	if u.Tag != IdTagNoiseSuppressionTag {
-		var _zero interface{}
+		var _zero NoiseSuppression.Id
 		return _zero, false
 	}
 	return u.NoiseSuppressionTag, true
 }
 
 func (u *Id) SetNoiseSuppressionTag(
-	v interface{},
+	v NoiseSuppression.Id,
 ) {
 	u.Tag = IdTagNoiseSuppressionTag
 	u.NoiseSuppressionTag = v
 }
 
-func (u *Id) GetPresetReverbTag() (interface{}, bool) {
+func (u *Id) GetPresetReverbTag() (PresetReverb.Id, bool) {
 	if u.Tag != IdTagPresetReverbTag {
-		var _zero interface{}
+		var _zero PresetReverb.Id
 		return _zero, false
 	}
 	return u.PresetReverbTag, true
 }
 
 func (u *Id) SetPresetReverbTag(
-	v interface{},
+	v PresetReverb.Id,
 ) {
 	u.Tag = IdTagPresetReverbTag
 	u.PresetReverbTag = v
 }
 
-func (u *Id) GetVirtualizerTag() (interface{}, bool) {
+func (u *Id) GetVirtualizerTag() (Virtualizer.Id, bool) {
 	if u.Tag != IdTagVirtualizerTag {
-		var _zero interface{}
+		var _zero Virtualizer.Id
 		return _zero, false
 	}
 	return u.VirtualizerTag, true
 }
 
 func (u *Id) SetVirtualizerTag(
-	v interface{},
+	v Virtualizer.Id,
 ) {
 	u.Tag = IdTagVirtualizerTag
 	u.VirtualizerTag = v
 }
 
-func (u *Id) GetVisualizerTag() (interface{}, bool) {
+func (u *Id) GetVisualizerTag() (Visualizer.Id, bool) {
 	if u.Tag != IdTagVisualizerTag {
-		var _zero interface{}
+		var _zero Visualizer.Id
 		return _zero, false
 	}
 	return u.VisualizerTag, true
 }
 
 func (u *Id) SetVisualizerTag(
-	v interface{},
+	v Visualizer.Id,
 ) {
 	u.Tag = IdTagVisualizerTag
 	u.VisualizerTag = v
@@ -309,31 +324,31 @@ func (u *Id) SetCommonTag(
 	u.CommonTag = v
 }
 
-func (u *Id) GetSpatializerTag() (interface{}, bool) {
+func (u *Id) GetSpatializerTag() (Spatializer.Id, bool) {
 	if u.Tag != IdTagSpatializerTag {
-		var _zero interface{}
+		var _zero Spatializer.Id
 		return _zero, false
 	}
 	return u.SpatializerTag, true
 }
 
 func (u *Id) SetSpatializerTag(
-	v interface{},
+	v Spatializer.Id,
 ) {
 	u.Tag = IdTagSpatializerTag
 	u.SpatializerTag = v
 }
 
-func (u *Id) GetEraserTag() (interface{}, bool) {
+func (u *Id) GetEraserTag() (Eraser.Id, bool) {
 	if u.Tag != IdTagEraserTag {
-		var _zero interface{}
+		var _zero Eraser.Id
 		return _zero, false
 	}
 	return u.EraserTag, true
 }
 
 func (u *Id) SetEraserTag(
-	v interface{},
+	v Eraser.Id,
 ) {
 	u.Tag = IdTagEraserTag
 	u.EraserTag = v

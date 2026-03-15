@@ -3,7 +3,9 @@ package app
 import (
 	"context"
 	"fmt"
+	Descriptor "github.com/xaionaro-go/binder/android/hardware/audio/effect/Descriptor"
 	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
+	soundtrigger_middleware "github.com/xaionaro-go/binder/android/media/soundtrigger_middleware"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,10 +24,10 @@ const (
 
 type ISoundTriggerService interface {
 	AsBinder() binder.IBinder
-	AttachAsOriginator(ctx context.Context, originatorIdentity interface{}, moduleProperties soundtrigger.SoundTriggerModuleProperties, client binder.IBinder) (ISoundTriggerSession, error)
-	AttachAsMiddleman(ctx context.Context, middlemanIdentity interface{}, originatorIdentity interface{}, moduleProperties soundtrigger.SoundTriggerModuleProperties, client binder.IBinder) (ISoundTriggerSession, error)
-	ListModuleProperties(ctx context.Context, originatorIdentity interface{}) ([]soundtrigger.SoundTriggerModuleProperties, error)
-	AttachInjection(ctx context.Context, injection interface{}) error
+	AttachAsOriginator(ctx context.Context, originatorIdentity Descriptor.Identity, moduleProperties soundtrigger.SoundTriggerModuleProperties, client binder.IBinder) (ISoundTriggerSession, error)
+	AttachAsMiddleman(ctx context.Context, middlemanIdentity Descriptor.Identity, originatorIdentity Descriptor.Identity, moduleProperties soundtrigger.SoundTriggerModuleProperties, client binder.IBinder) (ISoundTriggerSession, error)
+	ListModuleProperties(ctx context.Context, originatorIdentity Descriptor.Identity) ([]soundtrigger.SoundTriggerModuleProperties, error)
+	AttachInjection(ctx context.Context, injection soundtrigger_middleware.ISoundTriggerInjection) error
 	SetInPhoneCallState(ctx context.Context, isInPhoneCall bool) error
 }
 
@@ -47,13 +49,17 @@ var _ ISoundTriggerService = (*SoundTriggerServiceProxy)(nil)
 
 func (p *SoundTriggerServiceProxy) AttachAsOriginator(
 	ctx context.Context,
-	originatorIdentity interface{},
+	originatorIdentity Descriptor.Identity,
 	moduleProperties soundtrigger.SoundTriggerModuleProperties,
 	client binder.IBinder,
 ) (ISoundTriggerSession, error) {
 	var _result ISoundTriggerSession
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
+	_data.WriteInt32(1)
+	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := moduleProperties.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -85,14 +91,22 @@ func (p *SoundTriggerServiceProxy) AttachAsOriginator(
 
 func (p *SoundTriggerServiceProxy) AttachAsMiddleman(
 	ctx context.Context,
-	middlemanIdentity interface{},
-	originatorIdentity interface{},
+	middlemanIdentity Descriptor.Identity,
+	originatorIdentity Descriptor.Identity,
 	moduleProperties soundtrigger.SoundTriggerModuleProperties,
 	client binder.IBinder,
 ) (ISoundTriggerSession, error) {
 	var _result ISoundTriggerSession
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
+	_data.WriteInt32(1)
+	if _err := middlemanIdentity.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := moduleProperties.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -124,11 +138,15 @@ func (p *SoundTriggerServiceProxy) AttachAsMiddleman(
 
 func (p *SoundTriggerServiceProxy) ListModuleProperties(
 	ctx context.Context,
-	originatorIdentity interface{},
+	originatorIdentity Descriptor.Identity,
 ) ([]soundtrigger.SoundTriggerModuleProperties, error) {
 	var _result []soundtrigger.SoundTriggerModuleProperties
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
+	_data.WriteInt32(1)
+	if _err := originatorIdentity.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerService, "listModuleProperties")
 	if _err != nil {
@@ -163,10 +181,11 @@ func (p *SoundTriggerServiceProxy) ListModuleProperties(
 
 func (p *SoundTriggerServiceProxy) AttachInjection(
 	ctx context.Context,
-	injection interface{},
+	injection soundtrigger_middleware.ISoundTriggerInjection,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerService)
+	_data.WriteStrongBinder(injection.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerService, "attachInjection")
 	if _err != nil {
@@ -230,7 +249,18 @@ func (s *SoundTriggerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_originatorIdentity interface{}
+		var _arg_originatorIdentity Descriptor.Identity
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_originatorIdentity.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_moduleProperties soundtrigger.SoundTriggerModuleProperties
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -260,8 +290,30 @@ func (s *SoundTriggerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_middlemanIdentity interface{}
-		var _arg_originatorIdentity interface{}
+		var _arg_middlemanIdentity Descriptor.Identity
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_middlemanIdentity.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_originatorIdentity Descriptor.Identity
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_originatorIdentity.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_moduleProperties soundtrigger.SoundTriggerModuleProperties
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -291,7 +343,18 @@ func (s *SoundTriggerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_originatorIdentity interface{}
+		var _arg_originatorIdentity Descriptor.Identity
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_originatorIdentity.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.ListModuleProperties(ctx, _arg_originatorIdentity)
 		_reply := parcel.New()
 		if _err != nil {
@@ -306,7 +369,9 @@ func (s *SoundTriggerServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_injection interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_injection soundtrigger_middleware.ISoundTriggerInjection
+		_ = _arg_injection
 		_err := s.Impl.AttachInjection(ctx, _arg_injection)
 		_reply := parcel.New()
 		if _err != nil {

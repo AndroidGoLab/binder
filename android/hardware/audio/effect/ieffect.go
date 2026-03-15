@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	effectIEffect "github.com/xaionaro-go/binder/android/hardware/audio/effect/IEffect"
+	effectParameter "github.com/xaionaro-go/binder/android/hardware/audio/effect/Parameter"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,13 +26,13 @@ const (
 
 type IEffect interface {
 	AsBinder() binder.IBinder
-	Open(ctx context.Context, common interface{}, specific *interface{}) (effectIEffect.OpenEffectReturn, error)
+	Open(ctx context.Context, common effectParameter.Common, specific *effectParameter.Specific) (effectIEffect.OpenEffectReturn, error)
 	Close(ctx context.Context) error
 	GetDescriptor(ctx context.Context) (Descriptor, error)
 	Command(ctx context.Context, commandId CommandId) error
 	GetState(ctx context.Context) (State, error)
 	SetParameter(ctx context.Context, param Parameter) error
-	GetParameter(ctx context.Context, paramId interface{}) (Parameter, error)
+	GetParameter(ctx context.Context, paramId effectParameter.Id) (Parameter, error)
 	Reopen(ctx context.Context) (effectIEffect.OpenEffectReturn, error)
 }
 
@@ -53,12 +54,23 @@ var _ IEffect = (*EffectProxy)(nil)
 
 func (p *EffectProxy) Open(
 	ctx context.Context,
-	common interface{},
-	specific *interface{},
+	common effectParameter.Common,
+	specific *effectParameter.Specific,
 ) (effectIEffect.OpenEffectReturn, error) {
 	var _result effectIEffect.OpenEffectReturn
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEffect)
+	_data.WriteInt32(1)
+	if _err := common.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	if specific != nil {
+		if _err := (*specific).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "open")
 	if _err != nil {
@@ -232,11 +244,15 @@ func (p *EffectProxy) SetParameter(
 
 func (p *EffectProxy) GetParameter(
 	ctx context.Context,
-	paramId interface{},
+	paramId effectParameter.Id,
 ) (Parameter, error) {
 	var _result Parameter
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEffect)
+	_data.WriteInt32(1)
+	if _err := paramId.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIEffect, "getParameter")
 	if _err != nil {
@@ -317,8 +333,30 @@ func (s *EffectStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_common interface{}
-		var _arg_specific *interface{}
+		var _arg_common effectParameter.Common
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_common.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_specific *effectParameter.Specific
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_specific.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.Open(ctx, _arg_common, _arg_specific)
 		_reply := parcel.New()
 		if _err != nil {
@@ -417,7 +455,18 @@ func (s *EffectStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_paramId interface{}
+		var _arg_paramId effectParameter.Id
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_paramId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetParameter(ctx, _arg_paramId)
 		_reply := parcel.New()
 		if _err != nil {

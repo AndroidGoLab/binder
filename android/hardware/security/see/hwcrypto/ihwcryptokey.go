@@ -3,6 +3,7 @@ package hwcrypto
 import (
 	"context"
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/hardware/security/see/hwcrypto/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,9 +29,9 @@ type IHwCryptoKey interface {
 	DeriveDicePolicyBoundKey(ctx context.Context, derivationKey interface{}, dicePolicyForKeyVersion []byte) (interface{}, error)
 	DeriveKey(ctx context.Context, parameters interface{}) (interface{}, error)
 	GetHwCryptoOperations(ctx context.Context) (IHwCryptoOperations, error)
-	ImportClearKey(ctx context.Context, keyMaterial interface{}, newKeyPolicy KeyPolicy) (IOpaqueKey, error)
+	ImportClearKey(ctx context.Context, keyMaterial types.ExplicitKeyMaterial, newKeyPolicy KeyPolicy) (IOpaqueKey, error)
 	GetCurrentDicePolicy(ctx context.Context) ([]byte, error)
-	KeyTokenImport(ctx context.Context, requestedKey interface{}, sealingDicePolicy []byte) (IOpaqueKey, error)
+	KeyTokenImport(ctx context.Context, requestedKey types.OpaqueKeyToken, sealingDicePolicy []byte) (IOpaqueKey, error)
 	GetKeyslotData(ctx context.Context, slotId interface{}) (IOpaqueKey, error)
 }
 
@@ -169,12 +170,16 @@ func (p *HwCryptoKeyProxy) GetHwCryptoOperations(
 
 func (p *HwCryptoKeyProxy) ImportClearKey(
 	ctx context.Context,
-	keyMaterial interface{},
+	keyMaterial types.ExplicitKeyMaterial,
 	newKeyPolicy KeyPolicy,
 ) (IOpaqueKey, error) {
 	var _result IOpaqueKey
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHwCryptoKey)
+	_data.WriteInt32(1)
+	if _err := keyMaterial.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(1)
 	if _err := newKeyPolicy.MarshalParcel(_data); _err != nil {
 		return _result, _err
@@ -244,12 +249,16 @@ func (p *HwCryptoKeyProxy) GetCurrentDicePolicy(
 
 func (p *HwCryptoKeyProxy) KeyTokenImport(
 	ctx context.Context,
-	requestedKey interface{},
+	requestedKey types.OpaqueKeyToken,
 	sealingDicePolicy []byte,
 ) (IOpaqueKey, error) {
 	var _result IOpaqueKey
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIHwCryptoKey)
+	_data.WriteInt32(1)
+	if _err := requestedKey.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	if sealingDicePolicy == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -390,7 +399,18 @@ func (s *HwCryptoKeyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_keyMaterial interface{}
+		var _arg_keyMaterial types.ExplicitKeyMaterial
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_keyMaterial.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_newKeyPolicy KeyPolicy
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -431,7 +451,18 @@ func (s *HwCryptoKeyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_requestedKey interface{}
+		var _arg_requestedKey types.OpaqueKeyToken
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_requestedKey.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_sealingDicePolicy []byte
 		_ = _arg_sealingDicePolicy

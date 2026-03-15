@@ -3,6 +3,7 @@ package view
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
@@ -69,7 +70,7 @@ type IWindowSession interface {
 	OutOfMemory(ctx context.Context, window IWindow) (bool, error)
 	SetInsets(ctx context.Context, window IWindow, touchableInsets int32, contentInsets graphics.Rect, visibleInsets graphics.Rect, touchableRegion graphics.Region) error
 	FinishDrawing(ctx context.Context, window IWindow, postDrawTransaction SurfaceControlTransaction, seqId int32) error
-	PerformDrag(ctx context.Context, window IWindow, flags int32, surface SurfaceControl, touchSource int32, touchDeviceId int32, touchPointerId int32, touchX float32, touchY float32, thumbCenterX float32, thumbCenterY float32, data interface{}) (binder.IBinder, error)
+	PerformDrag(ctx context.Context, window IWindow, flags int32, surface SurfaceControl, touchSource int32, touchDeviceId int32, touchPointerId int32, touchX float32, touchY float32, thumbCenterX float32, thumbCenterY float32, data content.ClipData) (binder.IBinder, error)
 	DropForAccessibility(ctx context.Context, window IWindow, x int32, y int32) (bool, error)
 	ReportDropResult(ctx context.Context, window IWindow, consumed bool) error
 	CancelDragAndDrop(ctx context.Context, dragToken binder.IBinder, skipAnimation bool) error
@@ -541,7 +542,7 @@ func (p *WindowSessionProxy) PerformDrag(
 	touchY float32,
 	thumbCenterX float32,
 	thumbCenterY float32,
-	data interface{},
+	data content.ClipData,
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
@@ -559,6 +560,10 @@ func (p *WindowSessionProxy) PerformDrag(
 	_data.WriteFloat32(touchY)
 	_data.WriteFloat32(thumbCenterX)
 	_data.WriteFloat32(thumbCenterY)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "performDrag")
 	if _err != nil {
@@ -1798,7 +1803,18 @@ func (s *WindowSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_data interface{}
+		var _arg_data content.ClipData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.PerformDrag(ctx, _arg_window, _arg_flags, _arg_surface, _arg_touchSource, _arg_touchDeviceId, _arg_touchPointerId, _arg_touchX, _arg_touchY, _arg_thumbCenterX, _arg_thumbCenterY, _arg_data)
 		_reply := parcel.New()
 		if _err != nil {

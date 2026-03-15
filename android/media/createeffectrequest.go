@@ -1,6 +1,7 @@
 package media
 
 import (
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -14,7 +15,7 @@ type CreateEffectRequest struct {
 	Output                int32
 	SessionId             int32
 	Device                interface{}
-	AttributionSource     interface{}
+	AttributionSource     content.AttributionSourceState
 	Probe                 bool
 	NotifyFramesProcessed bool
 }
@@ -32,6 +33,9 @@ func (s *CreateEffectRequest) MarshalParcel(
 	p.WriteInt32(s.Priority)
 	p.WriteInt32(s.Output)
 	p.WriteInt32(s.SessionId)
+	if _err := s.AttributionSource.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteBool(s.Probe)
 	p.WriteBool(s.NotifyFramesProcessed)
 
@@ -69,6 +73,10 @@ func (s *CreateEffectRequest) UnmarshalParcel(
 
 	s.SessionId, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.AttributionSource.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

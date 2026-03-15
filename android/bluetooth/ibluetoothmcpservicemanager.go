@@ -3,6 +3,7 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IBluetoothMcpServiceManager interface {
 	AsBinder() binder.IBinder
-	SetDeviceAuthorized(ctx context.Context, device BluetoothDevice, isAuthorized bool, source interface{}) error
+	SetDeviceAuthorized(ctx context.Context, device BluetoothDevice, isAuthorized bool, source content.AttributionSource) error
 }
 
 type BluetoothMcpServiceManagerProxy struct {
@@ -40,7 +41,7 @@ func (p *BluetoothMcpServiceManagerProxy) SetDeviceAuthorized(
 	ctx context.Context,
 	device BluetoothDevice,
 	isAuthorized bool,
-	source interface{},
+	source content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothMcpServiceManager)
@@ -49,6 +50,10 @@ func (p *BluetoothMcpServiceManagerProxy) SetDeviceAuthorized(
 		return _err
 	}
 	_data.WriteBool(isAuthorized)
+	_data.WriteInt32(1)
+	if _err := source.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothMcpServiceManager, "setDeviceAuthorized")
 	if _err != nil {
@@ -102,7 +107,18 @@ func (s *BluetoothMcpServiceManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_source interface{}
+		var _arg_source content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_source.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetDeviceAuthorized(ctx, _arg_device, _arg_isAuthorized, _arg_source)
 		_reply := parcel.New()
 		if _err != nil {

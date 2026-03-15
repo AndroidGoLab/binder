@@ -1,6 +1,7 @@
 package Parameter
 
 import (
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,8 +10,8 @@ import (
 type Common struct {
 	Session  int32
 	IoHandle int32
-	Input    interface{}
-	Output   interface{}
+	Input    common.AudioConfig
+	Output   common.AudioConfig
 }
 
 var _ parcel.Parcelable = (*Common)(nil)
@@ -21,6 +22,12 @@ func (s *Common) MarshalParcel(
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.Session)
 	p.WriteInt32(s.IoHandle)
+	if _err := s.Input.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.Output.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -41,6 +48,14 @@ func (s *Common) UnmarshalParcel(
 
 	s.IoHandle, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.Input.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if _err = s.Output.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

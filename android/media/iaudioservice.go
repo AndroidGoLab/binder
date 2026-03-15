@@ -3,6 +3,12 @@ package media
 import (
 	"context"
 	"fmt"
+	bluetooth "github.com/xaionaro-go/binder/android/bluetooth"
+	content "github.com/xaionaro-go/binder/android/content"
+	audiopolicy "github.com/xaionaro-go/binder/android/media/audiopolicy"
+	projection "github.com/xaionaro-go/binder/android/media/projection"
+	net "github.com/xaionaro-go/binder/android/net"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -307,7 +313,7 @@ type IAudioService interface {
 	SetStreamVolumeWithAttribution(ctx context.Context, streamType int32, index int32, flags int32) error
 	SetDeviceVolume(ctx context.Context, vi VolumeInfo, ada AudioDeviceAttributes) error
 	GetDeviceVolume(ctx context.Context, vi VolumeInfo, ada AudioDeviceAttributes) (VolumeInfo, error)
-	HandleVolumeKey(ctx context.Context, event interface{}, isOnTv bool, caller string) error
+	HandleVolumeKey(ctx context.Context, event view.KeyEvent, isOnTv bool, caller string) error
 	IsStreamMute(ctx context.Context, streamType int32) (bool, error)
 	ForceRemoteSubmixFullVolume(ctx context.Context, startForcing bool, cb binder.IBinder) error
 	IsMasterMute(ctx context.Context) (bool, error)
@@ -358,7 +364,7 @@ type IAudioService interface {
 	IsSurroundFormatEnabled(ctx context.Context, audioFormat int32) (bool, error)
 	SetEncodedSurroundMode(ctx context.Context, mode int32) (bool, error)
 	GetEncodedSurroundMode(ctx context.Context, targetSdkVersion int32) (int32, error)
-	SetSpeakerphoneOn(ctx context.Context, cb binder.IBinder, on bool, attributionSource interface{}) error
+	SetSpeakerphoneOn(ctx context.Context, cb binder.IBinder, on bool, attributionSource content.AttributionSource) error
 	IsSpeakerphoneOn(ctx context.Context) (bool, error)
 	SetBluetoothScoOn(ctx context.Context, on bool) error
 	SetA2dpSuspended(ctx context.Context, on bool) error
@@ -366,13 +372,13 @@ type IAudioService interface {
 	IsBluetoothScoOn(ctx context.Context) (bool, error)
 	SetBluetoothA2dpOn(ctx context.Context, on bool) error
 	IsBluetoothA2dpOn(ctx context.Context) (bool, error)
-	RequestAudioFocus(ctx context.Context, aa AudioAttributes, focusReqType int32, cb binder.IBinder, fd IAudioFocusDispatcher, clientId string, callingPackageName string, flags int32, pcb interface{}, sdk int32) (int32, error)
+	RequestAudioFocus(ctx context.Context, aa AudioAttributes, focusReqType int32, cb binder.IBinder, fd IAudioFocusDispatcher, clientId string, callingPackageName string, flags int32, pcb audiopolicy.IAudioPolicyCallback, sdk int32) (int32, error)
 	AbandonAudioFocus(ctx context.Context, fd IAudioFocusDispatcher, clientId string, aa AudioAttributes, callingPackageName string) (int32, error)
 	UnregisterAudioFocusClient(ctx context.Context, clientId string) error
 	GetCurrentAudioFocus(ctx context.Context) (int32, error)
-	StartBluetoothSco(ctx context.Context, cb binder.IBinder, targetSdkVersion int32, attributionSource interface{}) error
-	StartBluetoothScoVirtualCall(ctx context.Context, cb binder.IBinder, attributionSource interface{}) error
-	StopBluetoothSco(ctx context.Context, cb binder.IBinder, attributionSource interface{}) error
+	StartBluetoothSco(ctx context.Context, cb binder.IBinder, targetSdkVersion int32, attributionSource content.AttributionSource) error
+	StartBluetoothScoVirtualCall(ctx context.Context, cb binder.IBinder, attributionSource content.AttributionSource) error
+	StopBluetoothSco(ctx context.Context, cb binder.IBinder, attributionSource content.AttributionSource) error
 	ForceVolumeControlStream(ctx context.Context, streamType int32, cb binder.IBinder) error
 	SetRingtonePlayer(ctx context.Context, player IRingtonePlayer) error
 	GetRingtonePlayer(ctx context.Context) (IRingtonePlayer, error)
@@ -411,14 +417,14 @@ type IAudioService interface {
 	IsBluetoothAudioDeviceCategoryFixed(ctx context.Context, address string) (bool, error)
 	SetHdmiSystemAudioSupported(ctx context.Context, on bool) (int32, error)
 	IsHdmiSystemAudioSupported(ctx context.Context) (bool, error)
-	RegisterAudioPolicy(ctx context.Context, policyConfig AudioPolicyConfig, pcb interface{}, hasFocusListener bool, isFocusPolicy bool, isTestFocusPolicy bool, isVolumeController bool, projection interface{}, attributionSource interface{}) (string, error)
-	UnregisterAudioPolicyAsync(ctx context.Context, pcb interface{}) error
+	RegisterAudioPolicy(ctx context.Context, policyConfig AudioPolicyConfig, pcb audiopolicy.IAudioPolicyCallback, hasFocusListener bool, isFocusPolicy bool, isTestFocusPolicy bool, isVolumeController bool, projection projection.IMediaProjection, attributionSource content.AttributionSource) (string, error)
+	UnregisterAudioPolicyAsync(ctx context.Context, pcb audiopolicy.IAudioPolicyCallback) error
 	GetRegisteredPolicyMixes(ctx context.Context) ([]AudioMix, error)
-	UnregisterAudioPolicy(ctx context.Context, pcb interface{}) error
-	AddMixForPolicy(ctx context.Context, policyConfig AudioPolicyConfig, pcb interface{}) (int32, error)
-	RemoveMixForPolicy(ctx context.Context, policyConfig AudioPolicyConfig, pcb interface{}) (int32, error)
-	UpdateMixingRulesForPolicy(ctx context.Context, mixesToUpdate []AudioMix, updatedMixingRules []interface{}, pcb interface{}) (int32, error)
-	SetFocusPropertiesForPolicy(ctx context.Context, duckingBehavior int32, pcb interface{}) (int32, error)
+	UnregisterAudioPolicy(ctx context.Context, pcb audiopolicy.IAudioPolicyCallback) error
+	AddMixForPolicy(ctx context.Context, policyConfig AudioPolicyConfig, pcb audiopolicy.IAudioPolicyCallback) (int32, error)
+	RemoveMixForPolicy(ctx context.Context, policyConfig AudioPolicyConfig, pcb audiopolicy.IAudioPolicyCallback) (int32, error)
+	UpdateMixingRulesForPolicy(ctx context.Context, mixesToUpdate []AudioMix, updatedMixingRules []audiopolicy.AudioMixingRule, pcb audiopolicy.IAudioPolicyCallback) (int32, error)
+	SetFocusPropertiesForPolicy(ctx context.Context, duckingBehavior int32, pcb audiopolicy.IAudioPolicyCallback) (int32, error)
 	SetVolumePolicy(ctx context.Context, policy VolumePolicy) error
 	GetVolumePolicy(ctx context.Context) (VolumePolicy, error)
 	HasRegisteredDynamicPolicy(ctx context.Context) (bool, error)
@@ -429,19 +435,19 @@ type IAudioService interface {
 	UnregisterPlaybackCallback(ctx context.Context, pcdb IPlaybackConfigDispatcher) error
 	GetActivePlaybackConfigurations(ctx context.Context) ([]AudioPlaybackConfiguration, error)
 	GetFocusRampTimeMs(ctx context.Context, focusGain int32, attr AudioAttributes) (int32, error)
-	DispatchFocusChange(ctx context.Context, afi AudioFocusInfo, focusChange int32, pcb interface{}) (int32, error)
-	DispatchFocusChangeWithFade(ctx context.Context, afi AudioFocusInfo, focusChange int32, pcb interface{}, otherActiveAfis []AudioFocusInfo, transientFadeMgrConfig FadeManagerConfiguration) (int32, error)
+	DispatchFocusChange(ctx context.Context, afi AudioFocusInfo, focusChange int32, pcb audiopolicy.IAudioPolicyCallback) (int32, error)
+	DispatchFocusChangeWithFade(ctx context.Context, afi AudioFocusInfo, focusChange int32, pcb audiopolicy.IAudioPolicyCallback, otherActiveAfis []AudioFocusInfo, transientFadeMgrConfig FadeManagerConfiguration) (int32, error)
 	PlayerHasOpPlayAudio(ctx context.Context, piid int32, hasOpPlayAudio bool) error
-	HandleBluetoothActiveDeviceChanged(ctx context.Context, newDevice interface{}, previousDevice interface{}, info BluetoothProfileConnectionInfo) error
-	SetFocusRequestResultFromExtPolicy(ctx context.Context, afi AudioFocusInfo, requestResult int32, pcb interface{}) error
+	HandleBluetoothActiveDeviceChanged(ctx context.Context, newDevice bluetooth.BluetoothDevice, previousDevice bluetooth.BluetoothDevice, info BluetoothProfileConnectionInfo) error
+	SetFocusRequestResultFromExtPolicy(ctx context.Context, afi AudioFocusInfo, requestResult int32, pcb audiopolicy.IAudioPolicyCallback) error
 	RegisterAudioServerStateDispatcher(ctx context.Context, asd IAudioServerStateDispatcher) error
 	UnregisterAudioServerStateDispatcher(ctx context.Context, asd IAudioServerStateDispatcher) error
 	IsAudioServerRunning(ctx context.Context) (bool, error)
-	SetUidDeviceAffinity(ctx context.Context, pcb interface{}, uid int32, deviceTypes []int32, deviceAddresses []string) (int32, error)
-	RemoveUidDeviceAffinity(ctx context.Context, pcb interface{}, uid int32) (int32, error)
-	SetUserIdDeviceAffinity(ctx context.Context, pcb interface{}, deviceTypes []int32, deviceAddresses []string) (int32, error)
-	RemoveUserIdDeviceAffinity(ctx context.Context, pcb interface{}) (int32, error)
-	HasHapticChannels(ctx context.Context, uri interface{}) (bool, error)
+	SetUidDeviceAffinity(ctx context.Context, pcb audiopolicy.IAudioPolicyCallback, uid int32, deviceTypes []int32, deviceAddresses []string) (int32, error)
+	RemoveUidDeviceAffinity(ctx context.Context, pcb audiopolicy.IAudioPolicyCallback, uid int32) (int32, error)
+	SetUserIdDeviceAffinity(ctx context.Context, pcb audiopolicy.IAudioPolicyCallback, deviceTypes []int32, deviceAddresses []string) (int32, error)
+	RemoveUserIdDeviceAffinity(ctx context.Context, pcb audiopolicy.IAudioPolicyCallback) (int32, error)
+	HasHapticChannels(ctx context.Context, uri net.Uri) (bool, error)
 	IsCallScreeningModeSupported(ctx context.Context) (bool, error)
 	SetPreferredDevicesForStrategy(ctx context.Context, strategy int32, devices []AudioDeviceAttributes) (int32, error)
 	RemovePreferredDevicesForStrategy(ctx context.Context, strategy int32) (int32, error)
@@ -476,7 +482,7 @@ type IAudioService interface {
 	IsMusicActive(ctx context.Context, remotely bool) (bool, error)
 	GetDeviceMaskForStream(ctx context.Context, streamType int32) (int32, error)
 	GetAvailableCommunicationDeviceIds(ctx context.Context) ([]int32, error)
-	SetCommunicationDevice(ctx context.Context, cb binder.IBinder, portId int32, attributionSource interface{}) (bool, error)
+	SetCommunicationDevice(ctx context.Context, cb binder.IBinder, portId int32, attributionSource content.AttributionSource) (bool, error)
 	GetCommunicationDevice(ctx context.Context) (int32, error)
 	RegisterCommunicationDeviceDispatcher(ctx context.Context, dispatcher ICommunicationDeviceDispatcher) error
 	UnregisterCommunicationDeviceDispatcher(ctx context.Context, dispatcher ICommunicationDeviceDispatcher) error
@@ -539,8 +545,8 @@ type IAudioService interface {
 	SetTestDeviceConnectionState(ctx context.Context, device AudioDeviceAttributes, connected bool) error
 	RegisterDeviceVolumeBehaviorDispatcher(ctx context.Context, register bool, dispatcher IDeviceVolumeBehaviorDispatcher) error
 	GetFocusStack(ctx context.Context) ([]AudioFocusInfo, error)
-	SendFocusLossAndUpdate(ctx context.Context, focusLoser AudioFocusInfo, apcb interface{}) error
-	SendFocusLoss(ctx context.Context, focusLoser AudioFocusInfo, apcb interface{}) (bool, error)
+	SendFocusLossAndUpdate(ctx context.Context, focusLoser AudioFocusInfo, apcb audiopolicy.IAudioPolicyCallback) error
+	SendFocusLoss(ctx context.Context, focusLoser AudioFocusInfo, apcb audiopolicy.IAudioPolicyCallback) (bool, error)
 	AddAssistantServicesUids(ctx context.Context, assistantUID []int32) error
 	RemoveAssistantServicesUids(ctx context.Context, assistantUID []int32) error
 	SetActiveAssistantServiceUids(ctx context.Context, activeUids []int32) error
@@ -1029,13 +1035,17 @@ func (p *AudioServiceProxy) GetDeviceVolume(
 
 func (p *AudioServiceProxy) HandleVolumeKey(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 	isOnTv bool,
 	caller string,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(isOnTv)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(caller)
@@ -2553,12 +2563,16 @@ func (p *AudioServiceProxy) SetSpeakerphoneOn(
 	ctx context.Context,
 	cb binder.IBinder,
 	on bool,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.Handle())
 	_data.WriteBool(on)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "setSpeakerphoneOn")
 	if _err != nil {
@@ -2778,7 +2792,7 @@ func (p *AudioServiceProxy) RequestAudioFocus(
 	clientId string,
 	callingPackageName string,
 	flags int32,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 	sdk int32,
 ) (int32, error) {
 	var _result int32
@@ -2796,6 +2810,7 @@ func (p *AudioServiceProxy) RequestAudioFocus(
 	_data.WriteString16(callingPackageName)
 	_data.WriteString16(_identity.AttributionTag)
 	_data.WriteInt32(flags)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 	_data.WriteInt32(sdk)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "requestAudioFocus")
@@ -2919,12 +2934,16 @@ func (p *AudioServiceProxy) StartBluetoothSco(
 	ctx context.Context,
 	cb binder.IBinder,
 	targetSdkVersion int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.Handle())
 	_data.WriteInt32(targetSdkVersion)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "startBluetoothSco")
 	if _err != nil {
@@ -2947,11 +2966,15 @@ func (p *AudioServiceProxy) StartBluetoothSco(
 func (p *AudioServiceProxy) StartBluetoothScoVirtualCall(
 	ctx context.Context,
 	cb binder.IBinder,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "startBluetoothScoVirtualCall")
 	if _err != nil {
@@ -2974,11 +2997,15 @@ func (p *AudioServiceProxy) StartBluetoothScoVirtualCall(
 func (p *AudioServiceProxy) StopBluetoothSco(
 	ctx context.Context,
 	cb binder.IBinder,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "stopBluetoothSco")
 	if _err != nil {
@@ -4037,13 +4064,13 @@ func (p *AudioServiceProxy) IsHdmiSystemAudioSupported(
 func (p *AudioServiceProxy) RegisterAudioPolicy(
 	ctx context.Context,
 	policyConfig AudioPolicyConfig,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 	hasFocusListener bool,
 	isFocusPolicy bool,
 	isTestFocusPolicy bool,
 	isVolumeController bool,
-	projection interface{},
-	attributionSource interface{},
+	projection projection.IMediaProjection,
+	attributionSource content.AttributionSource,
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
@@ -4052,10 +4079,16 @@ func (p *AudioServiceProxy) RegisterAudioPolicy(
 	if _err := policyConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 	_data.WriteBool(hasFocusListener)
 	_data.WriteBool(isFocusPolicy)
 	_data.WriteBool(isTestFocusPolicy)
 	_data.WriteBool(isVolumeController)
+	_data.WriteStrongBinder(projection.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "registerAudioPolicy")
 	if _err != nil {
@@ -4081,10 +4114,11 @@ func (p *AudioServiceProxy) RegisterAudioPolicy(
 
 func (p *AudioServiceProxy) UnregisterAudioPolicyAsync(
 	ctx context.Context,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "unregisterAudioPolicyAsync")
 	if _err != nil {
@@ -4135,10 +4169,11 @@ func (p *AudioServiceProxy) GetRegisteredPolicyMixes(
 
 func (p *AudioServiceProxy) UnregisterAudioPolicy(
 	ctx context.Context,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "unregisterAudioPolicy")
 	if _err != nil {
@@ -4161,7 +4196,7 @@ func (p *AudioServiceProxy) UnregisterAudioPolicy(
 func (p *AudioServiceProxy) AddMixForPolicy(
 	ctx context.Context,
 	policyConfig AudioPolicyConfig,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -4170,6 +4205,7 @@ func (p *AudioServiceProxy) AddMixForPolicy(
 	if _err := policyConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "addMixForPolicy")
 	if _err != nil {
@@ -4196,7 +4232,7 @@ func (p *AudioServiceProxy) AddMixForPolicy(
 func (p *AudioServiceProxy) RemoveMixForPolicy(
 	ctx context.Context,
 	policyConfig AudioPolicyConfig,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -4205,6 +4241,7 @@ func (p *AudioServiceProxy) RemoveMixForPolicy(
 	if _err := policyConfig.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "removeMixForPolicy")
 	if _err != nil {
@@ -4231,8 +4268,8 @@ func (p *AudioServiceProxy) RemoveMixForPolicy(
 func (p *AudioServiceProxy) UpdateMixingRulesForPolicy(
 	ctx context.Context,
 	mixesToUpdate []AudioMix,
-	updatedMixingRules []interface{},
-	pcb interface{},
+	updatedMixingRules []audiopolicy.AudioMixingRule,
+	pcb audiopolicy.IAudioPolicyCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -4251,7 +4288,13 @@ func (p *AudioServiceProxy) UpdateMixingRulesForPolicy(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(updatedMixingRules)))
+		for _, _item := range updatedMixingRules {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "updateMixingRulesForPolicy")
 	if _err != nil {
@@ -4278,12 +4321,13 @@ func (p *AudioServiceProxy) UpdateMixingRulesForPolicy(
 func (p *AudioServiceProxy) SetFocusPropertiesForPolicy(
 	ctx context.Context,
 	duckingBehavior int32,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteInt32(duckingBehavior)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "setFocusPropertiesForPolicy")
 	if _err != nil {
@@ -4601,7 +4645,7 @@ func (p *AudioServiceProxy) DispatchFocusChange(
 	ctx context.Context,
 	afi AudioFocusInfo,
 	focusChange int32,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
@@ -4611,6 +4655,7 @@ func (p *AudioServiceProxy) DispatchFocusChange(
 		return _result, _err
 	}
 	_data.WriteInt32(focusChange)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "dispatchFocusChange")
 	if _err != nil {
@@ -4638,7 +4683,7 @@ func (p *AudioServiceProxy) DispatchFocusChangeWithFade(
 	ctx context.Context,
 	afi AudioFocusInfo,
 	focusChange int32,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 	otherActiveAfis []AudioFocusInfo,
 	transientFadeMgrConfig FadeManagerConfiguration,
 ) (int32, error) {
@@ -4650,6 +4695,7 @@ func (p *AudioServiceProxy) DispatchFocusChangeWithFade(
 		return _result, _err
 	}
 	_data.WriteInt32(focusChange)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 	if otherActiveAfis == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -4708,12 +4754,20 @@ func (p *AudioServiceProxy) PlayerHasOpPlayAudio(
 
 func (p *AudioServiceProxy) HandleBluetoothActiveDeviceChanged(
 	ctx context.Context,
-	newDevice interface{},
-	previousDevice interface{},
+	newDevice bluetooth.BluetoothDevice,
+	previousDevice bluetooth.BluetoothDevice,
 	info BluetoothProfileConnectionInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
+	if _err := newDevice.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := previousDevice.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
 		return _err
@@ -4741,7 +4795,7 @@ func (p *AudioServiceProxy) SetFocusRequestResultFromExtPolicy(
 	ctx context.Context,
 	afi AudioFocusInfo,
 	requestResult int32,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
@@ -4750,6 +4804,7 @@ func (p *AudioServiceProxy) SetFocusRequestResultFromExtPolicy(
 		return _err
 	}
 	_data.WriteInt32(requestResult)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "setFocusRequestResultFromExtPolicy")
 	if _err != nil {
@@ -4834,7 +4889,7 @@ func (p *AudioServiceProxy) IsAudioServerRunning(
 
 func (p *AudioServiceProxy) SetUidDeviceAffinity(
 	ctx context.Context,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 	uid int32,
 	deviceTypes []int32,
 	deviceAddresses []string,
@@ -4842,6 +4897,7 @@ func (p *AudioServiceProxy) SetUidDeviceAffinity(
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 	_data.WriteInt32(uid)
 	if deviceTypes == nil {
 		_data.WriteInt32(-1)
@@ -4884,12 +4940,13 @@ func (p *AudioServiceProxy) SetUidDeviceAffinity(
 
 func (p *AudioServiceProxy) RemoveUidDeviceAffinity(
 	ctx context.Context,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 	uid int32,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 	_data.WriteInt32(uid)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "removeUidDeviceAffinity")
@@ -4916,7 +4973,7 @@ func (p *AudioServiceProxy) RemoveUidDeviceAffinity(
 
 func (p *AudioServiceProxy) SetUserIdDeviceAffinity(
 	ctx context.Context,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 	deviceTypes []int32,
 	deviceAddresses []string,
 ) (int32, error) {
@@ -4924,6 +4981,7 @@ func (p *AudioServiceProxy) SetUserIdDeviceAffinity(
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 	_data.WriteInt32(_identity.UserID)
 	if deviceTypes == nil {
 		_data.WriteInt32(-1)
@@ -4966,12 +5024,13 @@ func (p *AudioServiceProxy) SetUserIdDeviceAffinity(
 
 func (p *AudioServiceProxy) RemoveUserIdDeviceAffinity(
 	ctx context.Context,
-	pcb interface{},
+	pcb audiopolicy.IAudioPolicyCallback,
 ) (int32, error) {
 	var _result int32
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteStrongBinder(pcb.AsBinder().Handle())
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "removeUserIdDeviceAffinity")
@@ -4998,11 +5057,15 @@ func (p *AudioServiceProxy) RemoveUserIdDeviceAffinity(
 
 func (p *AudioServiceProxy) HasHapticChannels(
 	ctx context.Context,
-	uri interface{},
+	uri net.Uri,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "hasHapticChannels")
 	if _err != nil {
@@ -6052,13 +6115,17 @@ func (p *AudioServiceProxy) SetCommunicationDevice(
 	ctx context.Context,
 	cb binder.IBinder,
 	portId int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
 	_data.WriteStrongBinder(cb.Handle())
 	_data.WriteInt32(portId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "setCommunicationDevice")
 	if _err != nil {
@@ -7941,7 +8008,7 @@ func (p *AudioServiceProxy) GetFocusStack(
 func (p *AudioServiceProxy) SendFocusLossAndUpdate(
 	ctx context.Context,
 	focusLoser AudioFocusInfo,
-	apcb interface{},
+	apcb audiopolicy.IAudioPolicyCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAudioService)
@@ -7949,6 +8016,7 @@ func (p *AudioServiceProxy) SendFocusLossAndUpdate(
 	if _err := focusLoser.MarshalParcel(_data); _err != nil {
 		return _err
 	}
+	_data.WriteStrongBinder(apcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "sendFocusLossAndUpdate")
 	if _err != nil {
@@ -7962,7 +8030,7 @@ func (p *AudioServiceProxy) SendFocusLossAndUpdate(
 func (p *AudioServiceProxy) SendFocusLoss(
 	ctx context.Context,
 	focusLoser AudioFocusInfo,
-	apcb interface{},
+	apcb audiopolicy.IAudioPolicyCallback,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -7971,6 +8039,7 @@ func (p *AudioServiceProxy) SendFocusLoss(
 	if _err := focusLoser.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
+	_data.WriteStrongBinder(apcb.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAudioService, "sendFocusLoss")
 	if _err != nil {
@@ -9164,7 +9233,18 @@ func (s *AudioServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_event interface{}
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_isOnTv, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -10046,7 +10126,18 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetSpeakerphoneOn(ctx, _arg_cb, _arg_on, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -10199,7 +10290,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_arg_sdk, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -10289,7 +10382,18 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.StartBluetoothSco(ctx, _arg_cb, _arg_targetSdkVersion, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -10305,7 +10409,18 @@ func (s *AudioServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb binder.IBinder
 		_ = _arg_cb
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StartBluetoothScoVirtualCall(ctx, _arg_cb, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -10321,7 +10436,18 @@ func (s *AudioServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_cb binder.IBinder
 		_ = _arg_cb
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StopBluetoothSco(ctx, _arg_cb, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -10930,7 +11056,9 @@ func (s *AudioServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_arg_hasFocusListener, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -10947,8 +11075,21 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_projection interface{}
-		var _arg_attributionSource interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_projection projection.IMediaProjection
+		_ = _arg_projection
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.RegisterAudioPolicy(ctx, _arg_policyConfig, _arg_pcb, _arg_hasFocusListener, _arg_isFocusPolicy, _arg_isTestFocusPolicy, _arg_isVolumeController, _arg_projection, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -10962,7 +11103,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_err := s.Impl.UnregisterAudioPolicyAsync(ctx, _arg_pcb)
 		_ = _err
 		return nil, nil
@@ -10984,7 +11127,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_err := s.Impl.UnregisterAudioPolicy(ctx, _arg_pcb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11009,7 +11154,9 @@ func (s *AudioServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_result, _err := s.Impl.AddMixForPolicy(ctx, _arg_policyConfig, _arg_pcb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11035,7 +11182,9 @@ func (s *AudioServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_result, _err := s.Impl.RemoveMixForPolicy(ctx, _arg_policyConfig, _arg_pcb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11053,9 +11202,11 @@ func (s *AudioServiceStub) OnTransaction(
 		var _arg_mixesToUpdate []AudioMix
 		_ = _arg_mixesToUpdate
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_updatedMixingRules []interface{}
+		var _arg_updatedMixingRules []audiopolicy.AudioMixingRule
 		_ = _arg_updatedMixingRules
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_result, _err := s.Impl.UpdateMixingRulesForPolicy(ctx, _arg_mixesToUpdate, _arg_updatedMixingRules, _arg_pcb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11073,7 +11224,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_result, _err := s.Impl.SetFocusPropertiesForPolicy(ctx, _arg_duckingBehavior, _arg_pcb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11263,7 +11416,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_result, _err := s.Impl.DispatchFocusChange(ctx, _arg_afi, _arg_focusChange, _arg_pcb)
 		_reply := parcel.New()
 		if _err != nil {
@@ -11293,7 +11448,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_otherActiveAfis []AudioFocusInfo
 		_ = _arg_otherActiveAfis
@@ -11337,8 +11494,30 @@ func (s *AudioServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_newDevice interface{}
-		var _arg_previousDevice interface{}
+		var _arg_newDevice bluetooth.BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newDevice.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_previousDevice bluetooth.BluetoothDevice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_previousDevice.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_info BluetoothProfileConnectionInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -11379,7 +11558,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_err = s.Impl.SetFocusRequestResultFromExtPolicy(ctx, _arg_afi, _arg_requestResult, _arg_pcb)
 		_ = _err
 		return nil, nil
@@ -11425,7 +11606,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -11449,7 +11632,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		_arg_uid, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -11467,7 +11652,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -11490,7 +11677,9 @@ func (s *AudioServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_pcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_pcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_pcb
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -11507,7 +11696,18 @@ func (s *AudioServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.HasHapticChannels(ctx, _arg_uri)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12190,7 +12390,18 @@ func (s *AudioServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.SetCommunicationDevice(ctx, _arg_cb, _arg_portId, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -13327,7 +13538,9 @@ func (s *AudioServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_apcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_apcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_apcb
 		_err := s.Impl.SendFocusLossAndUpdate(ctx, _arg_focusLoser, _arg_apcb)
 		_ = _err
 		return nil, nil
@@ -13347,7 +13560,9 @@ func (s *AudioServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_apcb interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_apcb audiopolicy.IAudioPolicyCallback
+		_ = _arg_apcb
 		_result, _err := s.Impl.SendFocusLoss(ctx, _arg_focusLoser, _arg_apcb)
 		_reply := parcel.New()
 		if _err != nil {

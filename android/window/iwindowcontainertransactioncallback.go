@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IWindowContainerTransactionCallback interface {
 	AsBinder() binder.IBinder
-	OnTransactionReady(ctx context.Context, id int32, t interface{}) error
+	OnTransactionReady(ctx context.Context, id int32, t view.SurfaceControlTransaction) error
 }
 
 type WindowContainerTransactionCallbackProxy struct {
@@ -39,11 +40,15 @@ var _ IWindowContainerTransactionCallback = (*WindowContainerTransactionCallback
 func (p *WindowContainerTransactionCallbackProxy) OnTransactionReady(
 	ctx context.Context,
 	id int32,
-	t interface{},
+	t view.SurfaceControlTransaction,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowContainerTransactionCallback)
 	_data.WriteInt32(id)
+	_data.WriteInt32(1)
+	if _err := t.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowContainerTransactionCallback, "onTransactionReady")
 	if _err != nil {
@@ -76,7 +81,18 @@ func (s *WindowContainerTransactionCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_t interface{}
+		var _arg_t view.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnTransactionReady(ctx, _arg_id, _arg_t)
 		_ = _err
 		return nil, nil

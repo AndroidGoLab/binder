@@ -2,6 +2,7 @@ package DynamicsProcessing
 
 import (
 	"fmt"
+	effect "github.com/xaionaro-go/binder/android/hardware/audio/effect"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,22 +15,22 @@ const (
 
 type Id struct {
 	Tag                int32
-	VendorExtensionTag interface{}
+	VendorExtensionTag effect.VendorExtension
 	CommonTag          interface{}
 }
 
 var _ parcel.Parcelable = (*Id)(nil)
 
-func (u *Id) GetVendorExtensionTag() (interface{}, bool) {
+func (u *Id) GetVendorExtensionTag() (effect.VendorExtension, bool) {
 	if u.Tag != IdTagVendorExtensionTag {
-		var _zero interface{}
+		var _zero effect.VendorExtension
 		return _zero, false
 	}
 	return u.VendorExtensionTag, true
 }
 
 func (u *Id) SetVendorExtensionTag(
-	v interface{},
+	v effect.VendorExtension,
 ) {
 	u.Tag = IdTagVendorExtensionTag
 	u.VendorExtensionTag = v
@@ -58,6 +59,9 @@ func (u *Id) MarshalParcel(
 
 	switch u.Tag {
 	case IdTagVendorExtensionTag:
+		if _err := u.VendorExtensionTag.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case IdTagCommonTag:
 	default:
 		return fmt.Errorf("unknown union tag %d for Id", u.Tag)
@@ -82,6 +86,9 @@ func (u *Id) UnmarshalParcel(
 
 	switch u.Tag {
 	case IdTagVendorExtensionTag:
+		if _err = u.VendorExtensionTag.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case IdTagCommonTag:
 	default:
 		return fmt.Errorf("unknown union tag %d for Id", u.Tag)

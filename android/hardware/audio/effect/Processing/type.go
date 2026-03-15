@@ -3,6 +3,7 @@ package Processing
 import (
 	"fmt"
 	tuner "github.com/xaionaro-go/binder/android/hardware/tv/tuner"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -17,8 +18,8 @@ const (
 type Type struct {
 	Tag        int32
 	StreamType tuner.AudioStreamType
-	Source     interface{}
-	Device     interface{}
+	Source     common.AudioSource
+	Device     common.AudioDevice
 }
 
 var _ parcel.Parcelable = (*Type)(nil)
@@ -38,31 +39,31 @@ func (u *Type) SetStreamType(
 	u.StreamType = v
 }
 
-func (u *Type) GetSource() (interface{}, bool) {
+func (u *Type) GetSource() (common.AudioSource, bool) {
 	if u.Tag != TypeTagSource {
-		var _zero interface{}
+		var _zero common.AudioSource
 		return _zero, false
 	}
 	return u.Source, true
 }
 
 func (u *Type) SetSource(
-	v interface{},
+	v common.AudioSource,
 ) {
 	u.Tag = TypeTagSource
 	u.Source = v
 }
 
-func (u *Type) GetDevice() (interface{}, bool) {
+func (u *Type) GetDevice() (common.AudioDevice, bool) {
 	if u.Tag != TypeTagDevice {
-		var _zero interface{}
+		var _zero common.AudioDevice
 		return _zero, false
 	}
 	return u.Device, true
 }
 
 func (u *Type) SetDevice(
-	v interface{},
+	v common.AudioDevice,
 ) {
 	u.Tag = TypeTagDevice
 	u.Device = v
@@ -78,7 +79,11 @@ func (u *Type) MarshalParcel(
 	case TypeTagStreamType:
 		p.WriteInt32(int32(u.StreamType))
 	case TypeTagSource:
+		p.WriteInt32(int32(u.Source))
 	case TypeTagDevice:
+		if _err := u.Device.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Type", u.Tag)
 	}
@@ -108,7 +113,15 @@ func (u *Type) UnmarshalParcel(
 		}
 		u.StreamType = tuner.AudioStreamType(_raw)
 	case TypeTagSource:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.Source = common.AudioSource(_raw)
 	case TypeTagDevice:
+		if _err = u.Device.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Type", u.Tag)
 	}

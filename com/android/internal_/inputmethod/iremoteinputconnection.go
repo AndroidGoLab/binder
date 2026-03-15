@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	os "github.com/xaionaro-go/binder/android/os"
+	view "github.com/xaionaro-go/binder/android/view"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -73,19 +75,19 @@ type IRemoteInputConnection interface {
 	PerformContextMenuAction(ctx context.Context, header InputConnectionCommandHeader, id int32) error
 	BeginBatchEdit(ctx context.Context, header InputConnectionCommandHeader) error
 	EndBatchEdit(ctx context.Context, header InputConnectionCommandHeader) error
-	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event interface{}) error
+	SendKeyEvent(ctx context.Context, header InputConnectionCommandHeader, event view.KeyEvent) error
 	ClearMetaKeyStates(ctx context.Context, header InputConnectionCommandHeader, states int32) error
 	PerformSpellCheck(ctx context.Context, header InputConnectionCommandHeader) error
-	PerformPrivateCommand(ctx context.Context, header InputConnectionCommandHeader, action string, data interface{}) error
-	PerformHandwritingGesture(ctx context.Context, header InputConnectionCommandHeader, gesture viewInputmethod.ParcelableHandwritingGesture, resultReceiver interface{}) error
+	PerformPrivateCommand(ctx context.Context, header InputConnectionCommandHeader, action string, data os.Bundle) error
+	PerformHandwritingGesture(ctx context.Context, header InputConnectionCommandHeader, gesture viewInputmethod.ParcelableHandwritingGesture, resultReceiver os.ResultReceiver) error
 	PreviewHandwritingGesture(ctx context.Context, header InputConnectionCommandHeader, gesture viewInputmethod.ParcelableHandwritingGesture, cancellationSignal binder.IBinder) error
 	SetComposingRegion(ctx context.Context, header InputConnectionCommandHeader, start int32, end int32) error
 	SetComposingRegionWithTextAttribute(ctx context.Context, header InputConnectionCommandHeader, start int32, end int32, textAttribute viewInputmethod.TextAttribute) error
 	GetSelectedText(ctx context.Context, header InputConnectionCommandHeader, flags int32, future infra.AndroidFuture) error
 	RequestCursorUpdates(ctx context.Context, header InputConnectionCommandHeader, cursorUpdateMode int32, imeDisplayId int32, future infra.AndroidFuture) error
 	RequestCursorUpdatesWithFilter(ctx context.Context, header InputConnectionCommandHeader, cursorUpdateMode int32, cursorUpdateFilter int32, imeDisplayId int32, future infra.AndroidFuture) error
-	RequestTextBoundsInfo(ctx context.Context, header InputConnectionCommandHeader, bounds graphics.RectF, resultReceiver interface{}) error
-	CommitContent(ctx context.Context, header InputConnectionCommandHeader, inputContentInfo viewInputmethod.InputContentInfo, flags int32, opts interface{}, future infra.AndroidFuture) error
+	RequestTextBoundsInfo(ctx context.Context, header InputConnectionCommandHeader, bounds graphics.RectF, resultReceiver os.ResultReceiver) error
+	CommitContent(ctx context.Context, header InputConnectionCommandHeader, inputContentInfo viewInputmethod.InputContentInfo, flags int32, opts os.Bundle, future infra.AndroidFuture) error
 	GetSurroundingText(ctx context.Context, header InputConnectionCommandHeader, beforeLength int32, afterLength int32, flags int32, future infra.AndroidFuture) error
 	SetImeConsumesInput(ctx context.Context, header InputConnectionCommandHeader, imeConsumesInput bool) error
 	ReplaceText(ctx context.Context, header InputConnectionCommandHeader, start int32, end int32, text interface{}, newCursorPosition int32, textAttribute viewInputmethod.TextAttribute) error
@@ -557,12 +559,16 @@ func (p *RemoteInputConnectionProxy) EndBatchEdit(
 func (p *RemoteInputConnectionProxy) SendKeyEvent(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
-	event interface{},
+	event view.KeyEvent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
 	_data.WriteInt32(1)
 	if _err := header.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -621,7 +627,7 @@ func (p *RemoteInputConnectionProxy) PerformPrivateCommand(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
 	action string,
-	data interface{},
+	data os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
@@ -630,6 +636,10 @@ func (p *RemoteInputConnectionProxy) PerformPrivateCommand(
 		return _err
 	}
 	_data.WriteString16(action)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteInputConnection, "performPrivateCommand")
 	if _err != nil {
@@ -644,7 +654,7 @@ func (p *RemoteInputConnectionProxy) PerformHandwritingGesture(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
 	gesture viewInputmethod.ParcelableHandwritingGesture,
-	resultReceiver interface{},
+	resultReceiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
@@ -654,6 +664,10 @@ func (p *RemoteInputConnectionProxy) PerformHandwritingGesture(
 	}
 	_data.WriteInt32(1)
 	if _err := gesture.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -837,7 +851,7 @@ func (p *RemoteInputConnectionProxy) RequestTextBoundsInfo(
 	ctx context.Context,
 	header InputConnectionCommandHeader,
 	bounds graphics.RectF,
-	resultReceiver interface{},
+	resultReceiver os.ResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteInputConnection)
@@ -847,6 +861,10 @@ func (p *RemoteInputConnectionProxy) RequestTextBoundsInfo(
 	}
 	_data.WriteInt32(1)
 	if _err := bounds.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := resultReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -864,7 +882,7 @@ func (p *RemoteInputConnectionProxy) CommitContent(
 	header InputConnectionCommandHeader,
 	inputContentInfo viewInputmethod.InputContentInfo,
 	flags int32,
-	opts interface{},
+	opts os.Bundle,
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
@@ -878,6 +896,10 @@ func (p *RemoteInputConnectionProxy) CommitContent(
 		return _err
 	}
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
+	if _err := opts.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
 		return _err
@@ -1567,7 +1589,18 @@ func (s *RemoteInputConnectionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_event interface{}
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SendKeyEvent(ctx, _arg_header, _arg_event)
 		_ = _err
 		return nil, nil
@@ -1633,7 +1666,18 @@ func (s *RemoteInputConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_data interface{}
+		var _arg_data os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.PerformPrivateCommand(ctx, _arg_header, _arg_action, _arg_data)
 		_ = _err
 		return nil, nil
@@ -1665,7 +1709,18 @@ func (s *RemoteInputConnectionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_resultReceiver interface{}
+		var _arg_resultReceiver os.ResultReceiver
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.PerformHandwritingGesture(ctx, _arg_header, _arg_gesture, _arg_resultReceiver)
 		_ = _err
 		return nil, nil
@@ -1914,7 +1969,18 @@ func (s *RemoteInputConnectionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_resultReceiver interface{}
+		var _arg_resultReceiver os.ResultReceiver
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RequestTextBoundsInfo(ctx, _arg_header, _arg_bounds, _arg_resultReceiver)
 		_ = _err
 		return nil, nil
@@ -1950,7 +2016,18 @@ func (s *RemoteInputConnectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_opts interface{}
+		var _arg_opts os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_opts.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_future infra.AndroidFuture
 		{
 			_nullInd, _err := _data.ReadInt32()

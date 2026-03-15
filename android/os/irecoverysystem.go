@@ -3,6 +3,7 @@ package os
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -31,7 +32,7 @@ type IRecoverySystem interface {
 	SetupBcb(ctx context.Context, command string) (bool, error)
 	ClearBcb(ctx context.Context) (bool, error)
 	RebootRecoveryWithCommand(ctx context.Context, command string) error
-	RequestLskf(ctx context.Context, packageName string, sender interface{}) (bool, error)
+	RequestLskf(ctx context.Context, packageName string, sender content.IntentSender) (bool, error)
 	ClearLskf(ctx context.Context, packageName string) (bool, error)
 	IsLskfCaptured(ctx context.Context, packageName string) (bool, error)
 	RebootWithLskfAssumeSlotSwitch(ctx context.Context, packageName string, reason string) (int32, error)
@@ -207,12 +208,16 @@ func (p *RecoverySystemProxy) RebootRecoveryWithCommand(
 func (p *RecoverySystemProxy) RequestLskf(
 	ctx context.Context,
 	packageName string,
-	sender interface{},
+	sender content.IntentSender,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecoverySystem)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := sender.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecoverySystem, "requestLskf")
 	if _err != nil {
@@ -471,7 +476,18 @@ func (s *RecoverySystemStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_sender interface{}
+		var _arg_sender content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sender.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.RequestLskf(ctx, _arg_packageName, _arg_sender)
 		_reply := parcel.New()
 		if _err != nil {

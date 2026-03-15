@@ -3,6 +3,8 @@ package app
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,8 +20,8 @@ const (
 
 type IInstrumentationWatcher interface {
 	AsBinder() binder.IBinder
-	InstrumentationStatus(ctx context.Context, name interface{}, resultCode int32, results interface{}) error
-	InstrumentationFinished(ctx context.Context, name interface{}, resultCode int32, results interface{}) error
+	InstrumentationStatus(ctx context.Context, name content.ComponentName, resultCode int32, results os.Bundle) error
+	InstrumentationFinished(ctx context.Context, name content.ComponentName, resultCode int32, results os.Bundle) error
 }
 
 type InstrumentationWatcherProxy struct {
@@ -40,13 +42,21 @@ var _ IInstrumentationWatcher = (*InstrumentationWatcherProxy)(nil)
 
 func (p *InstrumentationWatcherProxy) InstrumentationStatus(
 	ctx context.Context,
-	name interface{},
+	name content.ComponentName,
 	resultCode int32,
-	results interface{},
+	results os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstrumentationWatcher)
+	_data.WriteInt32(1)
+	if _err := name.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(resultCode)
+	_data.WriteInt32(1)
+	if _err := results.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInstrumentationWatcher, "instrumentationStatus")
 	if _err != nil {
@@ -68,13 +78,21 @@ func (p *InstrumentationWatcherProxy) InstrumentationStatus(
 
 func (p *InstrumentationWatcherProxy) InstrumentationFinished(
 	ctx context.Context,
-	name interface{},
+	name content.ComponentName,
 	resultCode int32,
-	results interface{},
+	results os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstrumentationWatcher)
+	_data.WriteInt32(1)
+	if _err := name.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(resultCode)
+	_data.WriteInt32(1)
+	if _err := results.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInstrumentationWatcher, "instrumentationFinished")
 	if _err != nil {
@@ -112,12 +130,34 @@ func (s *InstrumentationWatcherStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_name interface{}
+		var _arg_name content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_name.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_results interface{}
+		var _arg_results os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.InstrumentationStatus(ctx, _arg_name, _arg_resultCode, _arg_results)
 		_reply := parcel.New()
 		if _err != nil {
@@ -130,12 +170,34 @@ func (s *InstrumentationWatcherStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_name interface{}
+		var _arg_name content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_name.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_results interface{}
+		var _arg_results os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_results.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.InstrumentationFinished(ctx, _arg_name, _arg_resultCode, _arg_results)
 		_reply := parcel.New()
 		if _err != nil {

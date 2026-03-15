@@ -1,6 +1,7 @@
 package pm
 
 import (
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type ArchivedActivityParcel struct {
 	Title                 string
-	OriginalComponentName interface{}
+	OriginalComponentName content.ComponentName
 	IconBitmap            []byte
 	MonochromeIconBitmap  []byte
 }
@@ -20,6 +21,9 @@ func (s *ArchivedActivityParcel) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.Title)
+	if _err := s.OriginalComponentName.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	if s.IconBitmap == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -51,6 +55,10 @@ func (s *ArchivedActivityParcel) UnmarshalParcel(
 
 	s.Title, _err = p.ReadString16()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.OriginalComponentName.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

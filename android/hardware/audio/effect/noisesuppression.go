@@ -3,6 +3,7 @@ package effect
 import (
 	"fmt"
 	CameraExtensionSessionStats "github.com/xaionaro-go/binder/android/hardware/CameraExtensionSessionStats"
+	effectNoiseSuppression "github.com/xaionaro-go/binder/android/hardware/audio/effect/NoiseSuppression"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -17,7 +18,7 @@ const (
 type NoiseSuppression struct {
 	Tag    int32
 	Vendor VendorExtension
-	Level  interface{}
+	Level  effectNoiseSuppression.Level
 	Type   CameraExtensionSessionStats.Type
 }
 
@@ -38,16 +39,16 @@ func (u *NoiseSuppression) SetVendor(
 	u.Vendor = v
 }
 
-func (u *NoiseSuppression) GetLevel() (interface{}, bool) {
+func (u *NoiseSuppression) GetLevel() (effectNoiseSuppression.Level, bool) {
 	if u.Tag != NoiseSuppressionTagLevel {
-		var _zero interface{}
+		var _zero effectNoiseSuppression.Level
 		return _zero, false
 	}
 	return u.Level, true
 }
 
 func (u *NoiseSuppression) SetLevel(
-	v interface{},
+	v effectNoiseSuppression.Level,
 ) {
 	u.Tag = NoiseSuppressionTagLevel
 	u.Level = v
@@ -80,6 +81,7 @@ func (u *NoiseSuppression) MarshalParcel(
 			return _err
 		}
 	case NoiseSuppressionTagLevel:
+		p.WriteInt32(int32(u.Level))
 	case NoiseSuppressionTagType:
 		p.WriteInt32(int32(u.Type))
 	default:
@@ -109,6 +111,11 @@ func (u *NoiseSuppression) UnmarshalParcel(
 			return _err
 		}
 	case NoiseSuppressionTagLevel:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.Level = effectNoiseSuppression.Level(_raw)
 	case NoiseSuppressionTagType:
 		_raw, _err := p.ReadInt32()
 		if _err != nil {

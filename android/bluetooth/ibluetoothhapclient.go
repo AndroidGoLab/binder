@@ -3,6 +3,7 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -37,27 +38,27 @@ const (
 
 type IBluetoothHapClient interface {
 	AsBinder() binder.IBinder
-	GetConnectedDevices(ctx context.Context, attributionSource interface{}) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource interface{}) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource interface{}) (int32, error)
-	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource interface{}) (bool, error)
-	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource interface{}) (int32, error)
-	GetHapGroup(ctx context.Context, device BluetoothDevice, attributionSource interface{}) (int32, error)
-	GetActivePresetIndex(ctx context.Context, device BluetoothDevice, attributionSource interface{}) (int32, error)
-	GetActivePresetInfo(ctx context.Context, device BluetoothDevice, attributionSource interface{}) (BluetoothHapPresetInfo, error)
-	SelectPreset(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource interface{}) error
-	SelectPresetForGroup(ctx context.Context, groupId int32, presetIndex int32, attributionSource interface{}) error
-	SwitchToNextPreset(ctx context.Context, device BluetoothDevice, attributionSource interface{}) error
-	SwitchToNextPresetForGroup(ctx context.Context, groupId int32, attributionSource interface{}) error
-	SwitchToPreviousPreset(ctx context.Context, device BluetoothDevice, attributionSource interface{}) error
-	SwitchToPreviousPresetForGroup(ctx context.Context, groupId int32, attributionSource interface{}) error
-	GetPresetInfo(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource interface{}) (BluetoothHapPresetInfo, error)
-	GetAllPresetInfo(ctx context.Context, device BluetoothDevice, attributionSource interface{}) ([]BluetoothHapPresetInfo, error)
-	GetFeatures(ctx context.Context, device BluetoothDevice, attributionSource interface{}) (int32, error)
-	SetPresetName(ctx context.Context, device BluetoothDevice, presetIndex int32, name string, attributionSource interface{}) error
-	SetPresetNameForGroup(ctx context.Context, groupId int32, presetIndex int32, name string, attributionSource interface{}) error
-	RegisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource interface{}) error
-	UnregisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource interface{}) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	SetConnectionPolicy(ctx context.Context, device BluetoothDevice, connectionPolicy int32, attributionSource content.AttributionSource) (bool, error)
+	GetConnectionPolicy(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	GetHapGroup(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	GetActivePresetIndex(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	GetActivePresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (BluetoothHapPresetInfo, error)
+	SelectPreset(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource content.AttributionSource) error
+	SelectPresetForGroup(ctx context.Context, groupId int32, presetIndex int32, attributionSource content.AttributionSource) error
+	SwitchToNextPreset(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
+	SwitchToNextPresetForGroup(ctx context.Context, groupId int32, attributionSource content.AttributionSource) error
+	SwitchToPreviousPreset(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) error
+	SwitchToPreviousPresetForGroup(ctx context.Context, groupId int32, attributionSource content.AttributionSource) error
+	GetPresetInfo(ctx context.Context, device BluetoothDevice, presetIndex int32, attributionSource content.AttributionSource) (BluetoothHapPresetInfo, error)
+	GetAllPresetInfo(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) ([]BluetoothHapPresetInfo, error)
+	GetFeatures(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	SetPresetName(ctx context.Context, device BluetoothDevice, presetIndex int32, name string, attributionSource content.AttributionSource) error
+	SetPresetNameForGroup(ctx context.Context, groupId int32, presetIndex int32, name string, attributionSource content.AttributionSource) error
+	RegisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource) error
+	UnregisterCallback(ctx context.Context, callback IBluetoothHapClientCallback, attributionSource content.AttributionSource) error
 }
 
 const (
@@ -89,11 +90,15 @@ var _ IBluetoothHapClient = (*BluetoothHapClientProxy)(nil)
 
 func (p *BluetoothHapClientProxy) GetConnectedDevices(
 	ctx context.Context,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) ([]BluetoothDevice, error) {
 	var _result []BluetoothDevice
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getConnectedDevices")
 	if _err != nil {
@@ -129,7 +134,7 @@ func (p *BluetoothHapClientProxy) GetConnectedDevices(
 func (p *BluetoothHapClientProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) ([]BluetoothDevice, error) {
 	var _result []BluetoothDevice
 	_data := parcel.New()
@@ -141,6 +146,10 @@ func (p *BluetoothHapClientProxy) GetDevicesMatchingConnectionStates(
 		for _, _item := range states {
 			_data.WriteInt32(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getDevicesMatchingConnectionStates")
@@ -177,13 +186,17 @@ func (p *BluetoothHapClientProxy) GetDevicesMatchingConnectionStates(
 func (p *BluetoothHapClientProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -213,7 +226,7 @@ func (p *BluetoothHapClientProxy) SetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
 	connectionPolicy int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
@@ -223,6 +236,10 @@ func (p *BluetoothHapClientProxy) SetConnectionPolicy(
 		return _result, _err
 	}
 	_data.WriteInt32(connectionPolicy)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "setConnectionPolicy")
 	if _err != nil {
@@ -249,13 +266,17 @@ func (p *BluetoothHapClientProxy) SetConnectionPolicy(
 func (p *BluetoothHapClientProxy) GetConnectionPolicy(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -284,13 +305,17 @@ func (p *BluetoothHapClientProxy) GetConnectionPolicy(
 func (p *BluetoothHapClientProxy) GetHapGroup(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -319,13 +344,17 @@ func (p *BluetoothHapClientProxy) GetHapGroup(
 func (p *BluetoothHapClientProxy) GetActivePresetIndex(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -354,13 +383,17 @@ func (p *BluetoothHapClientProxy) GetActivePresetIndex(
 func (p *BluetoothHapClientProxy) GetActivePresetInfo(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (BluetoothHapPresetInfo, error) {
 	var _result BluetoothHapPresetInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -395,7 +428,7 @@ func (p *BluetoothHapClientProxy) SelectPreset(
 	ctx context.Context,
 	device BluetoothDevice,
 	presetIndex int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
@@ -404,6 +437,10 @@ func (p *BluetoothHapClientProxy) SelectPreset(
 		return _err
 	}
 	_data.WriteInt32(presetIndex)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "selectPreset")
 	if _err != nil {
@@ -418,12 +455,16 @@ func (p *BluetoothHapClientProxy) SelectPresetForGroup(
 	ctx context.Context,
 	groupId int32,
 	presetIndex int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(groupId)
 	_data.WriteInt32(presetIndex)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "selectPresetForGroup")
 	if _err != nil {
@@ -437,12 +478,16 @@ func (p *BluetoothHapClientProxy) SelectPresetForGroup(
 func (p *BluetoothHapClientProxy) SwitchToNextPreset(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -458,11 +503,15 @@ func (p *BluetoothHapClientProxy) SwitchToNextPreset(
 func (p *BluetoothHapClientProxy) SwitchToNextPresetForGroup(
 	ctx context.Context,
 	groupId int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(groupId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToNextPresetForGroup")
 	if _err != nil {
@@ -476,12 +525,16 @@ func (p *BluetoothHapClientProxy) SwitchToNextPresetForGroup(
 func (p *BluetoothHapClientProxy) SwitchToPreviousPreset(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -497,11 +550,15 @@ func (p *BluetoothHapClientProxy) SwitchToPreviousPreset(
 func (p *BluetoothHapClientProxy) SwitchToPreviousPresetForGroup(
 	ctx context.Context,
 	groupId int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(groupId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "switchToPreviousPresetForGroup")
 	if _err != nil {
@@ -516,7 +573,7 @@ func (p *BluetoothHapClientProxy) GetPresetInfo(
 	ctx context.Context,
 	device BluetoothDevice,
 	presetIndex int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (BluetoothHapPresetInfo, error) {
 	var _result BluetoothHapPresetInfo
 	_data := parcel.New()
@@ -526,6 +583,10 @@ func (p *BluetoothHapClientProxy) GetPresetInfo(
 		return _result, _err
 	}
 	_data.WriteInt32(presetIndex)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "getPresetInfo")
 	if _err != nil {
@@ -557,13 +618,17 @@ func (p *BluetoothHapClientProxy) GetPresetInfo(
 func (p *BluetoothHapClientProxy) GetAllPresetInfo(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) ([]BluetoothHapPresetInfo, error) {
 	var _result []BluetoothHapPresetInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -601,13 +666,17 @@ func (p *BluetoothHapClientProxy) GetAllPresetInfo(
 func (p *BluetoothHapClientProxy) GetFeatures(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -638,7 +707,7 @@ func (p *BluetoothHapClientProxy) SetPresetName(
 	device BluetoothDevice,
 	presetIndex int32,
 	name string,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
@@ -648,6 +717,10 @@ func (p *BluetoothHapClientProxy) SetPresetName(
 	}
 	_data.WriteInt32(presetIndex)
 	_data.WriteString16(name)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "setPresetName")
 	if _err != nil {
@@ -663,13 +736,17 @@ func (p *BluetoothHapClientProxy) SetPresetNameForGroup(
 	groupId int32,
 	presetIndex int32,
 	name string,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteInt32(groupId)
 	_data.WriteInt32(presetIndex)
 	_data.WriteString16(name)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "setPresetNameForGroup")
 	if _err != nil {
@@ -683,11 +760,15 @@ func (p *BluetoothHapClientProxy) SetPresetNameForGroup(
 func (p *BluetoothHapClientProxy) RegisterCallback(
 	ctx context.Context,
 	callback IBluetoothHapClientCallback,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "registerCallback")
 	if _err != nil {
@@ -710,11 +791,15 @@ func (p *BluetoothHapClientProxy) RegisterCallback(
 func (p *BluetoothHapClientProxy) UnregisterCallback(
 	ctx context.Context,
 	callback IBluetoothHapClientCallback,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothHapClient)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothHapClient, "unregisterCallback")
 	if _err != nil {
@@ -752,7 +837,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -770,7 +866,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_states []int32
 		_ = _arg_states
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -797,7 +904,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -827,7 +945,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.SetConnectionPolicy(ctx, _arg_device, _arg_connectionPolicy, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -853,7 +982,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetConnectionPolicy(ctx, _arg_device, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -879,7 +1019,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetHapGroup(ctx, _arg_device, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -905,7 +1056,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetActivePresetIndex(ctx, _arg_device, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -931,7 +1093,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetActivePresetInfo(ctx, _arg_device, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -964,7 +1137,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SelectPreset(ctx, _arg_device, _arg_presetIndex, _arg_attributionSource)
 		_ = _err
 		return nil, nil
@@ -980,7 +1164,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SelectPresetForGroup(ctx, _arg_groupId, _arg_presetIndex, _arg_attributionSource)
 		_ = _err
 		return nil, nil
@@ -1000,7 +1195,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SwitchToNextPreset(ctx, _arg_device, _arg_attributionSource)
 		_ = _err
 		return nil, nil
@@ -1012,7 +1218,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SwitchToNextPresetForGroup(ctx, _arg_groupId, _arg_attributionSource)
 		_ = _err
 		return nil, nil
@@ -1032,7 +1249,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SwitchToPreviousPreset(ctx, _arg_device, _arg_attributionSource)
 		_ = _err
 		return nil, nil
@@ -1044,7 +1272,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SwitchToPreviousPresetForGroup(ctx, _arg_groupId, _arg_attributionSource)
 		_ = _err
 		return nil, nil
@@ -1068,7 +1307,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetPresetInfo(ctx, _arg_device, _arg_presetIndex, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1097,7 +1347,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetAllPresetInfo(ctx, _arg_device, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1124,7 +1385,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetFeatures(ctx, _arg_device, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1158,7 +1430,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetPresetName(ctx, _arg_device, _arg_presetIndex, _arg_name, _arg_attributionSource)
 		_ = _err
 		return nil, nil
@@ -1178,7 +1461,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetPresetNameForGroup(ctx, _arg_groupId, _arg_presetIndex, _arg_name, _arg_attributionSource)
 		_ = _err
 		return nil, nil
@@ -1189,7 +1483,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBluetoothHapClientCallback
 		_ = _arg_callback
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RegisterCallback(ctx, _arg_callback, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1205,7 +1510,18 @@ func (s *BluetoothHapClientStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_callback IBluetoothHapClientCallback
 		_ = _arg_callback
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.UnregisterCallback(ctx, _arg_callback, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {

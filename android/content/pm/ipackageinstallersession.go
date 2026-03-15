@@ -3,6 +3,8 @@ package pm
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	domain "github.com/xaionaro-go/binder/android/content/pm/verify/domain"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -61,7 +63,7 @@ type IPackageInstallerSession interface {
 	RequestChecksums(ctx context.Context, name string, optional int32, required int32, trustedInstallers []interface{}, onChecksumsReadyListener IOnChecksumsReadyListener) error
 	RemoveSplit(ctx context.Context, splitName string) error
 	Close(ctx context.Context) error
-	Commit(ctx context.Context, statusReceiver interface{}, forTransferred bool) error
+	Commit(ctx context.Context, statusReceiver content.IntentSender, forTransferred bool) error
 	Transfer(ctx context.Context, packageName string) error
 	Abandon(ctx context.Context) error
 	Seal(ctx context.Context) error
@@ -76,14 +78,14 @@ type IPackageInstallerSession interface {
 	GetParentSessionId(ctx context.Context) (int32, error)
 	IsStaged(ctx context.Context) (bool, error)
 	GetInstallFlags(ctx context.Context) (int32, error)
-	RequestUserPreapproval(ctx context.Context, details PackageInstallerPreapprovalDetails, statusReceiver interface{}) error
+	RequestUserPreapproval(ctx context.Context, details PackageInstallerPreapprovalDetails, statusReceiver content.IntentSender) error
 	IsApplicationEnabledSettingPersistent(ctx context.Context) (bool, error)
 	IsRequestUpdateOwnership(ctx context.Context) (bool, error)
 	GetAppMetadataFd(ctx context.Context) (int32, error)
 	OpenWriteAppMetadata(ctx context.Context) (int32, error)
 	RemoveAppMetadata(ctx context.Context) error
-	SetPreVerifiedDomains(ctx context.Context, preVerifiedDomains interface{}) error
-	GetPreVerifiedDomains(ctx context.Context) (interface{}, error)
+	SetPreVerifiedDomains(ctx context.Context, preVerifiedDomains domain.DomainSet) error
+	GetPreVerifiedDomains(ctx context.Context) (domain.DomainSet, error)
 }
 
 type PackageInstallerSessionProxy struct {
@@ -453,11 +455,15 @@ func (p *PackageInstallerSessionProxy) Close(
 
 func (p *PackageInstallerSessionProxy) Commit(
 	ctx context.Context,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 	forTransferred bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
+	_data.WriteInt32(1)
+	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(forTransferred)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "commit")
@@ -911,12 +917,16 @@ func (p *PackageInstallerSessionProxy) GetInstallFlags(
 func (p *PackageInstallerSessionProxy) RequestUserPreapproval(
 	ctx context.Context,
 	details PackageInstallerPreapprovalDetails,
-	statusReceiver interface{},
+	statusReceiver content.IntentSender,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 	_data.WriteInt32(1)
 	if _err := details.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := statusReceiver.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -1080,10 +1090,14 @@ func (p *PackageInstallerSessionProxy) RemoveAppMetadata(
 
 func (p *PackageInstallerSessionProxy) SetPreVerifiedDomains(
 	ctx context.Context,
-	preVerifiedDomains interface{},
+	preVerifiedDomains domain.DomainSet,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
+	_data.WriteInt32(1)
+	if _err := preVerifiedDomains.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageInstallerSession, "setPreVerifiedDomains")
 	if _err != nil {
@@ -1105,8 +1119,8 @@ func (p *PackageInstallerSessionProxy) SetPreVerifiedDomains(
 
 func (p *PackageInstallerSessionProxy) GetPreVerifiedDomains(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (domain.DomainSet, error) {
+	var _result domain.DomainSet
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageInstallerSession)
 
@@ -1125,6 +1139,15 @@ func (p *PackageInstallerSessionProxy) GetPreVerifiedDomains(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -1358,7 +1381,18 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_statusReceiver interface{}
+		var _arg_statusReceiver content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_forTransferred, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -1605,7 +1639,18 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_statusReceiver interface{}
+		var _arg_statusReceiver content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_statusReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RequestUserPreapproval(ctx, _arg_details, _arg_statusReceiver)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1682,7 +1727,18 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_preVerifiedDomains interface{}
+		var _arg_preVerifiedDomains domain.DomainSet
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_preVerifiedDomains.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetPreVerifiedDomains(ctx, _arg_preVerifiedDomains)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1702,7 +1758,10 @@ func (s *PackageInstallerSessionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

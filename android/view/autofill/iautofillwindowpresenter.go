@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +20,7 @@ const (
 
 type IAutofillWindowPresenter interface {
 	AsBinder() binder.IBinder
-	Show(ctx context.Context, p_ interface{}, transitionEpicenter graphics.Rect, fitsSystemWindows bool, layoutDirection int32) error
+	Show(ctx context.Context, p_ view.WindowManagerLayoutParams, transitionEpicenter graphics.Rect, fitsSystemWindows bool, layoutDirection int32) error
 	Hide(ctx context.Context, transitionEpicenter graphics.Rect) error
 }
 
@@ -41,13 +42,17 @@ var _ IAutofillWindowPresenter = (*AutofillWindowPresenterProxy)(nil)
 
 func (p *AutofillWindowPresenterProxy) Show(
 	ctx context.Context,
-	p_ interface{},
+	p_ view.WindowManagerLayoutParams,
 	transitionEpicenter graphics.Rect,
 	fitsSystemWindows bool,
 	layoutDirection int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutofillWindowPresenter)
+	_data.WriteInt32(1)
+	if _err := p_.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := transitionEpicenter.MarshalParcel(_data); _err != nil {
 		return _err
@@ -102,7 +107,18 @@ func (s *AutofillWindowPresenterStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_p_ interface{}
+		var _arg_p_ view.WindowManagerLayoutParams
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_p_.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_transitionEpicenter graphics.Rect
 		{
 			_nullInd, _err := _data.ReadInt32()

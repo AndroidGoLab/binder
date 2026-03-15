@@ -2,6 +2,7 @@ package BroadcastCapability
 
 import (
 	"fmt"
+	audio "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -14,22 +15,22 @@ const (
 
 type LeAudioCodecCapabilities struct {
 	Tag                 int32
-	Lc3Capabilities     []interface{}
+	Lc3Capabilities     []audio.Lc3Capabilities
 	VendorCapabillities []VendorCapabilities
 }
 
 var _ parcel.Parcelable = (*LeAudioCodecCapabilities)(nil)
 
-func (u *LeAudioCodecCapabilities) GetLc3Capabilities() ([]interface{}, bool) {
+func (u *LeAudioCodecCapabilities) GetLc3Capabilities() ([]audio.Lc3Capabilities, bool) {
 	if u.Tag != LeAudioCodecCapabilitiesTagLc3Capabilities {
-		var _zero []interface{}
+		var _zero []audio.Lc3Capabilities
 		return _zero, false
 	}
 	return u.Lc3Capabilities, true
 }
 
 func (u *LeAudioCodecCapabilities) SetLc3Capabilities(
-	v []interface{},
+	v []audio.Lc3Capabilities,
 ) {
 	u.Tag = LeAudioCodecCapabilitiesTagLc3Capabilities
 	u.Lc3Capabilities = v
@@ -62,6 +63,11 @@ func (u *LeAudioCodecCapabilities) MarshalParcel(
 			p.WriteInt32(-1)
 		} else {
 			p.WriteInt32(int32(len(u.Lc3Capabilities)))
+			for _, _item := range u.Lc3Capabilities {
+				if _err := _item.MarshalParcel(p); _err != nil {
+					return _err
+				}
+			}
 		}
 	case LeAudioCodecCapabilitiesTagVendorCapabillities:
 		if u.VendorCapabillities == nil {
@@ -104,8 +110,11 @@ func (u *LeAudioCodecCapabilities) UnmarshalParcel(
 			return _err
 		}
 		if _count0 >= 0 {
-			u.Lc3Capabilities = make([]interface{}, _count0)
+			u.Lc3Capabilities = make([]audio.Lc3Capabilities, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _err = u.Lc3Capabilities[_i].UnmarshalParcel(p); _err != nil {
+					return _err
+				}
 			}
 		}
 	case LeAudioCodecCapabilitiesTagVendorCapabillities:

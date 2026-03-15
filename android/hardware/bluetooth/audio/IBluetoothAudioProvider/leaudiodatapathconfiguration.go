@@ -1,6 +1,7 @@
 package IBluetoothAudioProvider
 
 import (
+	IBluetoothAudioProviderLeAudioDataPathConfiguration "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioDataPathConfiguration"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,8 +9,8 @@ import (
 
 type LeAudioDataPathConfiguration struct {
 	DataPathId               int32
-	DataPathConfiguration    interface{}
-	IsoDataPathConfiguration interface{}
+	DataPathConfiguration    IBluetoothAudioProviderLeAudioDataPathConfiguration.DataPathConfiguration
+	IsoDataPathConfiguration IBluetoothAudioProviderLeAudioDataPathConfiguration.IsoDataPathConfiguration
 }
 
 var _ parcel.Parcelable = (*LeAudioDataPathConfiguration)(nil)
@@ -19,6 +20,12 @@ func (s *LeAudioDataPathConfiguration) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.DataPathId)
+	if _err := s.DataPathConfiguration.MarshalParcel(p); _err != nil {
+		return _err
+	}
+	if _err := s.IsoDataPathConfiguration.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -34,6 +41,14 @@ func (s *LeAudioDataPathConfiguration) UnmarshalParcel(
 
 	s.DataPathId, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.DataPathConfiguration.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
+	if _err = s.IsoDataPathConfiguration.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

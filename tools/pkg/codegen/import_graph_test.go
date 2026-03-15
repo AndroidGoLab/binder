@@ -46,8 +46,12 @@ func TestImportGraph_DirectCycle(t *testing.T) {
 	})
 
 	g := BuildImportGraph(registry)
-	assert.True(t, g.WouldCauseCycle("pkg.a", "pkg.b"))
-	assert.True(t, g.WouldCauseCycle("pkg.b", "pkg.a"))
+	// In a direct A <-> B cycle, only one direction needs to be broken
+	// (the back-edge in DFS order). At least one direction must be
+	// cycle-causing to prevent Go import cycles.
+	aToB := g.WouldCauseCycle("pkg.a", "pkg.b")
+	bToA := g.WouldCauseCycle("pkg.b", "pkg.a")
+	assert.True(t, aToB || bToA, "at least one direction must be cycle-causing")
 }
 
 func TestImportGraph_TransitiveCycle(t *testing.T) {
@@ -72,9 +76,13 @@ func TestImportGraph_TransitiveCycle(t *testing.T) {
 	})
 
 	g := BuildImportGraph(registry)
-	assert.True(t, g.WouldCauseCycle("pkg.a", "pkg.b"))
-	assert.True(t, g.WouldCauseCycle("pkg.b", "pkg.c"))
-	assert.True(t, g.WouldCauseCycle("pkg.c", "pkg.a"))
+	// In a transitive cycle A -> B -> C -> A, only one edge (the
+	// back-edge in DFS order) needs to be broken. At least one of
+	// the three directions must be cycle-causing.
+	aToB := g.WouldCauseCycle("pkg.a", "pkg.b")
+	bToC := g.WouldCauseCycle("pkg.b", "pkg.c")
+	cToA := g.WouldCauseCycle("pkg.c", "pkg.a")
+	assert.True(t, aToB || bToC || cToA, "at least one edge must be cycle-causing")
 }
 
 func TestImportGraph_InterfaceMethods(t *testing.T) {
@@ -96,8 +104,11 @@ func TestImportGraph_InterfaceMethods(t *testing.T) {
 	})
 
 	g := BuildImportGraph(registry)
-	assert.True(t, g.WouldCauseCycle("pkg.a", "pkg.b"))
-	assert.True(t, g.WouldCauseCycle("pkg.b", "pkg.a"))
+	// Direct cycle between pkg.a and pkg.b: at least one direction
+	// must be broken.
+	aToB := g.WouldCauseCycle("pkg.a", "pkg.b")
+	bToA := g.WouldCauseCycle("pkg.b", "pkg.a")
+	assert.True(t, aToB || bToA, "at least one direction must be cycle-causing")
 }
 
 func TestImportGraph_UnrelatedPkgsNotCycled(t *testing.T) {
@@ -144,19 +155,35 @@ func TestImportGraph_CycleBreakInTypeResolver(t *testing.T) {
 
 	importGraph := BuildImportGraph(registry)
 
-	f := NewGoFile("a")
-	resolver := NewTypeRefResolver(registry, "pkg.a", f)
-	resolver.importGraph = importGraph
+	// In a direct A <-> B cycle, exactly one direction is the back-edge
+	// (broken to interface{}) and the other is safe. We test from both
+	// perspectives: exactly one should resolve to interface{}.
+	f1 := NewGoFile("a")
+	r1 := NewTypeRefResolver(registry, "pkg.a", f1)
+	r1.importGraph = importGraph
+	goTypeFromA := r1.GoTypeRef(&parser.TypeSpecifier{Name: "pkg.b.TypeB"})
 
-	// Resolving TypeB from pkg.a should produce interface{} due to cycle.
-	ts := &parser.TypeSpecifier{Name: "pkg.b.TypeB"}
-	goType := resolver.GoTypeRef(ts)
-	assert.Equal(t, "interface{}", goType)
+	f2 := NewGoFile("b")
+	r2 := NewTypeRefResolver(registry, "pkg.b", f2)
+	r2.importGraph = importGraph
+	goTypeFromB := r2.GoTypeRef(&parser.TypeSpecifier{Name: "pkg.a.TypeA"})
 
-	// Resolving TypeA from pkg.a should work (same package).
-	ts2 := &parser.TypeSpecifier{Name: "pkg.a.TypeA"}
-	goType2 := resolver.GoTypeRef(ts2)
-	assert.Equal(t, "TypeA", goType2)
+	// Exactly one direction must be broken.
+	brokenCount := 0
+	if goTypeFromA == "interface{}" {
+		brokenCount++
+	}
+	if goTypeFromB == "interface{}" {
+		brokenCount++
+	}
+	assert.Equal(t, 1, brokenCount, "exactly one direction should be broken (got A->B=%q, B->A=%q)", goTypeFromA, goTypeFromB)
+
+	// Same-package resolution should always work.
+	f3 := NewGoFile("a")
+	r3 := NewTypeRefResolver(registry, "pkg.a", f3)
+	r3.importGraph = importGraph
+	goTypeSame := r3.GoTypeRef(&parser.TypeSpecifier{Name: "pkg.a.TypeA"})
+	assert.Equal(t, "TypeA", goTypeSame)
 }
 
 func TestImportGraph_MarshalInfoForCycleBrokenType(t *testing.T) {
@@ -176,15 +203,29 @@ func TestImportGraph_MarshalInfoForCycleBrokenType(t *testing.T) {
 
 	importGraph := BuildImportGraph(registry)
 
-	f := NewGoFile("a")
-	typeRef := NewTypeRefResolver(registry, "pkg.a", f)
+	// Determine which direction is the back-edge (broken).
+	aToB := importGraph.WouldCauseCycle("pkg.a", "pkg.b")
+
+	// Test from the perspective of the broken direction's source package.
+	var srcPkg, targetTypeName string
+	switch {
+	case aToB:
+		srcPkg = "pkg.a"
+		targetTypeName = "pkg.b.TypeB"
+	default:
+		srcPkg = "pkg.b"
+		targetTypeName = "pkg.a.TypeA"
+	}
+
+	f := NewGoFile(lastPackageSegment(srcPkg))
+	typeRef := NewTypeRefResolver(registry, srcPkg, f)
 	typeRef.importGraph = importGraph
 
 	opts := GenOptions{Registry: registry, ImportGraph: importGraph}
 
 	// marshalForTypeWithCycleCheck should return empty marshal info
-	// for cycle-broken types.
-	ts := &parser.TypeSpecifier{Name: "pkg.b.TypeB"}
+	// for cycle-broken types (the back-edge direction).
+	ts := &parser.TypeSpecifier{Name: targetTypeName}
 	info := marshalForTypeWithCycleCheck(ts, opts, typeRef)
 	require.Empty(t, info.WriteExpr, "cycle-broken type should have empty WriteExpr")
 	require.Empty(t, info.ReadExpr, "cycle-broken type should have empty ReadExpr")

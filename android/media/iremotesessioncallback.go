@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	session "github.com/xaionaro-go/binder/android/media/session"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,8 +19,8 @@ const (
 
 type IRemoteSessionCallback interface {
 	AsBinder() binder.IBinder
-	OnVolumeChanged(ctx context.Context, sessionToken interface{}, flags int32) error
-	OnSessionChanged(ctx context.Context, sessionToken interface{}) error
+	OnVolumeChanged(ctx context.Context, sessionToken session.MediaSessionToken, flags int32) error
+	OnSessionChanged(ctx context.Context, sessionToken session.MediaSessionToken) error
 }
 
 type RemoteSessionCallbackProxy struct {
@@ -40,11 +41,15 @@ var _ IRemoteSessionCallback = (*RemoteSessionCallbackProxy)(nil)
 
 func (p *RemoteSessionCallbackProxy) OnVolumeChanged(
 	ctx context.Context,
-	sessionToken interface{},
+	sessionToken session.MediaSessionToken,
 	flags int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteSessionCallback)
+	_data.WriteInt32(1)
+	if _err := sessionToken.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(flags)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteSessionCallback, "onVolumeChanged")
@@ -58,10 +63,14 @@ func (p *RemoteSessionCallbackProxy) OnVolumeChanged(
 
 func (p *RemoteSessionCallbackProxy) OnSessionChanged(
 	ctx context.Context,
-	sessionToken interface{},
+	sessionToken session.MediaSessionToken,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRemoteSessionCallback)
+	_data.WriteInt32(1)
+	if _err := sessionToken.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRemoteSessionCallback, "onSessionChanged")
 	if _err != nil {
@@ -90,7 +99,18 @@ func (s *RemoteSessionCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionToken interface{}
+		var _arg_sessionToken session.MediaSessionToken
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionToken.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -102,7 +122,18 @@ func (s *RemoteSessionCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionToken interface{}
+		var _arg_sessionToken session.MediaSessionToken
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionToken.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnSessionChanged(ctx, _arg_sessionToken)
 		_ = _err
 		return nil, nil

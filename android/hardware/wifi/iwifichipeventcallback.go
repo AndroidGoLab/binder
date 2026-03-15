@@ -3,6 +3,7 @@ package wifi
 import (
 	"context"
 	"fmt"
+	wifiIWifiChipEventCallback "github.com/xaionaro-go/binder/android/hardware/wifi/IWifiChipEventCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,7 +30,7 @@ type IWifiChipEventCallback interface {
 	OnDebugRingBufferDataAvailable(ctx context.Context, status WifiDebugRingBufferStatus, data []byte) error
 	OnIfaceAdded(ctx context.Context, type_ IfaceType, name string) error
 	OnIfaceRemoved(ctx context.Context, type_ IfaceType, name string) error
-	OnRadioModeChange(ctx context.Context, radioModeInfos []interface{}) error
+	OnRadioModeChange(ctx context.Context, radioModeInfos []wifiIWifiChipEventCallback.RadioModeInfo) error
 }
 
 type WifiChipEventCallbackProxy struct {
@@ -177,7 +178,7 @@ func (p *WifiChipEventCallbackProxy) OnIfaceRemoved(
 
 func (p *WifiChipEventCallbackProxy) OnRadioModeChange(
 	ctx context.Context,
-	radioModeInfos []interface{},
+	radioModeInfos []wifiIWifiChipEventCallback.RadioModeInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWifiChipEventCallback)
@@ -185,6 +186,11 @@ func (p *WifiChipEventCallbackProxy) OnRadioModeChange(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(radioModeInfos)))
+		for _, _item := range radioModeInfos {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWifiChipEventCallback, "onRadioModeChange")
@@ -306,7 +312,7 @@ func (s *WifiChipEventCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_radioModeInfos []interface{}
+		var _arg_radioModeInfos []wifiIWifiChipEventCallback.RadioModeInfo
 		_ = _arg_radioModeInfos
 		_err := s.Impl.OnRadioModeChange(ctx, _arg_radioModeInfos)
 		_ = _err

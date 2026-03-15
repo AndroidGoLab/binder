@@ -3,6 +3,7 @@ package printservice
 import (
 	"context"
 	"fmt"
+	print "github.com/xaionaro-go/binder/android/print"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,15 +29,15 @@ const (
 type IPrintService interface {
 	AsBinder() binder.IBinder
 	SetClient(ctx context.Context, client IPrintServiceClient) error
-	RequestCancelPrintJob(ctx context.Context, printJobInfo interface{}) error
-	OnPrintJobQueued(ctx context.Context, printJobInfo interface{}) error
+	RequestCancelPrintJob(ctx context.Context, printJobInfo print.PrintJobInfo) error
+	OnPrintJobQueued(ctx context.Context, printJobInfo print.PrintJobInfo) error
 	CreatePrinterDiscoverySession(ctx context.Context) error
-	StartPrinterDiscovery(ctx context.Context, priorityList []interface{}) error
+	StartPrinterDiscovery(ctx context.Context, priorityList []print.PrinterId) error
 	StopPrinterDiscovery(ctx context.Context) error
-	ValidatePrinters(ctx context.Context, printerIds []interface{}) error
-	StartPrinterStateTracking(ctx context.Context, printerId interface{}) error
-	RequestCustomPrinterIcon(ctx context.Context, printerId interface{}) error
-	StopPrinterStateTracking(ctx context.Context, printerId interface{}) error
+	ValidatePrinters(ctx context.Context, printerIds []print.PrinterId) error
+	StartPrinterStateTracking(ctx context.Context, printerId print.PrinterId) error
+	RequestCustomPrinterIcon(ctx context.Context, printerId print.PrinterId) error
+	StopPrinterStateTracking(ctx context.Context, printerId print.PrinterId) error
 	DestroyPrinterDiscoverySession(ctx context.Context) error
 }
 
@@ -75,10 +76,14 @@ func (p *PrintServiceProxy) SetClient(
 
 func (p *PrintServiceProxy) RequestCancelPrintJob(
 	ctx context.Context,
-	printJobInfo interface{},
+	printJobInfo print.PrintJobInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	_data.WriteInt32(1)
+	if _err := printJobInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintService, "requestCancelPrintJob")
 	if _err != nil {
@@ -91,10 +96,14 @@ func (p *PrintServiceProxy) RequestCancelPrintJob(
 
 func (p *PrintServiceProxy) OnPrintJobQueued(
 	ctx context.Context,
-	printJobInfo interface{},
+	printJobInfo print.PrintJobInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	_data.WriteInt32(1)
+	if _err := printJobInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintService, "onPrintJobQueued")
 	if _err != nil {
@@ -122,7 +131,7 @@ func (p *PrintServiceProxy) CreatePrinterDiscoverySession(
 
 func (p *PrintServiceProxy) StartPrinterDiscovery(
 	ctx context.Context,
-	priorityList []interface{},
+	priorityList []print.PrinterId,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
@@ -130,6 +139,11 @@ func (p *PrintServiceProxy) StartPrinterDiscovery(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(priorityList)))
+		for _, _item := range priorityList {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintService, "startPrinterDiscovery")
@@ -158,7 +172,7 @@ func (p *PrintServiceProxy) StopPrinterDiscovery(
 
 func (p *PrintServiceProxy) ValidatePrinters(
 	ctx context.Context,
-	printerIds []interface{},
+	printerIds []print.PrinterId,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
@@ -166,6 +180,11 @@ func (p *PrintServiceProxy) ValidatePrinters(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(printerIds)))
+		for _, _item := range printerIds {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintService, "validatePrinters")
@@ -179,10 +198,14 @@ func (p *PrintServiceProxy) ValidatePrinters(
 
 func (p *PrintServiceProxy) StartPrinterStateTracking(
 	ctx context.Context,
-	printerId interface{},
+	printerId print.PrinterId,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	_data.WriteInt32(1)
+	if _err := printerId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintService, "startPrinterStateTracking")
 	if _err != nil {
@@ -195,10 +218,14 @@ func (p *PrintServiceProxy) StartPrinterStateTracking(
 
 func (p *PrintServiceProxy) RequestCustomPrinterIcon(
 	ctx context.Context,
-	printerId interface{},
+	printerId print.PrinterId,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	_data.WriteInt32(1)
+	if _err := printerId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintService, "requestCustomPrinterIcon")
 	if _err != nil {
@@ -211,10 +238,14 @@ func (p *PrintServiceProxy) RequestCustomPrinterIcon(
 
 func (p *PrintServiceProxy) StopPrinterStateTracking(
 	ctx context.Context,
-	printerId interface{},
+	printerId print.PrinterId,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPrintService)
+	_data.WriteInt32(1)
+	if _err := printerId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPrintService, "stopPrinterStateTracking")
 	if _err != nil {
@@ -268,7 +299,18 @@ func (s *PrintServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_printJobInfo interface{}
+		var _arg_printJobInfo print.PrintJobInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RequestCancelPrintJob(ctx, _arg_printJobInfo)
 		_ = _err
 		return nil, nil
@@ -276,7 +318,18 @@ func (s *PrintServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_printJobInfo interface{}
+		var _arg_printJobInfo print.PrintJobInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printJobInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnPrintJobQueued(ctx, _arg_printJobInfo)
 		_ = _err
 		return nil, nil
@@ -292,7 +345,7 @@ func (s *PrintServiceStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_priorityList []interface{}
+		var _arg_priorityList []print.PrinterId
 		_ = _arg_priorityList
 		_err := s.Impl.StartPrinterDiscovery(ctx, _arg_priorityList)
 		_ = _err
@@ -309,7 +362,7 @@ func (s *PrintServiceStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_printerIds []interface{}
+		var _arg_printerIds []print.PrinterId
 		_ = _arg_printerIds
 		_err := s.Impl.ValidatePrinters(ctx, _arg_printerIds)
 		_ = _err
@@ -318,7 +371,18 @@ func (s *PrintServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_printerId interface{}
+		var _arg_printerId print.PrinterId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printerId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StartPrinterStateTracking(ctx, _arg_printerId)
 		_ = _err
 		return nil, nil
@@ -326,7 +390,18 @@ func (s *PrintServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_printerId interface{}
+		var _arg_printerId print.PrinterId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printerId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RequestCustomPrinterIcon(ctx, _arg_printerId)
 		_ = _err
 		return nil, nil
@@ -334,7 +409,18 @@ func (s *PrintServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_printerId interface{}
+		var _arg_printerId print.PrinterId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_printerId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StopPrinterStateTracking(ctx, _arg_printerId)
 		_ = _err
 		return nil, nil

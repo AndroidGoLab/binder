@@ -1,6 +1,8 @@
 package IComponent
 
 import (
+	c2 "github.com/xaionaro-go/binder/android/hardware/media/c2"
+	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +10,7 @@ import (
 
 type BlockPool struct {
 	BlockPoolId  int64
-	Configurable interface{}
+	Configurable c2.IConfigurable
 }
 
 var _ parcel.Parcelable = (*BlockPool)(nil)
@@ -18,6 +20,7 @@ func (s *BlockPool) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.BlockPoolId)
+	p.WriteStrongBinder(s.Configurable.AsBinder().Handle())
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -35,6 +38,12 @@ func (s *BlockPool) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
+
+	_configurableHandle, _err := p.ReadStrongBinder()
+	if _err != nil {
+		return _err
+	}
+	s.Configurable = c2.NewConfigurableProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _configurableHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

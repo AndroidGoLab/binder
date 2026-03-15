@@ -3,6 +3,7 @@ package database
 import (
 	"context"
 	"fmt"
+	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,8 +19,8 @@ const (
 
 type IContentObserver interface {
 	AsBinder() binder.IBinder
-	OnChange(ctx context.Context, selfUpdate bool, uri interface{}) error
-	OnChangeEtc(ctx context.Context, selfUpdate bool, uri []interface{}, flags int32) error
+	OnChange(ctx context.Context, selfUpdate bool, uri net.Uri) error
+	OnChangeEtc(ctx context.Context, selfUpdate bool, uri []net.Uri, flags int32) error
 }
 
 type ContentObserverProxy struct {
@@ -41,12 +42,16 @@ var _ IContentObserver = (*ContentObserverProxy)(nil)
 func (p *ContentObserverProxy) OnChange(
 	ctx context.Context,
 	selfUpdate bool,
-	uri interface{},
+	uri net.Uri,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentObserver)
 	_data.WriteBool(selfUpdate)
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentObserver, "onChange")
@@ -61,7 +66,7 @@ func (p *ContentObserverProxy) OnChange(
 func (p *ContentObserverProxy) OnChangeEtc(
 	ctx context.Context,
 	selfUpdate bool,
-	uri []interface{},
+	uri []net.Uri,
 	flags int32,
 ) error {
 	_identity := p.remote.Identity()
@@ -72,6 +77,11 @@ func (p *ContentObserverProxy) OnChangeEtc(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(uri)))
+		for _, _item := range uri {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	_data.WriteInt32(flags)
 	_data.WriteInt32(_identity.UserID)
@@ -107,7 +117,18 @@ func (s *ContentObserverStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -123,7 +144,7 @@ func (s *ContentObserverStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_uri []interface{}
+		var _arg_uri []net.Uri
 		_ = _arg_uri
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {

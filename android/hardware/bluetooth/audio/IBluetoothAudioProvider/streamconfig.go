@@ -1,6 +1,7 @@
 package IBluetoothAudioProvider
 
 import (
+	LeAudioConfiguration "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/LeAudioConfiguration"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type StreamConfig struct {
 	AudioContext interface{}
-	StreamMap    []interface{}
+	StreamMap    []LeAudioConfiguration.StreamMap
 }
 
 var _ parcel.Parcelable = (*StreamConfig)(nil)
@@ -21,6 +22,11 @@ func (s *StreamConfig) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.StreamMap)))
+		for _, _item := range s.StreamMap {
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -41,8 +47,11 @@ func (s *StreamConfig) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.StreamMap = make([]interface{}, _count0)
+		s.StreamMap = make([]LeAudioConfiguration.StreamMap, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _err = s.StreamMap[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 

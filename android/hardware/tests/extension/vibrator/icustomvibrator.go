@@ -3,6 +3,7 @@ package vibrator
 import (
 	"context"
 	"fmt"
+	hardwareVibrator "github.com/xaionaro-go/binder/android/hardware/vibrator"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,7 +22,7 @@ type ICustomVibrator interface {
 	AsBinder() binder.IBinder
 	GetVendorCapabilities(ctx context.Context) (int32, error)
 	SetDirectionality(ctx context.Context, directionality Directionality) error
-	Perform(ctx context.Context, effect VendorEffect, callback interface{}) (int32, error)
+	Perform(ctx context.Context, effect VendorEffect, callback hardwareVibrator.IVibratorCallback) (int32, error)
 }
 
 const (
@@ -102,12 +103,13 @@ func (p *CustomVibratorProxy) SetDirectionality(
 func (p *CustomVibratorProxy) Perform(
 	ctx context.Context,
 	effect VendorEffect,
-	callback interface{},
+	callback hardwareVibrator.IVibratorCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICustomVibrator)
 	_data.WriteInt32(int32(effect))
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorICustomVibrator, "perform")
 	if _err != nil {
@@ -184,7 +186,9 @@ func (s *CustomVibratorStub) OnTransaction(
 			return nil, _err
 		}
 		_arg_effect := VendorEffect(_raw_effect)
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback hardwareVibrator.IVibratorCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.Perform(ctx, _arg_effect, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

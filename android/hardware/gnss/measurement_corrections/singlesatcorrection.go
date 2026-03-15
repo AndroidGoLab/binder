@@ -1,6 +1,7 @@
 package measurement_corrections
 
 import (
+	measurement_correctionsSingleSatCorrection "github.com/xaionaro-go/binder/android/hardware/gnss/measurement_corrections/SingleSatCorrection"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -15,7 +16,7 @@ type SingleSatCorrection struct {
 	CombinedExcessPathLengthMeters            float32
 	CombinedExcessPathLengthUncertaintyMeters float32
 	CombinedAttenuationDb                     float32
-	ExcessPathInfos                           []interface{}
+	ExcessPathInfos                           []measurement_correctionsSingleSatCorrection.ExcessPathInfo
 }
 
 const (
@@ -42,6 +43,11 @@ func (s *SingleSatCorrection) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.ExcessPathInfos)))
+		for _, _item := range s.ExcessPathInfos {
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -97,8 +103,11 @@ func (s *SingleSatCorrection) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.ExcessPathInfos = make([]interface{}, _count0)
+		s.ExcessPathInfos = make([]measurement_correctionsSingleSatCorrection.ExcessPathInfo, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _err = s.ExcessPathInfos[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 

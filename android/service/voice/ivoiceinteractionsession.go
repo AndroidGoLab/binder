@@ -4,8 +4,11 @@ import (
 	"context"
 	"fmt"
 	assist "github.com/xaionaro-go/binder/android/app/assist"
+	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
+	app "github.com/xaionaro-go/binder/com/android/internal_/app"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -28,12 +31,12 @@ const (
 
 type IVoiceInteractionSession interface {
 	AsBinder() binder.IBinder
-	Show(ctx context.Context, sessionArgs interface{}, flags int32, showCallback interface{}) error
+	Show(ctx context.Context, sessionArgs os.Bundle, flags int32, showCallback app.IVoiceInteractionSessionShowCallback) error
 	Hide(ctx context.Context) error
-	HandleAssist(ctx context.Context, taskId int32, activityId binder.IBinder, assistData interface{}, structure assist.AssistStructure, content assist.AssistContent, index int32, count int32) error
+	HandleAssist(ctx context.Context, taskId int32, activityId binder.IBinder, assistData os.Bundle, structure assist.AssistStructure, content assist.AssistContent, index int32, count int32) error
 	HandleScreenshot(ctx context.Context, screenshot graphics.Bitmap) error
-	TaskStarted(ctx context.Context, intent interface{}, taskId int32) error
-	TaskFinished(ctx context.Context, intent interface{}, taskId int32) error
+	TaskStarted(ctx context.Context, intent content.Intent, taskId int32) error
+	TaskFinished(ctx context.Context, intent content.Intent, taskId int32) error
 	CloseSystemDialogs(ctx context.Context) error
 	OnLockscreenShown(ctx context.Context) error
 	Destroy(ctx context.Context) error
@@ -58,13 +61,18 @@ var _ IVoiceInteractionSession = (*VoiceInteractionSessionProxy)(nil)
 
 func (p *VoiceInteractionSessionProxy) Show(
 	ctx context.Context,
-	sessionArgs interface{},
+	sessionArgs os.Bundle,
 	flags int32,
-	showCallback interface{},
+	showCallback app.IVoiceInteractionSessionShowCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
+	_data.WriteInt32(1)
+	if _err := sessionArgs.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(flags)
+	_data.WriteStrongBinder(showCallback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "show")
 	if _err != nil {
@@ -94,7 +102,7 @@ func (p *VoiceInteractionSessionProxy) HandleAssist(
 	ctx context.Context,
 	taskId int32,
 	activityId binder.IBinder,
-	assistData interface{},
+	assistData os.Bundle,
 	structure assist.AssistStructure,
 	content assist.AssistContent,
 	index int32,
@@ -104,6 +112,10 @@ func (p *VoiceInteractionSessionProxy) HandleAssist(
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 	_data.WriteInt32(taskId)
 	_data.WriteStrongBinder(activityId.Handle())
+	_data.WriteInt32(1)
+	if _err := assistData.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := structure.MarshalParcel(_data); _err != nil {
 		return _err
@@ -146,11 +158,15 @@ func (p *VoiceInteractionSessionProxy) HandleScreenshot(
 
 func (p *VoiceInteractionSessionProxy) TaskStarted(
 	ctx context.Context,
-	intent interface{},
+	intent content.Intent,
 	taskId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(taskId)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "taskStarted")
@@ -164,11 +180,15 @@ func (p *VoiceInteractionSessionProxy) TaskStarted(
 
 func (p *VoiceInteractionSessionProxy) TaskFinished(
 	ctx context.Context,
-	intent interface{},
+	intent content.Intent,
 	taskId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(taskId)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "taskFinished")
@@ -265,12 +285,25 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionArgs interface{}
+		var _arg_sessionArgs os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionArgs.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_showCallback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_showCallback app.IVoiceInteractionSessionShowCallback
+		_ = _arg_showCallback
 		_err = s.Impl.Show(ctx, _arg_sessionArgs, _arg_flags, _arg_showCallback)
 		_ = _err
 		return nil, nil
@@ -292,7 +325,18 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_activityId binder.IBinder
 		_ = _arg_activityId
-		var _arg_assistData interface{}
+		var _arg_assistData os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_assistData.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_structure assist.AssistStructure
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -351,7 +395,18 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -363,7 +418,18 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_taskId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

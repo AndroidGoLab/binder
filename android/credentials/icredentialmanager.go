@@ -3,6 +3,8 @@ package credentials
 import (
 	"context"
 	"fmt"
+	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,15 +30,15 @@ const (
 
 type ICredentialManager interface {
 	AsBinder() binder.IBinder
-	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (interface{}, error)
-	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (interface{}, error)
-	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (interface{}, error)
-	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (interface{}, error)
-	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (interface{}, error)
+	ExecuteGetCredential(ctx context.Context, request GetCredentialRequest, callback IGetCredentialCallback) (ondeviceintelligence.ICancellationSignal, error)
+	ExecutePrepareGetCredential(ctx context.Context, request GetCredentialRequest, prepareGetCredentialCallback IPrepareGetCredentialCallback, getCredentialCallback IGetCredentialCallback) (ondeviceintelligence.ICancellationSignal, error)
+	ExecuteCreateCredential(ctx context.Context, request CreateCredentialRequest, callback ICreateCredentialCallback) (ondeviceintelligence.ICancellationSignal, error)
+	GetCandidateCredentials(ctx context.Context, request GetCredentialRequest, callback IGetCandidateCredentialsCallback, clientCallback binder.IBinder) (ondeviceintelligence.ICancellationSignal, error)
+	ClearCredentialState(ctx context.Context, request ClearCredentialStateRequest, callback IClearCredentialStateCallback) (ondeviceintelligence.ICancellationSignal, error)
 	SetEnabledProviders(ctx context.Context, primaryProviders []string, providers []string, callback ISetEnabledProvidersCallback) error
 	RegisterCredentialDescription(ctx context.Context, request RegisterCredentialDescriptionRequest) error
 	UnregisterCredentialDescription(ctx context.Context, request UnregisterCredentialDescriptionRequest) error
-	IsEnabledCredentialProviderService(ctx context.Context, componentName interface{}) (bool, error)
+	IsEnabledCredentialProviderService(ctx context.Context, componentName content.ComponentName) (bool, error)
 	GetCredentialProviderServices(ctx context.Context, providerFilter int32) ([]CredentialProviderInfo, error)
 	GetCredentialProviderServicesForTesting(ctx context.Context, providerFilter int32) ([]CredentialProviderInfo, error)
 	IsServiceEnabled(ctx context.Context) (bool, error)
@@ -62,8 +64,8 @@ func (p *CredentialManagerProxy) ExecuteGetCredential(
 	ctx context.Context,
 	request GetCredentialRequest,
 	callback IGetCredentialCallback,
-) (interface{}, error) {
-	var _result interface{}
+) (ondeviceintelligence.ICancellationSignal, error) {
+	var _result ondeviceintelligence.ICancellationSignal
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
@@ -89,6 +91,11 @@ func (p *CredentialManagerProxy) ExecuteGetCredential(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -97,8 +104,8 @@ func (p *CredentialManagerProxy) ExecutePrepareGetCredential(
 	request GetCredentialRequest,
 	prepareGetCredentialCallback IPrepareGetCredentialCallback,
 	getCredentialCallback IGetCredentialCallback,
-) (interface{}, error) {
-	var _result interface{}
+) (ondeviceintelligence.ICancellationSignal, error) {
+	var _result ondeviceintelligence.ICancellationSignal
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
@@ -125,6 +132,11 @@ func (p *CredentialManagerProxy) ExecutePrepareGetCredential(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -132,8 +144,8 @@ func (p *CredentialManagerProxy) ExecuteCreateCredential(
 	ctx context.Context,
 	request CreateCredentialRequest,
 	callback ICreateCredentialCallback,
-) (interface{}, error) {
-	var _result interface{}
+) (ondeviceintelligence.ICancellationSignal, error) {
+	var _result ondeviceintelligence.ICancellationSignal
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
@@ -159,6 +171,11 @@ func (p *CredentialManagerProxy) ExecuteCreateCredential(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -167,8 +184,8 @@ func (p *CredentialManagerProxy) GetCandidateCredentials(
 	request GetCredentialRequest,
 	callback IGetCandidateCredentialsCallback,
 	clientCallback binder.IBinder,
-) (interface{}, error) {
-	var _result interface{}
+) (ondeviceintelligence.ICancellationSignal, error) {
+	var _result ondeviceintelligence.ICancellationSignal
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
@@ -195,6 +212,11 @@ func (p *CredentialManagerProxy) GetCandidateCredentials(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -202,8 +224,8 @@ func (p *CredentialManagerProxy) ClearCredentialState(
 	ctx context.Context,
 	request ClearCredentialStateRequest,
 	callback IClearCredentialStateCallback,
-) (interface{}, error) {
-	var _result interface{}
+) (ondeviceintelligence.ICancellationSignal, error) {
+	var _result ondeviceintelligence.ICancellationSignal
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
@@ -229,6 +251,11 @@ func (p *CredentialManagerProxy) ClearCredentialState(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -342,12 +369,16 @@ func (p *CredentialManagerProxy) UnregisterCredentialDescription(
 
 func (p *CredentialManagerProxy) IsEnabledCredentialProviderService(
 	ctx context.Context,
-	componentName interface{},
+	componentName content.ComponentName,
 ) (bool, error) {
 	var _result bool
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICredentialManager)
+	_data.WriteInt32(1)
+	if _err := componentName.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(_identity.PackageName)
 
 	_code, _err := p.remote.ResolveCode(DescriptorICredentialManager, "isEnabledCredentialProviderService")
@@ -526,6 +557,7 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionICredentialManagerExecutePrepareGetCredential:
@@ -560,6 +592,7 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionICredentialManagerExecuteCreateCredential:
@@ -591,6 +624,7 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionICredentialManagerGetCandidateCredentials:
@@ -625,6 +659,7 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionICredentialManagerClearCredentialState:
@@ -656,6 +691,7 @@ func (s *CredentialManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionICredentialManagerSetEnabledProviders:
@@ -740,7 +776,18 @@ func (s *CredentialManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_componentName interface{}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}

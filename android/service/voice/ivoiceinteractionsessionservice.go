@@ -3,6 +3,7 @@ package voice
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IVoiceInteractionSessionService interface {
 	AsBinder() binder.IBinder
-	NewSession(ctx context.Context, token binder.IBinder, args interface{}, startFlags int32) error
+	NewSession(ctx context.Context, token binder.IBinder, args os.Bundle, startFlags int32) error
 }
 
 type VoiceInteractionSessionServiceProxy struct {
@@ -39,12 +40,16 @@ var _ IVoiceInteractionSessionService = (*VoiceInteractionSessionServiceProxy)(n
 func (p *VoiceInteractionSessionServiceProxy) NewSession(
 	ctx context.Context,
 	token binder.IBinder,
-	args interface{},
+	args os.Bundle,
 	startFlags int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSessionService)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
+	if _err := args.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(startFlags)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSessionService, "newSession")
@@ -77,7 +82,18 @@ func (s *VoiceInteractionSessionServiceStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		var _arg_args interface{}
+		var _arg_args os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_args.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_startFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

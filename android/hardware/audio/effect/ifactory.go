@@ -3,6 +3,8 @@ package effect
 import (
 	"context"
 	"fmt"
+	effectProcessing "github.com/xaionaro-go/binder/android/hardware/audio/effect/Processing"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,9 +22,9 @@ const (
 
 type IFactory interface {
 	AsBinder() binder.IBinder
-	QueryEffects(ctx context.Context, type_ *interface{}, implementation *interface{}, proxy *interface{}) ([]Descriptor, error)
-	QueryProcessing(ctx context.Context, type_ *interface{}) ([]Processing, error)
-	CreateEffect(ctx context.Context, implUuid interface{}) (IEffect, error)
+	QueryEffects(ctx context.Context, type_ *common.AudioUuid, implementation *common.AudioUuid, proxy *common.AudioUuid) ([]Descriptor, error)
+	QueryProcessing(ctx context.Context, type_ *effectProcessing.Type) ([]Processing, error)
+	CreateEffect(ctx context.Context, implUuid common.AudioUuid) (IEffect, error)
 	DestroyEffect(ctx context.Context, handle IEffect) error
 }
 
@@ -44,13 +46,34 @@ var _ IFactory = (*FactoryProxy)(nil)
 
 func (p *FactoryProxy) QueryEffects(
 	ctx context.Context,
-	type_ *interface{},
-	implementation *interface{},
-	proxy *interface{},
+	type_ *common.AudioUuid,
+	implementation *common.AudioUuid,
+	proxy *common.AudioUuid,
 ) ([]Descriptor, error) {
 	var _result []Descriptor
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFactory)
+	if type_ != nil {
+		if _err := (*type_).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
+	if implementation != nil {
+		if _err := (*implementation).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
+	if proxy != nil {
+		if _err := (*proxy).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "queryEffects")
 	if _err != nil {
@@ -85,11 +108,18 @@ func (p *FactoryProxy) QueryEffects(
 
 func (p *FactoryProxy) QueryProcessing(
 	ctx context.Context,
-	type_ *interface{},
+	type_ *effectProcessing.Type,
 ) ([]Processing, error) {
 	var _result []Processing
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFactory)
+	if type_ != nil {
+		if _err := (*type_).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "queryProcessing")
 	if _err != nil {
@@ -124,11 +154,15 @@ func (p *FactoryProxy) QueryProcessing(
 
 func (p *FactoryProxy) CreateEffect(
 	ctx context.Context,
-	implUuid interface{},
+	implUuid common.AudioUuid,
 ) (IEffect, error) {
 	var _result IEffect
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFactory)
+	_data.WriteInt32(1)
+	if _err := implUuid.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFactory, "createEffect")
 	if _err != nil {
@@ -197,9 +231,42 @@ func (s *FactoryStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_type_ *interface{}
-		var _arg_implementation *interface{}
-		var _arg_proxy *interface{}
+		var _arg_type_ *common.AudioUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_type_.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_implementation *common.AudioUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_implementation.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_proxy *common.AudioUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_proxy.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.QueryEffects(ctx, _arg_type_, _arg_implementation, _arg_proxy)
 		_reply := parcel.New()
 		if _err != nil {
@@ -214,7 +281,18 @@ func (s *FactoryStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_type_ *interface{}
+		var _arg_type_ *effectProcessing.Type
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_type_.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.QueryProcessing(ctx, _arg_type_)
 		_reply := parcel.New()
 		if _err != nil {
@@ -229,7 +307,18 @@ func (s *FactoryStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_implUuid interface{}
+		var _arg_implUuid common.AudioUuid
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_implUuid.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.CreateEffect(ctx, _arg_implUuid)
 		_reply := parcel.New()
 		if _err != nil {

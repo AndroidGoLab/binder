@@ -4,7 +4,9 @@ import (
 	"context"
 	"fmt"
 	wallpaper "github.com/xaionaro-go/binder/android/app/wallpaper"
+	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -55,13 +57,13 @@ const (
 
 type IWallpaperManager interface {
 	AsBinder() binder.IBinder
-	SetWallpaper(ctx context.Context, name string, screenOrientations []int32, crops []graphics.Rect, allowBackup bool, extras interface{}, which int32, completion IWallpaperManagerCallback) (int32, error)
+	SetWallpaper(ctx context.Context, name string, screenOrientations []int32, crops []graphics.Rect, allowBackup bool, extras os.Bundle, which int32, completion IWallpaperManagerCallback) (int32, error)
 	SetWallpaperComponentChecked(ctx context.Context, description wallpaper.WallpaperDescription, which int32) error
-	SetWallpaperComponent(ctx context.Context, name interface{}) error
-	GetWallpaper(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}) (int32, error)
-	GetWallpaperWithFeature(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams interface{}, getCropped bool) (int32, error)
+	SetWallpaperComponent(ctx context.Context, name content.ComponentName) error
+	GetWallpaper(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams os.Bundle) (int32, error)
+	GetWallpaperWithFeature(ctx context.Context, callingPkg string, cb IWallpaperManagerCallback, which int32, outParams os.Bundle, getCropped bool) (int32, error)
 	GetBitmapCrops(ctx context.Context, displaySizes []graphics.Point, which int32, originalBitmap bool) ([]interface{}, error)
-	GetCurrentBitmapCrops(ctx context.Context, which int32) (interface{}, error)
+	GetCurrentBitmapCrops(ctx context.Context, which int32) (os.Bundle, error)
 	GetFutureBitmapCrops(ctx context.Context, bitmapSize graphics.Point, displaySizes []graphics.Point, screenOrientations []int32, crops []graphics.Rect) ([]interface{}, error)
 	GetBitmapCrop(ctx context.Context, bitmapSize graphics.Point, screenOrientations []int32, crops []graphics.Rect) (graphics.Rect, error)
 	GetWallpaperIdForUser(ctx context.Context, which int32) (int32, error)
@@ -86,8 +88,8 @@ type IWallpaperManager interface {
 	RegisterWallpaperColorsCallback(ctx context.Context, cb IWallpaperManagerCallback, displayId int32) error
 	UnregisterWallpaperColorsCallback(ctx context.Context, cb IWallpaperManagerCallback, displayId int32) error
 	SetInAmbientMode(ctx context.Context, inAmbientMode bool, animationDuration int64) error
-	NotifyWakingUp(ctx context.Context, x int32, y int32, extras interface{}) error
-	NotifyGoingToSleep(ctx context.Context, x int32, y int32, extras interface{}) error
+	NotifyWakingUp(ctx context.Context, x int32, y int32, extras os.Bundle) error
+	NotifyGoingToSleep(ctx context.Context, x int32, y int32, extras os.Bundle) error
 	SetWallpaperDimAmount(ctx context.Context, dimAmount float32) error
 	GetWallpaperDimAmount(ctx context.Context) (float32, error)
 	LockScreenWallpaperExists(ctx context.Context) (bool, error)
@@ -116,7 +118,7 @@ func (p *WallpaperManagerProxy) SetWallpaper(
 	screenOrientations []int32,
 	crops []graphics.Rect,
 	allowBackup bool,
-	extras interface{},
+	extras os.Bundle,
 	which int32,
 	completion IWallpaperManagerCallback,
 ) (int32, error) {
@@ -163,6 +165,9 @@ func (p *WallpaperManagerProxy) SetWallpaper(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
+	if _err = extras.UnmarshalParcel(_reply); _err != nil {
+		return _result, _err
+	}
 
 	_result, _err = _reply.ReadFileDescriptor()
 	if _err != nil {
@@ -207,10 +212,14 @@ func (p *WallpaperManagerProxy) SetWallpaperComponentChecked(
 
 func (p *WallpaperManagerProxy) SetWallpaperComponent(
 	ctx context.Context,
-	name interface{},
+	name content.ComponentName,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
+	_data.WriteInt32(1)
+	if _err := name.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "setWallpaperComponent")
 	if _err != nil {
@@ -235,7 +244,7 @@ func (p *WallpaperManagerProxy) GetWallpaper(
 	callingPkg string,
 	cb IWallpaperManagerCallback,
 	which int32,
-	outParams interface{},
+	outParams os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.remote.Identity()
@@ -260,6 +269,9 @@ func (p *WallpaperManagerProxy) GetWallpaper(
 	if _err = binder.ReadStatus(_reply); _err != nil {
 		return _result, _err
 	}
+	if _err = outParams.UnmarshalParcel(_reply); _err != nil {
+		return _result, _err
+	}
 
 	_result, _err = _reply.ReadFileDescriptor()
 	if _err != nil {
@@ -273,7 +285,7 @@ func (p *WallpaperManagerProxy) GetWallpaperWithFeature(
 	callingPkg string,
 	cb IWallpaperManagerCallback,
 	which int32,
-	outParams interface{},
+	outParams os.Bundle,
 	getCropped bool,
 ) (int32, error) {
 	var _result int32
@@ -299,6 +311,9 @@ func (p *WallpaperManagerProxy) GetWallpaperWithFeature(
 	defer _reply.Recycle()
 
 	if _err = binder.ReadStatus(_reply); _err != nil {
+		return _result, _err
+	}
+	if _err = outParams.UnmarshalParcel(_reply); _err != nil {
 		return _result, _err
 	}
 
@@ -364,8 +379,8 @@ func (p *WallpaperManagerProxy) GetBitmapCrops(
 func (p *WallpaperManagerProxy) GetCurrentBitmapCrops(
 	ctx context.Context,
 	which int32,
-) (interface{}, error) {
-	var _result interface{}
+) (os.Bundle, error) {
+	var _result os.Bundle
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
@@ -387,6 +402,15 @@ func (p *WallpaperManagerProxy) GetCurrentBitmapCrops(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -1240,12 +1264,16 @@ func (p *WallpaperManagerProxy) NotifyWakingUp(
 	ctx context.Context,
 	x int32,
 	y int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "notifyWakingUp")
 	if _err != nil {
@@ -1260,12 +1288,16 @@ func (p *WallpaperManagerProxy) NotifyGoingToSleep(
 	ctx context.Context,
 	x int32,
 	y int32,
-	extras interface{},
+	extras os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWallpaperManager)
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
+	_data.WriteInt32(1)
+	if _err := extras.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWallpaperManager, "notifyGoingToSleep")
 	if _err != nil {
@@ -1426,7 +1458,7 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
 		_arg_which, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1484,7 +1516,18 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_name interface{}
+		var _arg_name content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_name.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetWallpaperComponent(ctx, _arg_name)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1508,7 +1551,7 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_outParams interface{}
+		var _arg_outParams os.Bundle
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1539,7 +1582,7 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_outParams interface{}
+		var _arg_outParams os.Bundle
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1602,7 +1645,10 @@ func (s *WallpaperManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIWallpaperManagerGetFutureBitmapCrops:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -2138,7 +2184,18 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.NotifyWakingUp(ctx, _arg_x, _arg_y, _arg_extras)
 		_ = _err
 		return nil, nil
@@ -2154,7 +2211,18 @@ func (s *WallpaperManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras interface{}
+		var _arg_extras os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.NotifyGoingToSleep(ctx, _arg_x, _arg_y, _arg_extras)
 		_reply := parcel.New()
 		if _err != nil {

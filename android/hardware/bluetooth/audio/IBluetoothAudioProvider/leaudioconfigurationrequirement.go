@@ -1,6 +1,7 @@
 package IBluetoothAudioProvider
 
 import (
+	IBluetoothAudioProviderLeAudioConfigurationRequirement "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioConfigurationRequirement"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,8 +9,8 @@ import (
 
 type LeAudioConfigurationRequirement struct {
 	AudioContext         interface{}
-	SinkAseRequirement   []interface{}
-	SourceAseRequirement []interface{}
+	SinkAseRequirement   []IBluetoothAudioProviderLeAudioConfigurationRequirement.AseDirectionRequirement
+	SourceAseRequirement []IBluetoothAudioProviderLeAudioConfigurationRequirement.AseDirectionRequirement
 	Flags                interface{}
 }
 
@@ -23,11 +24,21 @@ func (s *LeAudioConfigurationRequirement) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.SinkAseRequirement)))
+		for _, _item := range s.SinkAseRequirement {
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 	if s.SourceAseRequirement == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.SourceAseRequirement)))
+		for _, _item := range s.SourceAseRequirement {
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -48,8 +59,11 @@ func (s *LeAudioConfigurationRequirement) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.SinkAseRequirement = make([]interface{}, _count0)
+		s.SinkAseRequirement = make([]IBluetoothAudioProviderLeAudioConfigurationRequirement.AseDirectionRequirement, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _err = s.SinkAseRequirement[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 
@@ -59,8 +73,11 @@ func (s *LeAudioConfigurationRequirement) UnmarshalParcel(
 		return _err
 	}
 	if _count1 >= 0 {
-		s.SourceAseRequirement = make([]interface{}, _count1)
+		s.SourceAseRequirement = make([]IBluetoothAudioProviderLeAudioConfigurationRequirement.AseDirectionRequirement, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _err = s.SourceAseRequirement[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 

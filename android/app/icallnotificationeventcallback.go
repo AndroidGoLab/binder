@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,8 +19,8 @@ const (
 
 type ICallNotificationEventCallback interface {
 	AsBinder() binder.IBinder
-	OnCallNotificationPosted(ctx context.Context, packageName string, userHandle interface{}) error
-	OnCallNotificationRemoved(ctx context.Context, packageName string, userHandle interface{}) error
+	OnCallNotificationPosted(ctx context.Context, packageName string, userHandle os.UserHandle) error
+	OnCallNotificationRemoved(ctx context.Context, packageName string, userHandle os.UserHandle) error
 }
 
 type CallNotificationEventCallbackProxy struct {
@@ -41,11 +42,15 @@ var _ ICallNotificationEventCallback = (*CallNotificationEventCallbackProxy)(nil
 func (p *CallNotificationEventCallbackProxy) OnCallNotificationPosted(
 	ctx context.Context,
 	packageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallNotificationEventCallback)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallNotificationEventCallback, "onCallNotificationPosted")
 	if _err != nil {
@@ -59,11 +64,15 @@ func (p *CallNotificationEventCallbackProxy) OnCallNotificationPosted(
 func (p *CallNotificationEventCallbackProxy) OnCallNotificationRemoved(
 	ctx context.Context,
 	packageName string,
-	userHandle interface{},
+	userHandle os.UserHandle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICallNotificationEventCallback)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := userHandle.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorICallNotificationEventCallback, "onCallNotificationRemoved")
 	if _err != nil {
@@ -96,7 +105,18 @@ func (s *CallNotificationEventCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle interface{}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnCallNotificationPosted(ctx, _arg_packageName, _arg_userHandle)
 		_ = _err
 		return nil, nil
@@ -108,7 +128,18 @@ func (s *CallNotificationEventCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_userHandle interface{}
+		var _arg_userHandle os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userHandle.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnCallNotificationRemoved(ctx, _arg_packageName, _arg_userHandle)
 		_ = _err
 		return nil, nil

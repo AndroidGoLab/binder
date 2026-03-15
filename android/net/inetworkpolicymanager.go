@@ -3,6 +3,7 @@ package net
 import (
 	"context"
 	"fmt"
+	telephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -59,10 +60,10 @@ type INetworkPolicyManager interface {
 	SetDeviceIdleMode(ctx context.Context, enabled bool) error
 	SetWifiMeteredOverride(ctx context.Context, networkId string, meteredOverride int32) error
 	GetMultipathPreference(ctx context.Context, network interface{}) (int32, error)
-	GetSubscriptionPlan(ctx context.Context, template interface{}) (interface{}, error)
+	GetSubscriptionPlan(ctx context.Context, template interface{}) (telephony.SubscriptionPlan, error)
 	NotifyStatsProviderWarningOrLimitReached(ctx context.Context) error
-	GetSubscriptionPlans(ctx context.Context, subId int32) ([]interface{}, error)
-	SetSubscriptionPlans(ctx context.Context, subId int32, plans []interface{}, expirationDurationMillis int64) error
+	GetSubscriptionPlans(ctx context.Context, subId int32) ([]telephony.SubscriptionPlan, error)
+	SetSubscriptionPlans(ctx context.Context, subId int32, plans []telephony.SubscriptionPlan, expirationDurationMillis int64) error
 	GetSubscriptionPlansOwner(ctx context.Context, subId int32) (string, error)
 	SetSubscriptionOverride(ctx context.Context, subId int32, overrideMask int32, overrideValue int32, networkTypes []int32, expirationDurationMillis int64) error
 	FactoryReset(ctx context.Context, subscriber string) error
@@ -596,8 +597,8 @@ func (p *NetworkPolicyManagerProxy) GetMultipathPreference(
 func (p *NetworkPolicyManagerProxy) GetSubscriptionPlan(
 	ctx context.Context,
 	template interface{},
-) (interface{}, error) {
-	var _result interface{}
+) (telephony.SubscriptionPlan, error) {
+	var _result telephony.SubscriptionPlan
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
 
@@ -616,6 +617,15 @@ func (p *NetworkPolicyManagerProxy) GetSubscriptionPlan(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -646,8 +656,8 @@ func (p *NetworkPolicyManagerProxy) NotifyStatsProviderWarningOrLimitReached(
 func (p *NetworkPolicyManagerProxy) GetSubscriptionPlans(
 	ctx context.Context,
 	subId int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]telephony.SubscriptionPlan, error) {
+	var _result []telephony.SubscriptionPlan
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyManager)
@@ -675,8 +685,11 @@ func (p *NetworkPolicyManagerProxy) GetSubscriptionPlans(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]telephony.SubscriptionPlan, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -685,7 +698,7 @@ func (p *NetworkPolicyManagerProxy) GetSubscriptionPlans(
 func (p *NetworkPolicyManagerProxy) SetSubscriptionPlans(
 	ctx context.Context,
 	subId int32,
-	plans []interface{},
+	plans []telephony.SubscriptionPlan,
 	expirationDurationMillis int64,
 ) error {
 	_identity := p.remote.Identity()
@@ -696,6 +709,11 @@ func (p *NetworkPolicyManagerProxy) SetSubscriptionPlans(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(plans)))
+		for _, _item := range plans {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	_data.WriteInt64(expirationDurationMillis)
 	_data.WriteString16(_identity.PackageName)
@@ -1187,7 +1205,10 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINetworkPolicyManagerNotifyStatsProviderWarningOrLimitReached:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -1231,7 +1252,7 @@ func (s *NetworkPolicyManagerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_plans []interface{}
+		var _arg_plans []telephony.SubscriptionPlan
 		_ = _arg_plans
 		_arg_expirationDurationMillis, _err := _data.ReadInt64()
 		if _err != nil {

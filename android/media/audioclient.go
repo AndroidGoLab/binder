@@ -1,6 +1,7 @@
 package media
 
 import (
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type AudioClient struct {
 	ClientTid         int32
-	AttributionSource interface{}
+	AttributionSource content.AttributionSourceState
 }
 
 var _ parcel.Parcelable = (*AudioClient)(nil)
@@ -18,6 +19,9 @@ func (s *AudioClient) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.ClientTid)
+	if _err := s.AttributionSource.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -33,6 +37,10 @@ func (s *AudioClient) UnmarshalParcel(
 
 	s.ClientTid, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.AttributionSource.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

@@ -3,6 +3,7 @@ package gnss
 import (
 	"context"
 	"fmt"
+	gnssIGnssCallback "github.com/xaionaro-go/binder/android/hardware/gnss/IGnssCallback"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,13 +29,13 @@ const (
 type IGnssCallback interface {
 	AsBinder() binder.IBinder
 	GnssSetCapabilitiesCb(ctx context.Context, capabilities int32) error
-	GnssStatusCb(ctx context.Context, status interface{}) error
-	GnssSvStatusCb(ctx context.Context, svInfoList []interface{}) error
+	GnssStatusCb(ctx context.Context, status gnssIGnssCallback.GnssStatusValue) error
+	GnssSvStatusCb(ctx context.Context, svInfoList []gnssIGnssCallback.GnssSvInfo) error
 	GnssLocationCb(ctx context.Context, location GnssLocation) error
 	GnssNmeaCb(ctx context.Context, timestamp int64, nmea string) error
 	GnssAcquireWakelockCb(ctx context.Context) error
 	GnssReleaseWakelockCb(ctx context.Context) error
-	GnssSetSystemInfoCb(ctx context.Context, info interface{}) error
+	GnssSetSystemInfoCb(ctx context.Context, info gnssIGnssCallback.GnssSystemInfo) error
 	GnssRequestTimeCb(ctx context.Context) error
 	GnssRequestLocationCb(ctx context.Context, independentFromGnss bool, isUserEmergency bool) error
 	GnssSetSignalTypeCapabilitiesCb(ctx context.Context, gnssSignalTypes []GnssSignalType) error
@@ -103,10 +104,11 @@ func (p *GnssCallbackProxy) GnssSetCapabilitiesCb(
 
 func (p *GnssCallbackProxy) GnssStatusCb(
 	ctx context.Context,
-	status interface{},
+	status gnssIGnssCallback.GnssStatusValue,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
+	_data.WriteInt32(int32(status))
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssStatusCb")
 	if _err != nil {
@@ -128,7 +130,7 @@ func (p *GnssCallbackProxy) GnssStatusCb(
 
 func (p *GnssCallbackProxy) GnssSvStatusCb(
 	ctx context.Context,
-	svInfoList []interface{},
+	svInfoList []gnssIGnssCallback.GnssSvInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
@@ -136,6 +138,11 @@ func (p *GnssCallbackProxy) GnssSvStatusCb(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(svInfoList)))
+		for _, _item := range svInfoList {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSvStatusCb")
@@ -263,10 +270,14 @@ func (p *GnssCallbackProxy) GnssReleaseWakelockCb(
 
 func (p *GnssCallbackProxy) GnssSetSystemInfoCb(
 	ctx context.Context,
-	info interface{},
+	info gnssIGnssCallback.GnssSystemInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnssCallback)
+	_data.WriteInt32(1)
+	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGnssCallback, "gnssSetSystemInfoCb")
 	if _err != nil {
@@ -407,8 +418,12 @@ func (s *GnssCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_status interface{}
-		_err := s.Impl.GnssStatusCb(ctx, _arg_status)
+		_raw_status, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_status := gnssIGnssCallback.GnssStatusValue(_raw_status)
+		_err = s.Impl.GnssStatusCb(ctx, _arg_status)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)
@@ -421,7 +436,7 @@ func (s *GnssCallbackStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_svInfoList []interface{}
+		var _arg_svInfoList []gnssIGnssCallback.GnssSvInfo
 		_ = _arg_svInfoList
 		_err := s.Impl.GnssSvStatusCb(ctx, _arg_svInfoList)
 		_reply := parcel.New()
@@ -503,7 +518,18 @@ func (s *GnssCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_info interface{}
+		var _arg_info gnssIGnssCallback.GnssSystemInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.GnssSetSystemInfoCb(ctx, _arg_info)
 		_reply := parcel.New()
 		if _err != nil {

@@ -3,6 +3,8 @@ package contentcapture
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +19,7 @@ const (
 
 type IContentCaptureDirectManager interface {
 	AsBinder() binder.IBinder
-	SendEvents(ctx context.Context, events interface{}, reason int32, options interface{}) error
+	SendEvents(ctx context.Context, events pm.ParceledListSlice, reason int32, options content.ContentCaptureOptions) error
 }
 
 type ContentCaptureDirectManagerProxy struct {
@@ -38,13 +40,21 @@ var _ IContentCaptureDirectManager = (*ContentCaptureDirectManagerProxy)(nil)
 
 func (p *ContentCaptureDirectManagerProxy) SendEvents(
 	ctx context.Context,
-	events interface{},
+	events pm.ParceledListSlice,
 	reason int32,
-	options interface{},
+	options content.ContentCaptureOptions,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureDirectManager)
+	_data.WriteInt32(1)
+	if _err := events.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(reason)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureDirectManager, "sendEvents")
 	if _err != nil {
@@ -73,12 +83,34 @@ func (s *ContentCaptureDirectManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_events interface{}
+		var _arg_events pm.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_events.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_reason, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options content.ContentCaptureOptions
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SendEvents(ctx, _arg_events, _arg_reason, _arg_options)
 		_ = _err
 		return nil, nil

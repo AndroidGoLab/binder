@@ -3,6 +3,7 @@ package camera2
 import (
 	"context"
 	"fmt"
+	device "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
 	fmq "github.com/xaionaro-go/binder/android/hardware/common/fmq"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -43,14 +44,14 @@ const (
 type ICameraDeviceUser interface {
 	AsBinder() binder.IBinder
 	Disconnect(ctx context.Context) error
-	SubmitRequest(ctx context.Context, request interface{}, streaming bool) (interface{}, error)
-	SubmitRequestList(ctx context.Context, requestList []interface{}, streaming bool) (interface{}, error)
+	SubmitRequest(ctx context.Context, request interface{}, streaming bool) (device.SubmitInfo, error)
+	SubmitRequestList(ctx context.Context, requestList []interface{}, streaming bool) (device.SubmitInfo, error)
 	CancelRequest(ctx context.Context, requestId int32) (int64, error)
 	BeginConfigure(ctx context.Context) error
 	EndConfigure(ctx context.Context, operatingMode int32, sessionParams interface{}, startTimeMs int64) ([]int32, error)
-	IsSessionConfigurationSupported(ctx context.Context, sessionConfiguration interface{}) (bool, error)
+	IsSessionConfigurationSupported(ctx context.Context, sessionConfiguration device.SessionConfiguration) (bool, error)
 	DeleteStream(ctx context.Context, streamId int32) error
-	CreateStream(ctx context.Context, outputConfiguration interface{}) (int32, error)
+	CreateStream(ctx context.Context, outputConfiguration device.OutputConfiguration) (int32, error)
 	CreateInputStream(ctx context.Context, width int32, height int32, format int32, isMultiResolution bool) (int32, error)
 	GetInputSurface(ctx context.Context) (interface{}, error)
 	CreateDefaultRequest(ctx context.Context, templateId int32) (interface{}, error)
@@ -60,8 +61,8 @@ type ICameraDeviceUser interface {
 	Prepare(ctx context.Context, streamId int32) error
 	TearDown(ctx context.Context, streamId int32) error
 	Prepare2(ctx context.Context, maxCount int32, streamId int32) error
-	UpdateOutputConfiguration(ctx context.Context, streamId int32, outputConfiguration interface{}) error
-	FinalizeOutputConfigurations(ctx context.Context, streamId int32, outputConfiguration interface{}) error
+	UpdateOutputConfiguration(ctx context.Context, streamId int32, outputConfiguration device.OutputConfiguration) error
+	FinalizeOutputConfigurations(ctx context.Context, streamId int32, outputConfiguration device.OutputConfiguration) error
 	GetCaptureResultMetadataQueue(ctx context.Context) (fmq.MQDescriptor, error)
 	SetCameraAudioRestriction(ctx context.Context, mode int32) error
 	GetGlobalAudioRestriction(ctx context.Context) (int32, error)
@@ -130,8 +131,8 @@ func (p *CameraDeviceUserProxy) SubmitRequest(
 	ctx context.Context,
 	request interface{},
 	streaming bool,
-) (interface{}, error) {
-	var _result interface{}
+) (device.SubmitInfo, error) {
+	var _result device.SubmitInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteBool(streaming)
@@ -151,6 +152,15 @@ func (p *CameraDeviceUserProxy) SubmitRequest(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -158,8 +168,8 @@ func (p *CameraDeviceUserProxy) SubmitRequestList(
 	ctx context.Context,
 	requestList []interface{},
 	streaming bool,
-) (interface{}, error) {
-	var _result interface{}
+) (device.SubmitInfo, error) {
+	var _result device.SubmitInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	if requestList == nil {
@@ -184,6 +194,15 @@ func (p *CameraDeviceUserProxy) SubmitRequestList(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -288,11 +307,15 @@ func (p *CameraDeviceUserProxy) EndConfigure(
 
 func (p *CameraDeviceUserProxy) IsSessionConfigurationSupported(
 	ctx context.Context,
-	sessionConfiguration interface{},
+	sessionConfiguration device.SessionConfiguration,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
+	_data.WriteInt32(1)
+	if _err := sessionConfiguration.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "isSessionConfigurationSupported")
 	if _err != nil {
@@ -344,11 +367,15 @@ func (p *CameraDeviceUserProxy) DeleteStream(
 
 func (p *CameraDeviceUserProxy) CreateStream(
 	ctx context.Context,
-	outputConfiguration interface{},
+	outputConfiguration device.OutputConfiguration,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
+	_data.WriteInt32(1)
+	if _err := outputConfiguration.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "createStream")
 	if _err != nil {
@@ -622,11 +649,15 @@ func (p *CameraDeviceUserProxy) Prepare2(
 func (p *CameraDeviceUserProxy) UpdateOutputConfiguration(
 	ctx context.Context,
 	streamId int32,
-	outputConfiguration interface{},
+	outputConfiguration device.OutputConfiguration,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(streamId)
+	_data.WriteInt32(1)
+	if _err := outputConfiguration.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "updateOutputConfiguration")
 	if _err != nil {
@@ -649,11 +680,15 @@ func (p *CameraDeviceUserProxy) UpdateOutputConfiguration(
 func (p *CameraDeviceUserProxy) FinalizeOutputConfigurations(
 	ctx context.Context,
 	streamId int32,
-	outputConfiguration interface{},
+	outputConfiguration device.OutputConfiguration,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraDeviceUser)
 	_data.WriteInt32(streamId)
+	_data.WriteInt32(1)
+	if _err := outputConfiguration.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraDeviceUser, "finalizeOutputConfigurations")
 	if _err != nil {
@@ -874,7 +909,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionICameraDeviceUserSubmitRequestList:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -894,7 +932,10 @@ func (s *CameraDeviceUserStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionICameraDeviceUserCancelRequest:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -952,7 +993,18 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_sessionConfiguration interface{}
+		var _arg_sessionConfiguration device.SessionConfiguration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sessionConfiguration.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.IsSessionConfigurationSupported(ctx, _arg_sessionConfiguration)
 		_reply := parcel.New()
 		if _err != nil {
@@ -982,7 +1034,18 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_outputConfiguration interface{}
+		var _arg_outputConfiguration device.OutputConfiguration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_outputConfiguration.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.CreateStream(ctx, _arg_outputConfiguration)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1149,7 +1212,18 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_outputConfiguration interface{}
+		var _arg_outputConfiguration device.OutputConfiguration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_outputConfiguration.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.UpdateOutputConfiguration(ctx, _arg_streamId, _arg_outputConfiguration)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1166,7 +1240,18 @@ func (s *CameraDeviceUserStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_outputConfiguration interface{}
+		var _arg_outputConfiguration device.OutputConfiguration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_outputConfiguration.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.FinalizeOutputConfigurations(ctx, _arg_streamId, _arg_outputConfiguration)
 		_reply := parcel.New()
 		if _err != nil {

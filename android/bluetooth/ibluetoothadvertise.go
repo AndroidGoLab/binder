@@ -3,6 +3,8 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	le "github.com/xaionaro-go/binder/android/bluetooth/le"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,16 +28,16 @@ const (
 
 type IBluetoothAdvertise interface {
 	AsBinder() binder.IBinder
-	StartAdvertisingSet(ctx context.Context, parameters interface{}, advertiseData interface{}, scanResponse interface{}, periodicParameters interface{}, periodicData interface{}, duration int32, maxExtAdvEvents int32, gattServerIf int32, callback interface{}, attributionSource interface{}) error
-	StopAdvertisingSet(ctx context.Context, callback interface{}, attributionSource interface{}) error
-	GetOwnAddress(ctx context.Context, advertiserId int32, attributionSource interface{}) error
-	EnableAdvertisingSet(ctx context.Context, advertiserId int32, enable bool, duration int32, maxExtAdvEvents int32, attributionSource interface{}) error
-	SetAdvertisingData(ctx context.Context, advertiserId int32, data interface{}, attributionSource interface{}) error
-	SetScanResponseData(ctx context.Context, advertiserId int32, data interface{}, attributionSource interface{}) error
-	SetAdvertisingParameters(ctx context.Context, advertiserId int32, parameters interface{}, attributionSource interface{}) error
-	SetPeriodicAdvertisingParameters(ctx context.Context, advertiserId int32, parameters interface{}, attributionSource interface{}) error
-	SetPeriodicAdvertisingData(ctx context.Context, advertiserId int32, data interface{}, attributionSource interface{}) error
-	SetPeriodicAdvertisingEnable(ctx context.Context, advertiserId int32, enable bool, attributionSource interface{}) error
+	StartAdvertisingSet(ctx context.Context, parameters le.AdvertisingSetParameters, advertiseData le.AdvertiseData, scanResponse le.AdvertiseData, periodicParameters le.PeriodicAdvertisingParameters, periodicData le.AdvertiseData, duration int32, maxExtAdvEvents int32, gattServerIf int32, callback le.IAdvertisingSetCallback, attributionSource content.AttributionSource) error
+	StopAdvertisingSet(ctx context.Context, callback le.IAdvertisingSetCallback, attributionSource content.AttributionSource) error
+	GetOwnAddress(ctx context.Context, advertiserId int32, attributionSource content.AttributionSource) error
+	EnableAdvertisingSet(ctx context.Context, advertiserId int32, enable bool, duration int32, maxExtAdvEvents int32, attributionSource content.AttributionSource) error
+	SetAdvertisingData(ctx context.Context, advertiserId int32, data le.AdvertiseData, attributionSource content.AttributionSource) error
+	SetScanResponseData(ctx context.Context, advertiserId int32, data le.AdvertiseData, attributionSource content.AttributionSource) error
+	SetAdvertisingParameters(ctx context.Context, advertiserId int32, parameters le.AdvertisingSetParameters, attributionSource content.AttributionSource) error
+	SetPeriodicAdvertisingParameters(ctx context.Context, advertiserId int32, parameters le.PeriodicAdvertisingParameters, attributionSource content.AttributionSource) error
+	SetPeriodicAdvertisingData(ctx context.Context, advertiserId int32, data le.AdvertiseData, attributionSource content.AttributionSource) error
+	SetPeriodicAdvertisingEnable(ctx context.Context, advertiserId int32, enable bool, attributionSource content.AttributionSource) error
 }
 
 type BluetoothAdvertiseProxy struct {
@@ -56,22 +58,47 @@ var _ IBluetoothAdvertise = (*BluetoothAdvertiseProxy)(nil)
 
 func (p *BluetoothAdvertiseProxy) StartAdvertisingSet(
 	ctx context.Context,
-	parameters interface{},
-	advertiseData interface{},
-	scanResponse interface{},
-	periodicParameters interface{},
-	periodicData interface{},
+	parameters le.AdvertisingSetParameters,
+	advertiseData le.AdvertiseData,
+	scanResponse le.AdvertiseData,
+	periodicParameters le.PeriodicAdvertisingParameters,
+	periodicData le.AdvertiseData,
 	duration int32,
 	maxExtAdvEvents int32,
 	gattServerIf int32,
-	callback interface{},
-	attributionSource interface{},
+	callback le.IAdvertisingSetCallback,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
+	_data.WriteInt32(1)
+	if _err := parameters.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := advertiseData.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := scanResponse.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := periodicParameters.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := periodicData.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(duration)
 	_data.WriteInt32(maxExtAdvEvents)
 	_data.WriteInt32(gattServerIf)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "startAdvertisingSet")
 	if _err != nil {
@@ -93,11 +120,16 @@ func (p *BluetoothAdvertiseProxy) StartAdvertisingSet(
 
 func (p *BluetoothAdvertiseProxy) StopAdvertisingSet(
 	ctx context.Context,
-	callback interface{},
-	attributionSource interface{},
+	callback le.IAdvertisingSetCallback,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "stopAdvertisingSet")
 	if _err != nil {
@@ -120,11 +152,15 @@ func (p *BluetoothAdvertiseProxy) StopAdvertisingSet(
 func (p *BluetoothAdvertiseProxy) GetOwnAddress(
 	ctx context.Context,
 	advertiserId int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
 	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "getOwnAddress")
 	if _err != nil {
@@ -150,7 +186,7 @@ func (p *BluetoothAdvertiseProxy) EnableAdvertisingSet(
 	enable bool,
 	duration int32,
 	maxExtAdvEvents int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
@@ -158,6 +194,10 @@ func (p *BluetoothAdvertiseProxy) EnableAdvertisingSet(
 	_data.WriteBool(enable)
 	_data.WriteInt32(duration)
 	_data.WriteInt32(maxExtAdvEvents)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "enableAdvertisingSet")
 	if _err != nil {
@@ -180,12 +220,20 @@ func (p *BluetoothAdvertiseProxy) EnableAdvertisingSet(
 func (p *BluetoothAdvertiseProxy) SetAdvertisingData(
 	ctx context.Context,
 	advertiserId int32,
-	data interface{},
-	attributionSource interface{},
+	data le.AdvertiseData,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
 	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setAdvertisingData")
 	if _err != nil {
@@ -208,12 +256,20 @@ func (p *BluetoothAdvertiseProxy) SetAdvertisingData(
 func (p *BluetoothAdvertiseProxy) SetScanResponseData(
 	ctx context.Context,
 	advertiserId int32,
-	data interface{},
-	attributionSource interface{},
+	data le.AdvertiseData,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
 	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setScanResponseData")
 	if _err != nil {
@@ -236,12 +292,20 @@ func (p *BluetoothAdvertiseProxy) SetScanResponseData(
 func (p *BluetoothAdvertiseProxy) SetAdvertisingParameters(
 	ctx context.Context,
 	advertiserId int32,
-	parameters interface{},
-	attributionSource interface{},
+	parameters le.AdvertisingSetParameters,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
 	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := parameters.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setAdvertisingParameters")
 	if _err != nil {
@@ -264,12 +328,20 @@ func (p *BluetoothAdvertiseProxy) SetAdvertisingParameters(
 func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingParameters(
 	ctx context.Context,
 	advertiserId int32,
-	parameters interface{},
-	attributionSource interface{},
+	parameters le.PeriodicAdvertisingParameters,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
 	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := parameters.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setPeriodicAdvertisingParameters")
 	if _err != nil {
@@ -292,12 +364,20 @@ func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingParameters(
 func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingData(
 	ctx context.Context,
 	advertiserId int32,
-	data interface{},
-	attributionSource interface{},
+	data le.AdvertiseData,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
 	_data.WriteInt32(advertiserId)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setPeriodicAdvertisingData")
 	if _err != nil {
@@ -321,12 +401,16 @@ func (p *BluetoothAdvertiseProxy) SetPeriodicAdvertisingEnable(
 	ctx context.Context,
 	advertiserId int32,
 	enable bool,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAdvertise)
 	_data.WriteInt32(advertiserId)
 	_data.WriteBool(enable)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAdvertise, "setPeriodicAdvertisingEnable")
 	if _err != nil {
@@ -364,11 +448,66 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_parameters interface{}
-		var _arg_advertiseData interface{}
-		var _arg_scanResponse interface{}
-		var _arg_periodicParameters interface{}
-		var _arg_periodicData interface{}
+		var _arg_parameters le.AdvertisingSetParameters
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_parameters.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_advertiseData le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_advertiseData.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_scanResponse le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_scanResponse.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_periodicParameters le.PeriodicAdvertisingParameters
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_periodicParameters.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_periodicData le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_periodicData.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_duration, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -381,8 +520,21 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
-		var _arg_attributionSource interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IAdvertisingSetCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.StartAdvertisingSet(ctx, _arg_parameters, _arg_advertiseData, _arg_scanResponse, _arg_periodicParameters, _arg_periodicData, _arg_duration, _arg_maxExtAdvEvents, _arg_gattServerIf, _arg_callback, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -395,8 +547,21 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
-		var _arg_attributionSource interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IAdvertisingSetCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StopAdvertisingSet(ctx, _arg_callback, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -413,7 +578,18 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.GetOwnAddress(ctx, _arg_advertiserId, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -442,7 +618,18 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.EnableAdvertisingSet(ctx, _arg_advertiserId, _arg_enable, _arg_duration, _arg_maxExtAdvEvents, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -459,8 +646,30 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_data interface{}
-		var _arg_attributionSource interface{}
+		var _arg_data le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetAdvertisingData(ctx, _arg_advertiserId, _arg_data, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -477,8 +686,30 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_data interface{}
-		var _arg_attributionSource interface{}
+		var _arg_data le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetScanResponseData(ctx, _arg_advertiserId, _arg_data, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -495,8 +726,30 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_parameters interface{}
-		var _arg_attributionSource interface{}
+		var _arg_parameters le.AdvertisingSetParameters
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_parameters.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetAdvertisingParameters(ctx, _arg_advertiserId, _arg_parameters, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -513,8 +766,30 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_parameters interface{}
-		var _arg_attributionSource interface{}
+		var _arg_parameters le.PeriodicAdvertisingParameters
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_parameters.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetPeriodicAdvertisingParameters(ctx, _arg_advertiserId, _arg_parameters, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -531,8 +806,30 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_data interface{}
-		var _arg_attributionSource interface{}
+		var _arg_data le.AdvertiseData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetPeriodicAdvertisingData(ctx, _arg_advertiserId, _arg_data, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -553,7 +850,18 @@ func (s *BluetoothAdvertiseStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetPeriodicAdvertisingEnable(ctx, _arg_advertiserId, _arg_enable, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {

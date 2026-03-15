@@ -3,6 +3,7 @@ package pm
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
 	"github.com/xaionaro-go/binder/parcel"
@@ -46,7 +47,7 @@ type IShortcutService interface {
 	RemoveDynamicShortcuts(ctx context.Context, packageName string, shortcutIds []string) error
 	RemoveAllDynamicShortcuts(ctx context.Context, packageName string) error
 	UpdateShortcuts(ctx context.Context, packageName string, shortcuts ParceledListSlice) (bool, error)
-	RequestPinShortcut(ctx context.Context, packageName string, shortcut ShortcutInfo, resultIntent interface{}, ret infra.AndroidFuture) error
+	RequestPinShortcut(ctx context.Context, packageName string, shortcut ShortcutInfo, resultIntent content.IntentSender, ret infra.AndroidFuture) error
 	CreateShortcutResultIntent(ctx context.Context, packageName string, shortcut ShortcutInfo, ret infra.AndroidFuture) error
 	DisableShortcuts(ctx context.Context, packageName string, shortcutIds []string, disabledMessage interface{}, disabledMessageResId int32) error
 	EnableShortcuts(ctx context.Context, packageName string, shortcutIds []string) error
@@ -60,7 +61,7 @@ type IShortcutService interface {
 	GetBackupPayload(ctx context.Context, user int32) ([]byte, error)
 	ApplyRestore(ctx context.Context, payload []byte, user int32) error
 	IsRequestPinItemSupported(ctx context.Context, user int32, requestType int32) (bool, error)
-	GetShareTargets(ctx context.Context, packageName string, filter interface{}) (ParceledListSlice, error)
+	GetShareTargets(ctx context.Context, packageName string, filter content.IntentFilter) (ParceledListSlice, error)
 	HasShareTargets(ctx context.Context, packageName string, packageToCheck string) (bool, error)
 	RemoveLongLivedShortcuts(ctx context.Context, packageName string, shortcutIds []string) error
 	GetShortcuts(ctx context.Context, packageName string, matchFlags int32) (ParceledListSlice, error)
@@ -266,7 +267,7 @@ func (p *ShortcutServiceProxy) RequestPinShortcut(
 	ctx context.Context,
 	packageName string,
 	shortcut ShortcutInfo,
-	resultIntent interface{},
+	resultIntent content.IntentSender,
 	ret infra.AndroidFuture,
 ) error {
 	_identity := p.remote.Identity()
@@ -275,6 +276,10 @@ func (p *ShortcutServiceProxy) RequestPinShortcut(
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
 	if _err := shortcut.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := resultIntent.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(_identity.UserID)
@@ -733,13 +738,17 @@ func (p *ShortcutServiceProxy) IsRequestPinItemSupported(
 func (p *ShortcutServiceProxy) GetShareTargets(
 	ctx context.Context,
 	packageName string,
-	filter interface{},
+	filter content.IntentFilter,
 ) (ParceledListSlice, error) {
 	var _result ParceledListSlice
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIShortcutService)
 	_data.WriteString16(packageName)
+	_data.WriteInt32(1)
+	if _err := filter.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIShortcutService, "getShareTargets")
@@ -1085,7 +1094,18 @@ func (s *ShortcutServiceStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_resultIntent interface{}
+		var _arg_resultIntent content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_resultIntent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -1396,7 +1416,18 @@ func (s *ShortcutServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_filter interface{}
+		var _arg_filter content.IntentFilter
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_filter.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

@@ -3,6 +3,7 @@ package notification
 import (
 	"context"
 	"fmt"
+	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,8 +21,8 @@ const (
 type IConditionProvider interface {
 	AsBinder() binder.IBinder
 	OnConnected(ctx context.Context) error
-	OnSubscribe(ctx context.Context, conditionId interface{}) error
-	OnUnsubscribe(ctx context.Context, conditionId interface{}) error
+	OnSubscribe(ctx context.Context, conditionId net.Uri) error
+	OnUnsubscribe(ctx context.Context, conditionId net.Uri) error
 }
 
 type ConditionProviderProxy struct {
@@ -57,10 +58,14 @@ func (p *ConditionProviderProxy) OnConnected(
 
 func (p *ConditionProviderProxy) OnSubscribe(
 	ctx context.Context,
-	conditionId interface{},
+	conditionId net.Uri,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConditionProvider)
+	_data.WriteInt32(1)
+	if _err := conditionId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConditionProvider, "onSubscribe")
 	if _err != nil {
@@ -73,10 +78,14 @@ func (p *ConditionProviderProxy) OnSubscribe(
 
 func (p *ConditionProviderProxy) OnUnsubscribe(
 	ctx context.Context,
-	conditionId interface{},
+	conditionId net.Uri,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConditionProvider)
+	_data.WriteInt32(1)
+	if _err := conditionId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIConditionProvider, "onUnsubscribe")
 	if _err != nil {
@@ -112,7 +121,18 @@ func (s *ConditionProviderStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_conditionId interface{}
+		var _arg_conditionId net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_conditionId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnSubscribe(ctx, _arg_conditionId)
 		_ = _err
 		return nil, nil
@@ -120,7 +140,18 @@ func (s *ConditionProviderStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_conditionId interface{}
+		var _arg_conditionId net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_conditionId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnUnsubscribe(ctx, _arg_conditionId)
 		_ = _err
 		return nil, nil

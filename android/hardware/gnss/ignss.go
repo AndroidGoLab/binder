@@ -4,6 +4,8 @@ import (
 	"context"
 	"fmt"
 	gnssIGnss "github.com/xaionaro-go/binder/android/hardware/gnss/IGnss"
+	gnss_assistance "github.com/xaionaro-go/binder/android/hardware/gnss/gnss_assistance"
+	measurement_corrections "github.com/xaionaro-go/binder/android/hardware/gnss/measurement_corrections"
 	visibility_control "github.com/xaionaro-go/binder/android/hardware/gnss/visibility_control"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -66,12 +68,12 @@ type IGnss interface {
 	DeleteAidingData(ctx context.Context, aidingDataFlags gnssIGnss.GnssAidingData) error
 	SetPositionMode(ctx context.Context, options gnssIGnss.PositionModeOptions) error
 	GetExtensionGnssAntennaInfo(ctx context.Context) (IGnssAntennaInfo, error)
-	GetExtensionMeasurementCorrections(ctx context.Context) (interface{}, error)
+	GetExtensionMeasurementCorrections(ctx context.Context) (measurement_corrections.IMeasurementCorrectionsInterface, error)
 	StartSvStatus(ctx context.Context) error
 	StopSvStatus(ctx context.Context) error
 	StartNmea(ctx context.Context) error
 	StopNmea(ctx context.Context) error
-	GetExtensionGnssAssistanceInterface(ctx context.Context) (interface{}, error)
+	GetExtensionGnssAssistanceInterface(ctx context.Context) (gnss_assistance.IGnssAssistanceInterface, error)
 }
 
 const (
@@ -699,8 +701,8 @@ func (p *GnssProxy) GetExtensionGnssAntennaInfo(
 
 func (p *GnssProxy) GetExtensionMeasurementCorrections(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (measurement_corrections.IMeasurementCorrectionsInterface, error) {
+	var _result measurement_corrections.IMeasurementCorrectionsInterface
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
@@ -719,6 +721,11 @@ func (p *GnssProxy) GetExtensionMeasurementCorrections(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = measurement_corrections.NewMeasurementCorrectionsInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -820,8 +827,8 @@ func (p *GnssProxy) StopNmea(
 
 func (p *GnssProxy) GetExtensionGnssAssistanceInterface(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (gnss_assistance.IGnssAssistanceInterface, error) {
+	var _result gnss_assistance.IGnssAssistanceInterface
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
@@ -840,6 +847,11 @@ func (p *GnssProxy) GetExtensionGnssAssistanceInterface(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = gnss_assistance.NewGnssAssistanceInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -1200,6 +1212,7 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionIGnssStartSvStatus:
@@ -1261,6 +1274,7 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	default:

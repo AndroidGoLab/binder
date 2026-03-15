@@ -1,6 +1,7 @@
 package device
 
 import (
+	display "github.com/xaionaro-go/binder/android/frameworks/automotive/display"
 	common "github.com/xaionaro-go/binder/android/hardware/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -9,7 +10,7 @@ import (
 
 type OutputConfiguration struct {
 	WindowHandles    []common.NativeHandle
-	Rotation         interface{}
+	Rotation         display.Rotation
 	WindowGroupId    int32
 	PhysicalCameraId string
 	Width            int32
@@ -34,6 +35,7 @@ func (s *OutputConfiguration) MarshalParcel(
 			}
 		}
 	}
+	p.WriteInt32(int32(s.Rotation))
 	p.WriteInt32(s.WindowGroupId)
 	p.WriteString16(s.PhysicalCameraId)
 	p.WriteInt32(s.Width)
@@ -70,6 +72,12 @@ func (s *OutputConfiguration) UnmarshalParcel(
 			}
 		}
 	}
+
+	_rotationRaw, _err := p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Rotation = display.Rotation(_rotationRaw)
 
 	s.WindowGroupId, _err = p.ReadInt32()
 	if _err != nil {

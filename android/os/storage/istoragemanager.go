@@ -3,7 +3,9 @@ package storage
 import (
 	"context"
 	"fmt"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
+	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -102,7 +104,7 @@ type IStorageManager interface {
 	ForgetVolume(ctx context.Context, fsUuid string) error
 	ForgetAllVolumes(ctx context.Context) error
 	GetPrimaryStorageUuid(ctx context.Context) (string, error)
-	SetPrimaryStorageUuid(ctx context.Context, volumeUuid string, callback interface{}) error
+	SetPrimaryStorageUuid(ctx context.Context, volumeUuid string, callback pm.IPackageMoveObserver) error
 	Benchmark(ctx context.Context, volId string, listener interface{}) error
 	SetDebugFlags(ctx context.Context, flags int32, mask int32) error
 	CreateUserStorageKeys(ctx context.Context, ephemeral bool) error
@@ -114,7 +116,7 @@ type IStorageManager interface {
 	DestroyUserStorage(ctx context.Context, volumeUuid string, flags int32) error
 	SetCeStorageProtection(ctx context.Context, secret []byte) error
 	Fstrim(ctx context.Context, flags int32, listener interface{}) error
-	MountProxyFileDescriptorBridge(ctx context.Context) (interface{}, error)
+	MountProxyFileDescriptorBridge(ctx context.Context) (os.AppFuseMount, error)
 	OpenProxyFileDescriptor(ctx context.Context, mountPointId int32, fileId int32, mode int32) (int32, error)
 	GetCacheQuotaBytes(ctx context.Context, volumeUuid string, uid int32) (int64, error)
 	GetCacheSizeBytes(ctx context.Context, volumeUuid string, uid int32) (int64, error)
@@ -901,11 +903,12 @@ func (p *StorageManagerProxy) GetPrimaryStorageUuid(
 func (p *StorageManagerProxy) SetPrimaryStorageUuid(
 	ctx context.Context,
 	volumeUuid string,
-	callback interface{},
+	callback pm.IPackageMoveObserver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 	_data.WriteString16(volumeUuid)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "setPrimaryStorageUuid")
 	if _err != nil {
@@ -1250,8 +1253,8 @@ func (p *StorageManagerProxy) Fstrim(
 
 func (p *StorageManagerProxy) MountProxyFileDescriptorBridge(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.AppFuseMount, error) {
+	var _result os.AppFuseMount
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
 
@@ -1270,6 +1273,15 @@ func (p *StorageManagerProxy) MountProxyFileDescriptorBridge(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2402,7 +2414,9 @@ func (s *StorageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback pm.IPackageMoveObserver
+		_ = _arg_callback
 		_err = s.Impl.SetPrimaryStorageUuid(ctx, _arg_volumeUuid, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2623,7 +2637,10 @@ func (s *StorageManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIStorageManagerOpenProxyFileDescriptor:
 		if _, _err := _data.ReadString16(); _err != nil {

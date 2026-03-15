@@ -3,6 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
+	hardwareLocation "github.com/xaionaro-go/binder/android/hardware/location"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IGeofenceProvider interface {
 	AsBinder() binder.IBinder
-	SetGeofenceHardware(ctx context.Context, proxy interface{}) error
+	SetGeofenceHardware(ctx context.Context, proxy hardwareLocation.IGeofenceHardware) error
 }
 
 type GeofenceProviderProxy struct {
@@ -38,10 +39,11 @@ var _ IGeofenceProvider = (*GeofenceProviderProxy)(nil)
 
 func (p *GeofenceProviderProxy) SetGeofenceHardware(
 	ctx context.Context,
-	proxy interface{},
+	proxy hardwareLocation.IGeofenceHardware,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGeofenceProvider)
+	_data.WriteStrongBinder(proxy.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIGeofenceProvider, "setGeofenceHardware")
 	if _err != nil {
@@ -70,7 +72,9 @@ func (s *GeofenceProviderStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_proxy interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_proxy hardwareLocation.IGeofenceHardware
+		_ = _arg_proxy
 		_err := s.Impl.SetGeofenceHardware(ctx, _arg_proxy)
 		_ = _err
 		return nil, nil

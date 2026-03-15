@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,8 +19,8 @@ const (
 
 type IEphemeralResolver interface {
 	AsBinder() binder.IBinder
-	GetEphemeralResolveInfoList(ctx context.Context, callback interface{}, digestPrefix []int32, sequence int32) error
-	GetEphemeralIntentFilterList(ctx context.Context, callback interface{}, hostName string, sequence int32) error
+	GetEphemeralResolveInfoList(ctx context.Context, callback ondeviceintelligence.IRemoteCallback, digestPrefix []int32, sequence int32) error
+	GetEphemeralIntentFilterList(ctx context.Context, callback ondeviceintelligence.IRemoteCallback, hostName string, sequence int32) error
 }
 
 type EphemeralResolverProxy struct {
@@ -40,12 +41,13 @@ var _ IEphemeralResolver = (*EphemeralResolverProxy)(nil)
 
 func (p *EphemeralResolverProxy) GetEphemeralResolveInfoList(
 	ctx context.Context,
-	callback interface{},
+	callback ondeviceintelligence.IRemoteCallback,
 	digestPrefix []int32,
 	sequence int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEphemeralResolver)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	if digestPrefix == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -67,12 +69,13 @@ func (p *EphemeralResolverProxy) GetEphemeralResolveInfoList(
 
 func (p *EphemeralResolverProxy) GetEphemeralIntentFilterList(
 	ctx context.Context,
-	callback interface{},
+	callback ondeviceintelligence.IRemoteCallback,
 	hostName string,
 	sequence int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIEphemeralResolver)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 	_data.WriteString16(hostName)
 	_data.WriteInt32(sequence)
 
@@ -103,7 +106,9 @@ func (s *EphemeralResolverStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ondeviceintelligence.IRemoteCallback
+		_ = _arg_callback
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_digestPrefix []int32
 		_ = _arg_digestPrefix
@@ -118,7 +123,9 @@ func (s *EphemeralResolverStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback ondeviceintelligence.IRemoteCallback
+		_ = _arg_callback
 		_arg_hostName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

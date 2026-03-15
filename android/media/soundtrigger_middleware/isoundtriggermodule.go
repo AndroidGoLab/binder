@@ -3,7 +3,8 @@ package soundtrigger_middleware
 import (
 	"context"
 	"fmt"
-	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
+	hardwareSoundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
+	soundtrigger "github.com/xaionaro-go/binder/android/media/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,15 +28,15 @@ const (
 
 type ISoundTriggerModule interface {
 	AsBinder() binder.IBinder
-	LoadModel(ctx context.Context, model interface{}) (int32, error)
-	LoadPhraseModel(ctx context.Context, model interface{}) (int32, error)
+	LoadModel(ctx context.Context, model soundtrigger.SoundModel) (int32, error)
+	LoadPhraseModel(ctx context.Context, model soundtrigger.PhraseSoundModel) (int32, error)
 	UnloadModel(ctx context.Context, modelHandle int32) error
-	StartRecognition(ctx context.Context, modelHandle int32, config soundtrigger.SoundTriggerRecognitionConfig) (binder.IBinder, error)
+	StartRecognition(ctx context.Context, modelHandle int32, config hardwareSoundtrigger.SoundTriggerRecognitionConfig) (binder.IBinder, error)
 	StopRecognition(ctx context.Context, modelHandle int32) error
 	ForceRecognitionEvent(ctx context.Context, modelHandle int32) error
-	SetModelParameter(ctx context.Context, modelHandle int32, modelParam interface{}, value int32) error
-	GetModelParameter(ctx context.Context, modelHandle int32, modelParam interface{}) (int32, error)
-	QueryModelParameterSupport(ctx context.Context, modelHandle int32, modelParam interface{}) (interface{}, error)
+	SetModelParameter(ctx context.Context, modelHandle int32, modelParam soundtrigger.ModelParameter, value int32) error
+	GetModelParameter(ctx context.Context, modelHandle int32, modelParam soundtrigger.ModelParameter) (int32, error)
+	QueryModelParameterSupport(ctx context.Context, modelHandle int32, modelParam soundtrigger.ModelParameter) (soundtrigger.ModelParameterRange, error)
 	Detach(ctx context.Context) error
 }
 
@@ -57,11 +58,15 @@ var _ ISoundTriggerModule = (*SoundTriggerModuleProxy)(nil)
 
 func (p *SoundTriggerModuleProxy) LoadModel(
 	ctx context.Context,
-	model interface{},
+	model soundtrigger.SoundModel,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
+	_data.WriteInt32(1)
+	if _err := model.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerModule, "loadModel")
 	if _err != nil {
@@ -87,11 +92,15 @@ func (p *SoundTriggerModuleProxy) LoadModel(
 
 func (p *SoundTriggerModuleProxy) LoadPhraseModel(
 	ctx context.Context,
-	model interface{},
+	model soundtrigger.PhraseSoundModel,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
+	_data.WriteInt32(1)
+	if _err := model.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerModule, "loadPhraseModel")
 	if _err != nil {
@@ -144,7 +153,7 @@ func (p *SoundTriggerModuleProxy) UnloadModel(
 func (p *SoundTriggerModuleProxy) StartRecognition(
 	ctx context.Context,
 	modelHandle int32,
-	config soundtrigger.SoundTriggerRecognitionConfig,
+	config hardwareSoundtrigger.SoundTriggerRecognitionConfig,
 ) (binder.IBinder, error) {
 	var _result binder.IBinder
 	_data := parcel.New()
@@ -233,12 +242,13 @@ func (p *SoundTriggerModuleProxy) ForceRecognitionEvent(
 func (p *SoundTriggerModuleProxy) SetModelParameter(
 	ctx context.Context,
 	modelHandle int32,
-	modelParam interface{},
+	modelParam soundtrigger.ModelParameter,
 	value int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
+	_data.WriteInt32(int32(modelParam))
 	_data.WriteInt32(value)
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerModule, "setModelParameter")
@@ -262,12 +272,13 @@ func (p *SoundTriggerModuleProxy) SetModelParameter(
 func (p *SoundTriggerModuleProxy) GetModelParameter(
 	ctx context.Context,
 	modelHandle int32,
-	modelParam interface{},
+	modelParam soundtrigger.ModelParameter,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
+	_data.WriteInt32(int32(modelParam))
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerModule, "getModelParameter")
 	if _err != nil {
@@ -294,12 +305,13 @@ func (p *SoundTriggerModuleProxy) GetModelParameter(
 func (p *SoundTriggerModuleProxy) QueryModelParameterSupport(
 	ctx context.Context,
 	modelHandle int32,
-	modelParam interface{},
-) (interface{}, error) {
-	var _result interface{}
+	modelParam soundtrigger.ModelParameter,
+) (soundtrigger.ModelParameterRange, error) {
+	var _result soundtrigger.ModelParameterRange
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerModule)
 	_data.WriteInt32(modelHandle)
+	_data.WriteInt32(int32(modelParam))
 
 	_code, _err := p.remote.ResolveCode(DescriptorISoundTriggerModule, "queryModelParameterSupport")
 	if _err != nil {
@@ -316,6 +328,15 @@ func (p *SoundTriggerModuleProxy) QueryModelParameterSupport(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -361,7 +382,18 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_model interface{}
+		var _arg_model soundtrigger.SoundModel
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_model.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.LoadModel(ctx, _arg_model)
 		_reply := parcel.New()
 		if _err != nil {
@@ -375,7 +407,18 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_model interface{}
+		var _arg_model soundtrigger.PhraseSoundModel
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_model.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.LoadPhraseModel(ctx, _arg_model)
 		_reply := parcel.New()
 		if _err != nil {
@@ -409,7 +452,7 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_config soundtrigger.SoundTriggerRecognitionConfig
+		var _arg_config hardwareSoundtrigger.SoundTriggerRecognitionConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {
@@ -471,7 +514,11 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_modelParam interface{}
+		_raw_modelParam, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParameter(_raw_modelParam)
 		_arg_value, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -492,7 +539,11 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_modelParam interface{}
+		_raw_modelParam, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParameter(_raw_modelParam)
 		_result, _err := s.Impl.GetModelParameter(ctx, _arg_modelHandle, _arg_modelParam)
 		_reply := parcel.New()
 		if _err != nil {
@@ -510,7 +561,11 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_modelParam interface{}
+		_raw_modelParam, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_modelParam := soundtrigger.ModelParameter(_raw_modelParam)
 		_result, _err := s.Impl.QueryModelParameterSupport(ctx, _arg_modelHandle, _arg_modelParam)
 		_reply := parcel.New()
 		if _err != nil {
@@ -518,7 +573,10 @@ func (s *SoundTriggerModuleStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionISoundTriggerModuleDetach:
 		if _, _err := _data.ReadString16(); _err != nil {

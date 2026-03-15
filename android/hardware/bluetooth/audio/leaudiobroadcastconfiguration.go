@@ -1,6 +1,7 @@
 package audio
 
 import (
+	audioLeAudioBroadcastConfiguration "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/LeAudioBroadcastConfiguration"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type LeAudioBroadcastConfiguration struct {
 	CodecType CodecType
-	StreamMap []interface{}
+	StreamMap []audioLeAudioBroadcastConfiguration.BroadcastStreamMap
 }
 
 var _ parcel.Parcelable = (*LeAudioBroadcastConfiguration)(nil)
@@ -22,6 +23,11 @@ func (s *LeAudioBroadcastConfiguration) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.StreamMap)))
+		for _, _item := range s.StreamMap {
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -48,8 +54,11 @@ func (s *LeAudioBroadcastConfiguration) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.StreamMap = make([]interface{}, _count0)
+		s.StreamMap = make([]audioLeAudioBroadcastConfiguration.BroadcastStreamMap, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _err = s.StreamMap[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 

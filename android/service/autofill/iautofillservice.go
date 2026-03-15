@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"github.com/xaionaro-go/binder/binder"
+	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -27,7 +28,7 @@ type IAutoFillService interface {
 	OnFillRequest(ctx context.Context, request FillRequest, callback IFillCallback) error
 	OnFillCredentialRequest(ctx context.Context, request FillRequest, callback IFillCallback, client binder.IBinder) error
 	OnSaveRequest(ctx context.Context, request SaveRequest, callback ISaveCallback) error
-	OnSavedPasswordCountRequest(ctx context.Context, receiver interface{}) error
+	OnSavedPasswordCountRequest(ctx context.Context, receiver os.IResultReceiver) error
 	OnConvertCredentialRequest(ctx context.Context, convertCredentialRequest ConvertCredentialRequest, convertCredentialCallback IConvertCredentialCallback) error
 	OnSessionDestroyed(ctx context.Context, history FillEventHistory) error
 }
@@ -135,10 +136,11 @@ func (p *AutoFillServiceProxy) OnSaveRequest(
 
 func (p *AutoFillServiceProxy) OnSavedPasswordCountRequest(
 	ctx context.Context,
-	receiver interface{},
+	receiver os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillService)
+	_data.WriteStrongBinder(receiver.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillService, "onSavedPasswordCountRequest")
 	if _err != nil {
@@ -289,7 +291,9 @@ func (s *AutoFillServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_receiver interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_receiver os.IResultReceiver
+		_ = _arg_receiver
 		_err := s.Impl.OnSavedPasswordCountRequest(ctx, _arg_receiver)
 		_ = _err
 		return nil, nil

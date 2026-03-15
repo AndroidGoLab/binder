@@ -3,6 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
+	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +20,7 @@ const (
 
 type ILocationListener interface {
 	AsBinder() binder.IBinder
-	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback *interface{}) error
+	OnLocationChanged(ctx context.Context, locations []Location, onCompleteCallback *ondeviceintelligence.IRemoteCallback) error
 	OnProviderEnabledChanged(ctx context.Context, provider string, enabled bool) error
 	OnFlushComplete(ctx context.Context, requestCode int32) error
 }
@@ -43,7 +44,7 @@ var _ ILocationListener = (*LocationListenerProxy)(nil)
 func (p *LocationListenerProxy) OnLocationChanged(
 	ctx context.Context,
 	locations []Location,
-	onCompleteCallback *interface{},
+	onCompleteCallback *ondeviceintelligence.IRemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationListener)
@@ -56,6 +57,11 @@ func (p *LocationListenerProxy) OnLocationChanged(
 				return _err
 			}
 		}
+	}
+	if onCompleteCallback != nil {
+		_data.WriteStrongBinder((*onCompleteCallback).AsBinder().Handle())
+	} else {
+		_data.WriteInt32(-1)
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationListener, "onLocationChanged")
@@ -124,7 +130,9 @@ func (s *LocationListenerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_locations []Location
 		_ = _arg_locations
-		var _arg_onCompleteCallback *interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_onCompleteCallback *ondeviceintelligence.IRemoteCallback
+		_ = _arg_onCompleteCallback
 		_err := s.Impl.OnLocationChanged(ctx, _arg_locations, _arg_onCompleteCallback)
 		_ = _err
 		return nil, nil

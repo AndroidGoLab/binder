@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IUnsafeIntentStrictModeCallback interface {
 	AsBinder() binder.IBinder
-	OnUnsafeIntent(ctx context.Context, type_ int32, intent interface{}) error
+	OnUnsafeIntent(ctx context.Context, type_ int32, intent content.Intent) error
 }
 
 type UnsafeIntentStrictModeCallbackProxy struct {
@@ -39,11 +40,15 @@ var _ IUnsafeIntentStrictModeCallback = (*UnsafeIntentStrictModeCallbackProxy)(n
 func (p *UnsafeIntentStrictModeCallbackProxy) OnUnsafeIntent(
 	ctx context.Context,
 	type_ int32,
-	intent interface{},
+	intent content.Intent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUnsafeIntentStrictModeCallback)
 	_data.WriteInt32(type_)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUnsafeIntentStrictModeCallback, "onUnsafeIntent")
 	if _err != nil {
@@ -76,7 +81,18 @@ func (s *UnsafeIntentStrictModeCallbackStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnUnsafeIntent(ctx, _arg_type_, _arg_intent)
 		_ = _err
 		return nil, nil

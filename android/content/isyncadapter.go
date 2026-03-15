@@ -3,6 +3,7 @@ package content
 import (
 	"context"
 	"fmt"
+	accounts "github.com/xaionaro-go/binder/android/accounts"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,7 +21,7 @@ const (
 type ISyncAdapter interface {
 	AsBinder() binder.IBinder
 	OnUnsyncableAccount(ctx context.Context, cb ISyncAdapterUnsyncableAccountCallback) error
-	StartSync(ctx context.Context, syncContext ISyncContext, authority string, account interface{}, extras interface{}) error
+	StartSync(ctx context.Context, syncContext ISyncContext, authority string, account accounts.Account, extras interface{}) error
 	CancelSync(ctx context.Context, syncContext ISyncContext) error
 }
 
@@ -61,13 +62,17 @@ func (p *SyncAdapterProxy) StartSync(
 	ctx context.Context,
 	syncContext ISyncContext,
 	authority string,
-	account interface{},
+	account accounts.Account,
 	extras interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISyncAdapter)
 	_data.WriteStrongBinder(syncContext.AsBinder().Handle())
 	_data.WriteString16(authority)
+	_data.WriteInt32(1)
+	if _err := account.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISyncAdapter, "startSync")
 	if _err != nil {
@@ -130,7 +135,18 @@ func (s *SyncAdapterStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_account interface{}
+		var _arg_account accounts.Account
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_account.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_extras interface{}
 		_err = s.Impl.StartSync(ctx, _arg_syncContext, _arg_authority, _arg_account, _arg_extras)
 		_ = _err

@@ -3,6 +3,7 @@ package os
 import (
 	"context"
 	"fmt"
+	vibrator "github.com/xaionaro-go/binder/android/os/vibrator"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -39,7 +40,7 @@ type IVibratorManagerService interface {
 	CancelVibrate(ctx context.Context, usageFilter int32, token binder.IBinder) error
 	PerformHapticFeedback(ctx context.Context, uid int32, deviceId int32, opPkg string, constant int32, reason string, flags int32, privFlags int32) error
 	PerformHapticFeedbackForInputDevice(ctx context.Context, uid int32, deviceId int32, opPkg string, constant int32, inputDeviceId int32, inputSource int32, reason string, flags int32, privFlags int32) error
-	StartVendorVibrationSession(ctx context.Context, uid int32, deviceId int32, opPkg string, vibratorIds []int32, attributes VibrationAttributes, reason string, callback interface{}) (ICancellationSignal, error)
+	StartVendorVibrationSession(ctx context.Context, uid int32, deviceId int32, opPkg string, vibratorIds []int32, attributes VibrationAttributes, reason string, callback vibrator.IVibrationSessionCallback) (ICancellationSignal, error)
 }
 
 type VibratorManagerServiceProxy struct {
@@ -446,7 +447,7 @@ func (p *VibratorManagerServiceProxy) StartVendorVibrationSession(
 	vibratorIds []int32,
 	attributes VibrationAttributes,
 	reason string,
-	callback interface{},
+	callback vibrator.IVibrationSessionCallback,
 ) (ICancellationSignal, error) {
 	var _result ICancellationSignal
 	_data := parcel.New()
@@ -467,6 +468,7 @@ func (p *VibratorManagerServiceProxy) StartVendorVibrationSession(
 		return _result, _err
 	}
 	_data.WriteString16(reason)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVibratorManagerService, "startVendorVibrationSession")
 	if _err != nil {
@@ -845,7 +847,9 @@ func (s *VibratorManagerServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback vibrator.IVibrationSessionCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.StartVendorVibrationSession(ctx, _arg_uid, _arg_deviceId, _arg_opPkg, _arg_vibratorIds, _arg_attributes, _arg_reason, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	neuralnetworks "github.com/xaionaro-go/binder/android/hardware/neuralnetworks"
+	types "github.com/xaionaro-go/binder/android/hardware/security/see/hwcrypto/types"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,8 +26,8 @@ type IOpaqueKey interface {
 	ExportWrappedKey(ctx context.Context, wrappingKey IOpaqueKey) ([]byte, error)
 	GetKeyPolicy(ctx context.Context) (KeyPolicy, error)
 	GetPublicKey(ctx context.Context) ([]byte, error)
-	GetShareableToken(ctx context.Context, sealingDicePolicy []byte) (interface{}, error)
-	SetProtectionId(ctx context.Context, protectionId interface{}, allowedOperations []neuralnetworks.OperationType) error
+	GetShareableToken(ctx context.Context, sealingDicePolicy []byte) (types.OpaqueKeyToken, error)
+	SetProtectionId(ctx context.Context, protectionId types.ProtectionId, allowedOperations []neuralnetworks.OperationType) error
 }
 
 type OpaqueKeyProxy struct {
@@ -162,8 +163,8 @@ func (p *OpaqueKeyProxy) GetPublicKey(
 func (p *OpaqueKeyProxy) GetShareableToken(
 	ctx context.Context,
 	sealingDicePolicy []byte,
-) (interface{}, error) {
-	var _result interface{}
+) (types.OpaqueKeyToken, error) {
+	var _result types.OpaqueKeyToken
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
 	if sealingDicePolicy == nil {
@@ -190,16 +191,26 @@ func (p *OpaqueKeyProxy) GetShareableToken(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *OpaqueKeyProxy) SetProtectionId(
 	ctx context.Context,
-	protectionId interface{},
+	protectionId types.ProtectionId,
 	allowedOperations []neuralnetworks.OperationType,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOpaqueKey)
+	_data.WriteInt32(int32(protectionId))
 	if allowedOperations == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -302,17 +313,24 @@ func (s *OpaqueKeyStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIOpaqueKeySetProtectionId:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_protectionId interface{}
+		_raw_protectionId, _err := _data.ReadInt32()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_protectionId := types.ProtectionId(_raw_protectionId)
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_allowedOperations []neuralnetworks.OperationType
 		_ = _arg_allowedOperations
-		_err := s.Impl.SetProtectionId(ctx, _arg_protectionId, _arg_allowedOperations)
+		_err = s.Impl.SetProtectionId(ctx, _arg_protectionId, _arg_allowedOperations)
 		_reply := parcel.New()
 		if _err != nil {
 			binder.WriteStatus(_reply, _err)

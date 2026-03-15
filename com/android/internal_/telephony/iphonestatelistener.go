@@ -10,6 +10,7 @@ import (
 	voice "github.com/xaionaro-go/binder/android/hardware/radio/voice"
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
+	satellite "github.com/xaionaro-go/binder/android/telephony/satellite"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -114,7 +115,7 @@ type IPhoneStateListener interface {
 	OnCarrierRoamingNtnModeChanged(ctx context.Context, active bool) error
 	OnCarrierRoamingNtnEligibleStateChanged(ctx context.Context, eligible bool) error
 	OnCarrierRoamingNtnAvailableServicesChanged(ctx context.Context, availableServices []int32) error
-	OnCarrierRoamingNtnSignalStrengthChanged(ctx context.Context, ntnSignalStrength interface{}) error
+	OnCarrierRoamingNtnSignalStrengthChanged(ctx context.Context, ntnSignalStrength satellite.NtnSignalStrength) error
 	OnSecurityAlgorithmsChanged(ctx context.Context, update network.SecurityAlgorithmUpdate) error
 	OnCellularIdentifierDisclosedChanged(ctx context.Context, disclosure network.CellularIdentifierDisclosure) error
 }
@@ -1024,10 +1025,14 @@ func (p *PhoneStateListenerProxy) OnCarrierRoamingNtnAvailableServicesChanged(
 
 func (p *PhoneStateListenerProxy) OnCarrierRoamingNtnSignalStrengthChanged(
 	ctx context.Context,
-	ntnSignalStrength interface{},
+	ntnSignalStrength satellite.NtnSignalStrength,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPhoneStateListener)
+	_data.WriteInt32(1)
+	if _err := ntnSignalStrength.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPhoneStateListener, "onCarrierRoamingNtnSignalStrengthChanged")
 	if _err != nil {
@@ -1752,7 +1757,18 @@ func (s *PhoneStateListenerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_ntnSignalStrength interface{}
+		var _arg_ntnSignalStrength satellite.NtnSignalStrength
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_ntnSignalStrength.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnCarrierRoamingNtnSignalStrengthChanged(ctx, _arg_ntnSignalStrength)
 		_ = _err
 		return nil, nil

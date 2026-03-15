@@ -1,6 +1,7 @@
 package sensors
 
 import (
+	sensorsEvent "github.com/xaionaro-go/binder/android/hardware/sensors/Event"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +11,7 @@ type Event struct {
 	Timestamp    int64
 	SensorHandle int32
 	SensorType   SensorType
-	Payload      interface{}
+	Payload      sensorsEvent.EventPayload
 }
 
 var _ parcel.Parcelable = (*Event)(nil)
@@ -22,6 +23,9 @@ func (s *Event) MarshalParcel(
 	p.WriteInt64(s.Timestamp)
 	p.WriteInt32(s.SensorHandle)
 	p.WriteInt32(int32(s.SensorType))
+	if _err := s.Payload.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -50,6 +54,10 @@ func (s *Event) UnmarshalParcel(
 		return _err
 	}
 	s.SensorType = SensorType(_sensorTypeRaw)
+
+	if _err = s.Payload.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

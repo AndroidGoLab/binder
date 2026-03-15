@@ -5,6 +5,7 @@ import (
 	"fmt"
 	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
+	inputflinger "github.com/xaionaro-go/binder/com/android/server/inputflinger"
 	IInputThread "github.com/xaionaro-go/binder/com/android/server/inputflinger/IInputThread"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,7 +24,7 @@ type IInputFilterCallbacks interface {
 	AsBinder() binder.IBinder
 	SendKeyEvent(ctx context.Context, event view.KeyEvent) error
 	OnModifierStateChanged(ctx context.Context, modifierState int32, lockedModifierState int32) error
-	CreateInputFilterThread(ctx context.Context, callback IInputThread.IInputThreadCallback) (interface{}, error)
+	CreateInputFilterThread(ctx context.Context, callback IInputThread.IInputThreadCallback) (inputflinger.IInputThread, error)
 }
 
 type InputFilterCallbacksProxy struct {
@@ -102,8 +103,8 @@ func (p *InputFilterCallbacksProxy) OnModifierStateChanged(
 func (p *InputFilterCallbacksProxy) CreateInputFilterThread(
 	ctx context.Context,
 	callback IInputThread.IInputThreadCallback,
-) (interface{}, error) {
-	var _result interface{}
+) (inputflinger.IInputThread, error) {
+	var _result inputflinger.IInputThread
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputFilterCallbacks)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
@@ -123,6 +124,11 @@ func (p *InputFilterCallbacksProxy) CreateInputFilterThread(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = inputflinger.NewInputThreadProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -198,6 +204,7 @@ func (s *InputFilterCallbacksStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	default:

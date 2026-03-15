@@ -3,6 +3,7 @@ package view
 import (
 	"context"
 	"fmt"
+	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -21,9 +22,9 @@ const (
 
 type IScrollCaptureConnection interface {
 	AsBinder() binder.IBinder
-	StartCapture(ctx context.Context, surface interface{}, callbacks IScrollCaptureCallbacks) (interface{}, error)
-	RequestImage(ctx context.Context, captureArea graphics.Rect) (interface{}, error)
-	EndCapture(ctx context.Context) (interface{}, error)
+	StartCapture(ctx context.Context, surface interface{}, callbacks IScrollCaptureCallbacks) (ondeviceintelligence.ICancellationSignal, error)
+	RequestImage(ctx context.Context, captureArea graphics.Rect) (ondeviceintelligence.ICancellationSignal, error)
+	EndCapture(ctx context.Context) (ondeviceintelligence.ICancellationSignal, error)
 	Close(ctx context.Context) error
 }
 
@@ -47,8 +48,8 @@ func (p *ScrollCaptureConnectionProxy) StartCapture(
 	ctx context.Context,
 	surface interface{},
 	callbacks IScrollCaptureCallbacks,
-) (interface{}, error) {
-	var _result interface{}
+) (ondeviceintelligence.ICancellationSignal, error) {
+	var _result ondeviceintelligence.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 	_data.WriteStrongBinder(callbacks.AsBinder().Handle())
@@ -68,14 +69,19 @@ func (p *ScrollCaptureConnectionProxy) StartCapture(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *ScrollCaptureConnectionProxy) RequestImage(
 	ctx context.Context,
 	captureArea graphics.Rect,
-) (interface{}, error) {
-	var _result interface{}
+) (ondeviceintelligence.ICancellationSignal, error) {
+	var _result ondeviceintelligence.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 	_data.WriteInt32(1)
@@ -98,13 +104,18 @@ func (p *ScrollCaptureConnectionProxy) RequestImage(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *ScrollCaptureConnectionProxy) EndCapture(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (ondeviceintelligence.ICancellationSignal, error) {
+	var _result ondeviceintelligence.ICancellationSignal
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIScrollCaptureConnection)
 
@@ -123,6 +134,11 @@ func (p *ScrollCaptureConnectionProxy) EndCapture(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -170,6 +186,7 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionIScrollCaptureConnectionRequestImage:
@@ -195,6 +212,7 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionIScrollCaptureConnectionEndCapture:
@@ -208,6 +226,7 @@ func (s *ScrollCaptureConnectionStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionIScrollCaptureConnectionClose:

@@ -2,6 +2,7 @@ package usb
 
 import (
 	"fmt"
+	usbAltModeData "github.com/xaionaro-go/binder/android/hardware/usb/AltModeData"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -13,21 +14,21 @@ const (
 
 type AltModeData struct {
 	Tag                    int32
-	DisplayPortAltModeData interface{}
+	DisplayPortAltModeData usbAltModeData.DisplayPortAltModeData
 }
 
 var _ parcel.Parcelable = (*AltModeData)(nil)
 
-func (u *AltModeData) GetDisplayPortAltModeData() (interface{}, bool) {
+func (u *AltModeData) GetDisplayPortAltModeData() (usbAltModeData.DisplayPortAltModeData, bool) {
 	if u.Tag != AltModeDataTagDisplayPortAltModeData {
-		var _zero interface{}
+		var _zero usbAltModeData.DisplayPortAltModeData
 		return _zero, false
 	}
 	return u.DisplayPortAltModeData, true
 }
 
 func (u *AltModeData) SetDisplayPortAltModeData(
-	v interface{},
+	v usbAltModeData.DisplayPortAltModeData,
 ) {
 	u.Tag = AltModeDataTagDisplayPortAltModeData
 	u.DisplayPortAltModeData = v
@@ -41,6 +42,9 @@ func (u *AltModeData) MarshalParcel(
 
 	switch u.Tag {
 	case AltModeDataTagDisplayPortAltModeData:
+		if _err := u.DisplayPortAltModeData.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for AltModeData", u.Tag)
 	}
@@ -64,6 +68,9 @@ func (u *AltModeData) UnmarshalParcel(
 
 	switch u.Tag {
 	case AltModeDataTagDisplayPortAltModeData:
+		if _err = u.DisplayPortAltModeData.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for AltModeData", u.Tag)
 	}

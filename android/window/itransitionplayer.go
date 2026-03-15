@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +19,7 @@ const (
 
 type ITransitionPlayer interface {
 	AsBinder() binder.IBinder
-	OnTransitionReady(ctx context.Context, transitionToken binder.IBinder, info TransitionInfo, t interface{}, finishT interface{}) error
+	OnTransitionReady(ctx context.Context, transitionToken binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishT view.SurfaceControlTransaction) error
 	RequestStartTransition(ctx context.Context, transitionToken binder.IBinder, request TransitionRequestInfo) error
 }
 
@@ -42,14 +43,22 @@ func (p *TransitionPlayerProxy) OnTransitionReady(
 	ctx context.Context,
 	transitionToken binder.IBinder,
 	info TransitionInfo,
-	t interface{},
-	finishT interface{},
+	t view.SurfaceControlTransaction,
+	finishT view.SurfaceControlTransaction,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITransitionPlayer)
 	_data.WriteStrongBinder(transitionToken.Handle())
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := t.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := finishT.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -117,8 +126,30 @@ func (s *TransitionPlayerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_t interface{}
-		var _arg_finishT interface{}
+		var _arg_t view.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_finishT view.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_finishT.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnTransitionReady(ctx, _arg_transitionToken, _arg_info, _arg_t, _arg_finishT)
 		_ = _err
 		return nil, nil

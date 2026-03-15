@@ -2,6 +2,8 @@ package IHwCryptoKey
 
 import (
 	"fmt"
+	hwcrypto "github.com/xaionaro-go/binder/android/hardware/security/see/hwcrypto"
+	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -15,7 +17,7 @@ const (
 type DerivedKey struct {
 	Tag         int32
 	ExplicitKey []byte
-	Opaque      interface{}
+	Opaque      hwcrypto.IOpaqueKey
 }
 
 var _ parcel.Parcelable = (*DerivedKey)(nil)
@@ -35,16 +37,16 @@ func (u *DerivedKey) SetExplicitKey(
 	u.ExplicitKey = v
 }
 
-func (u *DerivedKey) GetOpaque() (interface{}, bool) {
+func (u *DerivedKey) GetOpaque() (hwcrypto.IOpaqueKey, bool) {
 	if u.Tag != DerivedKeyTagOpaque {
-		var _zero interface{}
+		var _zero hwcrypto.IOpaqueKey
 		return _zero, false
 	}
 	return u.Opaque, true
 }
 
 func (u *DerivedKey) SetOpaque(
-	v interface{},
+	v hwcrypto.IOpaqueKey,
 ) {
 	u.Tag = DerivedKeyTagOpaque
 	u.Opaque = v
@@ -67,6 +69,7 @@ func (u *DerivedKey) MarshalParcel(
 			}
 		}
 	case DerivedKeyTagOpaque:
+		p.WriteStrongBinder(u.Opaque.AsBinder().Handle())
 	default:
 		return fmt.Errorf("unknown union tag %d for DerivedKey", u.Tag)
 	}
@@ -106,6 +109,11 @@ func (u *DerivedKey) UnmarshalParcel(
 			}
 		}
 	case DerivedKeyTagOpaque:
+		_handle, _err := p.ReadStrongBinder()
+		if _err != nil {
+			return _err
+		}
+		u.Opaque = hwcrypto.NewOpaqueKeyProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _handle))
 	default:
 		return fmt.Errorf("unknown union tag %d for DerivedKey", u.Tag)
 	}

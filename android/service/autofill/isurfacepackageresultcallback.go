@@ -3,6 +3,7 @@ package autofill
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type ISurfacePackageResultCallback interface {
 	AsBinder() binder.IBinder
-	OnResult(ctx context.Context, result interface{}) error
+	OnResult(ctx context.Context, result view.SurfaceControlViewHostSurfacePackage) error
 }
 
 type SurfacePackageResultCallbackProxy struct {
@@ -38,10 +39,14 @@ var _ ISurfacePackageResultCallback = (*SurfacePackageResultCallbackProxy)(nil)
 
 func (p *SurfacePackageResultCallbackProxy) OnResult(
 	ctx context.Context,
-	result interface{},
+	result view.SurfaceControlViewHostSurfacePackage,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfacePackageResultCallback)
+	_data.WriteInt32(1)
+	if _err := result.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISurfacePackageResultCallback, "onResult")
 	if _err != nil {
@@ -70,7 +75,18 @@ func (s *SurfacePackageResultCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		var _arg_result view.SurfaceControlViewHostSurfacePackage
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnResult(ctx, _arg_result)
 		_ = _err
 		return nil, nil

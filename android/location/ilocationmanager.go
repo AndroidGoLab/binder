@@ -3,6 +3,8 @@ package location
 import (
 	"context"
 	"fmt"
+	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	provider "github.com/xaionaro-go/binder/android/location/provider"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -79,7 +81,7 @@ const (
 type ILocationManager interface {
 	AsBinder() binder.IBinder
 	GetLastLocation(ctx context.Context, provider string, request LastLocationRequest, packageName string) (Location, error)
-	GetCurrentLocation(ctx context.Context, provider string, request LocationRequest, callback ILocationCallback, packageName string, listenerId string) (interface{}, error)
+	GetCurrentLocation(ctx context.Context, provider string, request LocationRequest, callback ILocationCallback, packageName string, listenerId string) (ondeviceintelligence.ICancellationSignal, error)
 	RegisterLocationListener(ctx context.Context, provider string, request LocationRequest, listener ILocationListener, packageName string, listenerId string) error
 	UnregisterLocationListener(ctx context.Context, listener ILocationListener) error
 	RegisterLocationPendingIntent(ctx context.Context, provider string, request LocationRequest, pendingIntent interface{}, packageName string) error
@@ -90,8 +92,8 @@ type ILocationManager interface {
 	RequestGeofence(ctx context.Context, geofence Geofence, intent interface{}, packageName string) error
 	RemoveGeofence(ctx context.Context, intent interface{}) error
 	IsGeocodeAvailable(ctx context.Context) (bool, error)
-	ReverseGeocode(ctx context.Context, request interface{}, callback interface{}) error
-	ForwardGeocode(ctx context.Context, request interface{}, callback interface{}) error
+	ReverseGeocode(ctx context.Context, request provider.ReverseGeocodeRequest, callback provider.IGeocodeCallback) error
+	ForwardGeocode(ctx context.Context, request provider.ForwardGeocodeRequest, callback provider.IGeocodeCallback) error
 	GetGnssCapabilities(ctx context.Context) (GnssCapabilities, error)
 	GetGnssYearOfHardware(ctx context.Context) (int32, error)
 	GetGnssHardwareModelName(ctx context.Context) (string, error)
@@ -107,8 +109,8 @@ type ILocationManager interface {
 	RemoveGnssNavigationMessageListener(ctx context.Context, listener IGnssNavigationMessageListener) error
 	AddGnssAntennaInfoListener(ctx context.Context, listener IGnssAntennaInfoListener, packageName string, listenerId string) error
 	RemoveGnssAntennaInfoListener(ctx context.Context, listener IGnssAntennaInfoListener) error
-	AddProviderRequestListener(ctx context.Context, listener interface{}) error
-	RemoveProviderRequestListener(ctx context.Context, listener interface{}) error
+	AddProviderRequestListener(ctx context.Context, listener provider.IProviderRequestListener) error
+	RemoveProviderRequestListener(ctx context.Context, listener provider.IProviderRequestListener) error
 	GetGnssBatchSize(ctx context.Context) (int32, error)
 	StartGnssBatch(ctx context.Context, periodNanos int64, listener ILocationListener, packageName string, listenerId string) error
 	FlushGnssBatch(ctx context.Context) error
@@ -117,7 +119,7 @@ type ILocationManager interface {
 	GetAllProviders(ctx context.Context) ([]string, error)
 	GetProviders(ctx context.Context, criteria Criteria, enabledOnly bool) ([]string, error)
 	GetBestProvider(ctx context.Context, criteria Criteria, enabledOnly bool) (string, error)
-	GetProviderProperties(ctx context.Context, provider string) (interface{}, error)
+	GetProviderProperties(ctx context.Context, provider string) (provider.ProviderProperties, error)
 	IsProviderPackage(ctx context.Context, provider string, packageName string) (bool, error)
 	GetProviderPackages(ctx context.Context, provider string) ([]string, error)
 	SetExtraLocationControllerPackage(ctx context.Context, packageName string) error
@@ -131,7 +133,7 @@ type ILocationManager interface {
 	SetAdasGnssLocationEnabledForUser(ctx context.Context, enabled bool) error
 	IsAutomotiveGnssSuspended(ctx context.Context) (bool, error)
 	SetAutomotiveGnssSuspended(ctx context.Context, suspended bool) error
-	AddTestProvider(ctx context.Context, name string, properties interface{}, locationTags []string, packageName string) error
+	AddTestProvider(ctx context.Context, name string, properties provider.ProviderProperties, locationTags []string, packageName string) error
 	RemoveTestProvider(ctx context.Context, provider string, packageName string) error
 	SetTestProviderLocation(ctx context.Context, provider string, location Location, packageName string) error
 	SetTestProviderEnabled(ctx context.Context, provider string, enabled bool, packageName string) error
@@ -210,8 +212,8 @@ func (p *LocationManagerProxy) GetCurrentLocation(
 	callback ILocationCallback,
 	packageName string,
 	listenerId string,
-) (interface{}, error) {
-	var _result interface{}
+) (ondeviceintelligence.ICancellationSignal, error) {
+	var _result ondeviceintelligence.ICancellationSignal
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
@@ -240,6 +242,11 @@ func (p *LocationManagerProxy) GetCurrentLocation(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = ondeviceintelligence.NewCancellationSignalProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -547,11 +554,16 @@ func (p *LocationManagerProxy) IsGeocodeAvailable(
 
 func (p *LocationManagerProxy) ReverseGeocode(
 	ctx context.Context,
-	request interface{},
-	callback interface{},
+	request provider.ReverseGeocodeRequest,
+	callback provider.IGeocodeCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteInt32(1)
+	if _err := request.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationManager, "reverseGeocode")
 	if _err != nil {
@@ -573,11 +585,16 @@ func (p *LocationManagerProxy) ReverseGeocode(
 
 func (p *LocationManagerProxy) ForwardGeocode(
 	ctx context.Context,
-	request interface{},
-	callback interface{},
+	request provider.ForwardGeocodeRequest,
+	callback provider.IGeocodeCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteInt32(1)
+	if _err := request.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationManager, "forwardGeocode")
 	if _err != nil {
@@ -1053,10 +1070,11 @@ func (p *LocationManagerProxy) RemoveGnssAntennaInfoListener(
 
 func (p *LocationManagerProxy) AddProviderRequestListener(
 	ctx context.Context,
-	listener interface{},
+	listener provider.IProviderRequestListener,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationManager, "addProviderRequestListener")
 	if _err != nil {
@@ -1078,10 +1096,11 @@ func (p *LocationManagerProxy) AddProviderRequestListener(
 
 func (p *LocationManagerProxy) RemoveProviderRequestListener(
 	ctx context.Context,
-	listener interface{},
+	listener provider.IProviderRequestListener,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
+	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocationManager, "removeProviderRequestListener")
 	if _err != nil {
@@ -1367,8 +1386,8 @@ func (p *LocationManagerProxy) GetBestProvider(
 func (p *LocationManagerProxy) GetProviderProperties(
 	ctx context.Context,
 	provider string,
-) (interface{}, error) {
-	var _result interface{}
+) (provider.ProviderProperties, error) {
+	var _result provider.ProviderProperties
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(provider)
@@ -1388,6 +1407,15 @@ func (p *LocationManagerProxy) GetProviderProperties(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -1786,7 +1814,7 @@ func (p *LocationManagerProxy) SetAutomotiveGnssSuspended(
 func (p *LocationManagerProxy) AddTestProvider(
 	ctx context.Context,
 	name string,
-	properties interface{},
+	properties provider.ProviderProperties,
 	locationTags []string,
 	packageName string,
 ) error {
@@ -1794,6 +1822,10 @@ func (p *LocationManagerProxy) AddTestProvider(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocationManager)
 	_data.WriteString16(name)
+	_data.WriteInt32(1)
+	if _err := properties.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if locationTags == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -2166,6 +2198,7 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionILocationManagerRegisterLocationListener:
@@ -2404,8 +2437,21 @@ func (s *LocationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_request interface{}
-		var _arg_callback interface{}
+		var _arg_request provider.ReverseGeocodeRequest
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback provider.IGeocodeCallback
+		_ = _arg_callback
 		_err := s.Impl.ReverseGeocode(ctx, _arg_request, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2418,8 +2464,21 @@ func (s *LocationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_request interface{}
-		var _arg_callback interface{}
+		var _arg_request provider.ForwardGeocodeRequest
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_request.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback provider.IGeocodeCallback
+		_ = _arg_callback
 		_err := s.Impl.ForwardGeocode(ctx, _arg_request, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2729,7 +2788,9 @@ func (s *LocationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_listener interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener provider.IProviderRequestListener
+		_ = _arg_listener
 		_err := s.Impl.AddProviderRequestListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2742,7 +2803,9 @@ func (s *LocationManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_listener interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener provider.IProviderRequestListener
+		_ = _arg_listener
 		_err := s.Impl.RemoveProviderRequestListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -2923,7 +2986,10 @@ func (s *LocationManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionILocationManagerIsProviderPackage:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3152,7 +3218,18 @@ func (s *LocationManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_properties interface{}
+		var _arg_properties provider.ProviderProperties
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_properties.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_locationTags []string
 		_ = _arg_locationTags

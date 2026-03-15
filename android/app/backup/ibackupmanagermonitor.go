@@ -3,6 +3,7 @@ package backup
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IBackupManagerMonitor interface {
 	AsBinder() binder.IBinder
-	OnEvent(ctx context.Context, event interface{}) error
+	OnEvent(ctx context.Context, event os.Bundle) error
 }
 
 type BackupManagerMonitorProxy struct {
@@ -38,10 +39,14 @@ var _ IBackupManagerMonitor = (*BackupManagerMonitorProxy)(nil)
 
 func (p *BackupManagerMonitorProxy) OnEvent(
 	ctx context.Context,
-	event interface{},
+	event os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupManagerMonitor)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupManagerMonitor, "onEvent")
 	if _err != nil {
@@ -70,7 +75,18 @@ func (s *BackupManagerMonitorStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_event interface{}
+		var _arg_event os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnEvent(ctx, _arg_event)
 		_ = _err
 		return nil, nil

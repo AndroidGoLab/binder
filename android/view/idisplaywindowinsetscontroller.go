@@ -3,6 +3,7 @@ package view
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -23,7 +24,7 @@ const (
 
 type IDisplayWindowInsetsController interface {
 	AsBinder() binder.IBinder
-	TopFocusedWindowChanged(ctx context.Context, component interface{}, requestedVisibleTypes int32) error
+	TopFocusedWindowChanged(ctx context.Context, component content.ComponentName, requestedVisibleTypes int32) error
 	InsetsChanged(ctx context.Context, insetsState InsetsState) error
 	InsetsControlChanged(ctx context.Context, insetsState InsetsState, activeControls []InsetsSourceControl) error
 	ShowInsets(ctx context.Context, types int32, fromIme bool, statsToken *inputmethod.ImeTrackerToken) error
@@ -49,11 +50,15 @@ var _ IDisplayWindowInsetsController = (*DisplayWindowInsetsControllerProxy)(nil
 
 func (p *DisplayWindowInsetsControllerProxy) TopFocusedWindowChanged(
 	ctx context.Context,
-	component interface{},
+	component content.ComponentName,
 	requestedVisibleTypes int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayWindowInsetsController)
+	_data.WriteInt32(1)
+	if _err := component.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(requestedVisibleTypes)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayWindowInsetsController, "topFocusedWindowChanged")
@@ -210,7 +215,18 @@ func (s *DisplayWindowInsetsControllerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_component interface{}
+		var _arg_component content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_component.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_requestedVisibleTypes, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

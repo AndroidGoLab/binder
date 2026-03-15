@@ -3,6 +3,7 @@ package session
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IOnVolumeKeyLongPressListener interface {
 	AsBinder() binder.IBinder
-	OnVolumeKeyLongPress(ctx context.Context, event interface{}) error
+	OnVolumeKeyLongPress(ctx context.Context, event view.KeyEvent) error
 }
 
 type OnVolumeKeyLongPressListenerProxy struct {
@@ -38,10 +39,14 @@ var _ IOnVolumeKeyLongPressListener = (*OnVolumeKeyLongPressListenerProxy)(nil)
 
 func (p *OnVolumeKeyLongPressListenerProxy) OnVolumeKeyLongPress(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIOnVolumeKeyLongPressListener)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIOnVolumeKeyLongPressListener, "onVolumeKeyLongPress")
 	if _err != nil {
@@ -70,7 +75,18 @@ func (s *OnVolumeKeyLongPressListenerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_event interface{}
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnVolumeKeyLongPress(ctx, _arg_event)
 		_ = _err
 		return nil, nil

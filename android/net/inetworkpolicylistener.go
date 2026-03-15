@@ -3,6 +3,7 @@ package net
 import (
 	"context"
 	"fmt"
+	telephony "github.com/xaionaro-go/binder/android/telephony"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,7 +29,7 @@ type INetworkPolicyListener interface {
 	OnRestrictBackgroundChanged(ctx context.Context, restrictBackground bool) error
 	OnUidPoliciesChanged(ctx context.Context, uid int32, uidPolicies int32) error
 	OnSubscriptionOverride(ctx context.Context, subId int32, overrideMask int32, overrideValue int32, networkTypes []int32) error
-	OnSubscriptionPlansChanged(ctx context.Context, subId int32, plans []interface{}) error
+	OnSubscriptionPlansChanged(ctx context.Context, subId int32, plans []telephony.SubscriptionPlan) error
 	OnBlockedReasonChanged(ctx context.Context, uid int32, oldBlockedReason int32, newBlockedReason int32) error
 }
 
@@ -160,7 +161,7 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionOverride(
 func (p *NetworkPolicyListenerProxy) OnSubscriptionPlansChanged(
 	ctx context.Context,
 	subId int32,
-	plans []interface{},
+	plans []telephony.SubscriptionPlan,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkPolicyListener)
@@ -169,6 +170,11 @@ func (p *NetworkPolicyListenerProxy) OnSubscriptionPlansChanged(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(plans)))
+		for _, _item := range plans {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkPolicyListener, "onSubscriptionPlansChanged")
@@ -297,7 +303,7 @@ func (s *NetworkPolicyListenerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_plans []interface{}
+		var _arg_plans []telephony.SubscriptionPlan
 		_ = _arg_plans
 		_err = s.Impl.OnSubscriptionPlansChanged(ctx, _arg_subId, _arg_plans)
 		_ = _err

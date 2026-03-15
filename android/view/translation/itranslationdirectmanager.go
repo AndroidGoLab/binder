@@ -3,6 +3,8 @@ package translation
 import (
 	"context"
 	"fmt"
+	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	serviceTranslation "github.com/xaionaro-go/binder/android/service/translation"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +20,7 @@ const (
 
 type ITranslationDirectManager interface {
 	AsBinder() binder.IBinder
-	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport interface{}, callback interface{}) error
+	OnTranslationRequest(ctx context.Context, request TranslationRequest, sessionId int32, transport ondeviceintelligence.ICancellationSignal, callback serviceTranslation.ITranslationCallback) error
 	OnFinishTranslationSession(ctx context.Context, sessionId int32) error
 }
 
@@ -42,8 +44,8 @@ func (p *TranslationDirectManagerProxy) OnTranslationRequest(
 	ctx context.Context,
 	request TranslationRequest,
 	sessionId int32,
-	transport interface{},
-	callback interface{},
+	transport ondeviceintelligence.ICancellationSignal,
+	callback serviceTranslation.ITranslationCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITranslationDirectManager)
@@ -52,6 +54,8 @@ func (p *TranslationDirectManagerProxy) OnTranslationRequest(
 		return _err
 	}
 	_data.WriteInt32(sessionId)
+	_data.WriteStrongBinder(transport.AsBinder().Handle())
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITranslationDirectManager, "onTranslationRequest")
 	if _err != nil {
@@ -113,8 +117,12 @@ func (s *TranslationDirectManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_transport interface{}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_transport ondeviceintelligence.ICancellationSignal
+		_ = _arg_transport
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback serviceTranslation.ITranslationCallback
+		_ = _arg_callback
 		_err = s.Impl.OnTranslationRequest(ctx, _arg_request, _arg_sessionId, _arg_transport, _arg_callback)
 		_ = _err
 		return nil, nil

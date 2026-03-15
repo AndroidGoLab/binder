@@ -3,6 +3,7 @@ package content
 import (
 	"context"
 	"fmt"
+	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,8 +19,8 @@ const (
 
 type ICrossUserContentService interface {
 	AsBinder() binder.IBinder
-	UpdateContent(ctx context.Context, uri interface{}, key string, value int32) error
-	NotifyForUriAsUser(ctx context.Context, uri interface{}) error
+	UpdateContent(ctx context.Context, uri net.Uri, key string, value int32) error
+	NotifyForUriAsUser(ctx context.Context, uri net.Uri) error
 }
 
 type CrossUserContentServiceProxy struct {
@@ -40,12 +41,16 @@ var _ ICrossUserContentService = (*CrossUserContentServiceProxy)(nil)
 
 func (p *CrossUserContentServiceProxy) UpdateContent(
 	ctx context.Context,
-	uri interface{},
+	uri net.Uri,
 	key string,
 	value int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICrossUserContentService)
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(key)
 	_data.WriteInt32(value)
 
@@ -69,11 +74,15 @@ func (p *CrossUserContentServiceProxy) UpdateContent(
 
 func (p *CrossUserContentServiceProxy) NotifyForUriAsUser(
 	ctx context.Context,
-	uri interface{},
+	uri net.Uri,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICrossUserContentService)
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorICrossUserContentService, "notifyForUriAsUser")
@@ -112,7 +121,18 @@ func (s *CrossUserContentServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_key, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -133,7 +153,18 @@ func (s *CrossUserContentServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

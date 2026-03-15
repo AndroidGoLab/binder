@@ -3,7 +3,10 @@ package contentcapture
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
 	"github.com/xaionaro-go/binder/binder"
+	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -29,19 +32,19 @@ const (
 
 type IContentCaptureManager interface {
 	AsBinder() binder.IBinder
-	StartSession(ctx context.Context, activityToken binder.IBinder, shareableActivityToken binder.IBinder, componentName interface{}, sessionId int32, flags int32, result interface{}) error
+	StartSession(ctx context.Context, activityToken binder.IBinder, shareableActivityToken binder.IBinder, componentName content.ComponentName, sessionId int32, flags int32, result os.IResultReceiver) error
 	FinishSession(ctx context.Context, sessionId int32) error
-	GetServiceComponentName(ctx context.Context, result interface{}) error
+	GetServiceComponentName(ctx context.Context, result os.IResultReceiver) error
 	RemoveData(ctx context.Context, request DataRemovalRequest) error
 	ShareData(ctx context.Context, request DataShareRequest, adapter IDataShareWriteAdapter) error
-	IsContentCaptureFeatureEnabled(ctx context.Context, result interface{}) error
-	GetServiceSettingsActivity(ctx context.Context, result interface{}) error
-	GetContentCaptureConditions(ctx context.Context, packageName string, result interface{}) error
+	IsContentCaptureFeatureEnabled(ctx context.Context, result os.IResultReceiver) error
+	GetServiceSettingsActivity(ctx context.Context, result os.IResultReceiver) error
+	GetContentCaptureConditions(ctx context.Context, packageName string, result os.IResultReceiver) error
 	ResetTemporaryService(ctx context.Context) error
 	SetTemporaryService(ctx context.Context, serviceName string, duration int32) error
 	SetDefaultServiceEnabled(ctx context.Context, enabled bool) error
 	RegisterContentCaptureOptionsCallback(ctx context.Context, packageName string, callback IContentCaptureOptionsCallback) error
-	OnLoginDetected(ctx context.Context, events interface{}) error
+	OnLoginDetected(ctx context.Context, events pm.ParceledListSlice) error
 }
 
 type ContentCaptureManagerProxy struct {
@@ -64,17 +67,22 @@ func (p *ContentCaptureManagerProxy) StartSession(
 	ctx context.Context,
 	activityToken binder.IBinder,
 	shareableActivityToken binder.IBinder,
-	componentName interface{},
+	componentName content.ComponentName,
 	sessionId int32,
 	flags int32,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteStrongBinder(shareableActivityToken.Handle())
+	_data.WriteInt32(1)
+	if _err := componentName.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(flags)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "startSession")
 	if _err != nil {
@@ -104,10 +112,11 @@ func (p *ContentCaptureManagerProxy) FinishSession(
 
 func (p *ContentCaptureManagerProxy) GetServiceComponentName(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "getServiceComponentName")
 	if _err != nil {
@@ -162,10 +171,11 @@ func (p *ContentCaptureManagerProxy) ShareData(
 
 func (p *ContentCaptureManagerProxy) IsContentCaptureFeatureEnabled(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "isContentCaptureFeatureEnabled")
 	if _err != nil {
@@ -178,10 +188,11 @@ func (p *ContentCaptureManagerProxy) IsContentCaptureFeatureEnabled(
 
 func (p *ContentCaptureManagerProxy) GetServiceSettingsActivity(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "getServiceSettingsActivity")
 	if _err != nil {
@@ -195,11 +206,12 @@ func (p *ContentCaptureManagerProxy) GetServiceSettingsActivity(
 func (p *ContentCaptureManagerProxy) GetContentCaptureConditions(
 	ctx context.Context,
 	packageName string,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
 	_data.WriteString16(packageName)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "getContentCaptureConditions")
 	if _err != nil {
@@ -288,10 +300,14 @@ func (p *ContentCaptureManagerProxy) RegisterContentCaptureOptionsCallback(
 
 func (p *ContentCaptureManagerProxy) OnLoginDetected(
 	ctx context.Context,
-	events interface{},
+	events pm.ParceledListSlice,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContentCaptureManager)
+	_data.WriteInt32(1)
+	if _err := events.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContentCaptureManager, "onLoginDetected")
 	if _err != nil {
@@ -326,7 +342,18 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_shareableActivityToken binder.IBinder
 		_ = _arg_shareableActivityToken
-		var _arg_componentName interface{}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -335,7 +362,9 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err = s.Impl.StartSession(ctx, _arg_activityToken, _arg_shareableActivityToken, _arg_componentName, _arg_sessionId, _arg_flags, _arg_result)
 		_ = _err
 		return nil, nil
@@ -354,7 +383,9 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.GetServiceComponentName(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -403,7 +434,9 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.IsContentCaptureFeatureEnabled(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -411,7 +444,9 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.GetServiceSettingsActivity(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -423,7 +458,9 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err = s.Impl.GetContentCaptureConditions(ctx, _arg_packageName, _arg_result)
 		_ = _err
 		return nil, nil
@@ -487,7 +524,18 @@ func (s *ContentCaptureManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_events interface{}
+		var _arg_events pm.ParceledListSlice
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_events.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnLoginDetected(ctx, _arg_events)
 		_ = _err
 		return nil, nil

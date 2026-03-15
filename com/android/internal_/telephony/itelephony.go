@@ -16,6 +16,7 @@ import (
 	androidTelephony "github.com/xaionaro-go/binder/android/telephony"
 	gba "github.com/xaionaro-go/binder/android/telephony/gba"
 	ims "github.com/xaionaro-go/binder/android/telephony/ims"
+	satellite "github.com/xaionaro-go/binder/android/telephony/satellite"
 	"github.com/xaionaro-go/binder/binder"
 	internal "github.com/xaionaro-go/binder/com/android/ims/internal_"
 	"github.com/xaionaro-go/binder/parcel"
@@ -827,28 +828,28 @@ type ITelephony interface {
 	RequestIsEmergencyModeEnabled(ctx context.Context, receiver os.ResultReceiver) error
 	RequestIsSatelliteSupported(ctx context.Context, receiver os.ResultReceiver) error
 	RequestSatelliteCapabilities(ctx context.Context, receiver os.ResultReceiver) error
-	StartSatelliteTransmissionUpdates(ctx context.Context, resultCallback IIntegerConsumer, callback interface{}) error
-	StopSatelliteTransmissionUpdates(ctx context.Context, resultCallback IIntegerConsumer, callback interface{}) error
+	StartSatelliteTransmissionUpdates(ctx context.Context, resultCallback IIntegerConsumer, callback satellite.ISatelliteTransmissionUpdateCallback) error
+	StopSatelliteTransmissionUpdates(ctx context.Context, resultCallback IIntegerConsumer, callback satellite.ISatelliteTransmissionUpdateCallback) error
 	ProvisionSatelliteService(ctx context.Context, token string, provisionData []byte, callback IIntegerConsumer) (ondeviceintelligence.ICancellationSignal, error)
 	DeprovisionSatelliteService(ctx context.Context, token string, callback IIntegerConsumer) error
-	RegisterForSatelliteProvisionStateChanged(ctx context.Context, callback interface{}) (int32, error)
-	UnregisterForSatelliteProvisionStateChanged(ctx context.Context, callback interface{}) error
+	RegisterForSatelliteProvisionStateChanged(ctx context.Context, callback satellite.ISatelliteProvisionStateCallback) (int32, error)
+	UnregisterForSatelliteProvisionStateChanged(ctx context.Context, callback satellite.ISatelliteProvisionStateCallback) error
 	RequestIsSatelliteProvisioned(ctx context.Context, receiver os.ResultReceiver) error
-	RegisterForSatelliteModemStateChanged(ctx context.Context, callback interface{}) (int32, error)
-	UnregisterForModemStateChanged(ctx context.Context, callback interface{}) error
-	RegisterForIncomingDatagram(ctx context.Context, callback interface{}) (int32, error)
-	UnregisterForIncomingDatagram(ctx context.Context, callback interface{}) error
+	RegisterForSatelliteModemStateChanged(ctx context.Context, callback satellite.ISatelliteModemStateCallback) (int32, error)
+	UnregisterForModemStateChanged(ctx context.Context, callback satellite.ISatelliteModemStateCallback) error
+	RegisterForIncomingDatagram(ctx context.Context, callback satellite.ISatelliteDatagramCallback) (int32, error)
+	UnregisterForIncomingDatagram(ctx context.Context, callback satellite.ISatelliteDatagramCallback) error
 	PollPendingDatagrams(ctx context.Context, callback IIntegerConsumer) error
-	SendDatagram(ctx context.Context, datagramType int32, datagram interface{}, needFullScreenPointingUI bool, callback IIntegerConsumer) error
+	SendDatagram(ctx context.Context, datagramType int32, datagram satellite.SatelliteDatagram, needFullScreenPointingUI bool, callback IIntegerConsumer) error
 	GetSatelliteDisallowedReasons(ctx context.Context) ([]int32, error)
-	RegisterForSatelliteDisallowedReasonsChanged(ctx context.Context, callback interface{}) error
-	UnregisterForSatelliteDisallowedReasonsChanged(ctx context.Context, callback interface{}) error
+	RegisterForSatelliteDisallowedReasonsChanged(ctx context.Context, callback satellite.ISatelliteDisallowedReasonsCallback) error
+	UnregisterForSatelliteDisallowedReasonsChanged(ctx context.Context, callback satellite.ISatelliteDisallowedReasonsCallback) error
 	RequestIsCommunicationAllowedForCurrentLocation(ctx context.Context, subId int32, receiver os.ResultReceiver) error
 	RequestSatelliteAccessConfigurationForCurrentLocation(ctx context.Context, receiver os.ResultReceiver) error
 	RequestTimeForNextSatelliteVisibility(ctx context.Context, receiver os.ResultReceiver) error
 	RequestSelectedNbIotSatelliteSubscriptionId(ctx context.Context, receiver os.ResultReceiver) error
-	RegisterForSelectedNbIotSatelliteSubscriptionChanged(ctx context.Context, callback interface{}) (int32, error)
-	UnregisterForSelectedNbIotSatelliteSubscriptionChanged(ctx context.Context, callback interface{}) error
+	RegisterForSelectedNbIotSatelliteSubscriptionChanged(ctx context.Context, callback satellite.ISelectedNbIotSatelliteSubscriptionCallback) (int32, error)
+	UnregisterForSelectedNbIotSatelliteSubscriptionChanged(ctx context.Context, callback satellite.ISelectedNbIotSatelliteSubscriptionCallback) error
 	SetDeviceAlignedWithSatellite(ctx context.Context, isAligned bool) error
 	SetSatelliteServicePackageName(ctx context.Context, servicePackageName string, provisioned string) (bool, error)
 	SetSatelliteGatewayServicePackageName(ctx context.Context, servicePackageName string) (bool, error)
@@ -866,10 +867,10 @@ type ITelephony interface {
 	RemoveAttachRestrictionForCarrier(ctx context.Context, subId int32, reason int32, callback IIntegerConsumer) error
 	GetAttachRestrictionReasonsForCarrier(ctx context.Context, subId int32) ([]int32, error)
 	RequestNtnSignalStrength(ctx context.Context, receiver os.ResultReceiver) error
-	RegisterForNtnSignalStrengthChanged(ctx context.Context, callback interface{}) error
-	UnregisterForNtnSignalStrengthChanged(ctx context.Context, callback interface{}) error
-	RegisterForCapabilitiesChanged(ctx context.Context, callback interface{}) (int32, error)
-	UnregisterForCapabilitiesChanged(ctx context.Context, callback interface{}) error
+	RegisterForNtnSignalStrengthChanged(ctx context.Context, callback satellite.INtnSignalStrengthCallback) error
+	UnregisterForNtnSignalStrengthChanged(ctx context.Context, callback satellite.INtnSignalStrengthCallback) error
+	RegisterForCapabilitiesChanged(ctx context.Context, callback satellite.ISatelliteCapabilitiesCallback) (int32, error)
+	UnregisterForCapabilitiesChanged(ctx context.Context, callback satellite.ISatelliteCapabilitiesCallback) error
 	SetShouldSendDatagramToModemInDemoMode(ctx context.Context, shouldSendToModemInDemoMode bool) (bool, error)
 	SetDomainSelectionServiceOverride(ctx context.Context, componentName content.ComponentName) (bool, error)
 	ClearDomainSelectionServiceOverride(ctx context.Context) (bool, error)
@@ -879,21 +880,21 @@ type ITelephony interface {
 	SetNullCipherNotificationsEnabled(ctx context.Context, enable bool) error
 	IsNullCipherNotificationsEnabled(ctx context.Context) (bool, error)
 	GetSatellitePlmnsForCarrier(ctx context.Context, subId int32) ([]string, error)
-	RegisterForSatelliteSupportedStateChanged(ctx context.Context, callback interface{}) (int32, error)
-	UnregisterForSatelliteSupportedStateChanged(ctx context.Context, callback interface{}) error
-	RegisterForCommunicationAllowedStateChanged(ctx context.Context, subId int32, callback interface{}) (int32, error)
-	UnregisterForCommunicationAllowedStateChanged(ctx context.Context, subId int32, callback interface{}) error
+	RegisterForSatelliteSupportedStateChanged(ctx context.Context, callback satellite.ISatelliteSupportedStateCallback) (int32, error)
+	UnregisterForSatelliteSupportedStateChanged(ctx context.Context, callback satellite.ISatelliteSupportedStateCallback) error
+	RegisterForCommunicationAllowedStateChanged(ctx context.Context, subId int32, callback satellite.ISatelliteCommunicationAllowedStateCallback) (int32, error)
+	UnregisterForCommunicationAllowedStateChanged(ctx context.Context, subId int32, callback satellite.ISatelliteCommunicationAllowedStateCallback) error
 	SetDatagramControllerBooleanConfig(ctx context.Context, reset bool, booleanType int32, enable bool) (bool, error)
 	SetIsSatelliteCommunicationAllowedForCurrentLocationCache(ctx context.Context, state string) (bool, error)
 	RequestSatelliteSessionStats(ctx context.Context, subId int32, receiver os.ResultReceiver) error
 	RequestSatelliteSubscriberProvisionStatus(ctx context.Context, result os.ResultReceiver) error
 	RequestSatelliteDisplayName(ctx context.Context, receiver os.ResultReceiver) error
-	ProvisionSatellite(ctx context.Context, list []interface{}, result os.ResultReceiver) error
+	ProvisionSatellite(ctx context.Context, list []satellite.SatelliteSubscriberInfo, result os.ResultReceiver) error
 	SetSatelliteSubscriberIdListChangedIntentComponent(ctx context.Context, name string) (bool, error)
 	SetTestEuiccUiComponent(ctx context.Context, componentName content.ComponentName) error
 	GetTestEuiccUiComponent(ctx context.Context) (content.ComponentName, error)
 	OverrideCarrierRoamingNtnEligibilityChanged(ctx context.Context, status bool, resetRequired bool) (bool, error)
-	DeprovisionSatellite(ctx context.Context, list []interface{}, result os.ResultReceiver) error
+	DeprovisionSatellite(ctx context.Context, list []satellite.SatelliteSubscriberInfo, result os.ResultReceiver) error
 	SetNtnSmsSupported(ctx context.Context, ntnSmsSupported bool) error
 	GetCarrierIdFromIdentifier(ctx context.Context, carrierIdentifier carrier.CarrierIdentifier) (int32, error)
 }
@@ -12631,11 +12632,12 @@ func (p *TelephonyProxy) RequestSatelliteCapabilities(
 func (p *TelephonyProxy) StartSatelliteTransmissionUpdates(
 	ctx context.Context,
 	resultCallback IIntegerConsumer,
-	callback interface{},
+	callback satellite.ISatelliteTransmissionUpdateCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteStrongBinder(resultCallback.AsBinder().Handle())
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "startSatelliteTransmissionUpdates")
 	if _err != nil {
@@ -12658,11 +12660,12 @@ func (p *TelephonyProxy) StartSatelliteTransmissionUpdates(
 func (p *TelephonyProxy) StopSatelliteTransmissionUpdates(
 	ctx context.Context,
 	resultCallback IIntegerConsumer,
-	callback interface{},
+	callback satellite.ISatelliteTransmissionUpdateCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteStrongBinder(resultCallback.AsBinder().Handle())
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "stopSatelliteTransmissionUpdates")
 	if _err != nil {
@@ -12755,11 +12758,12 @@ func (p *TelephonyProxy) DeprovisionSatelliteService(
 
 func (p *TelephonyProxy) RegisterForSatelliteProvisionStateChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteProvisionStateCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSatelliteProvisionStateChanged")
 	if _err != nil {
@@ -12785,10 +12789,11 @@ func (p *TelephonyProxy) RegisterForSatelliteProvisionStateChanged(
 
 func (p *TelephonyProxy) UnregisterForSatelliteProvisionStateChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteProvisionStateCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForSatelliteProvisionStateChanged")
 	if _err != nil {
@@ -12839,11 +12844,12 @@ func (p *TelephonyProxy) RequestIsSatelliteProvisioned(
 
 func (p *TelephonyProxy) RegisterForSatelliteModemStateChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteModemStateCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSatelliteModemStateChanged")
 	if _err != nil {
@@ -12869,10 +12875,11 @@ func (p *TelephonyProxy) RegisterForSatelliteModemStateChanged(
 
 func (p *TelephonyProxy) UnregisterForModemStateChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteModemStateCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForModemStateChanged")
 	if _err != nil {
@@ -12894,11 +12901,12 @@ func (p *TelephonyProxy) UnregisterForModemStateChanged(
 
 func (p *TelephonyProxy) RegisterForIncomingDatagram(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteDatagramCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForIncomingDatagram")
 	if _err != nil {
@@ -12924,10 +12932,11 @@ func (p *TelephonyProxy) RegisterForIncomingDatagram(
 
 func (p *TelephonyProxy) UnregisterForIncomingDatagram(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteDatagramCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForIncomingDatagram")
 	if _err != nil {
@@ -12976,13 +12985,17 @@ func (p *TelephonyProxy) PollPendingDatagrams(
 func (p *TelephonyProxy) SendDatagram(
 	ctx context.Context,
 	datagramType int32,
-	datagram interface{},
+	datagram satellite.SatelliteDatagram,
 	needFullScreenPointingUI bool,
 	callback IIntegerConsumer,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(datagramType)
+	_data.WriteInt32(1)
+	if _err := datagram.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(needFullScreenPointingUI)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
@@ -13045,10 +13058,11 @@ func (p *TelephonyProxy) GetSatelliteDisallowedReasons(
 
 func (p *TelephonyProxy) RegisterForSatelliteDisallowedReasonsChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteDisallowedReasonsCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSatelliteDisallowedReasonsChanged")
 	if _err != nil {
@@ -13070,10 +13084,11 @@ func (p *TelephonyProxy) RegisterForSatelliteDisallowedReasonsChanged(
 
 func (p *TelephonyProxy) UnregisterForSatelliteDisallowedReasonsChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteDisallowedReasonsCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForSatelliteDisallowedReasonsChanged")
 	if _err != nil {
@@ -13213,11 +13228,12 @@ func (p *TelephonyProxy) RequestSelectedNbIotSatelliteSubscriptionId(
 
 func (p *TelephonyProxy) RegisterForSelectedNbIotSatelliteSubscriptionChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISelectedNbIotSatelliteSubscriptionCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSelectedNbIotSatelliteSubscriptionChanged")
 	if _err != nil {
@@ -13243,10 +13259,11 @@ func (p *TelephonyProxy) RegisterForSelectedNbIotSatelliteSubscriptionChanged(
 
 func (p *TelephonyProxy) UnregisterForSelectedNbIotSatelliteSubscriptionChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISelectedNbIotSatelliteSubscriptionCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForSelectedNbIotSatelliteSubscriptionChanged")
 	if _err != nil {
@@ -13864,10 +13881,11 @@ func (p *TelephonyProxy) RequestNtnSignalStrength(
 
 func (p *TelephonyProxy) RegisterForNtnSignalStrengthChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.INtnSignalStrengthCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForNtnSignalStrengthChanged")
 	if _err != nil {
@@ -13889,10 +13907,11 @@ func (p *TelephonyProxy) RegisterForNtnSignalStrengthChanged(
 
 func (p *TelephonyProxy) UnregisterForNtnSignalStrengthChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.INtnSignalStrengthCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForNtnSignalStrengthChanged")
 	if _err != nil {
@@ -13914,11 +13933,12 @@ func (p *TelephonyProxy) UnregisterForNtnSignalStrengthChanged(
 
 func (p *TelephonyProxy) RegisterForCapabilitiesChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteCapabilitiesCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForCapabilitiesChanged")
 	if _err != nil {
@@ -13944,10 +13964,11 @@ func (p *TelephonyProxy) RegisterForCapabilitiesChanged(
 
 func (p *TelephonyProxy) UnregisterForCapabilitiesChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteCapabilitiesCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForCapabilitiesChanged")
 	if _err != nil {
@@ -14243,11 +14264,12 @@ func (p *TelephonyProxy) GetSatellitePlmnsForCarrier(
 
 func (p *TelephonyProxy) RegisterForSatelliteSupportedStateChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteSupportedStateCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForSatelliteSupportedStateChanged")
 	if _err != nil {
@@ -14273,10 +14295,11 @@ func (p *TelephonyProxy) RegisterForSatelliteSupportedStateChanged(
 
 func (p *TelephonyProxy) UnregisterForSatelliteSupportedStateChanged(
 	ctx context.Context,
-	callback interface{},
+	callback satellite.ISatelliteSupportedStateCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForSatelliteSupportedStateChanged")
 	if _err != nil {
@@ -14299,12 +14322,13 @@ func (p *TelephonyProxy) UnregisterForSatelliteSupportedStateChanged(
 func (p *TelephonyProxy) RegisterForCommunicationAllowedStateChanged(
 	ctx context.Context,
 	subId int32,
-	callback interface{},
+	callback satellite.ISatelliteCommunicationAllowedStateCallback,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "registerForCommunicationAllowedStateChanged")
 	if _err != nil {
@@ -14331,11 +14355,12 @@ func (p *TelephonyProxy) RegisterForCommunicationAllowedStateChanged(
 func (p *TelephonyProxy) UnregisterForCommunicationAllowedStateChanged(
 	ctx context.Context,
 	subId int32,
-	callback interface{},
+	callback satellite.ISatelliteCommunicationAllowedStateCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITelephony)
 	_data.WriteInt32(subId)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorITelephony, "unregisterForCommunicationAllowedStateChanged")
 	if _err != nil {
@@ -14512,7 +14537,7 @@ func (p *TelephonyProxy) RequestSatelliteDisplayName(
 
 func (p *TelephonyProxy) ProvisionSatellite(
 	ctx context.Context,
-	list []interface{},
+	list []satellite.SatelliteSubscriberInfo,
 	result os.ResultReceiver,
 ) error {
 	_data := parcel.New()
@@ -14521,6 +14546,11 @@ func (p *TelephonyProxy) ProvisionSatellite(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(list)))
+		for _, _item := range list {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -14674,7 +14704,7 @@ func (p *TelephonyProxy) OverrideCarrierRoamingNtnEligibilityChanged(
 
 func (p *TelephonyProxy) DeprovisionSatellite(
 	ctx context.Context,
-	list []interface{},
+	list []satellite.SatelliteSubscriberInfo,
 	result os.ResultReceiver,
 ) error {
 	_data := parcel.New()
@@ -14683,6 +14713,11 @@ func (p *TelephonyProxy) DeprovisionSatellite(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(list)))
+		for _, _item := range list {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	_data.WriteInt32(1)
 	if _err := result.MarshalParcel(_data); _err != nil {
@@ -22236,7 +22271,9 @@ func (s *TelephonyStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback IIntegerConsumer
 		_ = _arg_resultCallback
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteTransmissionUpdateCallback
+		_ = _arg_callback
 		_err := s.Impl.StartSatelliteTransmissionUpdates(ctx, _arg_resultCallback, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22252,7 +22289,9 @@ func (s *TelephonyStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_resultCallback IIntegerConsumer
 		_ = _arg_resultCallback
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteTransmissionUpdateCallback
+		_ = _arg_callback
 		_err := s.Impl.StopSatelliteTransmissionUpdates(ctx, _arg_resultCallback, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22308,7 +22347,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteProvisionStateCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.RegisterForSatelliteProvisionStateChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22322,7 +22363,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteProvisionStateCallback
+		_ = _arg_callback
 		_err := s.Impl.UnregisterForSatelliteProvisionStateChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22359,7 +22402,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteModemStateCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.RegisterForSatelliteModemStateChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22373,7 +22418,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteModemStateCallback
+		_ = _arg_callback
 		_err := s.Impl.UnregisterForModemStateChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22386,7 +22433,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteDatagramCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.RegisterForIncomingDatagram(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22400,7 +22449,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteDatagramCallback
+		_ = _arg_callback
 		_err := s.Impl.UnregisterForIncomingDatagram(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22432,7 +22483,18 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_datagram interface{}
+		var _arg_datagram satellite.SatelliteDatagram
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_datagram.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_needFullScreenPointingUI, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -22466,7 +22528,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteDisallowedReasonsCallback
+		_ = _arg_callback
 		_err := s.Impl.RegisterForSatelliteDisallowedReasonsChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22479,7 +22543,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteDisallowedReasonsCallback
+		_ = _arg_callback
 		_err := s.Impl.UnregisterForSatelliteDisallowedReasonsChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22592,7 +22658,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISelectedNbIotSatelliteSubscriptionCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.RegisterForSelectedNbIotSatelliteSubscriptionChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22606,7 +22674,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISelectedNbIotSatelliteSubscriptionCallback
+		_ = _arg_callback
 		_err := s.Impl.UnregisterForSelectedNbIotSatelliteSubscriptionChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -22997,7 +23067,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.INtnSignalStrengthCallback
+		_ = _arg_callback
 		_err := s.Impl.RegisterForNtnSignalStrengthChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23010,7 +23082,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.INtnSignalStrengthCallback
+		_ = _arg_callback
 		_err := s.Impl.UnregisterForNtnSignalStrengthChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23023,7 +23097,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteCapabilitiesCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.RegisterForCapabilitiesChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23037,7 +23113,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteCapabilitiesCallback
+		_ = _arg_callback
 		_err := s.Impl.UnregisterForCapabilitiesChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23194,7 +23272,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteSupportedStateCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.RegisterForSatelliteSupportedStateChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23208,7 +23288,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteSupportedStateCallback
+		_ = _arg_callback
 		_err := s.Impl.UnregisterForSatelliteSupportedStateChanged(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23225,7 +23307,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteCommunicationAllowedStateCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.RegisterForCommunicationAllowedStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23243,7 +23327,9 @@ func (s *TelephonyStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback satellite.ISatelliteCommunicationAllowedStateCallback
+		_ = _arg_callback
 		_err = s.Impl.UnregisterForCommunicationAllowedStateChanged(ctx, _arg_subId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -23375,7 +23461,7 @@ func (s *TelephonyStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_list []interface{}
+		var _arg_list []satellite.SatelliteSubscriberInfo
 		_ = _arg_list
 		var _arg_result os.ResultReceiver
 		{
@@ -23480,7 +23566,7 @@ func (s *TelephonyStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_list []interface{}
+		var _arg_list []satellite.SatelliteSubscriberInfo
 		_ = _arg_list
 		var _arg_result os.ResultReceiver
 		{

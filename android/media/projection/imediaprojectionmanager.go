@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -45,7 +46,7 @@ type IMediaProjectionManager interface {
 	NotifyActiveProjectionCapturedContentVisibilityChanged(ctx context.Context, isVisible bool) error
 	AddCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) (MediaProjectionInfo, error)
 	RemoveCallback(ctx context.Context, callback IMediaProjectionWatcherCallback) error
-	SetContentRecordingSession(ctx context.Context, incomingSession interface{}, projection IMediaProjection) (bool, error)
+	SetContentRecordingSession(ctx context.Context, incomingSession view.ContentRecordingSession, projection IMediaProjection) (bool, error)
 	SetUserReviewGrantedConsentResult(ctx context.Context, consentResult ReviewGrantedConsentResult, projection *IMediaProjection) error
 	NotifyPermissionRequestInitiated(ctx context.Context, hostProcessUid int32, sessionCreationSource int32) error
 	NotifyPermissionRequestDisplayed(ctx context.Context, hostProcessUid int32) error
@@ -390,12 +391,16 @@ func (p *MediaProjectionManagerProxy) RemoveCallback(
 
 func (p *MediaProjectionManagerProxy) SetContentRecordingSession(
 	ctx context.Context,
-	incomingSession interface{},
+	incomingSession view.ContentRecordingSession,
 	projection IMediaProjection,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaProjectionManager)
+	_data.WriteInt32(1)
+	if _err := incomingSession.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteStrongBinder(projection.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaProjectionManager, "setContentRecordingSession")
@@ -776,7 +781,18 @@ func (s *MediaProjectionManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_incomingSession interface{}
+		var _arg_incomingSession view.ContentRecordingSession
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_incomingSession.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_projection IMediaProjection
 		_ = _arg_projection

@@ -3,6 +3,7 @@ package res
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IResourcesManager interface {
 	AsBinder() binder.IBinder
-	DumpResources(ctx context.Context, process string, fd int32, finishCallback interface{}) (bool, error)
+	DumpResources(ctx context.Context, process string, fd int32, finishCallback os.RemoteCallback) (bool, error)
 }
 
 type ResourcesManagerProxy struct {
@@ -40,13 +41,17 @@ func (p *ResourcesManagerProxy) DumpResources(
 	ctx context.Context,
 	process string,
 	fd int32,
-	finishCallback interface{},
+	finishCallback os.RemoteCallback,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIResourcesManager)
 	_data.WriteString16(process)
 	_data.WriteFileDescriptor(fd)
+	_data.WriteInt32(1)
+	if _err := finishCallback.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIResourcesManager, "dumpResources")
 	if _err != nil {
@@ -96,7 +101,18 @@ func (s *ResourcesManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_finishCallback interface{}
+		var _arg_finishCallback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_finishCallback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.DumpResources(ctx, _arg_process, _arg_fd, _arg_finishCallback)
 		_reply := parcel.New()
 		if _err != nil {

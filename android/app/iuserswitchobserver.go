@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,7 +23,7 @@ const (
 type IUserSwitchObserver interface {
 	AsBinder() binder.IBinder
 	OnBeforeUserSwitching(ctx context.Context, newUserId int32) error
-	OnUserSwitching(ctx context.Context, newUserId int32, reply interface{}) error
+	OnUserSwitching(ctx context.Context, newUserId int32, reply ondeviceintelligence.IRemoteCallback) error
 	OnUserSwitchComplete(ctx context.Context, newUserId int32) error
 	OnForegroundProfileSwitch(ctx context.Context, newProfileId int32) error
 	OnLockedBootComplete(ctx context.Context, newUserId int32) error
@@ -73,11 +74,12 @@ func (p *UserSwitchObserverProxy) OnBeforeUserSwitching(
 func (p *UserSwitchObserverProxy) OnUserSwitching(
 	ctx context.Context,
 	newUserId int32,
-	reply interface{},
+	reply ondeviceintelligence.IRemoteCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserSwitchObserver)
 	_data.WriteInt32(newUserId)
+	_data.WriteStrongBinder(reply.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserSwitchObserver, "onUserSwitching")
 	if _err != nil {
@@ -177,7 +179,9 @@ func (s *UserSwitchObserverStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_reply interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_reply ondeviceintelligence.IRemoteCallback
+		_ = _arg_reply
 		_err = s.Impl.OnUserSwitching(ctx, _arg_newUserId, _arg_reply)
 		_ = _err
 		return nil, nil

@@ -3,6 +3,7 @@ package soundtrigger_middleware
 import (
 	"context"
 	"fmt"
+	soundtrigger "github.com/xaionaro-go/binder/android/media/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +19,7 @@ const (
 
 type IInjectRecognitionEvent interface {
 	AsBinder() binder.IBinder
-	TriggerRecognitionEvent(ctx context.Context, data []byte, phraseExtras []interface{}) error
+	TriggerRecognitionEvent(ctx context.Context, data []byte, phraseExtras []soundtrigger.PhraseRecognitionExtra) error
 	TriggerAbortRecognition(ctx context.Context) error
 }
 
@@ -41,7 +42,7 @@ var _ IInjectRecognitionEvent = (*InjectRecognitionEventProxy)(nil)
 func (p *InjectRecognitionEventProxy) TriggerRecognitionEvent(
 	ctx context.Context,
 	data []byte,
-	phraseExtras []interface{},
+	phraseExtras []soundtrigger.PhraseRecognitionExtra,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInjectRecognitionEvent)
@@ -57,6 +58,11 @@ func (p *InjectRecognitionEventProxy) TriggerRecognitionEvent(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(phraseExtras)))
+		for _, _item := range phraseExtras {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInjectRecognitionEvent, "triggerRecognitionEvent")
@@ -105,7 +111,7 @@ func (s *InjectRecognitionEventStub) OnTransaction(
 		var _arg_data []byte
 		_ = _arg_data
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_phraseExtras []interface{}
+		var _arg_phraseExtras []soundtrigger.PhraseRecognitionExtra
 		_ = _arg_phraseExtras
 		_err := s.Impl.TriggerRecognitionEvent(ctx, _arg_data, _arg_phraseExtras)
 		_ = _err

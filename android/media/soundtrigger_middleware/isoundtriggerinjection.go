@@ -3,7 +3,8 @@ package soundtrigger_middleware
 import (
 	"context"
 	"fmt"
-	soundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
+	hardwareSoundtrigger "github.com/xaionaro-go/binder/android/hardware/soundtrigger"
+	soundtrigger "github.com/xaionaro-go/binder/android/media/soundtrigger"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -33,9 +34,9 @@ type ISoundTriggerInjection interface {
 	OnFrameworkDetached(ctx context.Context, globalSession IInjectGlobalEvent) error
 	OnClientAttached(ctx context.Context, token binder.IBinder, globalSession IInjectGlobalEvent) error
 	OnClientDetached(ctx context.Context, token binder.IBinder) error
-	OnSoundModelLoaded(ctx context.Context, model interface{}, phrases []interface{}, modelInjection IInjectModelEvent, globalSession IInjectGlobalEvent) error
+	OnSoundModelLoaded(ctx context.Context, model soundtrigger.SoundModel, phrases []soundtrigger.Phrase, modelInjection IInjectModelEvent, globalSession IInjectGlobalEvent) error
 	OnParamSet(ctx context.Context, modelParam int32, value int32, modelSession IInjectModelEvent) error
-	OnRecognitionStarted(ctx context.Context, audioSessionToken int32, config soundtrigger.SoundTriggerRecognitionConfig, recognitionInjection IInjectRecognitionEvent, modelSession IInjectModelEvent) error
+	OnRecognitionStarted(ctx context.Context, audioSessionToken int32, config hardwareSoundtrigger.SoundTriggerRecognitionConfig, recognitionInjection IInjectRecognitionEvent, modelSession IInjectModelEvent) error
 	OnRecognitionStopped(ctx context.Context, recognitionSession IInjectRecognitionEvent) error
 	OnSoundModelUnloaded(ctx context.Context, modelSession IInjectModelEvent) error
 	OnPreempted(ctx context.Context) error
@@ -150,17 +151,26 @@ func (p *SoundTriggerInjectionProxy) OnClientDetached(
 
 func (p *SoundTriggerInjectionProxy) OnSoundModelLoaded(
 	ctx context.Context,
-	model interface{},
-	phrases []interface{},
+	model soundtrigger.SoundModel,
+	phrases []soundtrigger.Phrase,
 	modelInjection IInjectModelEvent,
 	globalSession IInjectGlobalEvent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISoundTriggerInjection)
+	_data.WriteInt32(1)
+	if _err := model.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if phrases == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(phrases)))
+		for _, _item := range phrases {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	_data.WriteStrongBinder(modelInjection.AsBinder().Handle())
 	_data.WriteStrongBinder(globalSession.AsBinder().Handle())
@@ -198,7 +208,7 @@ func (p *SoundTriggerInjectionProxy) OnParamSet(
 func (p *SoundTriggerInjectionProxy) OnRecognitionStarted(
 	ctx context.Context,
 	audioSessionToken int32,
-	config soundtrigger.SoundTriggerRecognitionConfig,
+	config hardwareSoundtrigger.SoundTriggerRecognitionConfig,
 	recognitionInjection IInjectRecognitionEvent,
 	modelSession IInjectModelEvent,
 ) error {
@@ -341,9 +351,20 @@ func (s *SoundTriggerInjectionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_model interface{}
+		var _arg_model soundtrigger.SoundModel
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_model.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_phrases []interface{}
+		var _arg_phrases []soundtrigger.Phrase
 		_ = _arg_phrases
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_modelInjection IInjectModelEvent
@@ -380,7 +401,7 @@ func (s *SoundTriggerInjectionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_config soundtrigger.SoundTriggerRecognitionConfig
+		var _arg_config hardwareSoundtrigger.SoundTriggerRecognitionConfig
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {

@@ -2,6 +2,7 @@ package common
 
 import (
 	"fmt"
+	commonAudioHalCapCriterionV2 "github.com/xaionaro-go/binder/android/media/audio/common/AudioHalCapCriterionV2"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -18,101 +19,101 @@ const (
 
 type AudioHalCapCriterionV2 struct {
 	Tag                             int32
-	AvailableInputDevices           interface{}
-	AvailableOutputDevices          interface{}
-	AvailableInputDevicesAddresses  interface{}
-	AvailableOutputDevicesAddresses interface{}
-	TelephonyMode                   interface{}
-	ForceConfigForUse               interface{}
+	AvailableInputDevices           commonAudioHalCapCriterionV2.AvailableDevices
+	AvailableOutputDevices          commonAudioHalCapCriterionV2.AvailableDevices
+	AvailableInputDevicesAddresses  commonAudioHalCapCriterionV2.AvailableDevicesAddresses
+	AvailableOutputDevicesAddresses commonAudioHalCapCriterionV2.AvailableDevicesAddresses
+	TelephonyMode                   commonAudioHalCapCriterionV2.TelephonyMode
+	ForceConfigForUse               commonAudioHalCapCriterionV2.ForceConfigForUse
 }
 
 var _ parcel.Parcelable = (*AudioHalCapCriterionV2)(nil)
 
-func (u *AudioHalCapCriterionV2) GetAvailableInputDevices() (interface{}, bool) {
+func (u *AudioHalCapCriterionV2) GetAvailableInputDevices() (commonAudioHalCapCriterionV2.AvailableDevices, bool) {
 	if u.Tag != AudioHalCapCriterionV2TagAvailableInputDevices {
-		var _zero interface{}
+		var _zero commonAudioHalCapCriterionV2.AvailableDevices
 		return _zero, false
 	}
 	return u.AvailableInputDevices, true
 }
 
 func (u *AudioHalCapCriterionV2) SetAvailableInputDevices(
-	v interface{},
+	v commonAudioHalCapCriterionV2.AvailableDevices,
 ) {
 	u.Tag = AudioHalCapCriterionV2TagAvailableInputDevices
 	u.AvailableInputDevices = v
 }
 
-func (u *AudioHalCapCriterionV2) GetAvailableOutputDevices() (interface{}, bool) {
+func (u *AudioHalCapCriterionV2) GetAvailableOutputDevices() (commonAudioHalCapCriterionV2.AvailableDevices, bool) {
 	if u.Tag != AudioHalCapCriterionV2TagAvailableOutputDevices {
-		var _zero interface{}
+		var _zero commonAudioHalCapCriterionV2.AvailableDevices
 		return _zero, false
 	}
 	return u.AvailableOutputDevices, true
 }
 
 func (u *AudioHalCapCriterionV2) SetAvailableOutputDevices(
-	v interface{},
+	v commonAudioHalCapCriterionV2.AvailableDevices,
 ) {
 	u.Tag = AudioHalCapCriterionV2TagAvailableOutputDevices
 	u.AvailableOutputDevices = v
 }
 
-func (u *AudioHalCapCriterionV2) GetAvailableInputDevicesAddresses() (interface{}, bool) {
+func (u *AudioHalCapCriterionV2) GetAvailableInputDevicesAddresses() (commonAudioHalCapCriterionV2.AvailableDevicesAddresses, bool) {
 	if u.Tag != AudioHalCapCriterionV2TagAvailableInputDevicesAddresses {
-		var _zero interface{}
+		var _zero commonAudioHalCapCriterionV2.AvailableDevicesAddresses
 		return _zero, false
 	}
 	return u.AvailableInputDevicesAddresses, true
 }
 
 func (u *AudioHalCapCriterionV2) SetAvailableInputDevicesAddresses(
-	v interface{},
+	v commonAudioHalCapCriterionV2.AvailableDevicesAddresses,
 ) {
 	u.Tag = AudioHalCapCriterionV2TagAvailableInputDevicesAddresses
 	u.AvailableInputDevicesAddresses = v
 }
 
-func (u *AudioHalCapCriterionV2) GetAvailableOutputDevicesAddresses() (interface{}, bool) {
+func (u *AudioHalCapCriterionV2) GetAvailableOutputDevicesAddresses() (commonAudioHalCapCriterionV2.AvailableDevicesAddresses, bool) {
 	if u.Tag != AudioHalCapCriterionV2TagAvailableOutputDevicesAddresses {
-		var _zero interface{}
+		var _zero commonAudioHalCapCriterionV2.AvailableDevicesAddresses
 		return _zero, false
 	}
 	return u.AvailableOutputDevicesAddresses, true
 }
 
 func (u *AudioHalCapCriterionV2) SetAvailableOutputDevicesAddresses(
-	v interface{},
+	v commonAudioHalCapCriterionV2.AvailableDevicesAddresses,
 ) {
 	u.Tag = AudioHalCapCriterionV2TagAvailableOutputDevicesAddresses
 	u.AvailableOutputDevicesAddresses = v
 }
 
-func (u *AudioHalCapCriterionV2) GetTelephonyMode() (interface{}, bool) {
+func (u *AudioHalCapCriterionV2) GetTelephonyMode() (commonAudioHalCapCriterionV2.TelephonyMode, bool) {
 	if u.Tag != AudioHalCapCriterionV2TagTelephonyMode {
-		var _zero interface{}
+		var _zero commonAudioHalCapCriterionV2.TelephonyMode
 		return _zero, false
 	}
 	return u.TelephonyMode, true
 }
 
 func (u *AudioHalCapCriterionV2) SetTelephonyMode(
-	v interface{},
+	v commonAudioHalCapCriterionV2.TelephonyMode,
 ) {
 	u.Tag = AudioHalCapCriterionV2TagTelephonyMode
 	u.TelephonyMode = v
 }
 
-func (u *AudioHalCapCriterionV2) GetForceConfigForUse() (interface{}, bool) {
+func (u *AudioHalCapCriterionV2) GetForceConfigForUse() (commonAudioHalCapCriterionV2.ForceConfigForUse, bool) {
 	if u.Tag != AudioHalCapCriterionV2TagForceConfigForUse {
-		var _zero interface{}
+		var _zero commonAudioHalCapCriterionV2.ForceConfigForUse
 		return _zero, false
 	}
 	return u.ForceConfigForUse, true
 }
 
 func (u *AudioHalCapCriterionV2) SetForceConfigForUse(
-	v interface{},
+	v commonAudioHalCapCriterionV2.ForceConfigForUse,
 ) {
 	u.Tag = AudioHalCapCriterionV2TagForceConfigForUse
 	u.ForceConfigForUse = v
@@ -126,11 +127,29 @@ func (u *AudioHalCapCriterionV2) MarshalParcel(
 
 	switch u.Tag {
 	case AudioHalCapCriterionV2TagAvailableInputDevices:
+		if _err := u.AvailableInputDevices.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagAvailableOutputDevices:
+		if _err := u.AvailableOutputDevices.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagAvailableInputDevicesAddresses:
+		if _err := u.AvailableInputDevicesAddresses.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagAvailableOutputDevicesAddresses:
+		if _err := u.AvailableOutputDevicesAddresses.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagTelephonyMode:
+		if _err := u.TelephonyMode.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagForceConfigForUse:
+		if _err := u.ForceConfigForUse.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for AudioHalCapCriterionV2", u.Tag)
 	}
@@ -154,11 +173,29 @@ func (u *AudioHalCapCriterionV2) UnmarshalParcel(
 
 	switch u.Tag {
 	case AudioHalCapCriterionV2TagAvailableInputDevices:
+		if _err = u.AvailableInputDevices.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagAvailableOutputDevices:
+		if _err = u.AvailableOutputDevices.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagAvailableInputDevicesAddresses:
+		if _err = u.AvailableInputDevicesAddresses.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagAvailableOutputDevicesAddresses:
+		if _err = u.AvailableOutputDevicesAddresses.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagTelephonyMode:
+		if _err = u.TelephonyMode.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case AudioHalCapCriterionV2TagForceConfigForUse:
+		if _err = u.ForceConfigForUse.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for AudioHalCapCriterionV2", u.Tag)
 	}

@@ -3,6 +3,8 @@ package os
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	pm "github.com/xaionaro-go/binder/android/content/pm"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -123,10 +125,10 @@ type IUserManager interface {
 	AsBinder() binder.IBinder
 	GetCredentialOwnerProfile(ctx context.Context) (int32, error)
 	GetProfileParentId(ctx context.Context) (int32, error)
-	CreateUserWithThrow(ctx context.Context, name string, userType string, flags int32) (interface{}, error)
-	PreCreateUserWithThrow(ctx context.Context, userType string) (interface{}, error)
-	CreateProfileForUserWithThrow(ctx context.Context, name string, userType string, flags int32, disallowedPackages []string) (interface{}, error)
-	CreateRestrictedProfileWithThrow(ctx context.Context, name string, parentUserHandle int32) (interface{}, error)
+	CreateUserWithThrow(ctx context.Context, name string, userType string, flags int32) (pm.UserInfo, error)
+	PreCreateUserWithThrow(ctx context.Context, userType string) (pm.UserInfo, error)
+	CreateProfileForUserWithThrow(ctx context.Context, name string, userType string, flags int32, disallowedPackages []string) (pm.UserInfo, error)
+	CreateRestrictedProfileWithThrow(ctx context.Context, name string, parentUserHandle int32) (pm.UserInfo, error)
 	GetPreInstallableSystemPackages(ctx context.Context, userType string) ([]string, error)
 	SetUserEnabled(ctx context.Context) error
 	SetUserAdmin(ctx context.Context) error
@@ -137,12 +139,12 @@ type IUserManager interface {
 	SetUserName(ctx context.Context, name string) error
 	SetUserIcon(ctx context.Context, icon graphics.Bitmap) error
 	GetUserIcon(ctx context.Context) (int32, error)
-	GetPrimaryUser(ctx context.Context) (interface{}, error)
+	GetPrimaryUser(ctx context.Context) (pm.UserInfo, error)
 	GetMainUserId(ctx context.Context) (int32, error)
 	GetCommunalProfileId(ctx context.Context) (int32, error)
 	GetPreviousFullUserToEnterForeground(ctx context.Context) (int32, error)
-	GetUsers(ctx context.Context, excludePartial bool, excludeDying bool, excludePreCreated bool) ([]interface{}, error)
-	GetProfiles(ctx context.Context, enabledOnly bool) ([]interface{}, error)
+	GetUsers(ctx context.Context, excludePartial bool, excludeDying bool, excludePreCreated bool) ([]pm.UserInfo, error)
+	GetProfiles(ctx context.Context, enabledOnly bool) ([]pm.UserInfo, error)
 	GetProfileIds(ctx context.Context, enabledOnly bool) ([]int32, error)
 	IsUserTypeEnabled(ctx context.Context, userType string) (bool, error)
 	CanAddMoreUsersOfType(ctx context.Context, userType string) (bool, error)
@@ -150,12 +152,12 @@ type IUserManager interface {
 	GetRemainingCreatableProfileCount(ctx context.Context, userType string) (int32, error)
 	CanAddMoreProfilesToUser(ctx context.Context, userType string, allowedToRemoveOne bool) (bool, error)
 	CanAddMoreManagedProfiles(ctx context.Context, allowedToRemoveOne bool) (bool, error)
-	GetProfileParent(ctx context.Context) (interface{}, error)
+	GetProfileParent(ctx context.Context) (pm.UserInfo, error)
 	IsSameProfileGroup(ctx context.Context, otherUserHandle int32) (bool, error)
 	IsHeadlessSystemUserMode(ctx context.Context) (bool, error)
 	IsUserOfType(ctx context.Context, userType string) (bool, error)
-	GetUserInfo(ctx context.Context) (interface{}, error)
-	GetUserPropertiesCopy(ctx context.Context) (interface{}, error)
+	GetUserInfo(ctx context.Context) (pm.UserInfo, error)
+	GetUserPropertiesCopy(ctx context.Context) (pm.UserProperties, error)
 	GetUserAccount(ctx context.Context) (string, error)
 	SetUserAccount(ctx context.Context, accountName string) error
 	GetUserCreationTime(ctx context.Context) (int64, error)
@@ -182,7 +184,7 @@ type IUserManager interface {
 	GetDefaultGuestRestrictions(ctx context.Context) (Bundle, error)
 	RemoveUserWhenPossible(ctx context.Context, overrideDevicePolicy bool) (int32, error)
 	MarkGuestForDeletion(ctx context.Context) (bool, error)
-	GetGuestUsers(ctx context.Context) ([]interface{}, error)
+	GetGuestUsers(ctx context.Context) ([]pm.UserInfo, error)
 	IsQuietModeEnabled(ctx context.Context) (bool, error)
 	CreateUserWithAttributes(ctx context.Context, userName string, userType string, flags int32, userIcon graphics.Bitmap, accountName string, accountType string, accountOptions interface{}) (UserHandle, error)
 	SetSeedAccountData(ctx context.Context, accountName string, accountType string, accountOptions interface{}, persist bool) error
@@ -196,7 +198,7 @@ type IUserManager interface {
 	IsDemoUser(ctx context.Context) (bool, error)
 	IsAdminUser(ctx context.Context) (bool, error)
 	IsPreCreated(ctx context.Context) (bool, error)
-	CreateProfileForUserEvenWhenDisallowedWithThrow(ctx context.Context, name string, userType string, flags int32, disallowedPackages []string) (interface{}, error)
+	CreateProfileForUserEvenWhenDisallowedWithThrow(ctx context.Context, name string, userType string, flags int32, disallowedPackages []string) (pm.UserInfo, error)
 	IsUserUnlockingOrUnlocked(ctx context.Context) (bool, error)
 	GetUserIconBadgeResId(ctx context.Context) (int32, error)
 	GetUserBadgeResId(ctx context.Context) (int32, error)
@@ -217,7 +219,7 @@ type IUserManager interface {
 	IsForegroundUserAdmin(ctx context.Context) (bool, error)
 	IsUserNameSet(ctx context.Context) (bool, error)
 	HasRestrictedProfiles(ctx context.Context) (bool, error)
-	RequestQuietModeEnabled(ctx context.Context, enableQuietMode bool, target interface{}, flags int32) (bool, error)
+	RequestQuietModeEnabled(ctx context.Context, enableQuietMode bool, target content.IntentSender, flags int32) (bool, error)
 	GetUserName(ctx context.Context) (string, error)
 	GetUserStartRealtime(ctx context.Context) (int64, error)
 	GetUserUnlockRealtime(ctx context.Context) (int64, error)
@@ -310,8 +312,8 @@ func (p *UserManagerProxy) CreateUserWithThrow(
 	name string,
 	userType string,
 	flags int32,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.UserInfo, error) {
+	var _result pm.UserInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(name)
@@ -333,14 +335,23 @@ func (p *UserManagerProxy) CreateUserWithThrow(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *UserManagerProxy) PreCreateUserWithThrow(
 	ctx context.Context,
 	userType string,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.UserInfo, error) {
+	var _result pm.UserInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(userType)
@@ -360,6 +371,15 @@ func (p *UserManagerProxy) PreCreateUserWithThrow(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -369,8 +389,8 @@ func (p *UserManagerProxy) CreateProfileForUserWithThrow(
 	userType string,
 	flags int32,
 	disallowedPackages []string,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.UserInfo, error) {
+	var _result pm.UserInfo
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
@@ -402,6 +422,15 @@ func (p *UserManagerProxy) CreateProfileForUserWithThrow(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -409,8 +438,8 @@ func (p *UserManagerProxy) CreateRestrictedProfileWithThrow(
 	ctx context.Context,
 	name string,
 	parentUserHandle int32,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.UserInfo, error) {
+	var _result pm.UserInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteString16(name)
@@ -431,6 +460,15 @@ func (p *UserManagerProxy) CreateRestrictedProfileWithThrow(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -733,8 +771,8 @@ func (p *UserManagerProxy) GetUserIcon(
 
 func (p *UserManagerProxy) GetPrimaryUser(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.UserInfo, error) {
+	var _result pm.UserInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
@@ -753,6 +791,15 @@ func (p *UserManagerProxy) GetPrimaryUser(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -848,8 +895,8 @@ func (p *UserManagerProxy) GetUsers(
 	excludePartial bool,
 	excludeDying bool,
 	excludePreCreated bool,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]pm.UserInfo, error) {
+	var _result []pm.UserInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 	_data.WriteBool(excludePartial)
@@ -877,8 +924,11 @@ func (p *UserManagerProxy) GetUsers(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]pm.UserInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -887,8 +937,8 @@ func (p *UserManagerProxy) GetUsers(
 func (p *UserManagerProxy) GetProfiles(
 	ctx context.Context,
 	enabledOnly bool,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]pm.UserInfo, error) {
+	var _result []pm.UserInfo
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
@@ -916,8 +966,11 @@ func (p *UserManagerProxy) GetProfiles(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]pm.UserInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -1162,8 +1215,8 @@ func (p *UserManagerProxy) CanAddMoreManagedProfiles(
 
 func (p *UserManagerProxy) GetProfileParent(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.UserInfo, error) {
+	var _result pm.UserInfo
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
@@ -1184,6 +1237,15 @@ func (p *UserManagerProxy) GetProfileParent(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -1284,8 +1346,8 @@ func (p *UserManagerProxy) IsUserOfType(
 
 func (p *UserManagerProxy) GetUserInfo(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.UserInfo, error) {
+	var _result pm.UserInfo
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
@@ -1306,13 +1368,22 @@ func (p *UserManagerProxy) GetUserInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *UserManagerProxy) GetUserPropertiesCopy(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.UserProperties, error) {
+	var _result pm.UserProperties
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
@@ -1333,6 +1404,15 @@ func (p *UserManagerProxy) GetUserPropertiesCopy(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2181,8 +2261,8 @@ func (p *UserManagerProxy) MarkGuestForDeletion(
 
 func (p *UserManagerProxy) GetGuestUsers(
 	ctx context.Context,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]pm.UserInfo, error) {
+	var _result []pm.UserInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
 
@@ -2207,8 +2287,11 @@ func (p *UserManagerProxy) GetGuestUsers(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]pm.UserInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -2639,8 +2722,8 @@ func (p *UserManagerProxy) CreateProfileForUserEvenWhenDisallowedWithThrow(
 	userType string,
 	flags int32,
 	disallowedPackages []string,
-) (interface{}, error) {
-	var _result interface{}
+) (pm.UserInfo, error) {
+	var _result pm.UserInfo
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIUserManager)
@@ -2672,6 +2755,15 @@ func (p *UserManagerProxy) CreateProfileForUserEvenWhenDisallowedWithThrow(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -3304,7 +3396,7 @@ func (p *UserManagerProxy) HasRestrictedProfiles(
 func (p *UserManagerProxy) RequestQuietModeEnabled(
 	ctx context.Context,
 	enableQuietMode bool,
-	target interface{},
+	target content.IntentSender,
 	flags int32,
 ) (bool, error) {
 	var _result bool
@@ -3314,6 +3406,10 @@ func (p *UserManagerProxy) RequestQuietModeEnabled(
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteBool(enableQuietMode)
 	_data.WriteInt32(_identity.UserID)
+	_data.WriteInt32(1)
+	if _err := target.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(flags)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIUserManager, "requestQuietModeEnabled")
@@ -3625,7 +3721,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerPreCreateUserWithThrow:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3642,7 +3741,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerCreateProfileForUserWithThrow:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3673,7 +3775,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerCreateRestrictedProfileWithThrow:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3694,7 +3799,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerGetPreInstallableSystemPackages:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3879,7 +3987,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerGetMainUserId:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4117,7 +4228,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerIsSameProfileGroup:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4186,7 +4300,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerGetUserPropertiesCopy:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -4202,7 +4319,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerGetUserAccount:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -5010,7 +5130,10 @@ func (s *UserManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIUserManagerIsUserUnlockingOrUnlocked:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -5341,7 +5464,18 @@ func (s *UserManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_target interface{}
+		var _arg_target content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_target.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

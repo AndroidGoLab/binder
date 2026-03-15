@@ -3,11 +3,15 @@ package view
 import (
 	"context"
 	"fmt"
+	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
+	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	gui "github.com/xaionaro-go/binder/android/gui"
 	displayhash "github.com/xaionaro-go/binder/android/view/displayhash"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
+	os "github.com/xaionaro-go/binder/com/android/internal_/os"
+	policy "github.com/xaionaro-go/binder/com/android/internal_/policy"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -195,7 +199,7 @@ type IWindowManager interface {
 	SetDisplayChangeWindowController(ctx context.Context, controller IDisplayChangeWindowController) error
 	AddShellRoot(ctx context.Context, displayId int32, client IWindow, shellRootLayer int32) (SurfaceControl, error)
 	SetShellRootAccessibilityWindow(ctx context.Context, displayId int32, shellRootLayer int32, target IWindow) error
-	OverridePendingAppTransitionMultiThumbFuture(ctx context.Context, specsFuture IAppTransitionAnimationSpecsFuture, startedCallback interface{}, scaleUp bool, displayId int32) error
+	OverridePendingAppTransitionMultiThumbFuture(ctx context.Context, specsFuture IAppTransitionAnimationSpecsFuture, startedCallback ondeviceintelligence.IRemoteCallback, scaleUp bool, displayId int32) error
 	OverridePendingAppTransitionRemote(ctx context.Context, remoteAnimationAdapter RemoteAnimationAdapter, displayId int32) error
 	EndProlongedAnimations(ctx context.Context) error
 	StartFreezingScreen(ctx context.Context, exitAnim int32, enterAnim int32) error
@@ -205,9 +209,9 @@ type IWindowManager interface {
 	ExitKeyguardSecurely(ctx context.Context, callback IOnKeyguardExitResult) error
 	IsKeyguardLocked(ctx context.Context) (bool, error)
 	IsKeyguardSecure(ctx context.Context) (bool, error)
-	DismissKeyguard(ctx context.Context, callback interface{}, message interface{}) error
-	AddKeyguardLockedStateListener(ctx context.Context, listener interface{}) error
-	RemoveKeyguardLockedStateListener(ctx context.Context, listener interface{}) error
+	DismissKeyguard(ctx context.Context, callback policy.IKeyguardDismissCallback, message interface{}) error
+	AddKeyguardLockedStateListener(ctx context.Context, listener policy.IKeyguardLockedStateListener) error
+	RemoveKeyguardLockedStateListener(ctx context.Context, listener policy.IKeyguardLockedStateListener) error
 	SetSwitchingUser(ctx context.Context, switching bool) error
 	CloseSystemDialogs(ctx context.Context, reason string) error
 	GetAnimationScale(ctx context.Context, which int32) (float32, error)
@@ -253,8 +257,8 @@ type IWindowManager interface {
 	GetWindowContentFrameStats(ctx context.Context, token binder.IBinder) (WindowContentFrameStats, error)
 	GetDockedStackSide(ctx context.Context) (int32, error)
 	RegisterPinnedTaskListener(ctx context.Context, displayId int32, listener IPinnedTaskListener) error
-	RequestAppKeyboardShortcuts(ctx context.Context, receiver interface{}, deviceId int32) error
-	RequestImeKeyboardShortcuts(ctx context.Context, receiver interface{}, deviceId int32) error
+	RequestAppKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
+	RequestImeKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
 	GetStableInsets(ctx context.Context, displayId int32, outInsets graphics.Rect) error
 	RegisterShortcutKey(ctx context.Context, shortcutCode int64, keySubscriber interface{}) error
 	CreateInputConsumer(ctx context.Context, token binder.IBinder, name string, displayId int32, inputChannel InputChannel) error
@@ -317,7 +321,7 @@ type IWindowManager interface {
 	IsGlobalKey(ctx context.Context, keyCode int32) (bool, error)
 	AddToSurfaceSyncGroup(ctx context.Context, syncGroupToken binder.IBinder, parentSyncGroupMerge bool, completedListener *interface{}, addToSurfaceSyncGroupResult interface{}) (bool, error)
 	MarkSurfaceSyncGroupReady(ctx context.Context, syncGroupToken binder.IBinder) error
-	NotifyScreenshotListeners(ctx context.Context, displayId int32) ([]interface{}, error)
+	NotifyScreenshotListeners(ctx context.Context, displayId int32) ([]content.ComponentName, error)
 	ReplaceContentOnDisplay(ctx context.Context, displayId int32, sc SurfaceControl) (bool, error)
 	RegisterDecorViewGestureListener(ctx context.Context, listener IDecorViewGestureListener, displayId int32) error
 	UnregisterDecorViewGestureListener(ctx context.Context, listener IDecorViewGestureListener, displayId int32) error
@@ -984,13 +988,14 @@ func (p *WindowManagerProxy) SetShellRootAccessibilityWindow(
 func (p *WindowManagerProxy) OverridePendingAppTransitionMultiThumbFuture(
 	ctx context.Context,
 	specsFuture IAppTransitionAnimationSpecsFuture,
-	startedCallback interface{},
+	startedCallback ondeviceintelligence.IRemoteCallback,
 	scaleUp bool,
 	displayId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteStrongBinder(specsFuture.AsBinder().Handle())
+	_data.WriteStrongBinder(startedCallback.AsBinder().Handle())
 	_data.WriteBool(scaleUp)
 	_data.WriteInt32(displayId)
 
@@ -1265,11 +1270,12 @@ func (p *WindowManagerProxy) IsKeyguardSecure(
 
 func (p *WindowManagerProxy) DismissKeyguard(
 	ctx context.Context,
-	callback interface{},
+	callback policy.IKeyguardDismissCallback,
 	message interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "dismissKeyguard")
 	if _err != nil {
@@ -1291,10 +1297,11 @@ func (p *WindowManagerProxy) DismissKeyguard(
 
 func (p *WindowManagerProxy) AddKeyguardLockedStateListener(
 	ctx context.Context,
-	listener interface{},
+	listener policy.IKeyguardLockedStateListener,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "addKeyguardLockedStateListener")
 	if _err != nil {
@@ -1316,10 +1323,11 @@ func (p *WindowManagerProxy) AddKeyguardLockedStateListener(
 
 func (p *WindowManagerProxy) RemoveKeyguardLockedStateListener(
 	ctx context.Context,
-	listener interface{},
+	listener policy.IKeyguardLockedStateListener,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	_data.WriteStrongBinder(listener.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "removeKeyguardLockedStateListener")
 	if _err != nil {
@@ -2639,11 +2647,12 @@ func (p *WindowManagerProxy) RegisterPinnedTaskListener(
 
 func (p *WindowManagerProxy) RequestAppKeyboardShortcuts(
 	ctx context.Context,
-	receiver interface{},
+	receiver os.IResultReceiver,
 	deviceId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	_data.WriteStrongBinder(receiver.AsBinder().Handle())
 	_data.WriteInt32(deviceId)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "requestAppKeyboardShortcuts")
@@ -2666,11 +2675,12 @@ func (p *WindowManagerProxy) RequestAppKeyboardShortcuts(
 
 func (p *WindowManagerProxy) RequestImeKeyboardShortcuts(
 	ctx context.Context,
-	receiver interface{},
+	receiver os.IResultReceiver,
 	deviceId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
+	_data.WriteStrongBinder(receiver.AsBinder().Handle())
 	_data.WriteInt32(deviceId)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowManager, "requestImeKeyboardShortcuts")
@@ -4511,8 +4521,8 @@ func (p *WindowManagerProxy) MarkSurfaceSyncGroupReady(
 func (p *WindowManagerProxy) NotifyScreenshotListeners(
 	ctx context.Context,
 	displayId int32,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]content.ComponentName, error) {
+	var _result []content.ComponentName
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowManager)
 	_data.WriteInt32(displayId)
@@ -4538,8 +4548,11 @@ func (p *WindowManagerProxy) NotifyScreenshotListeners(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]content.ComponentName, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -5253,7 +5266,9 @@ func (s *WindowManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_specsFuture IAppTransitionAnimationSpecsFuture
 		_ = _arg_specsFuture
-		var _arg_startedCallback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_startedCallback ondeviceintelligence.IRemoteCallback
+		_ = _arg_startedCallback
 		_arg_scaleUp, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -5430,7 +5445,9 @@ func (s *WindowManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback policy.IKeyguardDismissCallback
+		_ = _arg_callback
 		var _arg_message interface{}
 		_err := s.Impl.DismissKeyguard(ctx, _arg_callback, _arg_message)
 		_reply := parcel.New()
@@ -5444,7 +5461,9 @@ func (s *WindowManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_listener interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener policy.IKeyguardLockedStateListener
+		_ = _arg_listener
 		_err := s.Impl.AddKeyguardLockedStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5457,7 +5476,9 @@ func (s *WindowManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_listener interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_listener policy.IKeyguardLockedStateListener
+		_ = _arg_listener
 		_err := s.Impl.RemoveKeyguardLockedStateListener(ctx, _arg_listener)
 		_reply := parcel.New()
 		if _err != nil {
@@ -6218,7 +6239,9 @@ func (s *WindowManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_receiver interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_receiver os.IResultReceiver
+		_ = _arg_receiver
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -6235,7 +6258,9 @@ func (s *WindowManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_receiver interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_receiver os.IResultReceiver
+		_ = _arg_receiver
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

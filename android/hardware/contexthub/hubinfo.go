@@ -1,6 +1,7 @@
 package contexthub
 
 import (
+	contexthubHubInfo "github.com/xaionaro-go/binder/android/hardware/contexthub/HubInfo"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type HubInfo struct {
 	HubId      int64
-	HubDetails interface{}
+	HubDetails contexthubHubInfo.HubDetails
 }
 
 const (
@@ -23,6 +24,9 @@ func (s *HubInfo) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt64(s.HubId)
+	if _err := s.HubDetails.MarshalParcel(p); _err != nil {
+		return _err
+	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -38,6 +42,10 @@ func (s *HubInfo) UnmarshalParcel(
 
 	s.HubId, _err = p.ReadInt64()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.HubDetails.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

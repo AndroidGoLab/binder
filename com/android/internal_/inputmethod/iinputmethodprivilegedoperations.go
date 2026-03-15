@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	net "github.com/xaionaro-go/binder/android/net"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
@@ -41,7 +42,7 @@ type IInputMethodPrivilegedOperations interface {
 	AsBinder() binder.IBinder
 	SetImeWindowStatusAsync(ctx context.Context, vis int32, backDisposition int32) error
 	ReportStartInputAsync(ctx context.Context, startInputToken binder.IBinder) error
-	CreateInputContentUriToken(ctx context.Context, contentUri interface{}, packageName string, future infra.AndroidFuture) error
+	CreateInputContentUriToken(ctx context.Context, contentUri net.Uri, packageName string, future infra.AndroidFuture) error
 	ReportFullscreenModeAsync(ctx context.Context, fullscreen bool) error
 	SetInputMethod(ctx context.Context, id string, future infra.AndroidFuture) error
 	SetInputMethodAndSubtype(ctx context.Context, id string, subtype viewInputmethod.InputMethodSubtype, future infra.AndroidFuture) error
@@ -115,12 +116,16 @@ func (p *InputMethodPrivilegedOperationsProxy) ReportStartInputAsync(
 
 func (p *InputMethodPrivilegedOperationsProxy) CreateInputContentUriToken(
 	ctx context.Context,
-	contentUri interface{},
+	contentUri net.Uri,
 	packageName string,
 	future infra.AndroidFuture,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInputMethodPrivilegedOperations)
+	_data.WriteInt32(1)
+	if _err := contentUri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(packageName)
 	_data.WriteInt32(1)
 	if _err := future.MarshalParcel(_data); _err != nil {
@@ -530,7 +535,18 @@ func (s *InputMethodPrivilegedOperationsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_contentUri interface{}
+		var _arg_contentUri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_contentUri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_packageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err

@@ -2,6 +2,10 @@ package effect
 
 import (
 	"fmt"
+	audioCommon "github.com/xaionaro-go/binder/android/hardware/audio/common"
+	effectDescriptor "github.com/xaionaro-go/binder/android/hardware/audio/effect/Descriptor"
+	effectParameter "github.com/xaionaro-go/binder/android/hardware/audio/effect/Parameter"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -21,74 +25,74 @@ const (
 
 type Parameter struct {
 	Tag               int32
-	Common            interface{}
-	DeviceDescription []interface{}
-	Mode              interface{}
-	Source            interface{}
+	Common            effectDescriptor.Common
+	DeviceDescription []common.AudioDeviceDescription
+	Mode              common.AudioMode
+	Source            common.AudioSource
 	Offload           bool
-	VolumeStereo      interface{}
-	Specific          interface{}
-	SinkMetadata      interface{}
-	SourceMetadata    interface{}
+	VolumeStereo      effectParameter.VolumeStereo
+	Specific          effectParameter.Specific
+	SinkMetadata      audioCommon.SinkMetadata
+	SourceMetadata    audioCommon.SourceMetadata
 }
 
 var _ parcel.Parcelable = (*Parameter)(nil)
 
-func (u *Parameter) GetCommon() (interface{}, bool) {
+func (u *Parameter) GetCommon() (effectDescriptor.Common, bool) {
 	if u.Tag != ParameterTagCommon {
-		var _zero interface{}
+		var _zero effectDescriptor.Common
 		return _zero, false
 	}
 	return u.Common, true
 }
 
 func (u *Parameter) SetCommon(
-	v interface{},
+	v effectDescriptor.Common,
 ) {
 	u.Tag = ParameterTagCommon
 	u.Common = v
 }
 
-func (u *Parameter) GetDeviceDescription() ([]interface{}, bool) {
+func (u *Parameter) GetDeviceDescription() ([]common.AudioDeviceDescription, bool) {
 	if u.Tag != ParameterTagDeviceDescription {
-		var _zero []interface{}
+		var _zero []common.AudioDeviceDescription
 		return _zero, false
 	}
 	return u.DeviceDescription, true
 }
 
 func (u *Parameter) SetDeviceDescription(
-	v []interface{},
+	v []common.AudioDeviceDescription,
 ) {
 	u.Tag = ParameterTagDeviceDescription
 	u.DeviceDescription = v
 }
 
-func (u *Parameter) GetMode() (interface{}, bool) {
+func (u *Parameter) GetMode() (common.AudioMode, bool) {
 	if u.Tag != ParameterTagMode {
-		var _zero interface{}
+		var _zero common.AudioMode
 		return _zero, false
 	}
 	return u.Mode, true
 }
 
 func (u *Parameter) SetMode(
-	v interface{},
+	v common.AudioMode,
 ) {
 	u.Tag = ParameterTagMode
 	u.Mode = v
 }
 
-func (u *Parameter) GetSource() (interface{}, bool) {
+func (u *Parameter) GetSource() (common.AudioSource, bool) {
 	if u.Tag != ParameterTagSource {
-		var _zero interface{}
+		var _zero common.AudioSource
 		return _zero, false
 	}
 	return u.Source, true
 }
 
 func (u *Parameter) SetSource(
-	v interface{},
+	v common.AudioSource,
 ) {
 	u.Tag = ParameterTagSource
 	u.Source = v
@@ -109,61 +113,61 @@ func (u *Parameter) SetOffload(
 	u.Offload = v
 }
 
-func (u *Parameter) GetVolumeStereo() (interface{}, bool) {
+func (u *Parameter) GetVolumeStereo() (effectParameter.VolumeStereo, bool) {
 	if u.Tag != ParameterTagVolumeStereo {
-		var _zero interface{}
+		var _zero effectParameter.VolumeStereo
 		return _zero, false
 	}
 	return u.VolumeStereo, true
 }
 
 func (u *Parameter) SetVolumeStereo(
-	v interface{},
+	v effectParameter.VolumeStereo,
 ) {
 	u.Tag = ParameterTagVolumeStereo
 	u.VolumeStereo = v
 }
 
-func (u *Parameter) GetSpecific() (interface{}, bool) {
+func (u *Parameter) GetSpecific() (effectParameter.Specific, bool) {
 	if u.Tag != ParameterTagSpecific {
-		var _zero interface{}
+		var _zero effectParameter.Specific
 		return _zero, false
 	}
 	return u.Specific, true
 }
 
 func (u *Parameter) SetSpecific(
-	v interface{},
+	v effectParameter.Specific,
 ) {
 	u.Tag = ParameterTagSpecific
 	u.Specific = v
 }
 
-func (u *Parameter) GetSinkMetadata() (interface{}, bool) {
+func (u *Parameter) GetSinkMetadata() (audioCommon.SinkMetadata, bool) {
 	if u.Tag != ParameterTagSinkMetadata {
-		var _zero interface{}
+		var _zero audioCommon.SinkMetadata
 		return _zero, false
 	}
 	return u.SinkMetadata, true
 }
 
 func (u *Parameter) SetSinkMetadata(
-	v interface{},
+	v audioCommon.SinkMetadata,
 ) {
 	u.Tag = ParameterTagSinkMetadata
 	u.SinkMetadata = v
 }
 
-func (u *Parameter) GetSourceMetadata() (interface{}, bool) {
+func (u *Parameter) GetSourceMetadata() (audioCommon.SourceMetadata, bool) {
 	if u.Tag != ParameterTagSourceMetadata {
-		var _zero interface{}
+		var _zero audioCommon.SourceMetadata
 		return _zero, false
 	}
 	return u.SourceMetadata, true
 }
 
 func (u *Parameter) SetSourceMetadata(
-	v interface{},
+	v audioCommon.SourceMetadata,
 ) {
 	u.Tag = ParameterTagSourceMetadata
 	u.SourceMetadata = v
@@ -177,20 +181,42 @@ func (u *Parameter) MarshalParcel(
 
 	switch u.Tag {
 	case ParameterTagCommon:
+		if _err := u.Common.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ParameterTagDeviceDescription:
 		if u.DeviceDescription == nil {
 			p.WriteInt32(-1)
 		} else {
 			p.WriteInt32(int32(len(u.DeviceDescription)))
+			for _, _item := range u.DeviceDescription {
+				if _err := _item.MarshalParcel(p); _err != nil {
+					return _err
+				}
+			}
 		}
 	case ParameterTagMode:
+		p.WriteInt32(int32(u.Mode))
 	case ParameterTagSource:
+		p.WriteInt32(int32(u.Source))
 	case ParameterTagOffload:
 		p.WriteBool(u.Offload)
 	case ParameterTagVolumeStereo:
+		if _err := u.VolumeStereo.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ParameterTagSpecific:
+		if _err := u.Specific.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ParameterTagSinkMetadata:
+		if _err := u.SinkMetadata.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ParameterTagSourceMetadata:
+		if _err := u.SourceMetadata.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Parameter", u.Tag)
 	}
@@ -214,6 +240,9 @@ func (u *Parameter) UnmarshalParcel(
 
 	switch u.Tag {
 	case ParameterTagCommon:
+		if _err = u.Common.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ParameterTagDeviceDescription:
 
 		var _count0 int32
@@ -222,21 +251,46 @@ func (u *Parameter) UnmarshalParcel(
 			return _err
 		}
 		if _count0 >= 0 {
-			u.DeviceDescription = make([]interface{}, _count0)
+			u.DeviceDescription = make([]common.AudioDeviceDescription, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _err = u.DeviceDescription[_i].UnmarshalParcel(p); _err != nil {
+					return _err
+				}
 			}
 		}
 	case ParameterTagMode:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.Mode = common.AudioMode(_raw)
 	case ParameterTagSource:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.Source = common.AudioSource(_raw)
 	case ParameterTagOffload:
 		u.Offload, _err = p.ReadBool()
 		if _err != nil {
 			return _err
 		}
 	case ParameterTagVolumeStereo:
+		if _err = u.VolumeStereo.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ParameterTagSpecific:
+		if _err = u.Specific.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ParameterTagSinkMetadata:
+		if _err = u.SinkMetadata.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case ParameterTagSourceMetadata:
+		if _err = u.SourceMetadata.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Parameter", u.Tag)
 	}

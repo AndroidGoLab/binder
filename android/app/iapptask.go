@@ -3,6 +3,8 @@ package app
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,7 +26,7 @@ type IAppTask interface {
 	FinishAndRemoveTask(ctx context.Context) error
 	GetTaskInfo(ctx context.Context) (ActivityManagerRecentTaskInfo, error)
 	MoveToFront(ctx context.Context, appThread IApplicationThread) error
-	StartActivity(ctx context.Context, whoThread binder.IBinder, intent interface{}, resolvedType string, options interface{}) (int32, error)
+	StartActivity(ctx context.Context, whoThread binder.IBinder, intent content.Intent, resolvedType string, options os.Bundle) (int32, error)
 	SetExcludeFromRecents(ctx context.Context, exclude bool) error
 }
 
@@ -133,9 +135,9 @@ func (p *AppTaskProxy) MoveToFront(
 func (p *AppTaskProxy) StartActivity(
 	ctx context.Context,
 	whoThread binder.IBinder,
-	intent interface{},
+	intent content.Intent,
 	resolvedType string,
-	options interface{},
+	options os.Bundle,
 ) (int32, error) {
 	var _result int32
 	_identity := p.remote.Identity()
@@ -144,7 +146,15 @@ func (p *AppTaskProxy) StartActivity(
 	_data.WriteStrongBinder(whoThread.Handle())
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteString16(resolvedType)
+	_data.WriteInt32(1)
+	if _err := options.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAppTask, "startActivity")
 	if _err != nil {
@@ -267,12 +277,34 @@ func (s *AppTaskStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resolvedType, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_options interface{}
+		var _arg_options os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_options.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.StartActivity(ctx, _arg_whoThread, _arg_intent, _arg_resolvedType, _arg_options)
 		_reply := parcel.New()
 		if _err != nil {

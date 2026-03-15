@@ -3,6 +3,7 @@ package location
 import (
 	"context"
 	"fmt"
+	contexthub "github.com/xaionaro-go/binder/android/hardware/contexthub"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -60,12 +61,12 @@ type IContextHubService interface {
 	QueryNanoApps(ctx context.Context, contextHubId int32, transactionCallback IContextHubTransactionCallback) error
 	GetPreloadedNanoAppIds(ctx context.Context, hubInfo ContextHubInfo) ([]int64, error)
 	SetTestMode(ctx context.Context, enable bool) (bool, error)
-	FindEndpoints(ctx context.Context, endpointId int64) ([]interface{}, error)
-	FindEndpointsWithService(ctx context.Context, service string) ([]interface{}, error)
-	RegisterEndpoint(ctx context.Context, pendingEndpointInfo interface{}, callback interface{}) (interface{}, error)
-	RegisterEndpointDiscoveryCallbackId(ctx context.Context, endpointId int64, callback interface{}) error
-	RegisterEndpointDiscoveryCallbackDescriptor(ctx context.Context, serviceDescriptor string, callback interface{}) error
-	UnregisterEndpointDiscoveryCallback(ctx context.Context, callback interface{}) error
+	FindEndpoints(ctx context.Context, endpointId int64) ([]contexthub.HubEndpointInfo, error)
+	FindEndpointsWithService(ctx context.Context, service string) ([]contexthub.HubEndpointInfo, error)
+	RegisterEndpoint(ctx context.Context, pendingEndpointInfo contexthub.HubEndpointInfo, callback contexthub.IContextHubEndpointCallback) (contexthub.IContextHubEndpoint, error)
+	RegisterEndpointDiscoveryCallbackId(ctx context.Context, endpointId int64, callback contexthub.IContextHubEndpointDiscoveryCallback) error
+	RegisterEndpointDiscoveryCallbackDescriptor(ctx context.Context, serviceDescriptor string, callback contexthub.IContextHubEndpointDiscoveryCallback) error
+	UnregisterEndpointDiscoveryCallback(ctx context.Context, callback contexthub.IContextHubEndpointDiscoveryCallback) error
 }
 
 type ContextHubServiceProxy struct {
@@ -757,8 +758,8 @@ func (p *ContextHubServiceProxy) SetTestMode(
 func (p *ContextHubServiceProxy) FindEndpoints(
 	ctx context.Context,
 	endpointId int64,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]contexthub.HubEndpointInfo, error) {
+	var _result []contexthub.HubEndpointInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt64(endpointId)
@@ -784,8 +785,11 @@ func (p *ContextHubServiceProxy) FindEndpoints(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]contexthub.HubEndpointInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -794,8 +798,8 @@ func (p *ContextHubServiceProxy) FindEndpoints(
 func (p *ContextHubServiceProxy) FindEndpointsWithService(
 	ctx context.Context,
 	service string,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]contexthub.HubEndpointInfo, error) {
+	var _result []contexthub.HubEndpointInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteString16(service)
@@ -821,8 +825,11 @@ func (p *ContextHubServiceProxy) FindEndpointsWithService(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]contexthub.HubEndpointInfo, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -830,12 +837,17 @@ func (p *ContextHubServiceProxy) FindEndpointsWithService(
 
 func (p *ContextHubServiceProxy) RegisterEndpoint(
 	ctx context.Context,
-	pendingEndpointInfo interface{},
-	callback interface{},
-) (interface{}, error) {
-	var _result interface{}
+	pendingEndpointInfo contexthub.HubEndpointInfo,
+	callback contexthub.IContextHubEndpointCallback,
+) (contexthub.IContextHubEndpoint, error) {
+	var _result contexthub.IContextHubEndpoint
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
+	_data.WriteInt32(1)
+	if _err := pendingEndpointInfo.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerEndpoint")
 	if _err != nil {
@@ -852,17 +864,23 @@ func (p *ContextHubServiceProxy) RegisterEndpoint(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = contexthub.NewContextHubEndpointProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *ContextHubServiceProxy) RegisterEndpointDiscoveryCallbackId(
 	ctx context.Context,
 	endpointId int64,
-	callback interface{},
+	callback contexthub.IContextHubEndpointDiscoveryCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteInt64(endpointId)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerEndpointDiscoveryCallbackId")
 	if _err != nil {
@@ -885,11 +903,12 @@ func (p *ContextHubServiceProxy) RegisterEndpointDiscoveryCallbackId(
 func (p *ContextHubServiceProxy) RegisterEndpointDiscoveryCallbackDescriptor(
 	ctx context.Context,
 	serviceDescriptor string,
-	callback interface{},
+	callback contexthub.IContextHubEndpointDiscoveryCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
 	_data.WriteString16(serviceDescriptor)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "registerEndpointDiscoveryCallbackDescriptor")
 	if _err != nil {
@@ -911,10 +930,11 @@ func (p *ContextHubServiceProxy) RegisterEndpointDiscoveryCallbackDescriptor(
 
 func (p *ContextHubServiceProxy) UnregisterEndpointDiscoveryCallback(
 	ctx context.Context,
-	callback interface{},
+	callback contexthub.IContextHubEndpointDiscoveryCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIContextHubService)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIContextHubService, "unregisterEndpointDiscoveryCallback")
 	if _err != nil {
@@ -1411,8 +1431,21 @@ func (s *ContextHubServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_pendingEndpointInfo interface{}
-		var _arg_callback interface{}
+		var _arg_pendingEndpointInfo contexthub.HubEndpointInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_pendingEndpointInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback contexthub.IContextHubEndpointCallback
+		_ = _arg_callback
 		_result, _err := s.Impl.RegisterEndpoint(ctx, _arg_pendingEndpointInfo, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1420,6 +1453,7 @@ func (s *ContextHubServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionIContextHubServiceRegisterEndpointDiscoveryCallbackId:
@@ -1430,7 +1464,9 @@ func (s *ContextHubServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback contexthub.IContextHubEndpointDiscoveryCallback
+		_ = _arg_callback
 		_err = s.Impl.RegisterEndpointDiscoveryCallbackId(ctx, _arg_endpointId, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1447,7 +1483,9 @@ func (s *ContextHubServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback contexthub.IContextHubEndpointDiscoveryCallback
+		_ = _arg_callback
 		_err = s.Impl.RegisterEndpointDiscoveryCallbackDescriptor(ctx, _arg_serviceDescriptor, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1460,7 +1498,9 @@ func (s *ContextHubServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback contexthub.IContextHubEndpointDiscoveryCallback
+		_ = _arg_callback
 		_err := s.Impl.UnregisterEndpointDiscoveryCallback(ctx, _arg_callback)
 		_reply := parcel.New()
 		if _err != nil {

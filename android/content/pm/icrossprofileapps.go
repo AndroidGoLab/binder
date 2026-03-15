@@ -3,6 +3,7 @@ package pm
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -26,8 +27,8 @@ const (
 
 type ICrossProfileApps interface {
 	AsBinder() binder.IBinder
-	StartActivityAsUser(ctx context.Context, caller interface{}, component interface{}, launchMainActivity bool, task binder.IBinder, options interface{}) error
-	StartActivityAsUserByIntent(ctx context.Context, caller interface{}, intent interface{}, callingActivity binder.IBinder, options interface{}) error
+	StartActivityAsUser(ctx context.Context, caller interface{}, component content.ComponentName, launchMainActivity bool, task binder.IBinder, options interface{}) error
+	StartActivityAsUserByIntent(ctx context.Context, caller interface{}, intent content.Intent, callingActivity binder.IBinder, options interface{}) error
 	GetTargetUserProfiles(ctx context.Context) ([]interface{}, error)
 	CanInteractAcrossProfiles(ctx context.Context) (bool, error)
 	CanRequestInteractAcrossProfiles(ctx context.Context) (bool, error)
@@ -57,7 +58,7 @@ var _ ICrossProfileApps = (*CrossProfileAppsProxy)(nil)
 func (p *CrossProfileAppsProxy) StartActivityAsUser(
 	ctx context.Context,
 	caller interface{},
-	component interface{},
+	component content.ComponentName,
 	launchMainActivity bool,
 	task binder.IBinder,
 	options interface{},
@@ -67,6 +68,10 @@ func (p *CrossProfileAppsProxy) StartActivityAsUser(
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := component.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(launchMainActivity)
 	_data.WriteStrongBinder(task.Handle())
@@ -92,7 +97,7 @@ func (p *CrossProfileAppsProxy) StartActivityAsUser(
 func (p *CrossProfileAppsProxy) StartActivityAsUserByIntent(
 	ctx context.Context,
 	caller interface{},
-	intent interface{},
+	intent content.Intent,
 	callingActivity binder.IBinder,
 	options interface{},
 ) error {
@@ -101,6 +106,10 @@ func (p *CrossProfileAppsProxy) StartActivityAsUserByIntent(
 	_data.WriteInterfaceToken(DescriptorICrossProfileApps)
 	_data.WriteString16(_identity.PackageName)
 	_data.WriteString16(_identity.AttributionTag)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteStrongBinder(callingActivity.Handle())
 
@@ -403,7 +412,18 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_component interface{}
+		var _arg_component content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_component.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
@@ -434,7 +454,18 @@ func (s *CrossProfileAppsStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}

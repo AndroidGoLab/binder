@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,15 +26,15 @@ const (
 
 type IRingtonePlayer interface {
 	AsBinder() binder.IBinder
-	Play(ctx context.Context, token binder.IBinder, uri interface{}, aa AudioAttributes, volume float32, looping bool) error
-	PlayWithVolumeShaping(ctx context.Context, token binder.IBinder, uri interface{}, aa AudioAttributes, volume float32, looping bool, volumeShaperConfig *VolumeShaperConfiguration) error
+	Play(ctx context.Context, token binder.IBinder, uri net.Uri, aa AudioAttributes, volume float32, looping bool) error
+	PlayWithVolumeShaping(ctx context.Context, token binder.IBinder, uri net.Uri, aa AudioAttributes, volume float32, looping bool, volumeShaperConfig *VolumeShaperConfiguration) error
 	Stop(ctx context.Context, token binder.IBinder) error
 	IsPlaying(ctx context.Context, token binder.IBinder) (bool, error)
 	SetPlaybackProperties(ctx context.Context, token binder.IBinder, volume float32, looping bool, hapticGeneratorEnabled bool) error
-	PlayAsync(ctx context.Context, uri interface{}, user interface{}, looping bool, aa AudioAttributes, volume float32) error
+	PlayAsync(ctx context.Context, uri net.Uri, user interface{}, looping bool, aa AudioAttributes, volume float32) error
 	StopAsync(ctx context.Context) error
-	GetTitle(ctx context.Context, uri interface{}) (string, error)
-	OpenRingtone(ctx context.Context, uri interface{}) (int32, error)
+	GetTitle(ctx context.Context, uri net.Uri) (string, error)
+	OpenRingtone(ctx context.Context, uri net.Uri) (int32, error)
 }
 
 type RingtonePlayerProxy struct {
@@ -55,7 +56,7 @@ var _ IRingtonePlayer = (*RingtonePlayerProxy)(nil)
 func (p *RingtonePlayerProxy) Play(
 	ctx context.Context,
 	token binder.IBinder,
-	uri interface{},
+	uri net.Uri,
 	aa AudioAttributes,
 	volume float32,
 	looping bool,
@@ -63,6 +64,10 @@ func (p *RingtonePlayerProxy) Play(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _err
@@ -82,7 +87,7 @@ func (p *RingtonePlayerProxy) Play(
 func (p *RingtonePlayerProxy) PlayWithVolumeShaping(
 	ctx context.Context,
 	token binder.IBinder,
-	uri interface{},
+	uri net.Uri,
 	aa AudioAttributes,
 	volume float32,
 	looping bool,
@@ -91,6 +96,10 @@ func (p *RingtonePlayerProxy) PlayWithVolumeShaping(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
 	_data.WriteStrongBinder(token.Handle())
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
 		return _err
@@ -187,7 +196,7 @@ func (p *RingtonePlayerProxy) SetPlaybackProperties(
 
 func (p *RingtonePlayerProxy) PlayAsync(
 	ctx context.Context,
-	uri interface{},
+	uri net.Uri,
 	user interface{},
 	looping bool,
 	aa AudioAttributes,
@@ -195,6 +204,10 @@ func (p *RingtonePlayerProxy) PlayAsync(
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(looping)
 	_data.WriteInt32(1)
 	if _err := aa.MarshalParcel(_data); _err != nil {
@@ -228,11 +241,15 @@ func (p *RingtonePlayerProxy) StopAsync(
 
 func (p *RingtonePlayerProxy) GetTitle(
 	ctx context.Context,
-	uri interface{},
+	uri net.Uri,
 ) (string, error) {
 	var _result string
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "getTitle")
 	if _err != nil {
@@ -258,11 +275,15 @@ func (p *RingtonePlayerProxy) GetTitle(
 
 func (p *RingtonePlayerProxy) OpenRingtone(
 	ctx context.Context,
-	uri interface{},
+	uri net.Uri,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRingtonePlayer)
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRingtonePlayer, "openRingtone")
 	if _err != nil {
@@ -307,7 +328,18 @@ func (s *RingtonePlayerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_aa AudioAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -338,7 +370,18 @@ func (s *RingtonePlayerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_aa AudioAttributes
 		{
 			_nullInd, _err := _data.ReadInt32()
@@ -426,7 +469,18 @@ func (s *RingtonePlayerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_user interface{}
 		_arg_looping, _err := _data.ReadBool()
 		if _err != nil {
@@ -462,7 +516,18 @@ func (s *RingtonePlayerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetTitle(ctx, _arg_uri)
 		_reply := parcel.New()
 		if _err != nil {
@@ -476,7 +541,18 @@ func (s *RingtonePlayerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.OpenRingtone(ctx, _arg_uri)
 		_reply := parcel.New()
 		if _err != nil {

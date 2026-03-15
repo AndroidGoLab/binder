@@ -3,6 +3,7 @@ package os
 import (
 	"context"
 	"fmt"
+	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -46,11 +47,11 @@ const (
 
 type INetworkManagementService interface {
 	AsBinder() binder.IBinder
-	RegisterObserver(ctx context.Context, obs interface{}) error
-	UnregisterObserver(ctx context.Context, obs interface{}) error
+	RegisterObserver(ctx context.Context, obs net.INetworkManagementEventObserver) error
+	UnregisterObserver(ctx context.Context, obs net.INetworkManagementEventObserver) error
 	ListInterfaces(ctx context.Context) ([]string, error)
-	GetInterfaceConfig(ctx context.Context, iface string) (interface{}, error)
-	SetInterfaceConfig(ctx context.Context, iface string, cfg interface{}) error
+	GetInterfaceConfig(ctx context.Context, iface string) (net.InterfaceConfiguration, error)
+	SetInterfaceConfig(ctx context.Context, iface string, cfg net.InterfaceConfiguration) error
 	ClearInterfaceAddresses(ctx context.Context, iface string) error
 	SetInterfaceDown(ctx context.Context, iface string) error
 	SetInterfaceUp(ctx context.Context, iface string) error
@@ -96,10 +97,11 @@ var _ INetworkManagementService = (*NetworkManagementServiceProxy)(nil)
 
 func (p *NetworkManagementServiceProxy) RegisterObserver(
 	ctx context.Context,
-	obs interface{},
+	obs net.INetworkManagementEventObserver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
+	_data.WriteStrongBinder(obs.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementService, "registerObserver")
 	if _err != nil {
@@ -121,10 +123,11 @@ func (p *NetworkManagementServiceProxy) RegisterObserver(
 
 func (p *NetworkManagementServiceProxy) UnregisterObserver(
 	ctx context.Context,
-	obs interface{},
+	obs net.INetworkManagementEventObserver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
+	_data.WriteStrongBinder(obs.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementService, "unregisterObserver")
 	if _err != nil {
@@ -186,8 +189,8 @@ func (p *NetworkManagementServiceProxy) ListInterfaces(
 func (p *NetworkManagementServiceProxy) GetInterfaceConfig(
 	ctx context.Context,
 	iface string,
-) (interface{}, error) {
-	var _result interface{}
+) (net.InterfaceConfiguration, error) {
+	var _result net.InterfaceConfiguration
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
@@ -207,17 +210,30 @@ func (p *NetworkManagementServiceProxy) GetInterfaceConfig(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *NetworkManagementServiceProxy) SetInterfaceConfig(
 	ctx context.Context,
 	iface string,
-	cfg interface{},
+	cfg net.InterfaceConfiguration,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINetworkManagementService)
 	_data.WriteString16(iface)
+	_data.WriteInt32(1)
+	if _err := cfg.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorINetworkManagementService, "setInterfaceConfig")
 	if _err != nil {
@@ -957,7 +973,9 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_obs interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_obs net.INetworkManagementEventObserver
+		_ = _arg_obs
 		_err := s.Impl.RegisterObserver(ctx, _arg_obs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -970,7 +988,9 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_obs interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_obs net.INetworkManagementEventObserver
+		_ = _arg_obs
 		_err := s.Impl.UnregisterObserver(ctx, _arg_obs)
 		_reply := parcel.New()
 		if _err != nil {
@@ -1008,7 +1028,10 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionINetworkManagementServiceSetInterfaceConfig:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -1018,7 +1041,18 @@ func (s *NetworkManagementServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_cfg interface{}
+		var _arg_cfg net.InterfaceConfiguration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_cfg.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SetInterfaceConfig(ctx, _arg_iface, _arg_cfg)
 		_reply := parcel.New()
 		if _err != nil {

@@ -3,8 +3,12 @@ package autofill
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
+	androidOs "github.com/xaionaro-go/binder/android/os"
+	serviceAutofill "github.com/xaionaro-go/binder/android/service/autofill"
 	"github.com/xaionaro-go/binder/binder"
+	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -46,30 +50,30 @@ const (
 
 type IAutoFillManager interface {
 	AsBinder() binder.IBinder
-	AddClient(ctx context.Context, client IAutoFillManagerClient, componentName interface{}, result interface{}, credmanRequested bool) error
+	AddClient(ctx context.Context, client IAutoFillManagerClient, componentName content.ComponentName, result os.IResultReceiver, credmanRequested bool) error
 	RemoveClient(ctx context.Context, client IAutoFillManagerClient) error
-	StartSession(ctx context.Context, activityToken binder.IBinder, appCallback binder.IBinder, autoFillId AutofillId, bounds graphics.Rect, value AutofillValue, hasCallback bool, flags int32, componentName interface{}, compatMode bool, result interface{}) error
-	GetFillEventHistory(ctx context.Context, result interface{}) error
-	RestoreSession(ctx context.Context, sessionId int32, activityToken binder.IBinder, appCallback binder.IBinder, result interface{}) error
+	StartSession(ctx context.Context, activityToken binder.IBinder, appCallback binder.IBinder, autoFillId AutofillId, bounds graphics.Rect, value AutofillValue, hasCallback bool, flags int32, componentName content.ComponentName, compatMode bool, result os.IResultReceiver) error
+	GetFillEventHistory(ctx context.Context, result os.IResultReceiver) error
+	RestoreSession(ctx context.Context, sessionId int32, activityToken binder.IBinder, appCallback binder.IBinder, result os.IResultReceiver) error
 	UpdateSession(ctx context.Context, sessionId int32, id AutofillId, bounds graphics.Rect, value AutofillValue, action int32, flags int32) error
 	SetAutofillFailure(ctx context.Context, sessionId int32, ids []AutofillId, isRefill bool) error
 	SetViewAutofilled(ctx context.Context, sessionId int32, id AutofillId) error
 	FinishSession(ctx context.Context, sessionId int32, commitReason int32) error
 	CancelSession(ctx context.Context, sessionId int32) error
-	SetAuthenticationResult(ctx context.Context, data interface{}, sessionId int32, authenticationId int32) error
+	SetAuthenticationResult(ctx context.Context, data androidOs.Bundle, sessionId int32, authenticationId int32) error
 	SetHasCallback(ctx context.Context, sessionId int32, hasIt bool) error
 	DisableOwnedAutofillServices(ctx context.Context) error
-	IsServiceSupported(ctx context.Context, result interface{}) error
-	IsServiceEnabled(ctx context.Context, packageName string, result interface{}) error
+	IsServiceSupported(ctx context.Context, result os.IResultReceiver) error
+	IsServiceEnabled(ctx context.Context, packageName string, result os.IResultReceiver) error
 	OnPendingSaveUi(ctx context.Context, operation int32, token binder.IBinder) error
-	GetUserData(ctx context.Context, result interface{}) error
-	GetUserDataId(ctx context.Context, result interface{}) error
-	SetUserData(ctx context.Context, userData interface{}) error
-	IsFieldClassificationEnabled(ctx context.Context, result interface{}) error
-	GetAutofillServiceComponentName(ctx context.Context, result interface{}) error
-	GetAvailableFieldClassificationAlgorithms(ctx context.Context, result interface{}) error
-	GetDefaultFieldClassificationAlgorithm(ctx context.Context, result interface{}) error
-	SetAugmentedAutofillWhitelist(ctx context.Context, packages []string, activities []interface{}, result interface{}) error
+	GetUserData(ctx context.Context, result os.IResultReceiver) error
+	GetUserDataId(ctx context.Context, result os.IResultReceiver) error
+	SetUserData(ctx context.Context, userData serviceAutofill.UserData) error
+	IsFieldClassificationEnabled(ctx context.Context, result os.IResultReceiver) error
+	GetAutofillServiceComponentName(ctx context.Context, result os.IResultReceiver) error
+	GetAvailableFieldClassificationAlgorithms(ctx context.Context, result os.IResultReceiver) error
+	GetDefaultFieldClassificationAlgorithm(ctx context.Context, result os.IResultReceiver) error
+	SetAugmentedAutofillWhitelist(ctx context.Context, packages []string, activities []content.ComponentName, result os.IResultReceiver) error
 	NotifyNotExpiringResponseDuringAuth(ctx context.Context, sessionId int32) error
 	NotifyViewEnteredIgnoredDuringAuthCount(ctx context.Context, sessionId int32) error
 	SetAutofillIdsAttemptedForRefill(ctx context.Context, sessionId int32, ids []AutofillId) error
@@ -96,15 +100,20 @@ var _ IAutoFillManager = (*AutoFillManagerProxy)(nil)
 func (p *AutoFillManagerProxy) AddClient(
 	ctx context.Context,
 	client IAutoFillManagerClient,
-	componentName interface{},
-	result interface{},
+	componentName content.ComponentName,
+	result os.IResultReceiver,
 	credmanRequested bool,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteStrongBinder(client.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := componentName.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(_identity.UserID)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 	_data.WriteBool(credmanRequested)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "addClient")
@@ -144,9 +153,9 @@ func (p *AutoFillManagerProxy) StartSession(
 	value AutofillValue,
 	hasCallback bool,
 	flags int32,
-	componentName interface{},
+	componentName content.ComponentName,
 	compatMode bool,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
@@ -168,7 +177,12 @@ func (p *AutoFillManagerProxy) StartSession(
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteBool(hasCallback)
 	_data.WriteInt32(flags)
+	_data.WriteInt32(1)
+	if _err := componentName.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(compatMode)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "startSession")
 	if _err != nil {
@@ -181,10 +195,11 @@ func (p *AutoFillManagerProxy) StartSession(
 
 func (p *AutoFillManagerProxy) GetFillEventHistory(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getFillEventHistory")
 	if _err != nil {
@@ -200,13 +215,14 @@ func (p *AutoFillManagerProxy) RestoreSession(
 	sessionId int32,
 	activityToken binder.IBinder,
 	appCallback binder.IBinder,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(sessionId)
 	_data.WriteStrongBinder(activityToken.Handle())
 	_data.WriteStrongBinder(appCallback.Handle())
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "restoreSession")
 	if _err != nil {
@@ -353,13 +369,17 @@ func (p *AutoFillManagerProxy) CancelSession(
 
 func (p *AutoFillManagerProxy) SetAuthenticationResult(
 	ctx context.Context,
-	data interface{},
+	data androidOs.Bundle,
 	sessionId int32,
 	authenticationId int32,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteInt32(1)
+	if _err := data.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(sessionId)
 	_data.WriteInt32(authenticationId)
 	_data.WriteInt32(_identity.UserID)
@@ -413,12 +433,13 @@ func (p *AutoFillManagerProxy) DisableOwnedAutofillServices(
 
 func (p *AutoFillManagerProxy) IsServiceSupported(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(_identity.UserID)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "isServiceSupported")
 	if _err != nil {
@@ -432,13 +453,14 @@ func (p *AutoFillManagerProxy) IsServiceSupported(
 func (p *AutoFillManagerProxy) IsServiceEnabled(
 	ctx context.Context,
 	packageName string,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
 	_data.WriteInt32(_identity.UserID)
 	_data.WriteString16(packageName)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "isServiceEnabled")
 	if _err != nil {
@@ -470,10 +492,11 @@ func (p *AutoFillManagerProxy) OnPendingSaveUi(
 
 func (p *AutoFillManagerProxy) GetUserData(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getUserData")
 	if _err != nil {
@@ -486,10 +509,11 @@ func (p *AutoFillManagerProxy) GetUserData(
 
 func (p *AutoFillManagerProxy) GetUserDataId(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getUserDataId")
 	if _err != nil {
@@ -502,10 +526,14 @@ func (p *AutoFillManagerProxy) GetUserDataId(
 
 func (p *AutoFillManagerProxy) SetUserData(
 	ctx context.Context,
-	userData interface{},
+	userData serviceAutofill.UserData,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteInt32(1)
+	if _err := userData.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "setUserData")
 	if _err != nil {
@@ -518,10 +546,11 @@ func (p *AutoFillManagerProxy) SetUserData(
 
 func (p *AutoFillManagerProxy) IsFieldClassificationEnabled(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "isFieldClassificationEnabled")
 	if _err != nil {
@@ -534,10 +563,11 @@ func (p *AutoFillManagerProxy) IsFieldClassificationEnabled(
 
 func (p *AutoFillManagerProxy) GetAutofillServiceComponentName(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getAutofillServiceComponentName")
 	if _err != nil {
@@ -550,10 +580,11 @@ func (p *AutoFillManagerProxy) GetAutofillServiceComponentName(
 
 func (p *AutoFillManagerProxy) GetAvailableFieldClassificationAlgorithms(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getAvailableFieldClassificationAlgorithms")
 	if _err != nil {
@@ -566,10 +597,11 @@ func (p *AutoFillManagerProxy) GetAvailableFieldClassificationAlgorithms(
 
 func (p *AutoFillManagerProxy) GetDefaultFieldClassificationAlgorithm(
 	ctx context.Context,
-	result interface{},
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "getDefaultFieldClassificationAlgorithm")
 	if _err != nil {
@@ -583,8 +615,8 @@ func (p *AutoFillManagerProxy) GetDefaultFieldClassificationAlgorithm(
 func (p *AutoFillManagerProxy) SetAugmentedAutofillWhitelist(
 	ctx context.Context,
 	packages []string,
-	activities []interface{},
-	result interface{},
+	activities []content.ComponentName,
+	result os.IResultReceiver,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutoFillManager)
@@ -600,7 +632,13 @@ func (p *AutoFillManagerProxy) SetAugmentedAutofillWhitelist(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(activities)))
+		for _, _item := range activities {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
+	_data.WriteStrongBinder(result.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAutoFillManager, "setAugmentedAutofillWhitelist")
 	if _err != nil {
@@ -742,11 +780,24 @@ func (s *AutoFillManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_client IAutoFillManagerClient
 		_ = _arg_client
-		var _arg_componentName interface{}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_arg_credmanRequested, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -824,12 +875,25 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_componentName interface{}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_compatMode, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err = s.Impl.StartSession(ctx, _arg_activityToken, _arg_appCallback, _arg_autoFillId, _arg_bounds, _arg_value, _arg_hasCallback, _arg_flags, _arg_componentName, _arg_compatMode, _arg_result)
 		_ = _err
 		return nil, nil
@@ -837,7 +901,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.GetFillEventHistory(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -855,7 +921,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_appCallback binder.IBinder
 		_ = _arg_appCallback
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err = s.Impl.RestoreSession(ctx, _arg_sessionId, _arg_activityToken, _arg_appCallback, _arg_result)
 		_ = _err
 		return nil, nil
@@ -1000,7 +1068,18 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_data interface{}
+		var _arg_data androidOs.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_data.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_sessionId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1050,7 +1129,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.IsServiceSupported(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -1065,7 +1146,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err = s.Impl.IsServiceEnabled(ctx, _arg_packageName, _arg_result)
 		_ = _err
 		return nil, nil
@@ -1087,7 +1170,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.GetUserData(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -1095,7 +1180,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.GetUserDataId(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -1103,7 +1190,18 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_userData interface{}
+		var _arg_userData serviceAutofill.UserData
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_userData.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetUserData(ctx, _arg_userData)
 		_ = _err
 		return nil, nil
@@ -1111,7 +1209,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.IsFieldClassificationEnabled(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -1119,7 +1219,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.GetAutofillServiceComponentName(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -1127,7 +1229,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.GetAvailableFieldClassificationAlgorithms(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -1135,7 +1239,9 @@ func (s *AutoFillManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.GetDefaultFieldClassificationAlgorithm(ctx, _arg_result)
 		_ = _err
 		return nil, nil
@@ -1147,9 +1253,11 @@ func (s *AutoFillManagerStub) OnTransaction(
 		var _arg_packages []string
 		_ = _arg_packages
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_activities []interface{}
+		var _arg_activities []content.ComponentName
 		_ = _arg_activities
-		var _arg_result interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_result os.IResultReceiver
+		_ = _arg_result
 		_err := s.Impl.SetAugmentedAutofillWhitelist(ctx, _arg_packages, _arg_activities, _arg_result)
 		_ = _err
 		return nil, nil

@@ -2,6 +2,7 @@ package effect
 
 import (
 	"fmt"
+	effectHapticGenerator "github.com/xaionaro-go/binder/android/hardware/audio/effect/HapticGenerator"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -16,8 +17,8 @@ const (
 type HapticGenerator struct {
 	Tag          int32
 	Vendor       VendorExtension
-	HapticScales []interface{}
-	VibratorInfo interface{}
+	HapticScales []effectHapticGenerator.HapticScale
+	VibratorInfo effectHapticGenerator.VibratorInformation
 }
 
 var _ parcel.Parcelable = (*HapticGenerator)(nil)
@@ -37,31 +38,31 @@ func (u *HapticGenerator) SetVendor(
 	u.Vendor = v
 }
 
-func (u *HapticGenerator) GetHapticScales() ([]interface{}, bool) {
+func (u *HapticGenerator) GetHapticScales() ([]effectHapticGenerator.HapticScale, bool) {
 	if u.Tag != HapticGeneratorTagHapticScales {
-		var _zero []interface{}
+		var _zero []effectHapticGenerator.HapticScale
 		return _zero, false
 	}
 	return u.HapticScales, true
 }
 
 func (u *HapticGenerator) SetHapticScales(
-	v []interface{},
+	v []effectHapticGenerator.HapticScale,
 ) {
 	u.Tag = HapticGeneratorTagHapticScales
 	u.HapticScales = v
 }
 
-func (u *HapticGenerator) GetVibratorInfo() (interface{}, bool) {
+func (u *HapticGenerator) GetVibratorInfo() (effectHapticGenerator.VibratorInformation, bool) {
 	if u.Tag != HapticGeneratorTagVibratorInfo {
-		var _zero interface{}
+		var _zero effectHapticGenerator.VibratorInformation
 		return _zero, false
 	}
 	return u.VibratorInfo, true
 }
 
 func (u *HapticGenerator) SetVibratorInfo(
-	v interface{},
+	v effectHapticGenerator.VibratorInformation,
 ) {
 	u.Tag = HapticGeneratorTagVibratorInfo
 	u.VibratorInfo = v
@@ -83,8 +84,16 @@ func (u *HapticGenerator) MarshalParcel(
 			p.WriteInt32(-1)
 		} else {
 			p.WriteInt32(int32(len(u.HapticScales)))
+			for _, _item := range u.HapticScales {
+				if _err := _item.MarshalParcel(p); _err != nil {
+					return _err
+				}
+			}
 		}
 	case HapticGeneratorTagVibratorInfo:
+		if _err := u.VibratorInfo.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for HapticGenerator", u.Tag)
 	}
@@ -119,11 +128,17 @@ func (u *HapticGenerator) UnmarshalParcel(
 			return _err
 		}
 		if _count0 >= 0 {
-			u.HapticScales = make([]interface{}, _count0)
+			u.HapticScales = make([]effectHapticGenerator.HapticScale, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _err = u.HapticScales[_i].UnmarshalParcel(p); _err != nil {
+					return _err
+				}
 			}
 		}
 	case HapticGeneratorTagVibratorInfo:
+		if _err = u.VibratorInfo.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for HapticGenerator", u.Tag)
 	}

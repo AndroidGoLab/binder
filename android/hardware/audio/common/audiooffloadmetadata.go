@@ -1,6 +1,7 @@
 package common
 
 import (
+	audioCommon "github.com/xaionaro-go/binder/android/media/audio/common"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type AudioOffloadMetadata struct {
 	SampleRate              int32
-	ChannelMask             interface{}
+	ChannelMask             audioCommon.AudioChannelLayout
 	AverageBitRatePerSecond int32
 	DelayFrames             int32
 	PaddingFrames           int32
@@ -21,6 +22,9 @@ func (s *AudioOffloadMetadata) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteInt32(s.SampleRate)
+	if _err := s.ChannelMask.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.AverageBitRatePerSecond)
 	p.WriteInt32(s.DelayFrames)
 	p.WriteInt32(s.PaddingFrames)
@@ -39,6 +43,10 @@ func (s *AudioOffloadMetadata) UnmarshalParcel(
 
 	s.SampleRate, _err = p.ReadInt32()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.ChannelMask.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

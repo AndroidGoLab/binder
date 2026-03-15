@@ -2,6 +2,7 @@ package Event
 
 import (
 	"fmt"
+	EventEventPayload "github.com/xaionaro-go/binder/android/hardware/sensors/Event/EventPayload"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -27,80 +28,80 @@ const (
 
 type EventPayload struct {
 	Tag                 int32
-	Vec3                interface{}
-	Vec4                interface{}
-	Uncal               interface{}
-	Meta                interface{}
+	Vec3                EventEventPayload.Vec3
+	Vec4                EventEventPayload.Vec4
+	Uncal               EventEventPayload.Uncal
+	Meta                EventEventPayload.MetaData
 	Scalar              float32
 	StepCount           int64
-	HeartRate           interface{}
-	Pose6DOF            interface{}
+	HeartRate           EventEventPayload.HeartRate
+	Pose6DOF            EventEventPayload.Pose6Dof
 	Dynamic             interface{}
 	Additional          interface{}
-	Data                interface{}
-	HeadTracker         interface{}
-	LimitedAxesImu      interface{}
-	LimitedAxesImuUncal interface{}
-	Heading             interface{}
+	Data                EventEventPayload.Data
+	HeadTracker         EventEventPayload.HeadTracker
+	LimitedAxesImu      EventEventPayload.LimitedAxesImu
+	LimitedAxesImuUncal EventEventPayload.LimitedAxesImuUncal
+	Heading             EventEventPayload.Heading
 }
 
 var _ parcel.Parcelable = (*EventPayload)(nil)
 
-func (u *EventPayload) GetVec3() (interface{}, bool) {
+func (u *EventPayload) GetVec3() (EventEventPayload.Vec3, bool) {
 	if u.Tag != EventPayloadTagVec3 {
-		var _zero interface{}
+		var _zero EventEventPayload.Vec3
 		return _zero, false
 	}
 	return u.Vec3, true
 }
 
 func (u *EventPayload) SetVec3(
-	v interface{},
+	v EventEventPayload.Vec3,
 ) {
 	u.Tag = EventPayloadTagVec3
 	u.Vec3 = v
 }
 
-func (u *EventPayload) GetVec4() (interface{}, bool) {
+func (u *EventPayload) GetVec4() (EventEventPayload.Vec4, bool) {
 	if u.Tag != EventPayloadTagVec4 {
-		var _zero interface{}
+		var _zero EventEventPayload.Vec4
 		return _zero, false
 	}
 	return u.Vec4, true
 }
 
 func (u *EventPayload) SetVec4(
-	v interface{},
+	v EventEventPayload.Vec4,
 ) {
 	u.Tag = EventPayloadTagVec4
 	u.Vec4 = v
 }
 
-func (u *EventPayload) GetUncal() (interface{}, bool) {
+func (u *EventPayload) GetUncal() (EventEventPayload.Uncal, bool) {
 	if u.Tag != EventPayloadTagUncal {
-		var _zero interface{}
+		var _zero EventEventPayload.Uncal
 		return _zero, false
 	}
 	return u.Uncal, true
 }
 
 func (u *EventPayload) SetUncal(
-	v interface{},
+	v EventEventPayload.Uncal,
 ) {
 	u.Tag = EventPayloadTagUncal
 	u.Uncal = v
 }
 
-func (u *EventPayload) GetMeta() (interface{}, bool) {
+func (u *EventPayload) GetMeta() (EventEventPayload.MetaData, bool) {
 	if u.Tag != EventPayloadTagMeta {
-		var _zero interface{}
+		var _zero EventEventPayload.MetaData
 		return _zero, false
 	}
 	return u.Meta, true
 }
 
 func (u *EventPayload) SetMeta(
-	v interface{},
+	v EventEventPayload.MetaData,
 ) {
 	u.Tag = EventPayloadTagMeta
 	u.Meta = v
@@ -136,31 +137,31 @@ func (u *EventPayload) SetStepCount(
 	u.StepCount = v
 }
 
-func (u *EventPayload) GetHeartRate() (interface{}, bool) {
+func (u *EventPayload) GetHeartRate() (EventEventPayload.HeartRate, bool) {
 	if u.Tag != EventPayloadTagHeartRate {
-		var _zero interface{}
+		var _zero EventEventPayload.HeartRate
 		return _zero, false
 	}
 	return u.HeartRate, true
 }
 
 func (u *EventPayload) SetHeartRate(
-	v interface{},
+	v EventEventPayload.HeartRate,
 ) {
 	u.Tag = EventPayloadTagHeartRate
 	u.HeartRate = v
 }
 
-func (u *EventPayload) GetPose6DOF() (interface{}, bool) {
+func (u *EventPayload) GetPose6DOF() (EventEventPayload.Pose6Dof, bool) {
 	if u.Tag != EventPayloadTagPose6DOF {
-		var _zero interface{}
+		var _zero EventEventPayload.Pose6Dof
 		return _zero, false
 	}
 	return u.Pose6DOF, true
 }
 
 func (u *EventPayload) SetPose6DOF(
-	v interface{},
+	v EventEventPayload.Pose6Dof,
 ) {
 	u.Tag = EventPayloadTagPose6DOF
 	u.Pose6DOF = v
@@ -196,76 +197,76 @@ func (u *EventPayload) SetAdditional(
 	u.Additional = v
 }
 
-func (u *EventPayload) GetData() (interface{}, bool) {
+func (u *EventPayload) GetData() (EventEventPayload.Data, bool) {
 	if u.Tag != EventPayloadTagData {
-		var _zero interface{}
+		var _zero EventEventPayload.Data
 		return _zero, false
 	}
 	return u.Data, true
 }
 
 func (u *EventPayload) SetData(
-	v interface{},
+	v EventEventPayload.Data,
 ) {
 	u.Tag = EventPayloadTagData
 	u.Data = v
 }
 
-func (u *EventPayload) GetHeadTracker() (interface{}, bool) {
+func (u *EventPayload) GetHeadTracker() (EventEventPayload.HeadTracker, bool) {
 	if u.Tag != EventPayloadTagHeadTracker {
-		var _zero interface{}
+		var _zero EventEventPayload.HeadTracker
 		return _zero, false
 	}
 	return u.HeadTracker, true
 }
 
 func (u *EventPayload) SetHeadTracker(
-	v interface{},
+	v EventEventPayload.HeadTracker,
 ) {
 	u.Tag = EventPayloadTagHeadTracker
 	u.HeadTracker = v
 }
 
-func (u *EventPayload) GetLimitedAxesImu() (interface{}, bool) {
+func (u *EventPayload) GetLimitedAxesImu() (EventEventPayload.LimitedAxesImu, bool) {
 	if u.Tag != EventPayloadTagLimitedAxesImu {
-		var _zero interface{}
+		var _zero EventEventPayload.LimitedAxesImu
 		return _zero, false
 	}
 	return u.LimitedAxesImu, true
 }
 
 func (u *EventPayload) SetLimitedAxesImu(
-	v interface{},
+	v EventEventPayload.LimitedAxesImu,
 ) {
 	u.Tag = EventPayloadTagLimitedAxesImu
 	u.LimitedAxesImu = v
 }
 
-func (u *EventPayload) GetLimitedAxesImuUncal() (interface{}, bool) {
+func (u *EventPayload) GetLimitedAxesImuUncal() (EventEventPayload.LimitedAxesImuUncal, bool) {
 	if u.Tag != EventPayloadTagLimitedAxesImuUncal {
-		var _zero interface{}
+		var _zero EventEventPayload.LimitedAxesImuUncal
 		return _zero, false
 	}
 	return u.LimitedAxesImuUncal, true
 }
 
 func (u *EventPayload) SetLimitedAxesImuUncal(
-	v interface{},
+	v EventEventPayload.LimitedAxesImuUncal,
 ) {
 	u.Tag = EventPayloadTagLimitedAxesImuUncal
 	u.LimitedAxesImuUncal = v
 }
 
-func (u *EventPayload) GetHeading() (interface{}, bool) {
+func (u *EventPayload) GetHeading() (EventEventPayload.Heading, bool) {
 	if u.Tag != EventPayloadTagHeading {
-		var _zero interface{}
+		var _zero EventEventPayload.Heading
 		return _zero, false
 	}
 	return u.Heading, true
 }
 
 func (u *EventPayload) SetHeading(
-	v interface{},
+	v EventEventPayload.Heading,
 ) {
 	u.Tag = EventPayloadTagHeading
 	u.Heading = v
@@ -279,22 +280,55 @@ func (u *EventPayload) MarshalParcel(
 
 	switch u.Tag {
 	case EventPayloadTagVec3:
+		if _err := u.Vec3.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagVec4:
+		if _err := u.Vec4.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagUncal:
+		if _err := u.Uncal.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagMeta:
+		if _err := u.Meta.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagScalar:
 		p.WriteFloat32(u.Scalar)
 	case EventPayloadTagStepCount:
 		p.WriteInt64(u.StepCount)
 	case EventPayloadTagHeartRate:
+		if _err := u.HeartRate.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagPose6DOF:
+		if _err := u.Pose6DOF.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagDynamic:
 	case EventPayloadTagAdditional:
 	case EventPayloadTagData:
+		if _err := u.Data.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagHeadTracker:
+		if _err := u.HeadTracker.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagLimitedAxesImu:
+		if _err := u.LimitedAxesImu.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagLimitedAxesImuUncal:
+		if _err := u.LimitedAxesImuUncal.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagHeading:
+		if _err := u.Heading.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for EventPayload", u.Tag)
 	}
@@ -318,9 +352,21 @@ func (u *EventPayload) UnmarshalParcel(
 
 	switch u.Tag {
 	case EventPayloadTagVec3:
+		if _err = u.Vec3.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagVec4:
+		if _err = u.Vec4.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagUncal:
+		if _err = u.Uncal.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagMeta:
+		if _err = u.Meta.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagScalar:
 		u.Scalar, _err = p.ReadFloat32()
 		if _err != nil {
@@ -332,14 +378,35 @@ func (u *EventPayload) UnmarshalParcel(
 			return _err
 		}
 	case EventPayloadTagHeartRate:
+		if _err = u.HeartRate.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagPose6DOF:
+		if _err = u.Pose6DOF.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagDynamic:
 	case EventPayloadTagAdditional:
 	case EventPayloadTagData:
+		if _err = u.Data.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagHeadTracker:
+		if _err = u.HeadTracker.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagLimitedAxesImu:
+		if _err = u.LimitedAxesImu.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagLimitedAxesImuUncal:
+		if _err = u.LimitedAxesImuUncal.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case EventPayloadTagHeading:
+		if _err = u.Heading.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for EventPayload", u.Tag)
 	}

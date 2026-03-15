@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	backup "github.com/xaionaro-go/binder/android/app/backup"
 	"github.com/xaionaro-go/binder/binder"
 	infra "github.com/xaionaro-go/binder/com/android/internal_/infra"
 	"github.com/xaionaro-go/binder/parcel"
@@ -29,14 +30,14 @@ const (
 
 type IBackupAgent interface {
 	AsBinder() binder.IBinder
-	DoBackup(ctx context.Context, oldState int32, data int32, newState int32, quotaBytes int64, callbackBinder interface{}, transportFlags int32) error
-	DoRestore(ctx context.Context, data int32, appVersionCode int64, newState int32, token int32, callbackBinder interface{}) error
-	DoRestoreWithExcludedKeys(ctx context.Context, data int32, appVersionCode int64, newState int32, token int32, callbackBinder interface{}, excludedKeys []string) error
-	DoFullBackup(ctx context.Context, data int32, quotaBytes int64, token int32, callbackBinder interface{}, transportFlags int32) error
-	DoMeasureFullBackup(ctx context.Context, quotaBytes int64, token int32, callbackBinder interface{}, transportFlags int32) error
-	DoQuotaExceeded(ctx context.Context, backupDataBytes int64, quotaBytes int64, callbackBinder interface{}) error
-	DoRestoreFile(ctx context.Context, data int32, size int64, type_ int32, domain string, path string, mode int64, mtime int64, token int32, callbackBinder interface{}) error
-	DoRestoreFinished(ctx context.Context, token int32, callbackBinder interface{}) error
+	DoBackup(ctx context.Context, oldState int32, data int32, newState int32, quotaBytes int64, callbackBinder backup.IBackupCallback, transportFlags int32) error
+	DoRestore(ctx context.Context, data int32, appVersionCode int64, newState int32, token int32, callbackBinder backup.IBackupManager) error
+	DoRestoreWithExcludedKeys(ctx context.Context, data int32, appVersionCode int64, newState int32, token int32, callbackBinder backup.IBackupManager, excludedKeys []string) error
+	DoFullBackup(ctx context.Context, data int32, quotaBytes int64, token int32, callbackBinder backup.IBackupManager, transportFlags int32) error
+	DoMeasureFullBackup(ctx context.Context, quotaBytes int64, token int32, callbackBinder backup.IBackupManager, transportFlags int32) error
+	DoQuotaExceeded(ctx context.Context, backupDataBytes int64, quotaBytes int64, callbackBinder backup.IBackupCallback) error
+	DoRestoreFile(ctx context.Context, data int32, size int64, type_ int32, domain string, path string, mode int64, mtime int64, token int32, callbackBinder backup.IBackupManager) error
+	DoRestoreFinished(ctx context.Context, token int32, callbackBinder backup.IBackupManager) error
 	Fail(ctx context.Context, message string) error
 	GetLoggerResults(ctx context.Context, resultsFuture infra.AndroidFuture) error
 	GetOperationType(ctx context.Context, operationTypeFuture infra.AndroidFuture) error
@@ -65,7 +66,7 @@ func (p *BackupAgentProxy) DoBackup(
 	data int32,
 	newState int32,
 	quotaBytes int64,
-	callbackBinder interface{},
+	callbackBinder backup.IBackupCallback,
 	transportFlags int32,
 ) error {
 	_data := parcel.New()
@@ -74,6 +75,7 @@ func (p *BackupAgentProxy) DoBackup(
 	_data.WriteFileDescriptor(data)
 	_data.WriteFileDescriptor(newState)
 	_data.WriteInt64(quotaBytes)
+	_data.WriteStrongBinder(callbackBinder.AsBinder().Handle())
 	_data.WriteInt32(transportFlags)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupAgent, "doBackup")
@@ -91,7 +93,7 @@ func (p *BackupAgentProxy) DoRestore(
 	appVersionCode int64,
 	newState int32,
 	token int32,
-	callbackBinder interface{},
+	callbackBinder backup.IBackupManager,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
@@ -99,6 +101,7 @@ func (p *BackupAgentProxy) DoRestore(
 	_data.WriteInt64(appVersionCode)
 	_data.WriteFileDescriptor(newState)
 	_data.WriteInt32(token)
+	_data.WriteStrongBinder(callbackBinder.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupAgent, "doRestore")
 	if _err != nil {
@@ -115,7 +118,7 @@ func (p *BackupAgentProxy) DoRestoreWithExcludedKeys(
 	appVersionCode int64,
 	newState int32,
 	token int32,
-	callbackBinder interface{},
+	callbackBinder backup.IBackupManager,
 	excludedKeys []string,
 ) error {
 	_data := parcel.New()
@@ -124,6 +127,7 @@ func (p *BackupAgentProxy) DoRestoreWithExcludedKeys(
 	_data.WriteInt64(appVersionCode)
 	_data.WriteFileDescriptor(newState)
 	_data.WriteInt32(token)
+	_data.WriteStrongBinder(callbackBinder.AsBinder().Handle())
 	if excludedKeys == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -147,7 +151,7 @@ func (p *BackupAgentProxy) DoFullBackup(
 	data int32,
 	quotaBytes int64,
 	token int32,
-	callbackBinder interface{},
+	callbackBinder backup.IBackupManager,
 	transportFlags int32,
 ) error {
 	_data := parcel.New()
@@ -155,6 +159,7 @@ func (p *BackupAgentProxy) DoFullBackup(
 	_data.WriteFileDescriptor(data)
 	_data.WriteInt64(quotaBytes)
 	_data.WriteInt32(token)
+	_data.WriteStrongBinder(callbackBinder.AsBinder().Handle())
 	_data.WriteInt32(transportFlags)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupAgent, "doFullBackup")
@@ -170,13 +175,14 @@ func (p *BackupAgentProxy) DoMeasureFullBackup(
 	ctx context.Context,
 	quotaBytes int64,
 	token int32,
-	callbackBinder interface{},
+	callbackBinder backup.IBackupManager,
 	transportFlags int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteInt64(quotaBytes)
 	_data.WriteInt32(token)
+	_data.WriteStrongBinder(callbackBinder.AsBinder().Handle())
 	_data.WriteInt32(transportFlags)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupAgent, "doMeasureFullBackup")
@@ -192,12 +198,13 @@ func (p *BackupAgentProxy) DoQuotaExceeded(
 	ctx context.Context,
 	backupDataBytes int64,
 	quotaBytes int64,
-	callbackBinder interface{},
+	callbackBinder backup.IBackupCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteInt64(backupDataBytes)
 	_data.WriteInt64(quotaBytes)
+	_data.WriteStrongBinder(callbackBinder.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupAgent, "doQuotaExceeded")
 	if _err != nil {
@@ -218,7 +225,7 @@ func (p *BackupAgentProxy) DoRestoreFile(
 	mode int64,
 	mtime int64,
 	token int32,
-	callbackBinder interface{},
+	callbackBinder backup.IBackupManager,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
@@ -230,6 +237,7 @@ func (p *BackupAgentProxy) DoRestoreFile(
 	_data.WriteInt64(mode)
 	_data.WriteInt64(mtime)
 	_data.WriteInt32(token)
+	_data.WriteStrongBinder(callbackBinder.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupAgent, "doRestoreFile")
 	if _err != nil {
@@ -243,11 +251,12 @@ func (p *BackupAgentProxy) DoRestoreFile(
 func (p *BackupAgentProxy) DoRestoreFinished(
 	ctx context.Context,
 	token int32,
-	callbackBinder interface{},
+	callbackBinder backup.IBackupManager,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBackupAgent)
 	_data.WriteInt32(token)
+	_data.WriteStrongBinder(callbackBinder.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBackupAgent, "doRestoreFinished")
 	if _err != nil {
@@ -364,7 +373,9 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callbackBinder interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder backup.IBackupCallback
+		_ = _arg_callbackBinder
 		_arg_transportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -392,7 +403,9 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callbackBinder interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder backup.IBackupManager
+		_ = _arg_callbackBinder
 		_err = s.Impl.DoRestore(ctx, _arg_data, _arg_appVersionCode, _arg_newState, _arg_token, _arg_callbackBinder)
 		_ = _err
 		return nil, nil
@@ -416,7 +429,9 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callbackBinder interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder backup.IBackupManager
+		_ = _arg_callbackBinder
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_excludedKeys []string
 		_ = _arg_excludedKeys
@@ -439,7 +454,9 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callbackBinder interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder backup.IBackupManager
+		_ = _arg_callbackBinder
 		_arg_transportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -459,7 +476,9 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callbackBinder interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder backup.IBackupManager
+		_ = _arg_callbackBinder
 		_arg_transportFlags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -479,7 +498,9 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callbackBinder interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder backup.IBackupCallback
+		_ = _arg_callbackBinder
 		_err = s.Impl.DoQuotaExceeded(ctx, _arg_backupDataBytes, _arg_quotaBytes, _arg_callbackBinder)
 		_ = _err
 		return nil, nil
@@ -519,7 +540,9 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callbackBinder interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder backup.IBackupManager
+		_ = _arg_callbackBinder
 		_err = s.Impl.DoRestoreFile(ctx, _arg_data, _arg_size, _arg_type_, _arg_domain, _arg_path, _arg_mode, _arg_mtime, _arg_token, _arg_callbackBinder)
 		_ = _err
 		return nil, nil
@@ -531,7 +554,9 @@ func (s *BackupAgentStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callbackBinder interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callbackBinder backup.IBackupManager
+		_ = _arg_callbackBinder
 		_err = s.Impl.DoRestoreFinished(ctx, _arg_token, _arg_callbackBinder)
 		_ = _err
 		return nil, nil

@@ -2,6 +2,8 @@ package effect
 
 import (
 	"fmt"
+	effectAcousticEchoCanceler "github.com/xaionaro-go/binder/android/hardware/audio/effect/AcousticEchoCanceler"
+	effectVisualizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Visualizer"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -20,28 +22,28 @@ const (
 
 type Visualizer struct {
 	Tag                 int32
-	Id                  interface{}
+	Id                  effectAcousticEchoCanceler.Id
 	Vendor              VendorExtension
-	Measurement         interface{}
+	Measurement         effectVisualizer.Measurement
 	CaptureSampleBuffer []byte
 	LatencyMs           int32
 	CaptureSamples      int32
-	ScalingMode         interface{}
-	MeasurementMode     interface{}
+	ScalingMode         effectVisualizer.ScalingMode
+	MeasurementMode     effectVisualizer.MeasurementMode
 }
 
 var _ parcel.Parcelable = (*Visualizer)(nil)
 
-func (u *Visualizer) GetId() (interface{}, bool) {
+func (u *Visualizer) GetId() (effectAcousticEchoCanceler.Id, bool) {
 	if u.Tag != VisualizerTagId {
-		var _zero interface{}
+		var _zero effectAcousticEchoCanceler.Id
 		return _zero, false
 	}
 	return u.Id, true
 }
 
 func (u *Visualizer) SetId(
-	v interface{},
+	v effectAcousticEchoCanceler.Id,
 ) {
 	u.Tag = VisualizerTagId
 	u.Id = v
@@ -62,16 +64,16 @@ func (u *Visualizer) SetVendor(
 	u.Vendor = v
 }
 
-func (u *Visualizer) GetMeasurement() (interface{}, bool) {
+func (u *Visualizer) GetMeasurement() (effectVisualizer.Measurement, bool) {
 	if u.Tag != VisualizerTagMeasurement {
-		var _zero interface{}
+		var _zero effectVisualizer.Measurement
 		return _zero, false
 	}
 	return u.Measurement, true
 }
 
 func (u *Visualizer) SetMeasurement(
-	v interface{},
+	v effectVisualizer.Measurement,
 ) {
 	u.Tag = VisualizerTagMeasurement
 	u.Measurement = v
@@ -122,31 +124,31 @@ func (u *Visualizer) SetCaptureSamples(
 	u.CaptureSamples = v
 }
 
-func (u *Visualizer) GetScalingMode() (interface{}, bool) {
+func (u *Visualizer) GetScalingMode() (effectVisualizer.ScalingMode, bool) {
 	if u.Tag != VisualizerTagScalingMode {
-		var _zero interface{}
+		var _zero effectVisualizer.ScalingMode
 		return _zero, false
 	}
 	return u.ScalingMode, true
 }
 
 func (u *Visualizer) SetScalingMode(
-	v interface{},
+	v effectVisualizer.ScalingMode,
 ) {
 	u.Tag = VisualizerTagScalingMode
 	u.ScalingMode = v
 }
 
-func (u *Visualizer) GetMeasurementMode() (interface{}, bool) {
+func (u *Visualizer) GetMeasurementMode() (effectVisualizer.MeasurementMode, bool) {
 	if u.Tag != VisualizerTagMeasurementMode {
-		var _zero interface{}
+		var _zero effectVisualizer.MeasurementMode
 		return _zero, false
 	}
 	return u.MeasurementMode, true
 }
 
 func (u *Visualizer) SetMeasurementMode(
-	v interface{},
+	v effectVisualizer.MeasurementMode,
 ) {
 	u.Tag = VisualizerTagMeasurementMode
 	u.MeasurementMode = v
@@ -160,11 +162,17 @@ func (u *Visualizer) MarshalParcel(
 
 	switch u.Tag {
 	case VisualizerTagId:
+		if _err := u.Id.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case VisualizerTagVendor:
 		if _err := u.Vendor.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case VisualizerTagMeasurement:
+		if _err := u.Measurement.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case VisualizerTagCaptureSampleBuffer:
 		if u.CaptureSampleBuffer == nil {
 			p.WriteInt32(-1)
@@ -179,7 +187,9 @@ func (u *Visualizer) MarshalParcel(
 	case VisualizerTagCaptureSamples:
 		p.WriteInt32(u.CaptureSamples)
 	case VisualizerTagScalingMode:
+		p.WriteInt32(int32(u.ScalingMode))
 	case VisualizerTagMeasurementMode:
+		p.WriteInt32(int32(u.MeasurementMode))
 	default:
 		return fmt.Errorf("unknown union tag %d for Visualizer", u.Tag)
 	}
@@ -203,11 +213,17 @@ func (u *Visualizer) UnmarshalParcel(
 
 	switch u.Tag {
 	case VisualizerTagId:
+		if _err = u.Id.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case VisualizerTagVendor:
 		if _err = u.Vendor.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case VisualizerTagMeasurement:
+		if _err = u.Measurement.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case VisualizerTagCaptureSampleBuffer:
 
 		var _count0 int32
@@ -235,7 +251,17 @@ func (u *Visualizer) UnmarshalParcel(
 			return _err
 		}
 	case VisualizerTagScalingMode:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.ScalingMode = effectVisualizer.ScalingMode(_raw)
 	case VisualizerTagMeasurementMode:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.MeasurementMode = effectVisualizer.MeasurementMode(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for Visualizer", u.Tag)
 	}

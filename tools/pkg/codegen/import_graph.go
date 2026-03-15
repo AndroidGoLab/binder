@@ -17,11 +17,23 @@ type ImportGraph struct {
 	// Two packages in the same strongly connected component (SCC) of size > 1
 	// would create a cycle if they imported each other.
 	cyclePkgs map[string]int // package -> SCC index
+	// backEdges records the specific edges within SCCs that are back-edges
+	// (their removal makes the subgraph acyclic). Only these edges need
+	// to be broken to prevent Go import cycles.
+	backEdges map[string]map[string]bool
 }
 
 // BuildImportGraph scans all definitions in the registry and builds a
-// package dependency graph. It then computes strongly connected components
-// to identify which package pairs would form import cycles.
+// package dependency graph. It computes strongly connected components
+// (SCCs) to find cycles, then identifies which specific edges within
+// each SCC are back-edges that must be broken.
+//
+// A single SCC pass that marks ALL intra-SCC edges as cycle-causing is
+// too conservative: it prevents imports between packages that are only
+// indirectly part of a cycle (via long chains through unrelated packages).
+// Instead, after finding SCCs, a DFS within each SCC identifies back-edges
+// (the minimum set of edges whose removal makes the subgraph acyclic).
+// Only those back-edges are marked as cycle-causing.
 func BuildImportGraph(registry *resolver.TypeRegistry) *ImportGraph {
 	g := &ImportGraph{
 		edges:     make(map[string]map[string]bool),
@@ -54,12 +66,22 @@ func BuildImportGraph(registry *resolver.TypeRegistry) *ImportGraph {
 	// Compute SCCs to find cycles.
 	g.computeSCCs()
 
+	// Identify back-edges within each SCC using DFS. Only back-edges
+	// are cycle-causing; forward and cross edges are safe to keep.
+	g.computeBackEdges()
+
 	return g
 }
 
 // WouldCauseCycle returns true if adding an import from srcPkg to targetPkg
-// would create an import cycle.
+// would create an import cycle. Only back-edges (identified by DFS within
+// each SCC) are considered cycle-causing; forward and cross edges within
+// the same SCC are safe.
 func (g *ImportGraph) WouldCauseCycle(srcPkg, targetPkg string) bool {
+	if g.backEdges != nil {
+		return g.backEdges[srcPkg] != nil && g.backEdges[srcPkg][targetPkg]
+	}
+	// Fallback to SCC membership check when back-edges haven't been computed.
 	srcSCC, srcOK := g.cyclePkgs[srcPkg]
 	targetSCC, targetOK := g.cyclePkgs[targetPkg]
 	if !srcOK || !targetOK {
@@ -137,6 +159,63 @@ func (g *ImportGraph) computeSCCs() {
 	for node := range nodes {
 		if _, visited := nodeIndex[node]; !visited {
 			strongConnect(node)
+		}
+	}
+}
+
+// computeBackEdges identifies back-edges within each SCC using DFS.
+// A back-edge is an edge from a node to one of its ancestors in the DFS
+// tree. Removing all back-edges from a directed graph makes it acyclic.
+// Only intra-SCC edges are considered; cross-SCC edges cannot form cycles.
+func (g *ImportGraph) computeBackEdges() {
+	g.backEdges = make(map[string]map[string]bool)
+
+	// Group packages by SCC.
+	sccMembers := make(map[int][]string)
+	for pkg, sccIdx := range g.cyclePkgs {
+		sccMembers[sccIdx] = append(sccMembers[sccIdx], pkg)
+	}
+
+	// DFS states.
+	const (
+		white = 0 // not visited
+		gray  = 1 // in progress (on the DFS stack)
+		black = 2 // finished
+	)
+
+	for _, members := range sccMembers {
+		memberSet := make(map[string]bool, len(members))
+		for _, m := range members {
+			memberSet[m] = true
+		}
+
+		color := make(map[string]int, len(members))
+
+		var dfs func(u string)
+		dfs = func(u string) {
+			color[u] = gray
+			for v := range g.edges[u] {
+				if !memberSet[v] {
+					continue
+				}
+				switch color[v] {
+				case white:
+					dfs(v)
+				case gray:
+					// Back-edge: u -> v where v is an ancestor.
+					if g.backEdges[u] == nil {
+						g.backEdges[u] = make(map[string]bool)
+					}
+					g.backEdges[u][v] = true
+				}
+			}
+			color[u] = black
+		}
+
+		for _, m := range members {
+			if color[m] == white {
+				dfs(m)
+			}
 		}
 	}
 }

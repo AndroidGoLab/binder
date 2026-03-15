@@ -3,6 +3,7 @@ package pm
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +19,7 @@ const (
 
 type IPackageDeleteObserver2 interface {
 	AsBinder() binder.IBinder
-	OnUserActionRequired(ctx context.Context, intent interface{}) error
+	OnUserActionRequired(ctx context.Context, intent content.Intent) error
 	OnPackageDeleted(ctx context.Context, packageName string, returnCode int32, msg string) error
 }
 
@@ -40,10 +41,14 @@ var _ IPackageDeleteObserver2 = (*PackageDeleteObserver2Proxy)(nil)
 
 func (p *PackageDeleteObserver2Proxy) OnUserActionRequired(
 	ctx context.Context,
-	intent interface{},
+	intent content.Intent,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIPackageDeleteObserver2)
+	_data.WriteInt32(1)
+	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIPackageDeleteObserver2, "onUserActionRequired")
 	if _err != nil {
@@ -93,7 +98,18 @@ func (s *PackageDeleteObserver2Stub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intent interface{}
+		var _arg_intent content.Intent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intent.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnUserActionRequired(ctx, _arg_intent)
 		_ = _err
 		return nil, nil

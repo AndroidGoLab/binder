@@ -3,6 +3,8 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	le "github.com/xaionaro-go/binder/android/bluetooth/le"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,18 +30,18 @@ const (
 
 type IBluetoothScan interface {
 	AsBinder() binder.IBinder
-	RegisterScanner(ctx context.Context, callback interface{}, workSource interface{}, attributionSource interface{}) error
-	UnregisterScanner(ctx context.Context, scannerId int32, attributionSource interface{}) error
-	StartScan(ctx context.Context, scannerId int32, settings interface{}, filters []interface{}, attributionSource interface{}) error
-	StartScanForIntent(ctx context.Context, intent interface{}, settings interface{}, filters []interface{}, attributionSource interface{}) error
-	StopScan(ctx context.Context, scannerId int32, attributionSource interface{}) error
-	StopScanForIntent(ctx context.Context, intent interface{}, attributionSource interface{}) error
-	FlushPendingBatchResults(ctx context.Context, scannerId int32, attributionSource interface{}) error
-	RegisterSync(ctx context.Context, scanResult interface{}, skip int32, timeout int32, callback interface{}, attributionSource interface{}) error
-	UnregisterSync(ctx context.Context, callback interface{}, attributionSource interface{}) error
-	TransferSync(ctx context.Context, bda BluetoothDevice, serviceData int32, syncHandle int32, attributionSource interface{}) error
-	TransferSetInfo(ctx context.Context, bda BluetoothDevice, serviceData int32, advertisingHandle int32, callback interface{}, attributionSource interface{}) error
-	NumHwTrackFiltersAvailable(ctx context.Context, attributionSource interface{}) (int32, error)
+	RegisterScanner(ctx context.Context, callback le.IScannerCallback, workSource interface{}, attributionSource content.AttributionSource) error
+	UnregisterScanner(ctx context.Context, scannerId int32, attributionSource content.AttributionSource) error
+	StartScan(ctx context.Context, scannerId int32, settings le.ScanSettings, filters []le.ScanFilter, attributionSource content.AttributionSource) error
+	StartScanForIntent(ctx context.Context, intent interface{}, settings le.ScanSettings, filters []le.ScanFilter, attributionSource content.AttributionSource) error
+	StopScan(ctx context.Context, scannerId int32, attributionSource content.AttributionSource) error
+	StopScanForIntent(ctx context.Context, intent interface{}, attributionSource content.AttributionSource) error
+	FlushPendingBatchResults(ctx context.Context, scannerId int32, attributionSource content.AttributionSource) error
+	RegisterSync(ctx context.Context, scanResult le.ScanResult, skip int32, timeout int32, callback le.IPeriodicAdvertisingCallback, attributionSource content.AttributionSource) error
+	UnregisterSync(ctx context.Context, callback le.IPeriodicAdvertisingCallback, attributionSource content.AttributionSource) error
+	TransferSync(ctx context.Context, bda BluetoothDevice, serviceData int32, syncHandle int32, attributionSource content.AttributionSource) error
+	TransferSetInfo(ctx context.Context, bda BluetoothDevice, serviceData int32, advertisingHandle int32, callback le.IPeriodicAdvertisingCallback, attributionSource content.AttributionSource) error
+	NumHwTrackFiltersAvailable(ctx context.Context, attributionSource content.AttributionSource) (int32, error)
 }
 
 type BluetoothScanProxy struct {
@@ -60,12 +62,17 @@ var _ IBluetoothScan = (*BluetoothScanProxy)(nil)
 
 func (p *BluetoothScanProxy) RegisterScanner(
 	ctx context.Context,
-	callback interface{},
+	callback le.IScannerCallback,
 	workSource interface{},
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "registerScanner")
 	if _err != nil {
@@ -88,11 +95,15 @@ func (p *BluetoothScanProxy) RegisterScanner(
 func (p *BluetoothScanProxy) UnregisterScanner(
 	ctx context.Context,
 	scannerId int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
 	_data.WriteInt32(scannerId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "unregisterScanner")
 	if _err != nil {
@@ -115,17 +126,30 @@ func (p *BluetoothScanProxy) UnregisterScanner(
 func (p *BluetoothScanProxy) StartScan(
 	ctx context.Context,
 	scannerId int32,
-	settings interface{},
-	filters []interface{},
-	attributionSource interface{},
+	settings le.ScanSettings,
+	filters []le.ScanFilter,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
 	_data.WriteInt32(scannerId)
+	_data.WriteInt32(1)
+	if _err := settings.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if filters == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(filters)))
+		for _, _item := range filters {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "startScan")
@@ -149,16 +173,29 @@ func (p *BluetoothScanProxy) StartScan(
 func (p *BluetoothScanProxy) StartScanForIntent(
 	ctx context.Context,
 	intent interface{},
-	settings interface{},
-	filters []interface{},
-	attributionSource interface{},
+	settings le.ScanSettings,
+	filters []le.ScanFilter,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
+	_data.WriteInt32(1)
+	if _err := settings.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if filters == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(filters)))
+		for _, _item := range filters {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "startScanForIntent")
@@ -182,11 +219,15 @@ func (p *BluetoothScanProxy) StartScanForIntent(
 func (p *BluetoothScanProxy) StopScan(
 	ctx context.Context,
 	scannerId int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
 	_data.WriteInt32(scannerId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "stopScan")
 	if _err != nil {
@@ -209,10 +250,14 @@ func (p *BluetoothScanProxy) StopScan(
 func (p *BluetoothScanProxy) StopScanForIntent(
 	ctx context.Context,
 	intent interface{},
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "stopScanForIntent")
 	if _err != nil {
@@ -235,11 +280,15 @@ func (p *BluetoothScanProxy) StopScanForIntent(
 func (p *BluetoothScanProxy) FlushPendingBatchResults(
 	ctx context.Context,
 	scannerId int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
 	_data.WriteInt32(scannerId)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "flushPendingBatchResults")
 	if _err != nil {
@@ -261,16 +310,25 @@ func (p *BluetoothScanProxy) FlushPendingBatchResults(
 
 func (p *BluetoothScanProxy) RegisterSync(
 	ctx context.Context,
-	scanResult interface{},
+	scanResult le.ScanResult,
 	skip int32,
 	timeout int32,
-	callback interface{},
-	attributionSource interface{},
+	callback le.IPeriodicAdvertisingCallback,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
+	_data.WriteInt32(1)
+	if _err := scanResult.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(skip)
 	_data.WriteInt32(timeout)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "registerSync")
 	if _err != nil {
@@ -292,11 +350,16 @@ func (p *BluetoothScanProxy) RegisterSync(
 
 func (p *BluetoothScanProxy) UnregisterSync(
 	ctx context.Context,
-	callback interface{},
-	attributionSource interface{},
+	callback le.IPeriodicAdvertisingCallback,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "unregisterSync")
 	if _err != nil {
@@ -321,7 +384,7 @@ func (p *BluetoothScanProxy) TransferSync(
 	bda BluetoothDevice,
 	serviceData int32,
 	syncHandle int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
@@ -331,6 +394,10 @@ func (p *BluetoothScanProxy) TransferSync(
 	}
 	_data.WriteInt32(serviceData)
 	_data.WriteInt32(syncHandle)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "transferSync")
 	if _err != nil {
@@ -355,8 +422,8 @@ func (p *BluetoothScanProxy) TransferSetInfo(
 	bda BluetoothDevice,
 	serviceData int32,
 	advertisingHandle int32,
-	callback interface{},
-	attributionSource interface{},
+	callback le.IPeriodicAdvertisingCallback,
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
@@ -366,6 +433,11 @@ func (p *BluetoothScanProxy) TransferSetInfo(
 	}
 	_data.WriteInt32(serviceData)
 	_data.WriteInt32(advertisingHandle)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "transferSetInfo")
 	if _err != nil {
@@ -387,11 +459,15 @@ func (p *BluetoothScanProxy) TransferSetInfo(
 
 func (p *BluetoothScanProxy) NumHwTrackFiltersAvailable(
 	ctx context.Context,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothScan)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothScan, "numHwTrackFiltersAvailable")
 	if _err != nil {
@@ -433,9 +509,22 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IScannerCallback
+		_ = _arg_callback
 		var _arg_workSource interface{}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RegisterScanner(ctx, _arg_callback, _arg_workSource, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -452,7 +541,18 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.UnregisterScanner(ctx, _arg_scannerId, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -469,11 +569,33 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_settings interface{}
+		var _arg_settings le.ScanSettings
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_settings.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_filters []interface{}
+		var _arg_filters []le.ScanFilter
 		_ = _arg_filters
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.StartScan(ctx, _arg_scannerId, _arg_settings, _arg_filters, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -487,11 +609,33 @@ func (s *BluetoothScanStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		var _arg_settings interface{}
+		var _arg_settings le.ScanSettings
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_settings.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_filters []interface{}
+		var _arg_filters []le.ScanFilter
 		_ = _arg_filters
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StartScanForIntent(ctx, _arg_intent, _arg_settings, _arg_filters, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -508,7 +652,18 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.StopScan(ctx, _arg_scannerId, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -522,7 +677,18 @@ func (s *BluetoothScanStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_intent interface{}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.StopScanForIntent(ctx, _arg_intent, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -539,7 +705,18 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.FlushPendingBatchResults(ctx, _arg_scannerId, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -552,7 +729,18 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_scanResult interface{}
+		var _arg_scanResult le.ScanResult
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_scanResult.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_skip, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -561,8 +749,21 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
-		var _arg_attributionSource interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IPeriodicAdvertisingCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.RegisterSync(ctx, _arg_scanResult, _arg_skip, _arg_timeout, _arg_callback, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -575,8 +776,21 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
-		var _arg_attributionSource interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IPeriodicAdvertisingCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.UnregisterSync(ctx, _arg_callback, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -609,7 +823,18 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.TransferSync(ctx, _arg_bda, _arg_serviceData, _arg_syncHandle, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -642,8 +867,21 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
-		var _arg_attributionSource interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback le.IPeriodicAdvertisingCallback
+		_ = _arg_callback
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.TransferSetInfo(ctx, _arg_bda, _arg_serviceData, _arg_advertisingHandle, _arg_callback, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -656,7 +894,18 @@ func (s *BluetoothScanStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.NumHwTrackFiltersAvailable(ctx, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {

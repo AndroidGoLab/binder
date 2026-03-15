@@ -1,6 +1,7 @@
 package common
 
 import (
+	commonAudioHalEngineConfig "github.com/xaionaro-go/binder/android/media/audio/common/AudioHalEngineConfig"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +11,7 @@ type AudioHalEngineConfig struct {
 	DefaultProductStrategyId int32
 	ProductStrategies        []AudioHalProductStrategy
 	VolumeGroups             []AudioHalVolumeGroup
-	CapSpecificConfig        interface{}
+	CapSpecificConfig        commonAudioHalEngineConfig.CapSpecificConfig
 }
 
 var _ parcel.Parcelable = (*AudioHalEngineConfig)(nil)
@@ -39,6 +40,9 @@ func (s *AudioHalEngineConfig) MarshalParcel(
 				return _err
 			}
 		}
+	}
+	if _err := s.CapSpecificConfig.MarshalParcel(p); _err != nil {
+		return _err
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -84,6 +88,10 @@ func (s *AudioHalEngineConfig) UnmarshalParcel(
 				return _err
 			}
 		}
+	}
+
+	if _err = s.CapSpecificConfig.UnmarshalParcel(p); _err != nil {
+		return _err
 	}
 
 	parcel.SkipToParcelableEnd(p, _endPos)

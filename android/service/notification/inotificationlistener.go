@@ -3,6 +3,7 @@ package notification
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -51,8 +52,8 @@ type INotificationListener interface {
 	OnNotificationRankingUpdate(ctx context.Context, update NotificationRankingUpdate) error
 	OnListenerHintsChanged(ctx context.Context, hints int32) error
 	OnInterruptionFilterChanged(ctx context.Context, interruptionFilter int32) error
-	OnNotificationChannelModification(ctx context.Context, pkgName string, user interface{}, channel interface{}, modificationType int32) error
-	OnNotificationChannelGroupModification(ctx context.Context, pkgName string, user interface{}, group interface{}, modificationType int32) error
+	OnNotificationChannelModification(ctx context.Context, pkgName string, user os.UserHandle, channel interface{}, modificationType int32) error
+	OnNotificationChannelGroupModification(ctx context.Context, pkgName string, user os.UserHandle, group interface{}, modificationType int32) error
 	OnNotificationEnqueuedWithChannel(ctx context.Context, notificationHolder IStatusBarNotificationHolder, channel interface{}, update NotificationRankingUpdate) error
 	OnNotificationEnqueuedWithChannelFull(ctx context.Context, sbn StatusBarNotification, channel interface{}, update NotificationRankingUpdate) error
 	OnNotificationSnoozedUntilContext(ctx context.Context, notificationHolder IStatusBarNotificationHolder, snoozeCriterionId string) error
@@ -67,7 +68,7 @@ type INotificationListener interface {
 	OnActionClicked(ctx context.Context, key string, action interface{}, source int32) error
 	OnNotificationClicked(ctx context.Context, key string) error
 	OnAllowedAdjustmentsChanged(ctx context.Context) error
-	OnNotificationFeedbackReceived(ctx context.Context, key string, update NotificationRankingUpdate, feedback interface{}) error
+	OnNotificationFeedbackReceived(ctx context.Context, key string, update NotificationRankingUpdate, feedback os.Bundle) error
 }
 
 type NotificationListenerProxy struct {
@@ -288,13 +289,17 @@ func (p *NotificationListenerProxy) OnInterruptionFilterChanged(
 func (p *NotificationListenerProxy) OnNotificationChannelModification(
 	ctx context.Context,
 	pkgName string,
-	user interface{},
+	user os.UserHandle,
 	channel interface{},
 	modificationType int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(pkgName)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(modificationType)
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationChannelModification")
@@ -309,13 +314,17 @@ func (p *NotificationListenerProxy) OnNotificationChannelModification(
 func (p *NotificationListenerProxy) OnNotificationChannelGroupModification(
 	ctx context.Context,
 	pkgName string,
-	user interface{},
+	user os.UserHandle,
 	group interface{},
 	modificationType int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(pkgName)
+	_data.WriteInt32(1)
+	if _err := user.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(modificationType)
 
 	_code, _err := p.remote.ResolveCode(DescriptorINotificationListener, "onNotificationChannelGroupModification")
@@ -606,13 +615,17 @@ func (p *NotificationListenerProxy) OnNotificationFeedbackReceived(
 	ctx context.Context,
 	key string,
 	update NotificationRankingUpdate,
-	feedback interface{},
+	feedback os.Bundle,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorINotificationListener)
 	_data.WriteString16(key)
 	_data.WriteInt32(1)
 	if _err := update.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := feedback.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -856,7 +869,18 @@ func (s *NotificationListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_channel interface{}
 		_arg_modificationType, _err := _data.ReadInt32()
 		if _err != nil {
@@ -873,7 +897,18 @@ func (s *NotificationListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_user interface{}
+		var _arg_user os.UserHandle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_user.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_group interface{}
 		_arg_modificationType, _err := _data.ReadInt32()
 		if _err != nil {
@@ -1117,7 +1152,18 @@ func (s *NotificationListenerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_feedback interface{}
+		var _arg_feedback os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_feedback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.OnNotificationFeedbackReceived(ctx, _arg_key, _arg_update, _arg_feedback)
 		_ = _err
 		return nil, nil

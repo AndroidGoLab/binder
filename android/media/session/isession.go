@@ -3,6 +3,7 @@ package session
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -39,7 +40,7 @@ type ISession interface {
 	SetFlags(ctx context.Context, flags int32) error
 	SetActive(ctx context.Context, active bool) error
 	SetMediaButtonReceiver(ctx context.Context, mbr interface{}) error
-	SetMediaButtonBroadcastReceiver(ctx context.Context, broadcastReceiver interface{}) error
+	SetMediaButtonBroadcastReceiver(ctx context.Context, broadcastReceiver content.ComponentName) error
 	SetLaunchPendingIntent(ctx context.Context, pi interface{}) error
 	DestroySession(ctx context.Context) error
 	SetMetadata(ctx context.Context, metadata interface{}, duration int64, metadataDescription string) error
@@ -206,10 +207,14 @@ func (p *SessionProxy) SetMediaButtonReceiver(
 
 func (p *SessionProxy) SetMediaButtonBroadcastReceiver(
 	ctx context.Context,
-	broadcastReceiver interface{},
+	broadcastReceiver content.ComponentName,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISession)
+	_data.WriteInt32(1)
+	if _err := broadcastReceiver.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorISession, "setMediaButtonBroadcastReceiver")
 	if _err != nil {
@@ -641,7 +646,18 @@ func (s *SessionStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_broadcastReceiver interface{}
+		var _arg_broadcastReceiver content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_broadcastReceiver.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetMediaButtonBroadcastReceiver(ctx, _arg_broadcastReceiver)
 		_reply := parcel.New()
 		if _err != nil {

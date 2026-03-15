@@ -3,6 +3,7 @@ package inputmethod
 import (
 	"context"
 	"fmt"
+	autofill "github.com/xaionaro-go/binder/android/view/autofill"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -27,7 +28,7 @@ type IInlineSuggestionsRequestCallback interface {
 	AsBinder() binder.IBinder
 	OnInlineSuggestionsUnsupported(ctx context.Context) error
 	OnInlineSuggestionsRequest(ctx context.Context, request viewInputmethod.InlineSuggestionsRequest, callback IInlineSuggestionsResponseCallback) error
-	OnInputMethodStartInput(ctx context.Context, imeFieldId interface{}) error
+	OnInputMethodStartInput(ctx context.Context, imeFieldId autofill.AutofillId) error
 	OnInputMethodShowInputRequested(ctx context.Context, requestResult bool) error
 	OnInputMethodStartInputView(ctx context.Context) error
 	OnInputMethodFinishInputView(ctx context.Context) error
@@ -90,10 +91,14 @@ func (p *InlineSuggestionsRequestCallbackProxy) OnInlineSuggestionsRequest(
 
 func (p *InlineSuggestionsRequestCallbackProxy) OnInputMethodStartInput(
 	ctx context.Context,
-	imeFieldId interface{},
+	imeFieldId autofill.AutofillId,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsRequestCallback)
+	_data.WriteInt32(1)
+	if _err := imeFieldId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionsRequestCallback, "onInputMethodStartInput")
 	if _err != nil {
@@ -228,7 +233,18 @@ func (s *InlineSuggestionsRequestCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_imeFieldId interface{}
+		var _arg_imeFieldId autofill.AutofillId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_imeFieldId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnInputMethodStartInput(ctx, _arg_imeFieldId)
 		_ = _err
 		return nil, nil

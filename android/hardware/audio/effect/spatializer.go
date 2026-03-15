@@ -2,6 +2,7 @@ package effect
 
 import (
 	"fmt"
+	common "github.com/xaionaro-go/binder/android/media/audio/common"
 	HeadTracking "github.com/xaionaro-go/binder/android/media/audio/common/HeadTracking"
 	Spatialization "github.com/xaionaro-go/binder/android/media/audio/common/Spatialization"
 	"github.com/xaionaro-go/binder/parcel"
@@ -24,14 +25,14 @@ const (
 type Spatializer struct {
 	Tag                        int32
 	Vendor                     VendorExtension
-	SupportedChannelLayout     []interface{}
+	SupportedChannelLayout     []common.AudioChannelLayout
 	SpatializationLevel        Spatialization.Level
 	SpatializationMode         Spatialization.Mode
 	HeadTrackingSensorId       int32
 	HeadTrackingMode           HeadTracking.Mode
 	HeadTrackingConnectionMode HeadTracking.ConnectionMode
 	HeadTrackingSensorData     HeadTracking.SensorData
-	SpatializedChannelLayout   []interface{}
+	SpatializedChannelLayout   []common.AudioChannelLayout
 }
 
 var _ parcel.Parcelable = (*Spatializer)(nil)
@@ -51,16 +52,16 @@ func (u *Spatializer) SetVendor(
 	u.Vendor = v
 }
 
-func (u *Spatializer) GetSupportedChannelLayout() ([]interface{}, bool) {
+func (u *Spatializer) GetSupportedChannelLayout() ([]common.AudioChannelLayout, bool) {
 	if u.Tag != SpatializerTagSupportedChannelLayout {
-		var _zero []interface{}
+		var _zero []common.AudioChannelLayout
 		return _zero, false
 	}
 	return u.SupportedChannelLayout, true
 }
 
 func (u *Spatializer) SetSupportedChannelLayout(
-	v []interface{},
+	v []common.AudioChannelLayout,
 ) {
 	u.Tag = SpatializerTagSupportedChannelLayout
 	u.SupportedChannelLayout = v
@@ -156,16 +157,16 @@ func (u *Spatializer) SetHeadTrackingSensorData(
 	u.HeadTrackingSensorData = v
 }
 
-func (u *Spatializer) GetSpatializedChannelLayout() ([]interface{}, bool) {
+func (u *Spatializer) GetSpatializedChannelLayout() ([]common.AudioChannelLayout, bool) {
 	if u.Tag != SpatializerTagSpatializedChannelLayout {
-		var _zero []interface{}
+		var _zero []common.AudioChannelLayout
 		return _zero, false
 	}
 	return u.SpatializedChannelLayout, true
 }
 
 func (u *Spatializer) SetSpatializedChannelLayout(
-	v []interface{},
+	v []common.AudioChannelLayout,
 ) {
 	u.Tag = SpatializerTagSpatializedChannelLayout
 	u.SpatializedChannelLayout = v
@@ -187,6 +188,11 @@ func (u *Spatializer) MarshalParcel(
 			p.WriteInt32(-1)
 		} else {
 			p.WriteInt32(int32(len(u.SupportedChannelLayout)))
+			for _, _item := range u.SupportedChannelLayout {
+				if _err := _item.MarshalParcel(p); _err != nil {
+					return _err
+				}
+			}
 		}
 	case SpatializerTagSpatializationLevel:
 	case SpatializerTagSpatializationMode:
@@ -200,6 +206,11 @@ func (u *Spatializer) MarshalParcel(
 			p.WriteInt32(-1)
 		} else {
 			p.WriteInt32(int32(len(u.SpatializedChannelLayout)))
+			for _, _item := range u.SpatializedChannelLayout {
+				if _err := _item.MarshalParcel(p); _err != nil {
+					return _err
+				}
+			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Spatializer", u.Tag)
@@ -235,8 +246,11 @@ func (u *Spatializer) UnmarshalParcel(
 			return _err
 		}
 		if _count0 >= 0 {
-			u.SupportedChannelLayout = make([]interface{}, _count0)
+			u.SupportedChannelLayout = make([]common.AudioChannelLayout, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _err = u.SupportedChannelLayout[_i].UnmarshalParcel(p); _err != nil {
+					return _err
+				}
 			}
 		}
 	case SpatializerTagSpatializationLevel:
@@ -257,8 +271,11 @@ func (u *Spatializer) UnmarshalParcel(
 			return _err
 		}
 		if _count1 >= 0 {
-			u.SpatializedChannelLayout = make([]interface{}, _count1)
+			u.SpatializedChannelLayout = make([]common.AudioChannelLayout, _count1)
 			for _i := int32(0); _i < _count1; _i++ {
+				if _err = u.SpatializedChannelLayout[_i].UnmarshalParcel(p); _err != nil {
+					return _err
+				}
 			}
 		}
 	default:

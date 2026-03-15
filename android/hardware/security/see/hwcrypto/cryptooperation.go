@@ -2,6 +2,7 @@ package hwcrypto
 
 import (
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/hardware/security/see/hwcrypto/types"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -24,12 +25,12 @@ type CryptoOperation struct {
 	SetMemoryBuffer        MemoryBufferParameter
 	SetOperationParameters OperationParameters
 	SetPattern             PatternParameters
-	CopyData               interface{}
-	AadInput               interface{}
-	DataInput              interface{}
-	DataOutput             interface{}
-	Finish                 interface{}
-	DestroyContext         interface{}
+	CopyData               types.OperationData
+	AadInput               types.OperationData
+	DataInput              types.OperationData
+	DataOutput             types.OperationData
+	Finish                 types.Void
+	DestroyContext         types.Void
 }
 
 var _ parcel.Parcelable = (*CryptoOperation)(nil)
@@ -79,91 +80,91 @@ func (u *CryptoOperation) SetSetPattern(
 	u.SetPattern = v
 }
 
-func (u *CryptoOperation) GetCopyData() (interface{}, bool) {
+func (u *CryptoOperation) GetCopyData() (types.OperationData, bool) {
 	if u.Tag != CryptoOperationTagCopyData {
-		var _zero interface{}
+		var _zero types.OperationData
 		return _zero, false
 	}
 	return u.CopyData, true
 }
 
 func (u *CryptoOperation) SetCopyData(
-	v interface{},
+	v types.OperationData,
 ) {
 	u.Tag = CryptoOperationTagCopyData
 	u.CopyData = v
 }
 
-func (u *CryptoOperation) GetAadInput() (interface{}, bool) {
+func (u *CryptoOperation) GetAadInput() (types.OperationData, bool) {
 	if u.Tag != CryptoOperationTagAadInput {
-		var _zero interface{}
+		var _zero types.OperationData
 		return _zero, false
 	}
 	return u.AadInput, true
 }
 
 func (u *CryptoOperation) SetAadInput(
-	v interface{},
+	v types.OperationData,
 ) {
 	u.Tag = CryptoOperationTagAadInput
 	u.AadInput = v
 }
 
-func (u *CryptoOperation) GetDataInput() (interface{}, bool) {
+func (u *CryptoOperation) GetDataInput() (types.OperationData, bool) {
 	if u.Tag != CryptoOperationTagDataInput {
-		var _zero interface{}
+		var _zero types.OperationData
 		return _zero, false
 	}
 	return u.DataInput, true
 }
 
 func (u *CryptoOperation) SetDataInput(
-	v interface{},
+	v types.OperationData,
 ) {
 	u.Tag = CryptoOperationTagDataInput
 	u.DataInput = v
 }
 
-func (u *CryptoOperation) GetDataOutput() (interface{}, bool) {
+func (u *CryptoOperation) GetDataOutput() (types.OperationData, bool) {
 	if u.Tag != CryptoOperationTagDataOutput {
-		var _zero interface{}
+		var _zero types.OperationData
 		return _zero, false
 	}
 	return u.DataOutput, true
 }
 
 func (u *CryptoOperation) SetDataOutput(
-	v interface{},
+	v types.OperationData,
 ) {
 	u.Tag = CryptoOperationTagDataOutput
 	u.DataOutput = v
 }
 
-func (u *CryptoOperation) GetFinish() (interface{}, bool) {
+func (u *CryptoOperation) GetFinish() (types.Void, bool) {
 	if u.Tag != CryptoOperationTagFinish {
-		var _zero interface{}
+		var _zero types.Void
 		return _zero, false
 	}
 	return u.Finish, true
 }
 
 func (u *CryptoOperation) SetFinish(
-	v interface{},
+	v types.Void,
 ) {
 	u.Tag = CryptoOperationTagFinish
 	u.Finish = v
 }
 
-func (u *CryptoOperation) GetDestroyContext() (interface{}, bool) {
+func (u *CryptoOperation) GetDestroyContext() (types.Void, bool) {
 	if u.Tag != CryptoOperationTagDestroyContext {
-		var _zero interface{}
+		var _zero types.Void
 		return _zero, false
 	}
 	return u.DestroyContext, true
 }
 
 func (u *CryptoOperation) SetDestroyContext(
-	v interface{},
+	v types.Void,
 ) {
 	u.Tag = CryptoOperationTagDestroyContext
 	u.DestroyContext = v
@@ -189,11 +190,29 @@ func (u *CryptoOperation) MarshalParcel(
 			return _err
 		}
 	case CryptoOperationTagCopyData:
+		if _err := u.CopyData.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagAadInput:
+		if _err := u.AadInput.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagDataInput:
+		if _err := u.DataInput.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagDataOutput:
+		if _err := u.DataOutput.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagFinish:
+		if _err := u.Finish.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagDestroyContext:
+		if _err := u.DestroyContext.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for CryptoOperation", u.Tag)
 	}
@@ -229,11 +248,29 @@ func (u *CryptoOperation) UnmarshalParcel(
 			return _err
 		}
 	case CryptoOperationTagCopyData:
+		if _err = u.CopyData.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagAadInput:
+		if _err = u.AadInput.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagDataInput:
+		if _err = u.DataInput.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagDataOutput:
+		if _err = u.DataOutput.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagFinish:
+		if _err = u.Finish.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case CryptoOperationTagDestroyContext:
+		if _err = u.DestroyContext.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for CryptoOperation", u.Tag)
 	}

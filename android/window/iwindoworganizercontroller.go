@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -33,7 +34,7 @@ type IWindowOrganizerController interface {
 	ApplySyncTransaction(ctx context.Context, t WindowContainerTransaction, callback IWindowContainerTransactionCallback) (int32, error)
 	StartNewTransition(ctx context.Context, type_ int32, t *WindowContainerTransaction) (binder.IBinder, error)
 	StartTransition(ctx context.Context, transitionToken binder.IBinder, t *WindowContainerTransaction) error
-	StartLegacyTransition(ctx context.Context, type_ int32, adapter interface{}, syncCallback IWindowContainerTransactionCallback, t WindowContainerTransaction) (int32, error)
+	StartLegacyTransition(ctx context.Context, type_ int32, adapter view.RemoteAnimationAdapter, syncCallback IWindowContainerTransactionCallback, t WindowContainerTransaction) (int32, error)
 	FinishTransition(ctx context.Context, transitionToken binder.IBinder, t *WindowContainerTransaction) error
 	GetTaskOrganizerController(ctx context.Context) (ITaskOrganizerController, error)
 	GetDisplayAreaOrganizerController(ctx context.Context) (IDisplayAreaOrganizerController, error)
@@ -202,7 +203,7 @@ func (p *WindowOrganizerControllerProxy) StartTransition(
 func (p *WindowOrganizerControllerProxy) StartLegacyTransition(
 	ctx context.Context,
 	type_ int32,
-	adapter interface{},
+	adapter view.RemoteAnimationAdapter,
 	syncCallback IWindowContainerTransactionCallback,
 	t WindowContainerTransaction,
 ) (int32, error) {
@@ -210,6 +211,10 @@ func (p *WindowOrganizerControllerProxy) StartLegacyTransition(
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowOrganizerController)
 	_data.WriteInt32(type_)
+	_data.WriteInt32(1)
+	if _err := adapter.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteStrongBinder(syncCallback.AsBinder().Handle())
 	_data.WriteInt32(1)
 	if _err := t.MarshalParcel(_data); _err != nil {
@@ -605,7 +610,18 @@ func (s *WindowOrganizerControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_adapter interface{}
+		var _arg_adapter view.RemoteAnimationAdapter
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_adapter.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_syncCallback IWindowContainerTransactionCallback
 		_ = _arg_syncCallback

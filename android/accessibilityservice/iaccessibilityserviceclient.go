@@ -5,8 +5,11 @@ import (
 	"fmt"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	common "github.com/xaionaro-go/binder/android/hardware/input/common"
-	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
+	view "github.com/xaionaro-go/binder/android/view"
+	accessibility "github.com/xaionaro-go/binder/android/view/accessibility"
+	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
+	inputmethod "github.com/xaionaro-go/binder/com/android/internal_/inputmethod"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -41,11 +44,11 @@ const (
 type IAccessibilityServiceClient interface {
 	AsBinder() binder.IBinder
 	Init(ctx context.Context, connection IAccessibilityServiceConnection, connectionId int32, windowToken binder.IBinder) error
-	OnAccessibilityEvent(ctx context.Context, event interface{}, serviceWantsEvent bool) error
+	OnAccessibilityEvent(ctx context.Context, event accessibility.AccessibilityEvent, serviceWantsEvent bool) error
 	OnInterrupt(ctx context.Context) error
 	OnGesture(ctx context.Context, gestureEvent AccessibilityGestureEvent) error
 	ClearAccessibilityCache(ctx context.Context) error
-	OnKeyEvent(ctx context.Context, event interface{}, sequence int32) error
+	OnKeyEvent(ctx context.Context, event view.KeyEvent, sequence int32) error
 	OnMagnificationChanged(ctx context.Context, displayId int32, region graphics.Region, config MagnificationConfig) error
 	OnMotionEvent(ctx context.Context, event common.MotionEvent) error
 	OnTouchStateChanged(ctx context.Context, displayId int32, state int32) error
@@ -56,11 +59,11 @@ type IAccessibilityServiceClient interface {
 	OnAccessibilityButtonClicked(ctx context.Context, displayId int32) error
 	OnAccessibilityButtonAvailabilityChanged(ctx context.Context, available bool) error
 	OnSystemActionsChanged(ctx context.Context) error
-	CreateImeSession(ctx context.Context, callback interface{}) error
-	SetImeSessionEnabled(ctx context.Context, session interface{}, enabled bool) error
+	CreateImeSession(ctx context.Context, callback inputmethod.IAccessibilityInputMethodSessionCallback) error
+	SetImeSessionEnabled(ctx context.Context, session inputmethod.IAccessibilityInputMethodSession, enabled bool) error
 	BindInput(ctx context.Context) error
 	UnbindInput(ctx context.Context) error
-	StartInput(ctx context.Context, connection interface{}, editorInfo inputmethod.EditorInfo, restarting bool) error
+	StartInput(ctx context.Context, connection inputmethod.IRemoteAccessibilityInputConnection, editorInfo viewInputmethod.EditorInfo, restarting bool) error
 }
 
 type AccessibilityServiceClientProxy struct {
@@ -102,11 +105,15 @@ func (p *AccessibilityServiceClientProxy) Init(
 
 func (p *AccessibilityServiceClientProxy) OnAccessibilityEvent(
 	ctx context.Context,
-	event interface{},
+	event accessibility.AccessibilityEvent,
 	serviceWantsEvent bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(serviceWantsEvent)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onAccessibilityEvent")
@@ -170,11 +177,15 @@ func (p *AccessibilityServiceClientProxy) ClearAccessibilityCache(
 
 func (p *AccessibilityServiceClientProxy) OnKeyEvent(
 	ctx context.Context,
-	event interface{},
+	event view.KeyEvent,
 	sequence int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
+	_data.WriteInt32(1)
+	if _err := event.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(sequence)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "onKeyEvent")
@@ -373,10 +384,11 @@ func (p *AccessibilityServiceClientProxy) OnSystemActionsChanged(
 
 func (p *AccessibilityServiceClientProxy) CreateImeSession(
 	ctx context.Context,
-	callback interface{},
+	callback inputmethod.IAccessibilityInputMethodSessionCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
+	_data.WriteStrongBinder(callback.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "createImeSession")
 	if _err != nil {
@@ -389,11 +401,12 @@ func (p *AccessibilityServiceClientProxy) CreateImeSession(
 
 func (p *AccessibilityServiceClientProxy) SetImeSessionEnabled(
 	ctx context.Context,
-	session interface{},
+	session inputmethod.IAccessibilityInputMethodSession,
 	enabled bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
+	_data.WriteStrongBinder(session.AsBinder().Handle())
 	_data.WriteBool(enabled)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIAccessibilityServiceClient, "setImeSessionEnabled")
@@ -437,12 +450,13 @@ func (p *AccessibilityServiceClientProxy) UnbindInput(
 
 func (p *AccessibilityServiceClientProxy) StartInput(
 	ctx context.Context,
-	connection interface{},
-	editorInfo inputmethod.EditorInfo,
+	connection inputmethod.IRemoteAccessibilityInputConnection,
+	editorInfo viewInputmethod.EditorInfo,
 	restarting bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessibilityServiceClient)
+	_data.WriteStrongBinder(connection.AsBinder().Handle())
 	_data.WriteInt32(1)
 	if _err := editorInfo.MarshalParcel(_data); _err != nil {
 		return _err
@@ -493,7 +507,18 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_event interface{}
+		var _arg_event accessibility.AccessibilityEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_serviceWantsEvent, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -538,7 +563,18 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_event interface{}
+		var _arg_event view.KeyEvent
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_event.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_sequence, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -696,7 +732,9 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback inputmethod.IAccessibilityInputMethodSessionCallback
+		_ = _arg_callback
 		_err := s.Impl.CreateImeSession(ctx, _arg_callback)
 		_ = _err
 		return nil, nil
@@ -704,7 +742,9 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_session interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_session inputmethod.IAccessibilityInputMethodSession
+		_ = _arg_session
 		_arg_enabled, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -730,8 +770,10 @@ func (s *AccessibilityServiceClientStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_connection interface{}
-		var _arg_editorInfo inputmethod.EditorInfo
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_connection inputmethod.IRemoteAccessibilityInputConnection
+		_ = _arg_connection
+		var _arg_editorInfo viewInputmethod.EditorInfo
 		{
 			_nullInd, _err := _data.ReadInt32()
 			if _err != nil {

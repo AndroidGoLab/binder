@@ -6,6 +6,7 @@ import (
 	util "github.com/xaionaro-go/binder/android/util"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
+	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -47,7 +48,7 @@ type IWindow interface {
 	DispatchWallpaperCommand(ctx context.Context, action string, x int32, y int32, z int32, extras interface{}, sync bool) error
 	DispatchDragEvent(ctx context.Context, event DragEvent) error
 	DispatchWindowShown(ctx context.Context) error
-	RequestAppKeyboardShortcuts(ctx context.Context, receiver interface{}, deviceId int32) error
+	RequestAppKeyboardShortcuts(ctx context.Context, receiver os.IResultReceiver, deviceId int32) error
 	RequestScrollCapture(ctx context.Context, callbacks IScrollCaptureResponseListener) error
 	DumpWindow(ctx context.Context, pfd int32) error
 }
@@ -365,11 +366,12 @@ func (p *WindowProxy) DispatchWindowShown(
 
 func (p *WindowProxy) RequestAppKeyboardShortcuts(
 	ctx context.Context,
-	receiver interface{},
+	receiver os.IResultReceiver,
 	deviceId int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindow)
+	_data.WriteStrongBinder(receiver.AsBinder().Handle())
 	_data.WriteInt32(deviceId)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindow, "requestAppKeyboardShortcuts")
@@ -723,7 +725,9 @@ func (s *WindowStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_receiver interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_receiver os.IResultReceiver
+		_ = _arg_receiver
 		_arg_deviceId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err

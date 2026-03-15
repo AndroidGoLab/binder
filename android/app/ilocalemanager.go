@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,9 +22,9 @@ const (
 
 type ILocaleManager interface {
 	AsBinder() binder.IBinder
-	SetApplicationLocales(ctx context.Context, packageName string, locales interface{}, fromDelegate bool) error
-	GetApplicationLocales(ctx context.Context, packageName string) (interface{}, error)
-	GetSystemLocales(ctx context.Context) (interface{}, error)
+	SetApplicationLocales(ctx context.Context, packageName string, locales os.LocaleList, fromDelegate bool) error
+	GetApplicationLocales(ctx context.Context, packageName string) (os.LocaleList, error)
+	GetSystemLocales(ctx context.Context) (os.LocaleList, error)
 	SetOverrideLocaleConfig(ctx context.Context, packageName string, localeConfig LocaleConfig) error
 	GetOverrideLocaleConfig(ctx context.Context, packageName string) (LocaleConfig, error)
 }
@@ -47,7 +48,7 @@ var _ ILocaleManager = (*LocaleManagerProxy)(nil)
 func (p *LocaleManagerProxy) SetApplicationLocales(
 	ctx context.Context,
 	packageName string,
-	locales interface{},
+	locales os.LocaleList,
 	fromDelegate bool,
 ) error {
 	_identity := p.remote.Identity()
@@ -55,6 +56,10 @@ func (p *LocaleManagerProxy) SetApplicationLocales(
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 	_data.WriteString16(packageName)
 	_data.WriteInt32(_identity.UserID)
+	_data.WriteInt32(1)
+	if _err := locales.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(fromDelegate)
 
 	_code, _err := p.remote.ResolveCode(DescriptorILocaleManager, "setApplicationLocales")
@@ -78,8 +83,8 @@ func (p *LocaleManagerProxy) SetApplicationLocales(
 func (p *LocaleManagerProxy) GetApplicationLocales(
 	ctx context.Context,
 	packageName string,
-) (interface{}, error) {
-	var _result interface{}
+) (os.LocaleList, error) {
+	var _result os.LocaleList
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
@@ -101,13 +106,22 @@ func (p *LocaleManagerProxy) GetApplicationLocales(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *LocaleManagerProxy) GetSystemLocales(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (os.LocaleList, error) {
+	var _result os.LocaleList
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorILocaleManager)
 
@@ -126,6 +140,15 @@ func (p *LocaleManagerProxy) GetSystemLocales(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -225,7 +248,18 @@ func (s *LocaleManagerStub) OnTransaction(
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
 		}
-		var _arg_locales interface{}
+		var _arg_locales os.LocaleList
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_locales.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_fromDelegate, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -256,7 +290,10 @@ func (s *LocaleManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionILocaleManagerGetSystemLocales:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -269,7 +306,10 @@ func (s *LocaleManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionILocaleManagerSetOverrideLocaleConfig:
 		if _, _err := _data.ReadString16(); _err != nil {

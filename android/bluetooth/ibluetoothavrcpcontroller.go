@@ -3,6 +3,7 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,12 +23,12 @@ const (
 
 type IBluetoothAvrcpController interface {
 	AsBinder() binder.IBinder
-	GetConnectedDevices(ctx context.Context, attributionSource interface{}) ([]BluetoothDevice, error)
-	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource interface{}) ([]BluetoothDevice, error)
-	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource interface{}) (int32, error)
-	GetPlayerSettings(ctx context.Context, device BluetoothDevice, attributionSource interface{}) (BluetoothAvrcpPlayerSettings, error)
-	SetPlayerApplicationSetting(ctx context.Context, plAppSetting BluetoothAvrcpPlayerSettings, attributionSource interface{}) error
-	SendGroupNavigationCmd(ctx context.Context, device BluetoothDevice, keyCode int32, keyState int32, attributionSource interface{}) error
+	GetConnectedDevices(ctx context.Context, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetDevicesMatchingConnectionStates(ctx context.Context, states []int32, attributionSource content.AttributionSource) ([]BluetoothDevice, error)
+	GetConnectionState(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (int32, error)
+	GetPlayerSettings(ctx context.Context, device BluetoothDevice, attributionSource content.AttributionSource) (BluetoothAvrcpPlayerSettings, error)
+	SetPlayerApplicationSetting(ctx context.Context, plAppSetting BluetoothAvrcpPlayerSettings, attributionSource content.AttributionSource) error
+	SendGroupNavigationCmd(ctx context.Context, device BluetoothDevice, keyCode int32, keyState int32, attributionSource content.AttributionSource) error
 }
 
 type BluetoothAvrcpControllerProxy struct {
@@ -48,11 +49,15 @@ var _ IBluetoothAvrcpController = (*BluetoothAvrcpControllerProxy)(nil)
 
 func (p *BluetoothAvrcpControllerProxy) GetConnectedDevices(
 	ctx context.Context,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) ([]BluetoothDevice, error) {
 	var _result []BluetoothDevice
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getConnectedDevices")
 	if _err != nil {
@@ -88,7 +93,7 @@ func (p *BluetoothAvrcpControllerProxy) GetConnectedDevices(
 func (p *BluetoothAvrcpControllerProxy) GetDevicesMatchingConnectionStates(
 	ctx context.Context,
 	states []int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) ([]BluetoothDevice, error) {
 	var _result []BluetoothDevice
 	_data := parcel.New()
@@ -100,6 +105,10 @@ func (p *BluetoothAvrcpControllerProxy) GetDevicesMatchingConnectionStates(
 		for _, _item := range states {
 			_data.WriteInt32(_item)
 		}
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "getDevicesMatchingConnectionStates")
@@ -136,13 +145,17 @@ func (p *BluetoothAvrcpControllerProxy) GetDevicesMatchingConnectionStates(
 func (p *BluetoothAvrcpControllerProxy) GetConnectionState(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -171,13 +184,17 @@ func (p *BluetoothAvrcpControllerProxy) GetConnectionState(
 func (p *BluetoothAvrcpControllerProxy) GetPlayerSettings(
 	ctx context.Context,
 	device BluetoothDevice,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (BluetoothAvrcpPlayerSettings, error) {
 	var _result BluetoothAvrcpPlayerSettings
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
 	_data.WriteInt32(1)
 	if _err := device.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _result, _err
 	}
 
@@ -211,12 +228,16 @@ func (p *BluetoothAvrcpControllerProxy) GetPlayerSettings(
 func (p *BluetoothAvrcpControllerProxy) SetPlayerApplicationSetting(
 	ctx context.Context,
 	plAppSetting BluetoothAvrcpPlayerSettings,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
 	_data.WriteInt32(1)
 	if _err := plAppSetting.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -243,7 +264,7 @@ func (p *BluetoothAvrcpControllerProxy) SendGroupNavigationCmd(
 	device BluetoothDevice,
 	keyCode int32,
 	keyState int32,
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAvrcpController)
@@ -253,6 +274,10 @@ func (p *BluetoothAvrcpControllerProxy) SendGroupNavigationCmd(
 	}
 	_data.WriteInt32(keyCode)
 	_data.WriteInt32(keyState)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAvrcpController, "sendGroupNavigationCmd")
 	if _err != nil {
@@ -290,7 +315,18 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetConnectedDevices(ctx, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -308,7 +344,18 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_states []int32
 		_ = _arg_states
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetDevicesMatchingConnectionStates(ctx, _arg_states, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -335,7 +382,18 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetConnectionState(ctx, _arg_device, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -361,7 +419,18 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetPlayerSettings(ctx, _arg_device, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -390,7 +459,18 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetPlayerApplicationSetting(ctx, _arg_plAppSetting, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -423,7 +503,18 @@ func (s *BluetoothAvrcpControllerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.SendGroupNavigationCmd(ctx, _arg_device, _arg_keyCode, _arg_keyState, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {

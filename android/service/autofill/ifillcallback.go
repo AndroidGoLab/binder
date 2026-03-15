@@ -3,6 +3,7 @@ package autofill
 import (
 	"context"
 	"fmt"
+	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +20,7 @@ const (
 
 type IFillCallback interface {
 	AsBinder() binder.IBinder
-	OnCancellable(ctx context.Context, cancellation interface{}) error
+	OnCancellable(ctx context.Context, cancellation ondeviceintelligence.ICancellationSignal) error
 	OnSuccess(ctx context.Context, response FillResponse) error
 	OnFailure(ctx context.Context, requestId int32, message interface{}) error
 }
@@ -42,10 +43,11 @@ var _ IFillCallback = (*FillCallbackProxy)(nil)
 
 func (p *FillCallbackProxy) OnCancellable(
 	ctx context.Context,
-	cancellation interface{},
+	cancellation ondeviceintelligence.ICancellationSignal,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIFillCallback)
+	_data.WriteStrongBinder(cancellation.AsBinder().Handle())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIFillCallback, "onCancellable")
 	if _err != nil {
@@ -112,7 +114,9 @@ func (s *FillCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_cancellation interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_cancellation ondeviceintelligence.ICancellationSignal
+		_ = _arg_cancellation
 		_err := s.Impl.OnCancellable(ctx, _arg_cancellation)
 		_ = _err
 		return nil, nil

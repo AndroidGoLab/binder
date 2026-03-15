@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -29,7 +30,7 @@ type ITaskOrganizer interface {
 	RemoveStartingWindow(ctx context.Context, removalInfo StartingWindowRemovalInfo) error
 	CopySplashScreenView(ctx context.Context, taskId int32) error
 	OnAppSplashScreenViewRemoved(ctx context.Context, taskId int32) error
-	OnTaskAppeared(ctx context.Context, taskInfo interface{}, leash interface{}) error
+	OnTaskAppeared(ctx context.Context, taskInfo interface{}, leash view.SurfaceControl) error
 	OnTaskVanished(ctx context.Context, taskInfo interface{}) error
 	OnTaskInfoChanged(ctx context.Context, taskInfo interface{}) error
 	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo interface{}) error
@@ -129,10 +130,14 @@ func (p *TaskOrganizerProxy) OnAppSplashScreenViewRemoved(
 func (p *TaskOrganizerProxy) OnTaskAppeared(
 	ctx context.Context,
 	taskInfo interface{},
-	leash interface{},
+	leash view.SurfaceControl,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
+	_data.WriteInt32(1)
+	if _err := leash.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskOrganizer, "onTaskAppeared")
 	if _err != nil {
@@ -287,7 +292,18 @@ func (s *TaskOrganizerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_taskInfo interface{}
-		var _arg_leash interface{}
+		var _arg_leash view.SurfaceControl
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_leash.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnTaskAppeared(ctx, _arg_taskInfo, _arg_leash)
 		_ = _err
 		return nil, nil

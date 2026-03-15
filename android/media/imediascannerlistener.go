@@ -3,6 +3,7 @@ package media
 import (
 	"context"
 	"fmt"
+	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IMediaScannerListener interface {
 	AsBinder() binder.IBinder
-	ScanCompleted(ctx context.Context, path string, uri interface{}) error
+	ScanCompleted(ctx context.Context, path string, uri net.Uri) error
 }
 
 type MediaScannerListenerProxy struct {
@@ -39,11 +40,15 @@ var _ IMediaScannerListener = (*MediaScannerListenerProxy)(nil)
 func (p *MediaScannerListenerProxy) ScanCompleted(
 	ctx context.Context,
 	path string,
-	uri interface{},
+	uri net.Uri,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaScannerListener)
 	_data.WriteString16(path)
+	_data.WriteInt32(1)
+	if _err := uri.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIMediaScannerListener, "scanCompleted")
 	if _err != nil {
@@ -76,7 +81,18 @@ func (s *MediaScannerListenerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_uri interface{}
+		var _arg_uri net.Uri
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_uri.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.ScanCompleted(ctx, _arg_path, _arg_uri)
 		_ = _err
 		return nil, nil

@@ -3,6 +3,7 @@ package speech
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,8 +19,8 @@ const (
 
 type IRecognitionServiceManager interface {
 	AsBinder() binder.IBinder
-	CreateSession(ctx context.Context, componentName interface{}, clientToken binder.IBinder, onDevice bool, callback IRecognitionServiceManagerCallback) error
-	SetTemporaryComponent(ctx context.Context, componentName interface{}) error
+	CreateSession(ctx context.Context, componentName content.ComponentName, clientToken binder.IBinder, onDevice bool, callback IRecognitionServiceManagerCallback) error
+	SetTemporaryComponent(ctx context.Context, componentName content.ComponentName) error
 }
 
 type RecognitionServiceManagerProxy struct {
@@ -40,13 +41,17 @@ var _ IRecognitionServiceManager = (*RecognitionServiceManagerProxy)(nil)
 
 func (p *RecognitionServiceManagerProxy) CreateSession(
 	ctx context.Context,
-	componentName interface{},
+	componentName content.ComponentName,
 	clientToken binder.IBinder,
 	onDevice bool,
 	callback IRecognitionServiceManagerCallback,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionServiceManager)
+	_data.WriteInt32(1)
+	if _err := componentName.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteStrongBinder(clientToken.Handle())
 	_data.WriteBool(onDevice)
 	_data.WriteStrongBinder(callback.AsBinder().Handle())
@@ -62,10 +67,14 @@ func (p *RecognitionServiceManagerProxy) CreateSession(
 
 func (p *RecognitionServiceManagerProxy) SetTemporaryComponent(
 	ctx context.Context,
-	componentName interface{},
+	componentName content.ComponentName,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIRecognitionServiceManager)
+	_data.WriteInt32(1)
+	if _err := componentName.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIRecognitionServiceManager, "setTemporaryComponent")
 	if _err != nil {
@@ -94,7 +103,18 @@ func (s *RecognitionServiceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_componentName interface{}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
 		_ = _arg_clientToken
@@ -112,7 +132,18 @@ func (s *RecognitionServiceManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_componentName interface{}
+		var _arg_componentName content.ComponentName
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_componentName.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.SetTemporaryComponent(ctx, _arg_componentName)
 		_ = _err
 		return nil, nil

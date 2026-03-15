@@ -2,6 +2,8 @@ package common
 
 import (
 	broadcastradio "github.com/xaionaro-go/binder/android/hardware/broadcastradio"
+	vibrator "github.com/xaionaro-go/binder/android/hardware/tests/extension/vibrator"
+	location "github.com/xaionaro-go/binder/android/location"
 	commonMicrophoneInfo "github.com/xaionaro-go/binder/android/media/audio/common/MicrophoneInfo"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -11,11 +13,11 @@ import (
 type MicrophoneInfo struct {
 	Id                string
 	Device            AudioDevice
-	Location          interface{}
+	Location          location.Location
 	Group             int32
 	IndexInTheGroup   int32
 	Sensitivity       commonMicrophoneInfo.Sensitivity
-	Directionality    interface{}
+	Directionality    vibrator.Directionality
 	FrequencyResponse []commonMicrophoneInfo.FrequencyResponsePoint
 	Position          broadcastradio.Coordinate
 	Orientation       broadcastradio.Coordinate
@@ -36,11 +38,15 @@ func (s *MicrophoneInfo) MarshalParcel(
 	if _err := s.Device.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	if _err := s.Location.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.Group)
 	p.WriteInt32(s.IndexInTheGroup)
 	if _err := s.Sensitivity.MarshalParcel(p); _err != nil {
 		return _err
 	}
+	p.WriteInt32(int32(s.Directionality))
 	if s.FrequencyResponse == nil {
 		p.WriteInt32(-1)
 	} else {
@@ -79,6 +85,10 @@ func (s *MicrophoneInfo) UnmarshalParcel(
 		return _err
 	}
 
+	if _err = s.Location.UnmarshalParcel(p); _err != nil {
+		return _err
+	}
+
 	s.Group, _err = p.ReadInt32()
 	if _err != nil {
 		return _err
@@ -92,6 +102,12 @@ func (s *MicrophoneInfo) UnmarshalParcel(
 	if _err = s.Sensitivity.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
+
+	_directionalityRaw, _err := p.ReadInt32()
+	if _err != nil {
+		return _err
+	}
+	s.Directionality = vibrator.Directionality(_directionalityRaw)
 
 	var _count0 int32
 	_count0, _err = p.ReadInt32()

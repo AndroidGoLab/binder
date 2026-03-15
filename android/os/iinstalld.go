@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	osIInstalld "github.com/xaionaro-go/binder/android/os/IInstalld"
+	storage "github.com/xaionaro-go/binder/android/os/storage"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -83,8 +84,8 @@ type IInstalld interface {
 	GetAppSize(ctx context.Context, uuid string, packageNames []string, flags int32, appId int32, ceDataInodes []int64, codePaths []string) ([]int64, error)
 	GetUserSize(ctx context.Context, uuid string, flags int32, appIds []int32) ([]int64, error)
 	GetExternalSize(ctx context.Context, uuid string, flags int32, appIds []int32) ([]int64, error)
-	GetAppCrates(ctx context.Context, uuid string, packageNames []string) ([]interface{}, error)
-	GetUserCrates(ctx context.Context, uuid string) ([]interface{}, error)
+	GetAppCrates(ctx context.Context, uuid string, packageNames []string) ([]storage.CrateMetadata, error)
+	GetUserCrates(ctx context.Context, uuid string) ([]storage.CrateMetadata, error)
 	SetAppQuota(ctx context.Context, uuid string, appId int32, cacheQuota int64) error
 	MoveCompleteApp(ctx context.Context, fromUuid string, toUuid string, packageName string, appId int32, seInfo string, targetSdkVersion int32, fromCodePath string) error
 	Dexopt(ctx context.Context, apkPath string, uid int32, packageName string, instructionSet string, dexoptNeeded int32, outputPath string, dexFlags int32, compilerFilter string, uuid string, sharedLibraries string, seInfo string, downgrade bool, targetSdkVersion int32, profileName string, dexMetadataPath string, compilationReason string) (bool, error)
@@ -708,8 +709,8 @@ func (p *InstalldProxy) GetAppCrates(
 	ctx context.Context,
 	uuid string,
 	packageNames []string,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]storage.CrateMetadata, error) {
+	var _result []storage.CrateMetadata
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
@@ -745,8 +746,11 @@ func (p *InstalldProxy) GetAppCrates(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]storage.CrateMetadata, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -755,8 +759,8 @@ func (p *InstalldProxy) GetAppCrates(
 func (p *InstalldProxy) GetUserCrates(
 	ctx context.Context,
 	uuid string,
-) ([]interface{}, error) {
-	var _result []interface{}
+) ([]storage.CrateMetadata, error) {
+	var _result []storage.CrateMetadata
 	_identity := p.remote.Identity()
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInstalld)
@@ -784,8 +788,11 @@ func (p *InstalldProxy) GetUserCrates(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]storage.CrateMetadata, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil

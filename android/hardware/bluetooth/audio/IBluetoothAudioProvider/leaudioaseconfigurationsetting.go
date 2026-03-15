@@ -1,6 +1,7 @@
 package IBluetoothAudioProvider
 
 import (
+	IBluetoothAudioProviderLeAudioAseConfigurationSetting "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioAseConfigurationSetting"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -9,8 +10,8 @@ import (
 type LeAudioAseConfigurationSetting struct {
 	AudioContext           interface{}
 	Packing                Packing
-	SinkAseConfiguration   []interface{}
-	SourceAseConfiguration []interface{}
+	SinkAseConfiguration   []IBluetoothAudioProviderLeAudioAseConfigurationSetting.AseDirectionConfiguration
+	SourceAseConfiguration []IBluetoothAudioProviderLeAudioAseConfigurationSetting.AseDirectionConfiguration
 	Flags                  interface{}
 }
 
@@ -25,11 +26,21 @@ func (s *LeAudioAseConfigurationSetting) MarshalParcel(
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.SinkAseConfiguration)))
+		for _, _item := range s.SinkAseConfiguration {
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 	if s.SourceAseConfiguration == nil {
 		p.WriteInt32(-1)
 	} else {
 		p.WriteInt32(int32(len(s.SourceAseConfiguration)))
+		for _, _item := range s.SourceAseConfiguration {
+			if _err := _item.MarshalParcel(p); _err != nil {
+				return _err
+			}
+		}
 	}
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -56,8 +67,11 @@ func (s *LeAudioAseConfigurationSetting) UnmarshalParcel(
 		return _err
 	}
 	if _count0 >= 0 {
-		s.SinkAseConfiguration = make([]interface{}, _count0)
+		s.SinkAseConfiguration = make([]IBluetoothAudioProviderLeAudioAseConfigurationSetting.AseDirectionConfiguration, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
+			if _err = s.SinkAseConfiguration[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 
@@ -67,8 +81,11 @@ func (s *LeAudioAseConfigurationSetting) UnmarshalParcel(
 		return _err
 	}
 	if _count1 >= 0 {
-		s.SourceAseConfiguration = make([]interface{}, _count1)
+		s.SourceAseConfiguration = make([]IBluetoothAudioProviderLeAudioAseConfigurationSetting.AseDirectionConfiguration, _count1)
 		for _i := int32(0); _i < _count1; _i++ {
+			if _err = s.SourceAseConfiguration[_i].UnmarshalParcel(p); _err != nil {
+				return _err
+			}
 		}
 	}
 

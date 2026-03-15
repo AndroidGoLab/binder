@@ -3,6 +3,7 @@ package c2
 import (
 	"context"
 	"fmt"
+	c2IConfigurable "github.com/xaionaro-go/binder/android/hardware/media/c2/IConfigurable"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -22,12 +23,12 @@ const (
 
 type IConfigurable interface {
 	AsBinder() binder.IBinder
-	Config(ctx context.Context, inParams Params, mayBlock bool) (interface{}, error)
+	Config(ctx context.Context, inParams Params, mayBlock bool) (c2IConfigurable.ConfigResult, error)
 	GetId(ctx context.Context) (int32, error)
 	GetName(ctx context.Context) (string, error)
-	Query(ctx context.Context, indices []int32, mayBlock bool) (interface{}, error)
+	Query(ctx context.Context, indices []int32, mayBlock bool) (c2IConfigurable.QueryResult, error)
 	QuerySupportedParams(ctx context.Context, start int32, count int32) ([]ParamDescriptor, error)
-	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (interface{}, error)
+	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (c2IConfigurable.QuerySupportedValuesResult, error)
 }
 
 type ConfigurableProxy struct {
@@ -50,8 +51,8 @@ func (p *ConfigurableProxy) Config(
 	ctx context.Context,
 	inParams Params,
 	mayBlock bool,
-) (interface{}, error) {
-	var _result interface{}
+) (c2IConfigurable.ConfigResult, error) {
+	var _result c2IConfigurable.ConfigResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	_data.WriteInt32(1)
@@ -75,6 +76,15 @@ func (p *ConfigurableProxy) Config(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -140,8 +150,8 @@ func (p *ConfigurableProxy) Query(
 	ctx context.Context,
 	indices []int32,
 	mayBlock bool,
-) (interface{}, error) {
-	var _result interface{}
+) (c2IConfigurable.QueryResult, error) {
+	var _result c2IConfigurable.QueryResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	if indices == nil {
@@ -169,6 +179,15 @@ func (p *ConfigurableProxy) Query(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -218,8 +237,8 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 	ctx context.Context,
 	inFields []FieldSupportedValuesQuery,
 	mayBlock bool,
-) (interface{}, error) {
-	var _result interface{}
+) (c2IConfigurable.QuerySupportedValuesResult, error) {
+	var _result c2IConfigurable.QuerySupportedValuesResult
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	if inFields == nil {
@@ -249,6 +268,15 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -293,7 +321,10 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIConfigurableGetId:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -339,7 +370,10 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIConfigurableQuerySupportedParams:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -381,7 +415,10 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

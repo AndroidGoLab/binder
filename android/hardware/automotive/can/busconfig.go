@@ -1,6 +1,7 @@
 package can
 
 import (
+	canBusConfig "github.com/xaionaro-go/binder/android/hardware/automotive/can/BusConfig"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type BusConfig struct {
 	Name        string
-	InterfaceId interface{}
+	InterfaceId canBusConfig.InterfaceId
 	Bitrate     int32
 }
 
@@ -19,6 +20,9 @@ func (s *BusConfig) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteString16(s.Name)
+	if _err := s.InterfaceId.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteInt32(s.Bitrate)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -35,6 +39,10 @@ func (s *BusConfig) UnmarshalParcel(
 
 	s.Name, _err = p.ReadString16()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.InterfaceId.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

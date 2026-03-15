@@ -2,6 +2,7 @@ package effect
 
 import (
 	"fmt"
+	effectAutomaticGainControlV2 "github.com/xaionaro-go/binder/android/hardware/audio/effect/AutomaticGainControlV2"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -18,7 +19,7 @@ type AutomaticGainControlV2 struct {
 	Tag                int32
 	Vendor             VendorExtension
 	FixedDigitalGainMb int32
-	LevelEstimator     interface{}
+	LevelEstimator     effectAutomaticGainControlV2.LevelEstimator
 	SaturationMarginMb int32
 }
 
@@ -54,16 +55,16 @@ func (u *AutomaticGainControlV2) SetFixedDigitalGainMb(
 	u.FixedDigitalGainMb = v
 }
 
-func (u *AutomaticGainControlV2) GetLevelEstimator() (interface{}, bool) {
+func (u *AutomaticGainControlV2) GetLevelEstimator() (effectAutomaticGainControlV2.LevelEstimator, bool) {
 	if u.Tag != AutomaticGainControlV2TagLevelEstimator {
-		var _zero interface{}
+		var _zero effectAutomaticGainControlV2.LevelEstimator
 		return _zero, false
 	}
 	return u.LevelEstimator, true
 }
 
 func (u *AutomaticGainControlV2) SetLevelEstimator(
-	v interface{},
+	v effectAutomaticGainControlV2.LevelEstimator,
 ) {
 	u.Tag = AutomaticGainControlV2TagLevelEstimator
 	u.LevelEstimator = v
@@ -98,6 +99,7 @@ func (u *AutomaticGainControlV2) MarshalParcel(
 	case AutomaticGainControlV2TagFixedDigitalGainMb:
 		p.WriteInt32(u.FixedDigitalGainMb)
 	case AutomaticGainControlV2TagLevelEstimator:
+		p.WriteInt32(int32(u.LevelEstimator))
 	case AutomaticGainControlV2TagSaturationMarginMb:
 		p.WriteInt32(u.SaturationMarginMb)
 	default:
@@ -132,6 +134,11 @@ func (u *AutomaticGainControlV2) UnmarshalParcel(
 			return _err
 		}
 	case AutomaticGainControlV2TagLevelEstimator:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.LevelEstimator = effectAutomaticGainControlV2.LevelEstimator(_raw)
 	case AutomaticGainControlV2TagSaturationMarginMb:
 		u.SaturationMarginMb, _err = p.ReadInt32()
 		if _err != nil {

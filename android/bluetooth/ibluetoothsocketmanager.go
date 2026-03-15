@@ -3,6 +3,7 @@ package bluetooth
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -28,8 +29,8 @@ type IBluetoothSocketManager interface {
 	CreateSocketChannel(ctx context.Context, type_ int32, serviceName string, uuid *interface{}, port int32, flag int32) (int32, error)
 	CreateSocketChannelWithOffload(ctx context.Context, type_ int32, serviceName string, uuid *interface{}, port int32, flag int32, dataPath int32, socketName string, hubId int64, endpointId int64, maximumPacketSize int32) (int32, error)
 	RequestMaximumTxDataLength(ctx context.Context, device BluetoothDevice) error
-	GetL2capLocalChannelId(ctx context.Context, connectionUuid interface{}, attributionSource interface{}) (int32, error)
-	GetL2capRemoteChannelId(ctx context.Context, connectionUuid interface{}, attributionSource interface{}) (int32, error)
+	GetL2capLocalChannelId(ctx context.Context, connectionUuid interface{}, attributionSource content.AttributionSource) (int32, error)
+	GetL2capRemoteChannelId(ctx context.Context, connectionUuid interface{}, attributionSource content.AttributionSource) (int32, error)
 }
 
 type BluetoothSocketManagerProxy struct {
@@ -258,11 +259,15 @@ func (p *BluetoothSocketManagerProxy) RequestMaximumTxDataLength(
 func (p *BluetoothSocketManagerProxy) GetL2capLocalChannelId(
 	ctx context.Context,
 	connectionUuid interface{},
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "getL2capLocalChannelId")
 	if _err != nil {
@@ -289,11 +294,15 @@ func (p *BluetoothSocketManagerProxy) GetL2capLocalChannelId(
 func (p *BluetoothSocketManagerProxy) GetL2capRemoteChannelId(
 	ctx context.Context,
 	connectionUuid interface{},
-	attributionSource interface{},
+	attributionSource content.AttributionSource,
 ) (int32, error) {
 	var _result int32
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothSocketManager)
+	_data.WriteInt32(1)
+	if _err := attributionSource.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothSocketManager, "getL2capRemoteChannelId")
 	if _err != nil {
@@ -536,7 +545,18 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_connectionUuid interface{}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetL2capLocalChannelId(ctx, _arg_connectionUuid, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {
@@ -551,7 +571,18 @@ func (s *BluetoothSocketManagerStub) OnTransaction(
 			return nil, _err
 		}
 		var _arg_connectionUuid interface{}
-		var _arg_attributionSource interface{}
+		var _arg_attributionSource content.AttributionSource
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_attributionSource.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetL2capRemoteChannelId(ctx, _arg_connectionUuid, _arg_attributionSource)
 		_reply := parcel.New()
 		if _err != nil {

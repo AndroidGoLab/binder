@@ -2,6 +2,7 @@ package hwcrypto
 
 import (
 	"fmt"
+	types "github.com/xaionaro-go/binder/android/hardware/security/see/hwcrypto/types"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -15,53 +16,53 @@ const (
 
 type OperationParameters struct {
 	Tag                 int32
-	SymmetricAuthCrypto interface{}
-	SymmetricCrypto     interface{}
-	Hmac                interface{}
+	SymmetricAuthCrypto types.SymmetricAuthOperationParameters
+	SymmetricCrypto     types.SymmetricOperationParameters
+	Hmac                types.HmacOperationParameters
 }
 
 var _ parcel.Parcelable = (*OperationParameters)(nil)
 
-func (u *OperationParameters) GetSymmetricAuthCrypto() (interface{}, bool) {
+func (u *OperationParameters) GetSymmetricAuthCrypto() (types.SymmetricAuthOperationParameters, bool) {
 	if u.Tag != OperationParametersTagSymmetricAuthCrypto {
-		var _zero interface{}
+		var _zero types.SymmetricAuthOperationParameters
 		return _zero, false
 	}
 	return u.SymmetricAuthCrypto, true
 }
 
 func (u *OperationParameters) SetSymmetricAuthCrypto(
-	v interface{},
+	v types.SymmetricAuthOperationParameters,
 ) {
 	u.Tag = OperationParametersTagSymmetricAuthCrypto
 	u.SymmetricAuthCrypto = v
 }
 
-func (u *OperationParameters) GetSymmetricCrypto() (interface{}, bool) {
+func (u *OperationParameters) GetSymmetricCrypto() (types.SymmetricOperationParameters, bool) {
 	if u.Tag != OperationParametersTagSymmetricCrypto {
-		var _zero interface{}
+		var _zero types.SymmetricOperationParameters
 		return _zero, false
 	}
 	return u.SymmetricCrypto, true
 }
 
 func (u *OperationParameters) SetSymmetricCrypto(
-	v interface{},
+	v types.SymmetricOperationParameters,
 ) {
 	u.Tag = OperationParametersTagSymmetricCrypto
 	u.SymmetricCrypto = v
 }
 
-func (u *OperationParameters) GetHmac() (interface{}, bool) {
+func (u *OperationParameters) GetHmac() (types.HmacOperationParameters, bool) {
 	if u.Tag != OperationParametersTagHmac {
-		var _zero interface{}
+		var _zero types.HmacOperationParameters
 		return _zero, false
 	}
 	return u.Hmac, true
 }
 
 func (u *OperationParameters) SetHmac(
-	v interface{},
+	v types.HmacOperationParameters,
 ) {
 	u.Tag = OperationParametersTagHmac
 	u.Hmac = v
@@ -75,8 +76,17 @@ func (u *OperationParameters) MarshalParcel(
 
 	switch u.Tag {
 	case OperationParametersTagSymmetricAuthCrypto:
+		if _err := u.SymmetricAuthCrypto.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case OperationParametersTagSymmetricCrypto:
+		if _err := u.SymmetricCrypto.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case OperationParametersTagHmac:
+		if _err := u.Hmac.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for OperationParameters", u.Tag)
 	}
@@ -100,8 +110,17 @@ func (u *OperationParameters) UnmarshalParcel(
 
 	switch u.Tag {
 	case OperationParametersTagSymmetricAuthCrypto:
+		if _err = u.SymmetricAuthCrypto.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case OperationParametersTagSymmetricCrypto:
+		if _err = u.SymmetricCrypto.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case OperationParametersTagHmac:
+		if _err = u.Hmac.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	default:
 		return fmt.Errorf("unknown union tag %d for OperationParameters", u.Tag)
 	}

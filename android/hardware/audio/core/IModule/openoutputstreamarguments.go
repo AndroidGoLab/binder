@@ -2,7 +2,9 @@ package IModule
 
 import (
 	common "github.com/xaionaro-go/binder/android/hardware/audio/common"
+	core "github.com/xaionaro-go/binder/android/hardware/audio/core"
 	audioCommon "github.com/xaionaro-go/binder/android/media/audio/common"
+	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -13,8 +15,8 @@ type OpenOutputStreamArguments struct {
 	SourceMetadata   common.SourceMetadata
 	OffloadInfo      audioCommon.AudioOffloadInfo
 	BufferSizeFrames int64
-	Callback         interface{}
-	EventCallback    interface{}
+	Callback         core.IStreamCallback
+	EventCallback    core.IStreamOutEventCallback
 }
 
 var _ parcel.Parcelable = (*OpenOutputStreamArguments)(nil)
@@ -31,6 +33,8 @@ func (s *OpenOutputStreamArguments) MarshalParcel(
 		return _err
 	}
 	p.WriteInt64(s.BufferSizeFrames)
+	p.WriteStrongBinder(s.Callback.AsBinder().Handle())
+	p.WriteStrongBinder(s.EventCallback.AsBinder().Handle())
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -61,6 +65,18 @@ func (s *OpenOutputStreamArguments) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
+
+	_callbackHandle, _err := p.ReadStrongBinder()
+	if _err != nil {
+		return _err
+	}
+	s.Callback = core.NewStreamCallbackProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _callbackHandle))
+
+	_eventCallbackHandle, _err := p.ReadStrongBinder()
+	if _err != nil {
+		return _err
+	}
+	s.EventCallback = core.NewStreamOutEventCallbackProxy(binder.NewProxyBinder(nil, binder.CallerIdentity{}, _eventCallbackHandle))
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

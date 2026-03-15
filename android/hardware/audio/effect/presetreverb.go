@@ -2,6 +2,7 @@ package effect
 
 import (
 	"fmt"
+	effectPresetReverb "github.com/xaionaro-go/binder/android/hardware/audio/effect/PresetReverb"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -16,8 +17,8 @@ const (
 type PresetReverb struct {
 	Tag              int32
 	Vendor           VendorExtension
-	SupportedPresets []interface{}
-	Preset           interface{}
+	SupportedPresets []effectPresetReverb.Presets
+	Preset           effectPresetReverb.Presets
 }
 
 var _ parcel.Parcelable = (*PresetReverb)(nil)
@@ -37,31 +38,31 @@ func (u *PresetReverb) SetVendor(
 	u.Vendor = v
 }
 
-func (u *PresetReverb) GetSupportedPresets() ([]interface{}, bool) {
+func (u *PresetReverb) GetSupportedPresets() ([]effectPresetReverb.Presets, bool) {
 	if u.Tag != PresetReverbTagSupportedPresets {
-		var _zero []interface{}
+		var _zero []effectPresetReverb.Presets
 		return _zero, false
 	}
 	return u.SupportedPresets, true
 }
 
 func (u *PresetReverb) SetSupportedPresets(
-	v []interface{},
+	v []effectPresetReverb.Presets,
 ) {
 	u.Tag = PresetReverbTagSupportedPresets
 	u.SupportedPresets = v
 }
 
-func (u *PresetReverb) GetPreset() (interface{}, bool) {
+func (u *PresetReverb) GetPreset() (effectPresetReverb.Presets, bool) {
 	if u.Tag != PresetReverbTagPreset {
-		var _zero interface{}
+		var _zero effectPresetReverb.Presets
 		return _zero, false
 	}
 	return u.Preset, true
 }
 
 func (u *PresetReverb) SetPreset(
-	v interface{},
+	v effectPresetReverb.Presets,
 ) {
 	u.Tag = PresetReverbTagPreset
 	u.Preset = v
@@ -83,8 +84,12 @@ func (u *PresetReverb) MarshalParcel(
 			p.WriteInt32(-1)
 		} else {
 			p.WriteInt32(int32(len(u.SupportedPresets)))
+			for _, _item := range u.SupportedPresets {
+				p.WriteInt32(int32(_item))
+			}
 		}
 	case PresetReverbTagPreset:
+		p.WriteInt32(int32(u.Preset))
 	default:
 		return fmt.Errorf("unknown union tag %d for PresetReverb", u.Tag)
 	}
@@ -119,11 +124,21 @@ func (u *PresetReverb) UnmarshalParcel(
 			return _err
 		}
 		if _count0 >= 0 {
-			u.SupportedPresets = make([]interface{}, _count0)
+			u.SupportedPresets = make([]effectPresetReverb.Presets, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				_raw, _err := p.ReadInt32()
+				if _err != nil {
+					return _err
+				}
+				u.SupportedPresets[_i] = effectPresetReverb.Presets(_raw)
 			}
 		}
 	case PresetReverbTagPreset:
+		_raw, _err := p.ReadInt32()
+		if _err != nil {
+			return _err
+		}
+		u.Preset = effectPresetReverb.Presets(_raw)
 	default:
 		return fmt.Errorf("unknown union tag %d for PresetReverb", u.Tag)
 	}

@@ -3,6 +3,8 @@ package autofill
 import (
 	"context"
 	"fmt"
+	content "github.com/xaionaro-go/binder/android/content"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,10 +26,10 @@ type IInlineSuggestionUiCallback interface {
 	AsBinder() binder.IBinder
 	OnClick(ctx context.Context) error
 	OnLongClick(ctx context.Context) error
-	OnContent(ctx context.Context, content IInlineSuggestionUi, surface interface{}, width int32, height int32) error
+	OnContent(ctx context.Context, content IInlineSuggestionUi, surface view.SurfaceControlViewHostSurfacePackage, width int32, height int32) error
 	OnError(ctx context.Context) error
 	OnTransferTouchFocusToImeWindow(ctx context.Context, sourceInputToken binder.IBinder, displayId int32) error
-	OnStartIntentSender(ctx context.Context, intentSender interface{}) error
+	OnStartIntentSender(ctx context.Context, intentSender content.IntentSender) error
 }
 
 type InlineSuggestionUiCallbackProxy struct {
@@ -79,13 +81,17 @@ func (p *InlineSuggestionUiCallbackProxy) OnLongClick(
 func (p *InlineSuggestionUiCallbackProxy) OnContent(
 	ctx context.Context,
 	content IInlineSuggestionUi,
-	surface interface{},
+	surface view.SurfaceControlViewHostSurfacePackage,
 	width int32,
 	height int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
 	_data.WriteStrongBinder(content.AsBinder().Handle())
+	_data.WriteInt32(1)
+	if _err := surface.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(width)
 	_data.WriteInt32(height)
 
@@ -134,10 +140,14 @@ func (p *InlineSuggestionUiCallbackProxy) OnTransferTouchFocusToImeWindow(
 
 func (p *InlineSuggestionUiCallbackProxy) OnStartIntentSender(
 	ctx context.Context,
-	intentSender interface{},
+	intentSender content.IntentSender,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionUiCallback)
+	_data.WriteInt32(1)
+	if _err := intentSender.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIInlineSuggestionUiCallback, "onStartIntentSender")
 	if _err != nil {
@@ -183,7 +193,18 @@ func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_content IInlineSuggestionUi
 		_ = _arg_content
-		var _arg_surface interface{}
+		var _arg_surface view.SurfaceControlViewHostSurfacePackage
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_surface.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_width, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -220,7 +241,18 @@ func (s *InlineSuggestionUiCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_intentSender interface{}
+		var _arg_intentSender content.IntentSender
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_intentSender.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnStartIntentSender(ctx, _arg_intentSender)
 		_ = _err
 		return nil, nil

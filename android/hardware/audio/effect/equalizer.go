@@ -2,6 +2,7 @@ package effect
 
 import (
 	"fmt"
+	effectEqualizer "github.com/xaionaro-go/binder/android/hardware/audio/effect/Equalizer"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -19,11 +20,11 @@ const (
 type Equalizer struct {
 	Tag             int32
 	Vendor          VendorExtension
-	BandLevels      []interface{}
+	BandLevels      []effectEqualizer.BandLevel
 	Preset          int32
 	CenterFreqMh    []int32
-	BandFrequencies []interface{}
-	Presets         []interface{}
+	BandFrequencies []effectEqualizer.BandFrequency
+	Presets         []effectEqualizer.Preset
 }
 
 var _ parcel.Parcelable = (*Equalizer)(nil)
@@ -43,16 +44,16 @@ func (u *Equalizer) SetVendor(
 	u.Vendor = v
 }
 
-func (u *Equalizer) GetBandLevels() ([]interface{}, bool) {
+func (u *Equalizer) GetBandLevels() ([]effectEqualizer.BandLevel, bool) {
 	if u.Tag != EqualizerTagBandLevels {
-		var _zero []interface{}
+		var _zero []effectEqualizer.BandLevel
 		return _zero, false
 	}
 	return u.BandLevels, true
 }
 
 func (u *Equalizer) SetBandLevels(
-	v []interface{},
+	v []effectEqualizer.BandLevel,
 ) {
 	u.Tag = EqualizerTagBandLevels
 	u.BandLevels = v
@@ -88,31 +89,31 @@ func (u *Equalizer) SetCenterFreqMh(
 	u.CenterFreqMh = v
 }
 
-func (u *Equalizer) GetBandFrequencies() ([]interface{}, bool) {
+func (u *Equalizer) GetBandFrequencies() ([]effectEqualizer.BandFrequency, bool) {
 	if u.Tag != EqualizerTagBandFrequencies {
-		var _zero []interface{}
+		var _zero []effectEqualizer.BandFrequency
 		return _zero, false
 	}
 	return u.BandFrequencies, true
 }
 
 func (u *Equalizer) SetBandFrequencies(
-	v []interface{},
+	v []effectEqualizer.BandFrequency,
 ) {
 	u.Tag = EqualizerTagBandFrequencies
 	u.BandFrequencies = v
 }
 
-func (u *Equalizer) GetPresets() ([]interface{}, bool) {
+func (u *Equalizer) GetPresets() ([]effectEqualizer.Preset, bool) {
 	if u.Tag != EqualizerTagPresets {
-		var _zero []interface{}
+		var _zero []effectEqualizer.Preset
 		return _zero, false
 	}
 	return u.Presets, true
 }
 
 func (u *Equalizer) SetPresets(
-	v []interface{},
+	v []effectEqualizer.Preset,
 ) {
 	u.Tag = EqualizerTagPresets
 	u.Presets = v
@@ -134,6 +135,11 @@ func (u *Equalizer) MarshalParcel(
 			p.WriteInt32(-1)
 		} else {
 			p.WriteInt32(int32(len(u.BandLevels)))
+			for _, _item := range u.BandLevels {
+				if _err := _item.MarshalParcel(p); _err != nil {
+					return _err
+				}
+			}
 		}
 	case EqualizerTagPreset:
 		p.WriteInt32(u.Preset)
@@ -151,12 +157,22 @@ func (u *Equalizer) MarshalParcel(
 			p.WriteInt32(-1)
 		} else {
 			p.WriteInt32(int32(len(u.BandFrequencies)))
+			for _, _item := range u.BandFrequencies {
+				if _err := _item.MarshalParcel(p); _err != nil {
+					return _err
+				}
+			}
 		}
 	case EqualizerTagPresets:
 		if u.Presets == nil {
 			p.WriteInt32(-1)
 		} else {
 			p.WriteInt32(int32(len(u.Presets)))
+			for _, _item := range u.Presets {
+				if _err := _item.MarshalParcel(p); _err != nil {
+					return _err
+				}
+			}
 		}
 	default:
 		return fmt.Errorf("unknown union tag %d for Equalizer", u.Tag)
@@ -192,8 +208,11 @@ func (u *Equalizer) UnmarshalParcel(
 			return _err
 		}
 		if _count0 >= 0 {
-			u.BandLevels = make([]interface{}, _count0)
+			u.BandLevels = make([]effectEqualizer.BandLevel, _count0)
 			for _i := int32(0); _i < _count0; _i++ {
+				if _err = u.BandLevels[_i].UnmarshalParcel(p); _err != nil {
+					return _err
+				}
 			}
 		}
 	case EqualizerTagPreset:
@@ -225,8 +244,11 @@ func (u *Equalizer) UnmarshalParcel(
 			return _err
 		}
 		if _count2 >= 0 {
-			u.BandFrequencies = make([]interface{}, _count2)
+			u.BandFrequencies = make([]effectEqualizer.BandFrequency, _count2)
 			for _i := int32(0); _i < _count2; _i++ {
+				if _err = u.BandFrequencies[_i].UnmarshalParcel(p); _err != nil {
+					return _err
+				}
 			}
 		}
 	case EqualizerTagPresets:
@@ -237,8 +259,11 @@ func (u *Equalizer) UnmarshalParcel(
 			return _err
 		}
 		if _count3 >= 0 {
-			u.Presets = make([]interface{}, _count3)
+			u.Presets = make([]effectEqualizer.Preset, _count3)
 			for _i := int32(0); _i < _count3; _i++ {
+				if _err = u.Presets[_i].UnmarshalParcel(p); _err != nil {
+					return _err
+				}
 			}
 		}
 	default:

@@ -3,6 +3,7 @@ package autofill
 import (
 	"context"
 	"fmt"
+	os "github.com/xaionaro-go/binder/android/os"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IAutofillFieldClassificationService interface {
 	AsBinder() binder.IBinder
-	CalculateScores(ctx context.Context, callback interface{}, actualValues []interface{}, userDataValues []string, categoryIds []string, defaultAlgorithm string, defaultArgs interface{}, algorithms map[interface{}]interface{}, args map[interface{}]interface{}) error
+	CalculateScores(ctx context.Context, callback os.RemoteCallback, actualValues []interface{}, userDataValues []string, categoryIds []string, defaultAlgorithm string, defaultArgs os.Bundle, algorithms map[interface{}]interface{}, args map[interface{}]interface{}) error
 }
 
 type AutofillFieldClassificationServiceProxy struct {
@@ -38,17 +39,21 @@ var _ IAutofillFieldClassificationService = (*AutofillFieldClassificationService
 
 func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 	ctx context.Context,
-	callback interface{},
+	callback os.RemoteCallback,
 	actualValues []interface{},
 	userDataValues []string,
 	categoryIds []string,
 	defaultAlgorithm string,
-	defaultArgs interface{},
+	defaultArgs os.Bundle,
 	algorithms map[interface{}]interface{},
 	args map[interface{}]interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAutofillFieldClassificationService)
+	_data.WriteInt32(1)
+	if _err := callback.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if actualValues == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -71,6 +76,10 @@ func (p *AutofillFieldClassificationServiceProxy) CalculateScores(
 		}
 	}
 	_data.WriteString16(defaultAlgorithm)
+	_data.WriteInt32(1)
+	if _err := defaultArgs.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if algorithms == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -117,7 +126,18 @@ func (s *AutofillFieldClassificationServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		var _arg_callback os.RemoteCallback
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_actualValues []interface{}
 		_ = _arg_actualValues
@@ -131,7 +151,18 @@ func (s *AutofillFieldClassificationServiceStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_defaultArgs interface{}
+		var _arg_defaultArgs os.Bundle
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_defaultArgs.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: map param unmarshaling not yet supported in stubs
 		var _arg_algorithms map[interface{}]interface{}
 		_ = _arg_algorithms

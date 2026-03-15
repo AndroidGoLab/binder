@@ -3,6 +3,8 @@ package audio
 import (
 	"context"
 	"fmt"
+	audioIBluetoothAudioProvider "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/IBluetoothAudioProvider"
+	audioLeAudioBroadcastConfiguration "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/LeAudioBroadcastConfiguration"
 	fmq "github.com/xaionaro-go/binder/android/hardware/common/fmq"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -42,13 +44,13 @@ type IBluetoothAudioProvider interface {
 	ParseA2dpConfiguration(ctx context.Context, codecId CodecId, configuration []byte, codecParameters CodecParameters) (A2dpStatus, error)
 	GetA2dpConfiguration(ctx context.Context, remoteA2dpCapabilities []A2dpRemoteCapabilities, hint A2dpConfigurationHint) (A2dpConfiguration, error)
 	SetCodecPriority(ctx context.Context, codecId CodecId, priority int32) error
-	GetLeAudioAseConfiguration(ctx context.Context, remoteSinkAudioCapabilities []interface{}, remoteSourceAudioCapabilities []interface{}, requirements []interface{}) ([]interface{}, error)
-	GetLeAudioAseQosConfiguration(ctx context.Context, qosRequirement interface{}) (interface{}, error)
-	GetLeAudioAseDatapathConfiguration(ctx context.Context, sinkConfig *interface{}, sourceConfig *interface{}) (interface{}, error)
-	OnSinkAseMetadataChanged(ctx context.Context, state interface{}, cigId int32, cisId int32, metadata []MetadataLtv) error
-	OnSourceAseMetadataChanged(ctx context.Context, state interface{}, cigId int32, cisId int32, metadata []MetadataLtv) error
-	GetLeAudioBroadcastConfiguration(ctx context.Context, remoteSinkAudioCapabilities []interface{}, requirement interface{}) (interface{}, error)
-	GetLeAudioBroadcastDatapathConfiguration(ctx context.Context, audioContext AudioContext, streamMap []interface{}) (interface{}, error)
+	GetLeAudioAseConfiguration(ctx context.Context, remoteSinkAudioCapabilities []audioIBluetoothAudioProvider.LeAudioDeviceCapabilities, remoteSourceAudioCapabilities []audioIBluetoothAudioProvider.LeAudioDeviceCapabilities, requirements []audioIBluetoothAudioProvider.LeAudioConfigurationRequirement) ([]audioIBluetoothAudioProvider.LeAudioAseConfigurationSetting, error)
+	GetLeAudioAseQosConfiguration(ctx context.Context, qosRequirement audioIBluetoothAudioProvider.LeAudioAseQosConfigurationRequirement) (audioIBluetoothAudioProvider.LeAudioAseQosConfigurationPair, error)
+	GetLeAudioAseDatapathConfiguration(ctx context.Context, sinkConfig *audioIBluetoothAudioProvider.StreamConfig, sourceConfig *audioIBluetoothAudioProvider.StreamConfig) (audioIBluetoothAudioProvider.LeAudioDataPathConfigurationPair, error)
+	OnSinkAseMetadataChanged(ctx context.Context, state audioIBluetoothAudioProvider.AseState, cigId int32, cisId int32, metadata []MetadataLtv) error
+	OnSourceAseMetadataChanged(ctx context.Context, state audioIBluetoothAudioProvider.AseState, cigId int32, cisId int32, metadata []MetadataLtv) error
+	GetLeAudioBroadcastConfiguration(ctx context.Context, remoteSinkAudioCapabilities []audioIBluetoothAudioProvider.LeAudioDeviceCapabilities, requirement audioIBluetoothAudioProvider.LeAudioBroadcastConfigurationRequirement) (audioIBluetoothAudioProvider.LeAudioBroadcastConfigurationSetting, error)
+	GetLeAudioBroadcastDatapathConfiguration(ctx context.Context, audioContext AudioContext, streamMap []audioLeAudioBroadcastConfiguration.BroadcastStreamMap) (audioIBluetoothAudioProvider.LeAudioDataPathConfiguration, error)
 }
 
 const (
@@ -384,27 +386,42 @@ func (p *BluetoothAudioProviderProxy) SetCodecPriority(
 
 func (p *BluetoothAudioProviderProxy) GetLeAudioAseConfiguration(
 	ctx context.Context,
-	remoteSinkAudioCapabilities []interface{},
-	remoteSourceAudioCapabilities []interface{},
-	requirements []interface{},
-) ([]interface{}, error) {
-	var _result []interface{}
+	remoteSinkAudioCapabilities []audioIBluetoothAudioProvider.LeAudioDeviceCapabilities,
+	remoteSourceAudioCapabilities []audioIBluetoothAudioProvider.LeAudioDeviceCapabilities,
+	requirements []audioIBluetoothAudioProvider.LeAudioConfigurationRequirement,
+) ([]audioIBluetoothAudioProvider.LeAudioAseConfigurationSetting, error) {
+	var _result []audioIBluetoothAudioProvider.LeAudioAseConfigurationSetting
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
 	if remoteSinkAudioCapabilities == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(remoteSinkAudioCapabilities)))
+		for _, _item := range remoteSinkAudioCapabilities {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 	if remoteSourceAudioCapabilities == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(remoteSourceAudioCapabilities)))
+		for _, _item := range remoteSourceAudioCapabilities {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 	if requirements == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(requirements)))
+		for _, _item := range requirements {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProvider, "getLeAudioAseConfiguration")
@@ -428,8 +445,11 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioAseConfiguration(
 	}
 
 	if _count >= 0 {
-		_result = make([]interface{}, _count)
+		_result = make([]audioIBluetoothAudioProvider.LeAudioAseConfigurationSetting, _count)
 		for _i := int32(0); _i < _count; _i++ {
+			if _err = _result[_i].UnmarshalParcel(_reply); _err != nil {
+				return _result, _err
+			}
 		}
 	}
 	return _result, nil
@@ -437,11 +457,15 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioAseConfiguration(
 
 func (p *BluetoothAudioProviderProxy) GetLeAudioAseQosConfiguration(
 	ctx context.Context,
-	qosRequirement interface{},
-) (interface{}, error) {
-	var _result interface{}
+	qosRequirement audioIBluetoothAudioProvider.LeAudioAseQosConfigurationRequirement,
+) (audioIBluetoothAudioProvider.LeAudioAseQosConfigurationPair, error) {
+	var _result audioIBluetoothAudioProvider.LeAudioAseQosConfigurationPair
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
+	_data.WriteInt32(1)
+	if _err := qosRequirement.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProvider, "getLeAudioAseQosConfiguration")
 	if _err != nil {
@@ -458,17 +482,40 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioAseQosConfiguration(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *BluetoothAudioProviderProxy) GetLeAudioAseDatapathConfiguration(
 	ctx context.Context,
-	sinkConfig *interface{},
-	sourceConfig *interface{},
-) (interface{}, error) {
-	var _result interface{}
+	sinkConfig *audioIBluetoothAudioProvider.StreamConfig,
+	sourceConfig *audioIBluetoothAudioProvider.StreamConfig,
+) (audioIBluetoothAudioProvider.LeAudioDataPathConfigurationPair, error) {
+	var _result audioIBluetoothAudioProvider.LeAudioDataPathConfigurationPair
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
+	if sinkConfig != nil {
+		if _err := (*sinkConfig).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
+	if sourceConfig != nil {
+		if _err := (*sourceConfig).MarshalParcel(_data); _err != nil {
+			return _result, _err
+		}
+	} else {
+		_data.WriteInt32(-1)
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProvider, "getLeAudioAseDatapathConfiguration")
 	if _err != nil {
@@ -485,18 +532,28 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioAseDatapathConfiguration(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *BluetoothAudioProviderProxy) OnSinkAseMetadataChanged(
 	ctx context.Context,
-	state interface{},
+	state audioIBluetoothAudioProvider.AseState,
 	cigId int32,
 	cisId int32,
 	metadata []MetadataLtv,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
+	_data.WritePaddedByte(byte(state))
 	_data.WriteInt32(cigId)
 	_data.WriteInt32(cisId)
 	if metadata == nil {
@@ -530,13 +587,14 @@ func (p *BluetoothAudioProviderProxy) OnSinkAseMetadataChanged(
 
 func (p *BluetoothAudioProviderProxy) OnSourceAseMetadataChanged(
 	ctx context.Context,
-	state interface{},
+	state audioIBluetoothAudioProvider.AseState,
 	cigId int32,
 	cisId int32,
 	metadata []MetadataLtv,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
+	_data.WritePaddedByte(byte(state))
 	_data.WriteInt32(cigId)
 	_data.WriteInt32(cisId)
 	if metadata == nil {
@@ -570,16 +628,25 @@ func (p *BluetoothAudioProviderProxy) OnSourceAseMetadataChanged(
 
 func (p *BluetoothAudioProviderProxy) GetLeAudioBroadcastConfiguration(
 	ctx context.Context,
-	remoteSinkAudioCapabilities []interface{},
-	requirement interface{},
-) (interface{}, error) {
-	var _result interface{}
+	remoteSinkAudioCapabilities []audioIBluetoothAudioProvider.LeAudioDeviceCapabilities,
+	requirement audioIBluetoothAudioProvider.LeAudioBroadcastConfigurationRequirement,
+) (audioIBluetoothAudioProvider.LeAudioBroadcastConfigurationSetting, error) {
+	var _result audioIBluetoothAudioProvider.LeAudioBroadcastConfigurationSetting
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
 	if remoteSinkAudioCapabilities == nil {
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(remoteSinkAudioCapabilities)))
+		for _, _item := range remoteSinkAudioCapabilities {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
+	}
+	_data.WriteInt32(1)
+	if _err := requirement.MarshalParcel(_data); _err != nil {
+		return _result, _err
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProvider, "getLeAudioBroadcastConfiguration")
@@ -597,15 +664,24 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioBroadcastConfiguration(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *BluetoothAudioProviderProxy) GetLeAudioBroadcastDatapathConfiguration(
 	ctx context.Context,
 	audioContext AudioContext,
-	streamMap []interface{},
-) (interface{}, error) {
-	var _result interface{}
+	streamMap []audioLeAudioBroadcastConfiguration.BroadcastStreamMap,
+) (audioIBluetoothAudioProvider.LeAudioDataPathConfiguration, error) {
+	var _result audioIBluetoothAudioProvider.LeAudioDataPathConfiguration
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIBluetoothAudioProvider)
 	_data.WriteInt32(1)
@@ -616,6 +692,11 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioBroadcastDatapathConfiguration(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(streamMap)))
+		for _, _item := range streamMap {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _result, _err
+			}
+		}
 	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIBluetoothAudioProvider, "getLeAudioBroadcastDatapathConfiguration")
@@ -633,6 +714,15 @@ func (p *BluetoothAudioProviderProxy) GetLeAudioBroadcastDatapathConfiguration(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -863,13 +953,13 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_remoteSinkAudioCapabilities []interface{}
+		var _arg_remoteSinkAudioCapabilities []audioIBluetoothAudioProvider.LeAudioDeviceCapabilities
 		_ = _arg_remoteSinkAudioCapabilities
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_remoteSourceAudioCapabilities []interface{}
+		var _arg_remoteSourceAudioCapabilities []audioIBluetoothAudioProvider.LeAudioDeviceCapabilities
 		_ = _arg_remoteSourceAudioCapabilities
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_requirements []interface{}
+		var _arg_requirements []audioIBluetoothAudioProvider.LeAudioConfigurationRequirement
 		_ = _arg_requirements
 		_result, _err := s.Impl.GetLeAudioAseConfiguration(ctx, _arg_remoteSinkAudioCapabilities, _arg_remoteSourceAudioCapabilities, _arg_requirements)
 		_reply := parcel.New()
@@ -885,7 +975,18 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_qosRequirement interface{}
+		var _arg_qosRequirement audioIBluetoothAudioProvider.LeAudioAseQosConfigurationRequirement
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_qosRequirement.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetLeAudioAseQosConfiguration(ctx, _arg_qosRequirement)
 		_reply := parcel.New()
 		if _err != nil {
@@ -893,14 +994,39 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderGetLeAudioAseDatapathConfiguration:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_sinkConfig *interface{}
-		var _arg_sourceConfig *interface{}
+		var _arg_sinkConfig *audioIBluetoothAudioProvider.StreamConfig
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sinkConfig.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_sourceConfig *audioIBluetoothAudioProvider.StreamConfig
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_sourceConfig.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetLeAudioAseDatapathConfiguration(ctx, _arg_sinkConfig, _arg_sourceConfig)
 		_reply := parcel.New()
 		if _err != nil {
@@ -908,13 +1034,20 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderOnSinkAseMetadataChanged:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_state interface{}
+		_raw_state, _err := _data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state := audioIBluetoothAudioProvider.AseState(_raw_state)
 		_arg_cigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -938,7 +1071,11 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_state interface{}
+		_raw_state, _err := _data.ReadPaddedByte()
+		if _err != nil {
+			return nil, _err
+		}
+		_arg_state := audioIBluetoothAudioProvider.AseState(_raw_state)
 		_arg_cigId, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -963,9 +1100,20 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_remoteSinkAudioCapabilities []interface{}
+		var _arg_remoteSinkAudioCapabilities []audioIBluetoothAudioProvider.LeAudioDeviceCapabilities
 		_ = _arg_remoteSinkAudioCapabilities
-		var _arg_requirement interface{}
+		var _arg_requirement audioIBluetoothAudioProvider.LeAudioBroadcastConfigurationRequirement
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_requirement.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.GetLeAudioBroadcastConfiguration(ctx, _arg_remoteSinkAudioCapabilities, _arg_requirement)
 		_reply := parcel.New()
 		if _err != nil {
@@ -973,7 +1121,10 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIBluetoothAudioProviderGetLeAudioBroadcastDatapathConfiguration:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -992,7 +1143,7 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 			}
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_streamMap []interface{}
+		var _arg_streamMap []audioLeAudioBroadcastConfiguration.BroadcastStreamMap
 		_ = _arg_streamMap
 		_result, _err := s.Impl.GetLeAudioBroadcastDatapathConfiguration(ctx, _arg_audioContext, _arg_streamMap)
 		_reply := parcel.New()
@@ -1001,7 +1152,10 @@ func (s *BluetoothAudioProviderStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)

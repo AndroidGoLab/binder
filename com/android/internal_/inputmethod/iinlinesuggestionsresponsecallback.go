@@ -3,6 +3,7 @@ package inputmethod
 import (
 	"context"
 	"fmt"
+	autofill "github.com/xaionaro-go/binder/android/view/autofill"
 	viewInputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
@@ -18,7 +19,7 @@ const (
 
 type IInlineSuggestionsResponseCallback interface {
 	AsBinder() binder.IBinder
-	OnInlineSuggestionsResponse(ctx context.Context, fieldId interface{}, response viewInputmethod.InlineSuggestionsResponse) error
+	OnInlineSuggestionsResponse(ctx context.Context, fieldId autofill.AutofillId, response viewInputmethod.InlineSuggestionsResponse) error
 }
 
 type InlineSuggestionsResponseCallbackProxy struct {
@@ -39,11 +40,15 @@ var _ IInlineSuggestionsResponseCallback = (*InlineSuggestionsResponseCallbackPr
 
 func (p *InlineSuggestionsResponseCallbackProxy) OnInlineSuggestionsResponse(
 	ctx context.Context,
-	fieldId interface{},
+	fieldId autofill.AutofillId,
 	response viewInputmethod.InlineSuggestionsResponse,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIInlineSuggestionsResponseCallback)
+	_data.WriteInt32(1)
+	if _err := fieldId.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(1)
 	if _err := response.MarshalParcel(_data); _err != nil {
 		return _err
@@ -76,7 +81,18 @@ func (s *InlineSuggestionsResponseCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_fieldId interface{}
+		var _arg_fieldId autofill.AutofillId
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_fieldId.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_response viewInputmethod.InlineSuggestionsResponse
 		{
 			_nullInd, _err := _data.ReadInt32()

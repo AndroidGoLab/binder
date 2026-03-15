@@ -2,6 +2,7 @@ package audio
 
 import (
 	"fmt"
+	audioCodecConfiguration "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/CodecConfiguration"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -17,7 +18,7 @@ const (
 type LeAudioCodecConfiguration struct {
 	Tag                  int32
 	Lc3Config            Lc3Configuration
-	VendorConfig         interface{}
+	VendorConfig         audioCodecConfiguration.VendorConfiguration
 	AptxAdaptiveLeConfig AptxAdaptiveLeConfiguration
 	OpusConfig           OpusConfiguration
 }
@@ -39,16 +40,16 @@ func (u *LeAudioCodecConfiguration) SetLc3Config(
 	u.Lc3Config = v
 }
 
-func (u *LeAudioCodecConfiguration) GetVendorConfig() (interface{}, bool) {
+func (u *LeAudioCodecConfiguration) GetVendorConfig() (audioCodecConfiguration.VendorConfiguration, bool) {
 	if u.Tag != LeAudioCodecConfigurationTagVendorConfig {
-		var _zero interface{}
+		var _zero audioCodecConfiguration.VendorConfiguration
 		return _zero, false
 	}
 	return u.VendorConfig, true
 }
 
 func (u *LeAudioCodecConfiguration) SetVendorConfig(
-	v interface{},
+	v audioCodecConfiguration.VendorConfiguration,
 ) {
 	u.Tag = LeAudioCodecConfigurationTagVendorConfig
 	u.VendorConfig = v
@@ -96,6 +97,9 @@ func (u *LeAudioCodecConfiguration) MarshalParcel(
 			return _err
 		}
 	case LeAudioCodecConfigurationTagVendorConfig:
+		if _err := u.VendorConfig.MarshalParcel(p); _err != nil {
+			return _err
+		}
 	case LeAudioCodecConfigurationTagAptxAdaptiveLeConfig:
 		if _err := u.AptxAdaptiveLeConfig.MarshalParcel(p); _err != nil {
 			return _err
@@ -131,6 +135,9 @@ func (u *LeAudioCodecConfiguration) UnmarshalParcel(
 			return _err
 		}
 	case LeAudioCodecConfigurationTagVendorConfig:
+		if _err = u.VendorConfig.UnmarshalParcel(p); _err != nil {
+			return _err
+		}
 	case LeAudioCodecConfigurationTagAptxAdaptiveLeConfig:
 		if _err = u.AptxAdaptiveLeConfig.UnmarshalParcel(p); _err != nil {
 			return _err
