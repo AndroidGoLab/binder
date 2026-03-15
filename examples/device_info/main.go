@@ -41,7 +41,7 @@ func main() {
 	sm := servicemanager.New(transport)
 
 	// Thermal status
-	thermalSvc, err := sm.GetService(ctx, servicemanager.ServiceName("thermalservice"))
+	thermalSvc, err := sm.GetService(ctx, servicemanager.ThermalService)
 	if err == nil {
 		thermal := genOs.NewThermalServiceProxy(thermalSvc)
 
@@ -66,7 +66,7 @@ func main() {
 	}
 
 	// GNSS / Location hardware
-	locSvc, err := sm.GetService(ctx, servicemanager.ServiceName("location"))
+	locSvc, err := sm.GetService(ctx, servicemanager.LocationService)
 	if err == nil {
 		loc := location.NewLocationManagerProxy(locSvc)
 
@@ -100,7 +100,7 @@ func main() {
 	}
 
 	// Input devices
-	inputSvc, err := sm.GetService(ctx, servicemanager.ServiceName("input"))
+	inputSvc, err := sm.GetService(ctx, servicemanager.InputService)
 	if err == nil {
 		inp := input.NewInputManagerProxy(inputSvc)
 
@@ -120,7 +120,7 @@ func main() {
 	}
 
 	// Vibrator
-	vibSvc, err := sm.GetService(ctx, servicemanager.ServiceName("vibrator_manager"))
+	vibSvc, err := sm.GetService(ctx, servicemanager.VibratorManagerService)
 	if err == nil {
 		vib := genOs.NewVibratorManagerServiceProxy(vibSvc)
 
@@ -140,7 +140,7 @@ func main() {
 	}
 
 	// Network interfaces
-	netSvc, err := sm.GetService(ctx, servicemanager.ServiceName("network_management"))
+	netSvc, err := sm.GetService(ctx, servicemanager.NetworkmanagementService)
 	if err == nil {
 		net := genOs.NewNetworkManagementServiceProxy(netSvc)
 

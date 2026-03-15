@@ -41,7 +41,7 @@ func main() {
 
 	sm := servicemanager.New(transport)
 
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("activity"))
+	svc, err := sm.GetService(ctx, servicemanager.ActivityService)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get activity service: %v\n", err)
 		os.Exit(1)

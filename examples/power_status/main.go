@@ -36,7 +36,7 @@ func main() {
 
 	sm := servicemanager.New(transport)
 
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("power"))
+	svc, err := sm.GetService(ctx, servicemanager.PowerService)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get power service: %v\n", err)
 		os.Exit(1)

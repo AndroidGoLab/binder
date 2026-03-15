@@ -42,7 +42,7 @@ func main() {
 	sm := servicemanager.New(transport)
 
 	// First list network interfaces to know which upstreams exist.
-	netSvc, err := sm.GetService(ctx, servicemanager.ServiceName("network_management"))
+	netSvc, err := sm.GetService(ctx, servicemanager.NetworkmanagementService)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get network_management: %v\n", err)
 	} else {

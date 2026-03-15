@@ -54,7 +54,7 @@ func main() {
 
 	sm := servicemanager.New(transport)
 
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("audio"))
+	svc, err := sm.GetService(ctx, servicemanager.AudioService)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get audio service: %v\n", err)
 		os.Exit(1)

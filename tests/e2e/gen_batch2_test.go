@@ -412,7 +412,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "Audio.GetStreamMaxVolume",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, servicemanager.ServiceName("audio"))
+				svc, err := sm.GetService(ctx, servicemanager.AudioService)
 				requireOrSkip(t, err)
 				proxy := genMedia.NewAudioServiceProxy(svc)
 				val, err := proxy.GetStreamMaxVolume(ctx, 3)
@@ -423,7 +423,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "Audio.GetMode",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, servicemanager.ServiceName("audio"))
+				svc, err := sm.GetService(ctx, servicemanager.AudioService)
 				requireOrSkip(t, err)
 				proxy := genMedia.NewAudioServiceProxy(svc)
 				val, err := proxy.GetMode(ctx)
@@ -448,7 +448,7 @@ func TestGenBatch2_MultiService(t *testing.T) {
 		{
 			description: "AppIntegrity.GetCurrentRuleSetVersion",
 			testFunc: func(t *testing.T) {
-				svc, err := sm.GetService(ctx, servicemanager.ServiceName("app_integrity"))
+				svc, err := sm.GetService(ctx, servicemanager.AppIntegrityService)
 				requireOrSkip(t, err)
 				proxy := genIntegrity.NewAppIntegrityManagerProxy(svc)
 				_, err = proxy.GetCurrentRuleSetVersion(ctx)

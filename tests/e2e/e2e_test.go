@@ -258,7 +258,7 @@ func getActivityManager(
 ) binder.IBinder {
 	t.Helper()
 	sm := servicemanager.New(driver)
-	svc, err := sm.GetService(ctx, servicemanager.ServiceName("activity"))
+	svc, err := sm.GetService(ctx, servicemanager.ActivityService)
 	require.NoError(t, err, "GetService(activity) failed")
 	require.NotNil(t, svc)
 	return svc
@@ -335,7 +335,7 @@ func TestDistinctServiceHandles(t *testing.T) {
 	require.NoError(t, err)
 	require.NotNil(t, sf)
 
-	am, err := sm.GetService(ctx, servicemanager.ServiceName("activity"))
+	am, err := sm.GetService(ctx, servicemanager.ActivityService)
 	require.NoError(t, err)
 	require.NotNil(t, am)
 

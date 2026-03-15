@@ -55,7 +55,7 @@ func main() {
 	}
 
 	// USB Manager
-	usbSvc, err := sm.GetService(ctx, servicemanager.ServiceName("usb"))
+	usbSvc, err := sm.GetService(ctx, servicemanager.UsbService)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "get usb service: %v\n", err)
 	} else {
