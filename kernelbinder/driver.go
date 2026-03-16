@@ -186,9 +186,6 @@ func (d *Driver) Transact(
 	runtime.LockOSThread()
 	defer runtime.UnlockOSThread()
 
-	d.mu.Lock()
-	defer d.mu.Unlock()
-
 	dataBytes := data.Data()
 	objects := data.Objects()
 
@@ -232,29 +229,17 @@ func (d *Driver) Transact(
 		readBuffer:  uint64(uintptr(unsafe.Pointer(&readBuf[0]))),
 	}
 
-	for {
-		_, _, errno := unix.Syscall(
-			unix.SYS_IOCTL,
-			uintptr(d.fd),
-			binderWriteReadIoctl,
-			uintptr(unsafe.Pointer(&bwr)),
-		)
-		switch errno {
-		case 0:
-			// Success — proceed to parse.
-		case unix.EINTR:
-			// Retry on interrupted system call.
-			// Reset write buffer (already consumed) but keep read buffer.
-			bwr.writeSize = 0
-			continue
-		default:
-			return nil, &aidlerrors.BinderError{Op: "ioctl(BINDER_WRITE_READ)", Err: errno}
-		}
-		break
+	// Lock only around each individual ioctl call, not across the entire
+	// transaction. Holding the mutex during a blocking read-wait would
+	// prevent the read loop from acknowledging BR_INCREFS/BR_ACQUIRE
+	// callbacks, causing deadlock when the kernel expects acknowledgment
+	// before sending BR_REPLY.
+	if err := d.lockedIoctl(&bwr); err != nil {
+		return nil, err
 	}
 
 	// Parse the read buffer for BR codes. The kernel may split
-	// BR_TRANSACTION_COMPLETE and BR_REPLY across separate ioctl reads —
+	// BR_TRANSACTION_COMPLETE and BR_REPLY across separate ioctl reads --
 	// if we got TC but no reply yet, read again to wait for BR_REPLY.
 	isOneway := flags&binder.FlagOneway != 0
 	for {
@@ -269,27 +254,14 @@ func (d *Driver) Transact(
 			return reply, nil
 		}
 
-		// BR_TRANSACTION_COMPLETE without BR_REPLY — the service hasn't
+		// BR_TRANSACTION_COMPLETE without BR_REPLY -- the service hasn't
 		// responded yet. Issue a read-only ioctl to wait for BR_REPLY.
 		logger.Debugf(ctx, "Transact: got BR_TRANSACTION_COMPLETE without BR_REPLY, reading again")
 		bwr.writeSize = 0
 		bwr.writeConsumed = 0
 		bwr.readConsumed = 0
-		for {
-			_, _, errno := unix.Syscall(
-				unix.SYS_IOCTL,
-				uintptr(d.fd),
-				binderWriteReadIoctl,
-				uintptr(unsafe.Pointer(&bwr)),
-			)
-			switch errno {
-			case 0:
-			case unix.EINTR:
-				continue
-			default:
-				return nil, &aidlerrors.BinderError{Op: "ioctl(BINDER_WRITE_READ/read)", Err: errno}
-			}
-			break
+		if err := d.lockedIoctl(&bwr); err != nil {
+			return nil, err
 		}
 	}
 }
@@ -343,15 +315,35 @@ func (d *Driver) parseReadBuffer(
 			// Copy data from the mmap'd region into a new parcel.
 			replyData := d.copyFromMapped(txn.dataBuffer, txn.dataSize)
 
+			// When the kernel sets TF_STATUS_CODE, the 4-byte data is a
+			// status_t error code, not a regular parcel response.
+			if txn.flags&tfStatusCode != 0 {
+				d.mu.Lock()
+				freeErr := d.freeBuffer(ctx, txn.dataBuffer)
+				d.mu.Unlock()
+				if freeErr != nil {
+					logger.Warnf(ctx, "failed to free binder buffer: %v", freeErr)
+				}
+				if len(replyData) >= 4 {
+					statusCode := int32(binary.LittleEndian.Uint32(replyData))
+					if statusCode != 0 {
+						return nil, true, fmt.Errorf("binder: kernel status error: %d (0x%x)", statusCode, uint32(statusCode))
+					}
+				}
+				return parcel.New(), true, nil
+			}
+
 			// Acquire references for any binder handles in the reply
 			// BEFORE freeing the buffer, otherwise the kernel drops
 			// the handle references.
+			d.mu.Lock()
 			d.acquireReplyHandles(ctx, replyData, txn.offsetsBuffer, txn.offsetsSize)
 
 			// Free the mmap'd buffer.
 			if err := d.freeBuffer(ctx, txn.dataBuffer); err != nil {
 				logger.Warnf(ctx, "failed to free binder buffer: %v", err)
 			}
+			d.mu.Unlock()
 
 			return parcel.FromBytes(replyData), true, nil
 
@@ -566,6 +558,35 @@ func (d *Driver) writeCommand(
 		case unix.EINTR:
 			// Retry on interrupted system call — the command was not
 			// processed and must be resent.
+			continue
+		default:
+			return &aidlerrors.BinderError{Op: "ioctl(BINDER_WRITE_READ)", Err: errno}
+		}
+	}
+}
+
+// lockedIoctl executes a BINDER_WRITE_READ ioctl while holding d.mu,
+// retrying on EINTR.
+func (d *Driver) lockedIoctl(
+	bwr *binderWriteRead,
+) error {
+	d.mu.Lock()
+	defer d.mu.Unlock()
+
+	for {
+		_, _, errno := unix.Syscall(
+			unix.SYS_IOCTL,
+			uintptr(d.fd),
+			binderWriteReadIoctl,
+			uintptr(unsafe.Pointer(bwr)),
+		)
+		switch errno {
+		case 0:
+			return nil
+		case unix.EINTR:
+			// Retry on interrupted system call.
+			// Reset write buffer (already consumed) but keep read buffer.
+			bwr.writeSize = 0
 			continue
 		default:
 			return &aidlerrors.BinderError{Op: "ioctl(BINDER_WRITE_READ)", Err: errno}

@@ -33,6 +33,10 @@ const binderPtrCookieSize = 2 * unsafe.Sizeof(uintptr(0)) // = 16 on 64-bit
 // __attribute__((packed)), so there is NO alignment padding between fields.
 const binderHandleCookieSize = unsafe.Sizeof(uint32(0)) + unsafe.Sizeof(uintptr(0)) // = 12 on 64-bit
 
+// tfStatusCode is TF_STATUS_CODE (0x08). When the kernel sets this flag on a
+// BR_REPLY, the 4-byte data payload is a status_t error code, not a regular parcel.
+const tfStatusCode = uint32(0x08)
+
 // Binder return (BR) codes -- read from the driver.
 var (
 	brError               = uint32(ior('r', 0, unsafe.Sizeof(int32(0))))

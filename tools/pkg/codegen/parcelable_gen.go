@@ -73,6 +73,22 @@ func GenerateParcelable(
 	return f.Bytes()
 }
 
+// fieldTypeWithAnnotations returns a TypeSpecifier that includes both the
+// field-level and type-level annotations. In AIDL, annotations like
+// @utf8InCpp and @nullable are placed before the type in field declarations
+// but the parser attaches them to the FieldDecl, not the TypeSpecifier.
+// Merging them ensures marshalForType sees annotations like @utf8InCpp.
+func fieldTypeWithAnnotations(
+	field *parser.FieldDecl,
+) *parser.TypeSpecifier {
+	if len(field.Annots) == 0 {
+		return field.Type
+	}
+	merged := *field.Type
+	merged.Annots = append(append([]*parser.Annotation(nil), field.Annots...), field.Type.Annots...)
+	return &merged
+}
+
 // hasBinderField returns true if any field requires the binder import
 // (either an AIDL interface type or the IBinder primitive type).
 func hasBinderField(
@@ -137,31 +153,50 @@ func writeMarshalParcel(
 	for _, field := range fields {
 		goFieldName := AIDLToGoName(field.FieldName)
 		fieldAccess := "s." + goFieldName
+		// Merge field-level annotations (e.g. @utf8InCpp) into the type
+		// so marshalForType sees them when choosing the write method.
+		fieldType := fieldTypeWithAnnotations(field)
 
-		if field.Type.IsArray || field.Type.Name == "List" {
-			writeArrayFieldToParcel(f, field.Type, fieldAccess, "p", opts, typeRef)
+		if fieldType.IsArray || fieldType.Name == "List" {
+			writeArrayFieldToParcel(f, fieldType, fieldAccess, "p", opts, typeRef)
 			continue
 		}
 
-		if field.Type.Name == "Map" {
-			writeMapFieldToParcel(f, field.Type, fieldAccess, "p", opts, typeRef)
+		if fieldType.Name == "Map" {
+			writeMapFieldToParcel(f, fieldType, fieldAccess, "p", opts, typeRef)
 			continue
 		}
 
-		info := marshalForTypeWithCycleCheck(field.Type, opts, typeRef)
+		info := marshalForTypeWithCycleCheck(fieldType, opts, typeRef)
 		if info.WriteExpr == "" {
 			continue
 		}
 
-		writeExpr := fmt.Sprintf(info.WriteExpr, fieldAccess)
-		writeExpr = strings.ReplaceAll(writeExpr, "_data", "p")
-
-		if strings.Contains(info.WriteExpr, ".MarshalParcel") {
-			writeExpr = fmt.Sprintf("%s.MarshalParcel(p)", fieldAccess)
+		// IBinder/interface fields need a nil guard: write a null binder
+		// object when nil, otherwise use WriteStrongBinder with the handle.
+		// MarshalParcel does not have ctx/transport, so WriteBinderToParcel
+		// cannot be used here; local StubBinders must be pre-registered.
+		switch {
+		case info.IsIBinder:
+			f.P("\tif %s == nil {", fieldAccess)
+			f.P("\t\tp.WriteNullStrongBinder()")
+			f.P("\t} else {")
+			f.P("\t\tp.WriteStrongBinder(%s.Handle())", fieldAccess)
+			f.P("\t}")
+		case info.IsInterface:
+			f.P("\tif %s == nil {", fieldAccess)
+			f.P("\t\tp.WriteNullStrongBinder()")
+			f.P("\t} else {")
+			f.P("\t\tp.WriteStrongBinder(%s.AsBinder().Handle())", fieldAccess)
+			f.P("\t}")
+		case strings.Contains(info.WriteExpr, ".MarshalParcel"):
+			writeExpr := fmt.Sprintf("%s.MarshalParcel(p)", fieldAccess)
 			f.P("\tif _err := %s; _err != nil {", writeExpr)
 			f.P("\t\treturn _err")
 			f.P("\t}")
-		} else {
+		default:
+			writeExpr := fmt.Sprintf(info.WriteExpr, fieldAccess)
+			writeExpr = strings.ReplaceAll(writeExpr, "_data", "p")
 			f.P("\t%s", writeExpr)
 		}
 	}
@@ -227,19 +262,22 @@ func writeUnmarshalParcel(
 	arrayIdx := 0
 	for _, field := range fields {
 		goFieldName := AIDLToGoName(field.FieldName)
+		// Merge field-level annotations (e.g. @utf8InCpp) into the type
+		// so marshalForType sees them when choosing the read method.
+		fieldType := fieldTypeWithAnnotations(field)
 
-		if field.Type.IsArray || field.Type.Name == "List" {
-			readArrayFieldFromParcel(f, field.Type, "s."+goFieldName, "p", arrayIdx, opts, typeRef)
+		if fieldType.IsArray || fieldType.Name == "List" {
+			readArrayFieldFromParcel(f, fieldType, "s."+goFieldName, "p", arrayIdx, opts, typeRef)
 			arrayIdx++
 			continue
 		}
 
-		if field.Type.Name == "Map" {
-			readMapFieldFromParcel(f, field.Type, "s."+goFieldName, "p", opts, typeRef)
+		if fieldType.Name == "Map" {
+			readMapFieldFromParcel(f, fieldType, "s."+goFieldName, "p", opts, typeRef)
 			continue
 		}
 
-		info := marshalForTypeWithCycleCheck(field.Type, opts, typeRef)
+		info := marshalForTypeWithCycleCheck(fieldType, opts, typeRef)
 		if info.ReadExpr == "" {
 			continue
 		}
