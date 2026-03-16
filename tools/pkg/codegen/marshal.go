@@ -99,13 +99,11 @@ func MarshalForTypeWithRegistry(
 		return MarshalInfo{}
 	}
 
-	// Check for @utf8InCpp annotation on String type.
-	if ts.Name == "String" && hasAnnotation(ts.Annots, "utf8InCpp") {
-		return MarshalInfo{
-			WriteExpr: "_data.WriteString(%s)",
-			ReadExpr:  "_reply.ReadString()",
-		}
-	}
+	// The @utf8InCpp annotation only affects the in-memory representation
+	// in C++ (std::string vs android::String16). The wire format is always
+	// UTF-16 because the C++ binder backend uses writeUtf8AsUtf16 /
+	// readUtf8FromUtf16 for these fields. We therefore do NOT special-case
+	// @utf8InCpp here -- all Strings use WriteString16/ReadString16.
 
 	if info, ok := marshalPrimitiveMap[ts.Name]; ok {
 		return info

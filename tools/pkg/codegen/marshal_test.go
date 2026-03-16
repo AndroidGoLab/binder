@@ -90,13 +90,16 @@ func TestMarshalForType_Primitives(t *testing.T) {
 }
 
 func TestMarshalForType_Utf8String(t *testing.T) {
+	// @utf8InCpp only affects the C++ in-memory representation; the wire
+	// format is always UTF-16. Verify that @utf8InCpp String produces the
+	// same marshal info as a plain String.
 	ts := &parser.TypeSpecifier{
 		Name:   "String",
 		Annots: []*parser.Annotation{{Name: "utf8InCpp"}},
 	}
 	info := MarshalForType(ts)
-	assert.Equal(t, "_data.WriteString(%s)", info.WriteExpr)
-	assert.Equal(t, "_reply.ReadString()", info.ReadExpr)
+	assert.Equal(t, "_data.WriteString16(%s)", info.WriteExpr)
+	assert.Equal(t, "_reply.ReadString16()", info.ReadExpr)
 	assert.False(t, info.NeedsCast)
 }
 

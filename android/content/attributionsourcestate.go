@@ -27,9 +27,10 @@ func (s *AttributionSourceState) MarshalParcel(
 	p.WriteInt32(s.Pid)
 	p.WriteInt32(s.Uid)
 	p.WriteInt32(s.DeviceId)
-	// @utf8InCpp fields use UTF-8 wire encoding in stable AIDL.
-	p.WriteString(s.PackageName)
-	p.WriteString(s.AttributionTag)
+	// @utf8InCpp only affects the C++ in-memory representation; the wire
+	// format is always UTF-16 (the C++ backend uses writeUtf8AsUtf16).
+	p.WriteString16(s.PackageName)
+	p.WriteString16(s.AttributionTag)
 	if s.Token == nil {
 		p.WriteNullStrongBinder()
 	} else {
@@ -40,7 +41,7 @@ func (s *AttributionSourceState) MarshalParcel(
 	} else {
 		p.WriteInt32(int32(len(s.RenouncedPermissions)))
 		for _, _item := range s.RenouncedPermissions {
-			p.WriteString(_item)
+			p.WriteString16(_item)
 		}
 	}
 	if s.Next == nil {
@@ -81,13 +82,14 @@ func (s *AttributionSourceState) UnmarshalParcel(
 		return _err
 	}
 
-	// @utf8InCpp fields use UTF-8 wire encoding in stable AIDL.
-	s.PackageName, _err = p.ReadString()
+	// @utf8InCpp only affects the C++ in-memory representation; the wire
+	// format is always UTF-16 (the C++ backend uses readUtf8FromUtf16).
+	s.PackageName, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
 
-	s.AttributionTag, _err = p.ReadString()
+	s.AttributionTag, _err = p.ReadString16()
 	if _err != nil {
 		return _err
 	}
@@ -106,7 +108,7 @@ func (s *AttributionSourceState) UnmarshalParcel(
 	if _count0 >= 0 {
 		s.RenouncedPermissions = make([]string, _count0)
 		for _i := int32(0); _i < _count0; _i++ {
-			s.RenouncedPermissions[_i], _err = p.ReadString()
+			s.RenouncedPermissions[_i], _err = p.ReadString16()
 			if _err != nil {
 				return _err
 			}
