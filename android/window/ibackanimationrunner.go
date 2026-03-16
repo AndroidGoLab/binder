@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +20,7 @@ const (
 type IBackAnimationRunner interface {
 	AsBinder() binder.IBinder
 	OnAnimationCancelled(ctx context.Context) error
-	OnAnimationStart(ctx context.Context, apps []interface{}, prepareOpenTransition binder.IBinder, finishedCallback IBackAnimationFinishedCallback) error
+	OnAnimationStart(ctx context.Context, apps []view.RemoteAnimationTarget, prepareOpenTransition binder.IBinder, finishedCallback IBackAnimationFinishedCallback) error
 }
 
 type BackAnimationRunnerProxy struct {
@@ -55,7 +56,7 @@ func (p *BackAnimationRunnerProxy) OnAnimationCancelled(
 
 func (p *BackAnimationRunnerProxy) OnAnimationStart(
 	ctx context.Context,
-	apps []interface{},
+	apps []view.RemoteAnimationTarget,
 	prepareOpenTransition binder.IBinder,
 	finishedCallback IBackAnimationFinishedCallback,
 ) error {
@@ -65,6 +66,11 @@ func (p *BackAnimationRunnerProxy) OnAnimationStart(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(apps)))
+		for _, _item := range apps {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	binder.WriteBinderToParcel(ctx, _data, prepareOpenTransition, p.remote.Transport())
 	binder.WriteBinderToParcel(ctx, _data, finishedCallback.AsBinder(), p.remote.Transport())
@@ -104,7 +110,7 @@ func (s *BackAnimationRunnerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_apps []interface{}
+		var _arg_apps []view.RemoteAnimationTarget
 		_ = _arg_apps
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_prepareOpenTransition binder.IBinder
@@ -125,7 +131,7 @@ func (s *BackAnimationRunnerStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type IBackAnimationRunnerServer interface {
 	OnAnimationCancelled(ctx context.Context) error
-	OnAnimationStart(ctx context.Context, apps []interface{}, prepareOpenTransition binder.IBinder, finishedCallback IBackAnimationFinishedCallback) error
+	OnAnimationStart(ctx context.Context, apps []view.RemoteAnimationTarget, prepareOpenTransition binder.IBinder, finishedCallback IBackAnimationFinishedCallback) error
 }
 
 type backAnimationRunnerStubWrapper struct {
@@ -145,7 +151,7 @@ func (w *backAnimationRunnerStubWrapper) OnAnimationCancelled(
 
 func (w *backAnimationRunnerStubWrapper) OnAnimationStart(
 	ctx context.Context,
-	apps []interface{},
+	apps []view.RemoteAnimationTarget,
 	prepareOpenTransition binder.IBinder,
 	finishedCallback IBackAnimationFinishedCallback,
 ) error {

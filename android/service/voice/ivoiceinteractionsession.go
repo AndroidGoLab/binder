@@ -7,7 +7,6 @@ import (
 	androidContent "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	"github.com/xaionaro-go/binder/binder"
-	app "github.com/xaionaro-go/binder/com/android/internal_/app"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -30,7 +29,7 @@ const (
 
 type IVoiceInteractionSession interface {
 	AsBinder() binder.IBinder
-	Show(ctx context.Context, sessionArgs interface{}, flags int32, showCallback app.IVoiceInteractionSessionShowCallback) error
+	Show(ctx context.Context, sessionArgs interface{}, flags int32, showCallback interface{}) error
 	Hide(ctx context.Context) error
 	HandleAssist(ctx context.Context, taskId int32, activityId binder.IBinder, assistData interface{}, structure assist.AssistStructure, content assist.AssistContent, index int32, count int32) error
 	HandleScreenshot(ctx context.Context, screenshot graphics.Bitmap) error
@@ -62,12 +61,11 @@ func (p *VoiceInteractionSessionProxy) Show(
 	ctx context.Context,
 	sessionArgs interface{},
 	flags int32,
-	showCallback app.IVoiceInteractionSessionShowCallback,
+	showCallback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIVoiceInteractionSession)
 	_data.WriteInt32(flags)
-	binder.WriteBinderToParcel(ctx, _data, showCallback.AsBinder(), p.remote.Transport())
 
 	_code, _err := p.remote.ResolveCode(DescriptorIVoiceInteractionSession, "show")
 	if _err != nil {
@@ -281,9 +279,7 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
-		var _arg_showCallback app.IVoiceInteractionSessionShowCallback
-		_ = _arg_showCallback
+		var _arg_showCallback interface{}
 		_err = s.Impl.Show(ctx, _arg_sessionArgs, _arg_flags, _arg_showCallback)
 		_ = _err
 		return nil, nil
@@ -459,7 +455,7 @@ func (s *VoiceInteractionSessionStub) OnTransaction(
 // provide to NewVoiceInteractionSessionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IVoiceInteractionSessionServer interface {
-	Show(ctx context.Context, sessionArgs interface{}, flags int32, showCallback app.IVoiceInteractionSessionShowCallback) error
+	Show(ctx context.Context, sessionArgs interface{}, flags int32, showCallback interface{}) error
 	Hide(ctx context.Context) error
 	HandleAssist(ctx context.Context, taskId int32, activityId binder.IBinder, assistData interface{}, structure assist.AssistStructure, content assist.AssistContent, index int32, count int32) error
 	HandleScreenshot(ctx context.Context, screenshot graphics.Bitmap) error
@@ -484,7 +480,7 @@ func (w *voiceInteractionSessionStubWrapper) Show(
 	ctx context.Context,
 	sessionArgs interface{},
 	flags int32,
-	showCallback app.IVoiceInteractionSessionShowCallback,
+	showCallback interface{},
 ) error {
 	return w.impl.Show(ctx, sessionArgs, flags, showCallback)
 }

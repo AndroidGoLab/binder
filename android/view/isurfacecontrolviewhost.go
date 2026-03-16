@@ -5,7 +5,6 @@ import (
 	"fmt"
 	res "github.com/xaionaro-go/binder/android/content/res"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -27,7 +26,7 @@ type ISurfaceControlViewHost interface {
 	OnConfigurationChanged(ctx context.Context, newConfig res.Configuration) error
 	OnDispatchDetachedFromWindow(ctx context.Context) error
 	OnInsetsChanged(ctx context.Context, state InsetsState, insetFrame graphics.Rect) error
-	GetSurfaceSyncGroup(ctx context.Context) (window.ISurfaceSyncGroup, error)
+	GetSurfaceSyncGroup(ctx context.Context) (interface{}, error)
 	AttachParentInterface(ctx context.Context, parentInterface *ISurfaceControlViewHostParent) error
 }
 
@@ -109,8 +108,8 @@ func (p *SurfaceControlViewHostProxy) OnInsetsChanged(
 
 func (p *SurfaceControlViewHostProxy) GetSurfaceSyncGroup(
 	ctx context.Context,
-) (window.ISurfaceSyncGroup, error) {
-	var _result window.ISurfaceSyncGroup
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorISurfaceControlViewHost)
 
@@ -129,11 +128,6 @@ func (p *SurfaceControlViewHostProxy) GetSurfaceSyncGroup(
 		return _result, _err
 	}
 
-	_handle, _err := _reply.ReadStrongBinder()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = window.NewSurfaceSyncGroupProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -240,7 +234,6 @@ func (s *SurfaceControlViewHostStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionISurfaceControlViewHostAttachParentInterface:
@@ -265,7 +258,7 @@ type ISurfaceControlViewHostServer interface {
 	OnConfigurationChanged(ctx context.Context, newConfig res.Configuration) error
 	OnDispatchDetachedFromWindow(ctx context.Context) error
 	OnInsetsChanged(ctx context.Context, state InsetsState, insetFrame graphics.Rect) error
-	GetSurfaceSyncGroup(ctx context.Context) (window.ISurfaceSyncGroup, error)
+	GetSurfaceSyncGroup(ctx context.Context) (interface{}, error)
 	AttachParentInterface(ctx context.Context, parentInterface *ISurfaceControlViewHostParent) error
 }
 
@@ -301,7 +294,7 @@ func (w *surfaceControlViewHostStubWrapper) OnInsetsChanged(
 
 func (w *surfaceControlViewHostStubWrapper) GetSurfaceSyncGroup(
 	ctx context.Context,
-) (window.ISurfaceSyncGroup, error) {
+) (interface{}, error) {
 	return w.impl.GetSurfaceSyncGroup(ctx)
 }
 

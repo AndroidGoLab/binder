@@ -4,7 +4,6 @@ import (
 	"context"
 	"fmt"
 	gnssIGnss "github.com/xaionaro-go/binder/android/hardware/gnss/IGnss"
-	gnss_assistance "github.com/xaionaro-go/binder/android/hardware/gnss/gnss_assistance"
 	measurement_corrections "github.com/xaionaro-go/binder/android/hardware/gnss/measurement_corrections"
 	visibility_control "github.com/xaionaro-go/binder/android/hardware/gnss/visibility_control"
 	"github.com/xaionaro-go/binder/binder"
@@ -73,7 +72,7 @@ type IGnss interface {
 	StopSvStatus(ctx context.Context) error
 	StartNmea(ctx context.Context) error
 	StopNmea(ctx context.Context) error
-	GetExtensionGnssAssistanceInterface(ctx context.Context) (gnss_assistance.IGnssAssistanceInterface, error)
+	GetExtensionGnssAssistanceInterface(ctx context.Context) (interface{}, error)
 }
 
 const (
@@ -827,8 +826,8 @@ func (p *GnssProxy) StopNmea(
 
 func (p *GnssProxy) GetExtensionGnssAssistanceInterface(
 	ctx context.Context,
-) (gnss_assistance.IGnssAssistanceInterface, error) {
-	var _result gnss_assistance.IGnssAssistanceInterface
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIGnss)
 
@@ -847,11 +846,6 @@ func (p *GnssProxy) GetExtensionGnssAssistanceInterface(
 		return _result, _err
 	}
 
-	_handle, _err := _reply.ReadStrongBinder()
-	if _err != nil {
-		return _result, _err
-	}
-	_result = gnss_assistance.NewGnssAssistanceInterfaceProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -1274,7 +1268,6 @@ func (s *GnssStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	default:
@@ -1312,7 +1305,7 @@ type IGnssServer interface {
 	StopSvStatus(ctx context.Context) error
 	StartNmea(ctx context.Context) error
 	StopNmea(ctx context.Context) error
-	GetExtensionGnssAssistanceInterface(ctx context.Context) (gnss_assistance.IGnssAssistanceInterface, error)
+	GetExtensionGnssAssistanceInterface(ctx context.Context) (interface{}, error)
 }
 
 type gnssStubWrapper struct {
@@ -1490,7 +1483,7 @@ func (w *gnssStubWrapper) StopNmea(
 
 func (w *gnssStubWrapper) GetExtensionGnssAssistanceInterface(
 	ctx context.Context,
-) (gnss_assistance.IGnssAssistanceInterface, error) {
+) (interface{}, error) {
 	return w.impl.GetExtensionGnssAssistanceInterface(ctx)
 }
 

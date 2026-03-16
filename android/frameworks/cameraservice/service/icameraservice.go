@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	common "github.com/xaionaro-go/binder/android/frameworks/cameraservice/common"
+	device "github.com/xaionaro-go/binder/android/frameworks/cameraservice/device"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -24,11 +25,11 @@ const (
 type ICameraService interface {
 	AsBinder() binder.IBinder
 	AddListener(ctx context.Context, listener ICameraServiceListener) ([]CameraStatusAndId, error)
-	ConnectDevice(ctx context.Context, callback interface{}, cameraId string) (interface{}, error)
-	GetCameraCharacteristics(ctx context.Context, cameraId string) (interface{}, error)
+	ConnectDevice(ctx context.Context, callback device.ICameraDeviceCallback, cameraId string) (device.ICameraDeviceUser, error)
+	GetCameraCharacteristics(ctx context.Context, cameraId string) (device.CameraMetadata, error)
 	GetCameraVendorTagSections(ctx context.Context) ([]common.ProviderIdAndVendorTagSections, error)
 	RemoveListener(ctx context.Context, listener ICameraServiceListener) error
-	ConnectDeviceV2(ctx context.Context, callback interface{}, cameraId string, sharedMode bool) (interface{}, error)
+	ConnectDeviceV2(ctx context.Context, callback device.ICameraDeviceCallback, cameraId string, sharedMode bool) (device.ICameraDeviceUser, error)
 }
 
 type CameraServiceProxy struct {
@@ -89,12 +90,13 @@ func (p *CameraServiceProxy) AddListener(
 
 func (p *CameraServiceProxy) ConnectDevice(
 	ctx context.Context,
-	callback interface{},
+	callback device.ICameraDeviceCallback,
 	cameraId string,
-) (interface{}, error) {
-	var _result interface{}
+) (device.ICameraDeviceUser, error) {
+	var _result device.ICameraDeviceUser
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraService)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 	_data.WriteString16(cameraId)
 
 	_code, _err := p.remote.ResolveCode(DescriptorICameraService, "connectDevice")
@@ -112,14 +114,19 @@ func (p *CameraServiceProxy) ConnectDevice(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = device.NewCameraDeviceUserProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
 func (p *CameraServiceProxy) GetCameraCharacteristics(
 	ctx context.Context,
 	cameraId string,
-) (interface{}, error) {
-	var _result interface{}
+) (device.CameraMetadata, error) {
+	var _result device.CameraMetadata
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraService)
 	_data.WriteString16(cameraId)
@@ -139,6 +146,15 @@ func (p *CameraServiceProxy) GetCameraCharacteristics(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -208,13 +224,14 @@ func (p *CameraServiceProxy) RemoveListener(
 
 func (p *CameraServiceProxy) ConnectDeviceV2(
 	ctx context.Context,
-	callback interface{},
+	callback device.ICameraDeviceCallback,
 	cameraId string,
 	sharedMode bool,
-) (interface{}, error) {
-	var _result interface{}
+) (device.ICameraDeviceUser, error) {
+	var _result device.ICameraDeviceUser
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorICameraService)
+	binder.WriteBinderToParcel(ctx, _data, callback.AsBinder(), p.remote.Transport())
 	_data.WriteString16(cameraId)
 	_data.WriteBool(sharedMode)
 
@@ -233,6 +250,11 @@ func (p *CameraServiceProxy) ConnectDeviceV2(
 		return _result, _err
 	}
 
+	_handle, _err := _reply.ReadStrongBinder()
+	if _err != nil {
+		return _result, _err
+	}
+	_result = device.NewCameraDeviceUserProxy(binder.NewProxyBinder(p.remote.Transport(), p.remote.Identity(), _handle))
 	return _result, nil
 }
 
@@ -271,7 +293,9 @@ func (s *CameraServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback device.ICameraDeviceCallback
+		_ = _arg_callback
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -283,6 +307,7 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	case TransactionICameraServiceGetCameraCharacteristics:
@@ -300,7 +325,10 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionICameraServiceGetCameraVendorTagSections:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -335,7 +363,9 @@ func (s *CameraServiceStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_callback interface{}
+		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
+		var _arg_callback device.ICameraDeviceCallback
+		_ = _arg_callback
 		_arg_cameraId, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -351,6 +381,7 @@ func (s *CameraServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
+		// TODO: interface/IBinder return marshaling not yet supported in stubs
 		_ = _result
 		return _reply, nil
 	default:
@@ -363,11 +394,11 @@ func (s *CameraServiceStub) OnTransaction(
 // without AsBinder (which is provided by the stub itself).
 type ICameraServiceServer interface {
 	AddListener(ctx context.Context, listener ICameraServiceListener) ([]CameraStatusAndId, error)
-	ConnectDevice(ctx context.Context, callback interface{}, cameraId string) (interface{}, error)
-	GetCameraCharacteristics(ctx context.Context, cameraId string) (interface{}, error)
+	ConnectDevice(ctx context.Context, callback device.ICameraDeviceCallback, cameraId string) (device.ICameraDeviceUser, error)
+	GetCameraCharacteristics(ctx context.Context, cameraId string) (device.CameraMetadata, error)
 	GetCameraVendorTagSections(ctx context.Context) ([]common.ProviderIdAndVendorTagSections, error)
 	RemoveListener(ctx context.Context, listener ICameraServiceListener) error
-	ConnectDeviceV2(ctx context.Context, callback interface{}, cameraId string, sharedMode bool) (interface{}, error)
+	ConnectDeviceV2(ctx context.Context, callback device.ICameraDeviceCallback, cameraId string, sharedMode bool) (device.ICameraDeviceUser, error)
 }
 
 type cameraServiceStubWrapper struct {
@@ -388,16 +419,16 @@ func (w *cameraServiceStubWrapper) AddListener(
 
 func (w *cameraServiceStubWrapper) ConnectDevice(
 	ctx context.Context,
-	callback interface{},
+	callback device.ICameraDeviceCallback,
 	cameraId string,
-) (interface{}, error) {
+) (device.ICameraDeviceUser, error) {
 	return w.impl.ConnectDevice(ctx, callback, cameraId)
 }
 
 func (w *cameraServiceStubWrapper) GetCameraCharacteristics(
 	ctx context.Context,
 	cameraId string,
-) (interface{}, error) {
+) (device.CameraMetadata, error) {
 	return w.impl.GetCameraCharacteristics(ctx, cameraId)
 }
 
@@ -416,10 +447,10 @@ func (w *cameraServiceStubWrapper) RemoveListener(
 
 func (w *cameraServiceStubWrapper) ConnectDeviceV2(
 	ctx context.Context,
-	callback interface{},
+	callback device.ICameraDeviceCallback,
 	cameraId string,
 	sharedMode bool,
-) (interface{}, error) {
+) (device.ICameraDeviceUser, error) {
 	return w.impl.ConnectDeviceV2(ctx, callback, cameraId, sharedMode)
 }
 

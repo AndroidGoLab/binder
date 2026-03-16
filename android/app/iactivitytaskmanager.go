@@ -5,6 +5,7 @@ import (
 	"fmt"
 	assist "github.com/xaionaro-go/binder/android/app/assist"
 	androidContent "github.com/xaionaro-go/binder/android/content"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	net "github.com/xaionaro-go/binder/android/net"
 	voice "github.com/xaionaro-go/binder/android/service/voice"
@@ -123,7 +124,7 @@ type IActivityTaskManager interface {
 	StartNextMatchingActivity(ctx context.Context, callingActivity binder.IBinder, intent androidContent.Intent, options interface{}) (bool, error)
 	StartActivityIntentSender(ctx context.Context, caller IApplicationThread, target androidContent.IIntentSender, whitelistToken binder.IBinder, fillInIntent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flagsMask int32, flagsValues int32, options interface{}) (int32, error)
 	StartActivityAndWait(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options interface{}) (WaitResult, error)
-	StartActivityWithConfig(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, startFlags int32, newConfig interface{}, options interface{}) (int32, error)
+	StartActivityWithConfig(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, startFlags int32, newConfig res.Configuration, options interface{}) (int32, error)
 	StartVoiceActivity(ctx context.Context, intent androidContent.Intent, resolvedType string, session voice.IVoiceInteractionSession, interactor internalApp.IVoiceInteractor, flags int32, profilerInfo ProfilerInfo, options interface{}) (int32, error)
 	GetVoiceInteractorPackageName(ctx context.Context, callingVoiceInteractor binder.IBinder) (string, error)
 	StartAssistantActivity(ctx context.Context, intent androidContent.Intent, resolvedType string, options interface{}) (int32, error)
@@ -187,7 +188,7 @@ type IActivityTaskManager interface {
 	GetTaskSnapshot(ctx context.Context, taskId int32, isLowResolution bool) (interface{}, error)
 	TakeTaskSnapshot(ctx context.Context, taskId int32, updateCache bool) (interface{}, error)
 	GetLastResumedActivityUserId(ctx context.Context) (int32, error)
-	UpdateConfiguration(ctx context.Context, values interface{}) (bool, error)
+	UpdateConfiguration(ctx context.Context, values res.Configuration) (bool, error)
 	UpdateLockTaskFeatures(ctx context.Context, flags int32) error
 	RegisterRemoteAnimationForNextActivityStart(ctx context.Context, packageName string, adapter interface{}, launchCookie binder.IBinder) error
 	RegisterRemoteAnimationsForDisplay(ctx context.Context, displayId int32, definition interface{}) error
@@ -559,7 +560,7 @@ func (p *ActivityTaskManagerProxy) StartActivityWithConfig(
 	resultWho string,
 	requestCode int32,
 	startFlags int32,
-	newConfig interface{},
+	newConfig res.Configuration,
 	options interface{},
 ) (int32, error) {
 	var _result int32
@@ -578,6 +579,10 @@ func (p *ActivityTaskManagerProxy) StartActivityWithConfig(
 	_data.WriteString16(resultWho)
 	_data.WriteInt32(requestCode)
 	_data.WriteInt32(startFlags)
+	_data.WriteInt32(1)
+	if _err := newConfig.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 	_data.WriteInt32(_identity.UserID)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "startActivityWithConfig")
@@ -2635,11 +2640,15 @@ func (p *ActivityTaskManagerProxy) GetLastResumedActivityUserId(
 
 func (p *ActivityTaskManagerProxy) UpdateConfiguration(
 	ctx context.Context,
-	values interface{},
+	values res.Configuration,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityTaskManager)
+	_data.WriteInt32(1)
+	if _err := values.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityTaskManager, "updateConfiguration")
 	if _err != nil {
@@ -3718,7 +3727,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_newConfig interface{}
+		var _arg_newConfig res.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_newConfig.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		var _arg_options interface{}
 		if _, _err := _data.ReadInt32(); _err != nil {
 			return nil, _err
@@ -5113,7 +5133,18 @@ func (s *ActivityTaskManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_values interface{}
+		var _arg_values res.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_values.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.UpdateConfiguration(ctx, _arg_values)
 		_reply := parcel.New()
 		if _err != nil {
@@ -5554,7 +5585,7 @@ type IActivityTaskManagerServer interface {
 	StartNextMatchingActivity(ctx context.Context, callingActivity binder.IBinder, intent androidContent.Intent, options interface{}) (bool, error)
 	StartActivityIntentSender(ctx context.Context, caller IApplicationThread, target androidContent.IIntentSender, whitelistToken binder.IBinder, fillInIntent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flagsMask int32, flagsValues int32, options interface{}) (int32, error)
 	StartActivityAndWait(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, flags int32, profilerInfo ProfilerInfo, options interface{}) (WaitResult, error)
-	StartActivityWithConfig(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, startFlags int32, newConfig interface{}, options interface{}) (int32, error)
+	StartActivityWithConfig(ctx context.Context, caller IApplicationThread, intent androidContent.Intent, resolvedType string, resultTo binder.IBinder, resultWho string, requestCode int32, startFlags int32, newConfig res.Configuration, options interface{}) (int32, error)
 	StartVoiceActivity(ctx context.Context, intent androidContent.Intent, resolvedType string, session voice.IVoiceInteractionSession, interactor internalApp.IVoiceInteractor, flags int32, profilerInfo ProfilerInfo, options interface{}) (int32, error)
 	GetVoiceInteractorPackageName(ctx context.Context, callingVoiceInteractor binder.IBinder) (string, error)
 	StartAssistantActivity(ctx context.Context, intent androidContent.Intent, resolvedType string, options interface{}) (int32, error)
@@ -5618,7 +5649,7 @@ type IActivityTaskManagerServer interface {
 	GetTaskSnapshot(ctx context.Context, taskId int32, isLowResolution bool) (interface{}, error)
 	TakeTaskSnapshot(ctx context.Context, taskId int32, updateCache bool) (interface{}, error)
 	GetLastResumedActivityUserId(ctx context.Context) (int32, error)
-	UpdateConfiguration(ctx context.Context, values interface{}) (bool, error)
+	UpdateConfiguration(ctx context.Context, values res.Configuration) (bool, error)
 	UpdateLockTaskFeatures(ctx context.Context, flags int32) error
 	RegisterRemoteAnimationForNextActivityStart(ctx context.Context, packageName string, adapter interface{}, launchCookie binder.IBinder) error
 	RegisterRemoteAnimationsForDisplay(ctx context.Context, displayId int32, definition interface{}) error
@@ -5745,7 +5776,7 @@ func (w *activityTaskManagerStubWrapper) StartActivityWithConfig(
 	resultWho string,
 	requestCode int32,
 	startFlags int32,
-	newConfig interface{},
+	newConfig res.Configuration,
 	options interface{},
 ) (int32, error) {
 	return w.impl.StartActivityWithConfig(ctx, caller, intent, resolvedType, resultTo, resultWho, requestCode, startFlags, newConfig, options)
@@ -6237,7 +6268,7 @@ func (w *activityTaskManagerStubWrapper) GetLastResumedActivityUserId(
 
 func (w *activityTaskManagerStubWrapper) UpdateConfiguration(
 	ctx context.Context,
-	values interface{},
+	values res.Configuration,
 ) (bool, error) {
 	return w.impl.UpdateConfiguration(ctx, values)
 }

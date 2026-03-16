@@ -2,7 +2,6 @@ package ChannelMessage
 
 import (
 	"fmt"
-	power "github.com/xaionaro-go/binder/android/hardware/power"
 	ChannelMessageChannelMessageContents "github.com/xaionaro-go/binder/android/hardware/power/ChannelMessage/ChannelMessageContents"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -21,9 +20,9 @@ type ChannelMessageContents struct {
 	Tag            int32
 	Reserved       []int64
 	TargetDuration int64
-	Hint           power.SessionHint
+	Hint           interface{}
 	Mode           ChannelMessageChannelMessageContents.SessionModeSetter
-	WorkDuration   power.WorkDurationFixedV1
+	WorkDuration   interface{}
 }
 
 var _ parcel.Parcelable = (*ChannelMessageContents)(nil)
@@ -58,16 +57,16 @@ func (u *ChannelMessageContents) SetTargetDuration(
 	u.TargetDuration = v
 }
 
-func (u *ChannelMessageContents) GetHint() (power.SessionHint, bool) {
+func (u *ChannelMessageContents) GetHint() (interface{}, bool) {
 	if u.Tag != ChannelMessageContentsTagHint {
-		var _zero power.SessionHint
+		var _zero interface{}
 		return _zero, false
 	}
 	return u.Hint, true
 }
 
 func (u *ChannelMessageContents) SetHint(
-	v power.SessionHint,
+	v interface{},
 ) {
 	u.Tag = ChannelMessageContentsTagHint
 	u.Hint = v
@@ -88,16 +87,16 @@ func (u *ChannelMessageContents) SetMode(
 	u.Mode = v
 }
 
-func (u *ChannelMessageContents) GetWorkDuration() (power.WorkDurationFixedV1, bool) {
+func (u *ChannelMessageContents) GetWorkDuration() (interface{}, bool) {
 	if u.Tag != ChannelMessageContentsTagWorkDuration {
-		var _zero power.WorkDurationFixedV1
+		var _zero interface{}
 		return _zero, false
 	}
 	return u.WorkDuration, true
 }
 
 func (u *ChannelMessageContents) SetWorkDuration(
-	v power.WorkDurationFixedV1,
+	v interface{},
 ) {
 	u.Tag = ChannelMessageContentsTagWorkDuration
 	u.WorkDuration = v
@@ -122,15 +121,11 @@ func (u *ChannelMessageContents) MarshalParcel(
 	case ChannelMessageContentsTagTargetDuration:
 		p.WriteInt64(u.TargetDuration)
 	case ChannelMessageContentsTagHint:
-		p.WriteInt32(int32(u.Hint))
 	case ChannelMessageContentsTagMode:
 		if _err := u.Mode.MarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ChannelMessageContentsTagWorkDuration:
-		if _err := u.WorkDuration.MarshalParcel(p); _err != nil {
-			return _err
-		}
 	default:
 		return fmt.Errorf("unknown union tag %d for ChannelMessageContents", u.Tag)
 	}
@@ -175,19 +170,11 @@ func (u *ChannelMessageContents) UnmarshalParcel(
 			return _err
 		}
 	case ChannelMessageContentsTagHint:
-		_raw, _err := p.ReadInt32()
-		if _err != nil {
-			return _err
-		}
-		u.Hint = power.SessionHint(_raw)
 	case ChannelMessageContentsTagMode:
 		if _err = u.Mode.UnmarshalParcel(p); _err != nil {
 			return _err
 		}
 	case ChannelMessageContentsTagWorkDuration:
-		if _err = u.WorkDuration.UnmarshalParcel(p); _err != nil {
-			return _err
-		}
 	default:
 		return fmt.Errorf("unknown union tag %d for ChannelMessageContents", u.Tag)
 	}

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
+	contentRes "github.com/xaionaro-go/binder/android/content/res"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
 	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
@@ -334,8 +335,8 @@ type IActivityManager interface {
 	StartInstrumentation(ctx context.Context, className content.ComponentName, profileFile string, flags int32, arguments interface{}, watcher IInstrumentationWatcher, connection IUiAutomationConnection, abiOverride string) (bool, error)
 	AddInstrumentationResults(ctx context.Context, target IApplicationThread, results interface{}) error
 	FinishInstrumentation(ctx context.Context, target IApplicationThread, resultCode int32, results interface{}) error
-	GetConfiguration(ctx context.Context) (interface{}, error)
-	UpdateConfiguration(ctx context.Context, values interface{}) (bool, error)
+	GetConfiguration(ctx context.Context) (contentRes.Configuration, error)
+	UpdateConfiguration(ctx context.Context, values contentRes.Configuration) (bool, error)
 	UpdateMccMncConfiguration(ctx context.Context, mcc string, mnc string) (bool, error)
 	StopServiceToken(ctx context.Context, className content.ComponentName, token binder.IBinder, startId int32) (bool, error)
 	SetProcessLimit(ctx context.Context, max_ int32) error
@@ -411,8 +412,8 @@ type IActivityManager interface {
 	RegisterProcessObserver(ctx context.Context, observer IProcessObserver) error
 	UnregisterProcessObserver(ctx context.Context, observer IProcessObserver) error
 	IsIntentSenderTargetedToPackage(ctx context.Context, sender content.IIntentSender) (bool, error)
-	UpdatePersistentConfiguration(ctx context.Context, values interface{}) error
-	UpdatePersistentConfigurationWithAttribution(ctx context.Context, values interface{}, callingPackageName string, callingAttributionTag string) error
+	UpdatePersistentConfiguration(ctx context.Context, values contentRes.Configuration) error
+	UpdatePersistentConfigurationWithAttribution(ctx context.Context, values contentRes.Configuration, callingPackageName string, callingAttributionTag string) error
 	GetProcessPss(ctx context.Context, pids []int32) ([]int64, error)
 	ShowBootMessage(ctx context.Context, msg interface{}, always bool) error
 	KillAllBackgroundProcesses(ctx context.Context) error
@@ -2294,8 +2295,8 @@ func (p *ActivityManagerProxy) FinishInstrumentation(
 
 func (p *ActivityManagerProxy) GetConfiguration(
 	ctx context.Context,
-) (interface{}, error) {
-	var _result interface{}
+) (contentRes.Configuration, error) {
+	var _result contentRes.Configuration
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityManager)
 
@@ -2314,16 +2315,29 @@ func (p *ActivityManagerProxy) GetConfiguration(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
 func (p *ActivityManagerProxy) UpdateConfiguration(
 	ctx context.Context,
-	values interface{},
+	values contentRes.Configuration,
 ) (bool, error) {
 	var _result bool
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityManager)
+	_data.WriteInt32(1)
+	if _err := values.MarshalParcel(_data); _err != nil {
+		return _result, _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityManager, "updateConfiguration")
 	if _err != nil {
@@ -4839,10 +4853,14 @@ func (p *ActivityManagerProxy) IsIntentSenderTargetedToPackage(
 
 func (p *ActivityManagerProxy) UpdatePersistentConfiguration(
 	ctx context.Context,
-	values interface{},
+	values contentRes.Configuration,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityManager)
+	_data.WriteInt32(1)
+	if _err := values.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityManager, "updatePersistentConfiguration")
 	if _err != nil {
@@ -4864,12 +4882,16 @@ func (p *ActivityManagerProxy) UpdatePersistentConfiguration(
 
 func (p *ActivityManagerProxy) UpdatePersistentConfigurationWithAttribution(
 	ctx context.Context,
-	values interface{},
+	values contentRes.Configuration,
 	callingPackageName string,
 	callingAttributionTag string,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityManager)
+	_data.WriteInt32(1)
+	if _err := values.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteString16(callingPackageName)
 	_data.WriteString16(callingAttributionTag)
 
@@ -10651,13 +10673,27 @@ func (s *ActivityManagerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityManagerUpdateConfiguration:
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_values interface{}
+		var _arg_values contentRes.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_values.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_result, _err := s.Impl.UpdateConfiguration(ctx, _arg_values)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12415,7 +12451,18 @@ func (s *ActivityManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_values interface{}
+		var _arg_values contentRes.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_values.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.UpdatePersistentConfiguration(ctx, _arg_values)
 		_reply := parcel.New()
 		if _err != nil {
@@ -12428,7 +12475,18 @@ func (s *ActivityManagerStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_values interface{}
+		var _arg_values contentRes.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_values.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_callingPackageName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -15215,8 +15273,8 @@ type IActivityManagerServer interface {
 	StartInstrumentation(ctx context.Context, className content.ComponentName, profileFile string, flags int32, arguments interface{}, watcher IInstrumentationWatcher, connection IUiAutomationConnection, abiOverride string) (bool, error)
 	AddInstrumentationResults(ctx context.Context, target IApplicationThread, results interface{}) error
 	FinishInstrumentation(ctx context.Context, target IApplicationThread, resultCode int32, results interface{}) error
-	GetConfiguration(ctx context.Context) (interface{}, error)
-	UpdateConfiguration(ctx context.Context, values interface{}) (bool, error)
+	GetConfiguration(ctx context.Context) (contentRes.Configuration, error)
+	UpdateConfiguration(ctx context.Context, values contentRes.Configuration) (bool, error)
 	UpdateMccMncConfiguration(ctx context.Context, mcc string, mnc string) (bool, error)
 	StopServiceToken(ctx context.Context, className content.ComponentName, token binder.IBinder, startId int32) (bool, error)
 	SetProcessLimit(ctx context.Context, max_ int32) error
@@ -15292,8 +15350,8 @@ type IActivityManagerServer interface {
 	RegisterProcessObserver(ctx context.Context, observer IProcessObserver) error
 	UnregisterProcessObserver(ctx context.Context, observer IProcessObserver) error
 	IsIntentSenderTargetedToPackage(ctx context.Context, sender content.IIntentSender) (bool, error)
-	UpdatePersistentConfiguration(ctx context.Context, values interface{}) error
-	UpdatePersistentConfigurationWithAttribution(ctx context.Context, values interface{}, callingPackageName string, callingAttributionTag string) error
+	UpdatePersistentConfiguration(ctx context.Context, values contentRes.Configuration) error
+	UpdatePersistentConfigurationWithAttribution(ctx context.Context, values contentRes.Configuration, callingPackageName string, callingAttributionTag string) error
 	GetProcessPss(ctx context.Context, pids []int32) ([]int64, error)
 	ShowBootMessage(ctx context.Context, msg interface{}, always bool) error
 	KillAllBackgroundProcesses(ctx context.Context) error
@@ -15890,13 +15948,13 @@ func (w *activityManagerStubWrapper) FinishInstrumentation(
 
 func (w *activityManagerStubWrapper) GetConfiguration(
 	ctx context.Context,
-) (interface{}, error) {
+) (contentRes.Configuration, error) {
 	return w.impl.GetConfiguration(ctx)
 }
 
 func (w *activityManagerStubWrapper) UpdateConfiguration(
 	ctx context.Context,
-	values interface{},
+	values contentRes.Configuration,
 ) (bool, error) {
 	return w.impl.UpdateConfiguration(ctx, values)
 }
@@ -16527,14 +16585,14 @@ func (w *activityManagerStubWrapper) IsIntentSenderTargetedToPackage(
 
 func (w *activityManagerStubWrapper) UpdatePersistentConfiguration(
 	ctx context.Context,
-	values interface{},
+	values contentRes.Configuration,
 ) error {
 	return w.impl.UpdatePersistentConfiguration(ctx, values)
 }
 
 func (w *activityManagerStubWrapper) UpdatePersistentConfigurationWithAttribution(
 	ctx context.Context,
-	values interface{},
+	values contentRes.Configuration,
 	callingPackageName string,
 	callingAttributionTag string,
 ) error {

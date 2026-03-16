@@ -5,6 +5,7 @@ import (
 	"fmt"
 	ondeviceintelligence "github.com/xaionaro-go/binder/android/app/ondeviceintelligence"
 	content "github.com/xaionaro-go/binder/android/content"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	net "github.com/xaionaro-go/binder/android/net"
 	"github.com/xaionaro-go/binder/binder"
 	policy "github.com/xaionaro-go/binder/com/android/internal_/policy"
@@ -89,7 +90,7 @@ const (
 
 type IActivityClientController interface {
 	AsBinder() binder.IBinder
-	ActivityIdle(ctx context.Context, token binder.IBinder, config interface{}, stopProfiling bool) error
+	ActivityIdle(ctx context.Context, token binder.IBinder, config res.Configuration, stopProfiling bool) error
 	ActivityResumed(ctx context.Context, token binder.IBinder, handleSplashScreenExit bool) error
 	ActivityRefreshed(ctx context.Context, token binder.IBinder) error
 	ActivityTopResumedStateLost(ctx context.Context) error
@@ -111,7 +112,7 @@ type IActivityClientController interface {
 	WillActivityBeVisible(ctx context.Context, token binder.IBinder) (bool, error)
 	GetDisplayId(ctx context.Context, activityToken binder.IBinder) (int32, error)
 	GetTaskForActivity(ctx context.Context, token binder.IBinder, onlyRoot bool) (int32, error)
-	GetTaskConfiguration(ctx context.Context, activityToken binder.IBinder) (interface{}, error)
+	GetTaskConfiguration(ctx context.Context, activityToken binder.IBinder) (res.Configuration, error)
 	GetActivityTokenBelow(ctx context.Context, token binder.IBinder) (binder.IBinder, error)
 	GetCallingActivity(ctx context.Context, token binder.IBinder) (content.ComponentName, error)
 	GetCallingPackage(ctx context.Context, token binder.IBinder) (string, error)
@@ -179,12 +180,16 @@ var _ IActivityClientController = (*ActivityClientControllerProxy)(nil)
 func (p *ActivityClientControllerProxy) ActivityIdle(
 	ctx context.Context,
 	token binder.IBinder,
-	config interface{},
+	config res.Configuration,
 	stopProfiling bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	_data.WriteInt32(1)
+	if _err := config.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteBool(stopProfiling)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIActivityClientController, "activityIdle")
@@ -769,8 +774,8 @@ func (p *ActivityClientControllerProxy) GetTaskForActivity(
 func (p *ActivityClientControllerProxy) GetTaskConfiguration(
 	ctx context.Context,
 	activityToken binder.IBinder,
-) (interface{}, error) {
-	var _result interface{}
+) (res.Configuration, error) {
+	var _result res.Configuration
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIActivityClientController)
 	binder.WriteBinderToParcel(ctx, _data, activityToken, p.remote.Transport())
@@ -790,6 +795,15 @@ func (p *ActivityClientControllerProxy) GetTaskConfiguration(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -2074,7 +2088,18 @@ func (s *ActivityClientControllerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_token binder.IBinder
 		_ = _arg_token
-		var _arg_config interface{}
+		var _arg_config res.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_stopProfiling, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2463,7 +2488,10 @@ func (s *ActivityClientControllerStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIActivityClientControllerGetActivityTokenBelow:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -3297,7 +3325,7 @@ func (s *ActivityClientControllerStub) OnTransaction(
 // provide to NewActivityClientControllerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IActivityClientControllerServer interface {
-	ActivityIdle(ctx context.Context, token binder.IBinder, config interface{}, stopProfiling bool) error
+	ActivityIdle(ctx context.Context, token binder.IBinder, config res.Configuration, stopProfiling bool) error
 	ActivityResumed(ctx context.Context, token binder.IBinder, handleSplashScreenExit bool) error
 	ActivityRefreshed(ctx context.Context, token binder.IBinder) error
 	ActivityTopResumedStateLost(ctx context.Context) error
@@ -3319,7 +3347,7 @@ type IActivityClientControllerServer interface {
 	WillActivityBeVisible(ctx context.Context, token binder.IBinder) (bool, error)
 	GetDisplayId(ctx context.Context, activityToken binder.IBinder) (int32, error)
 	GetTaskForActivity(ctx context.Context, token binder.IBinder, onlyRoot bool) (int32, error)
-	GetTaskConfiguration(ctx context.Context, activityToken binder.IBinder) (interface{}, error)
+	GetTaskConfiguration(ctx context.Context, activityToken binder.IBinder) (res.Configuration, error)
 	GetActivityTokenBelow(ctx context.Context, token binder.IBinder) (binder.IBinder, error)
 	GetCallingActivity(ctx context.Context, token binder.IBinder) (content.ComponentName, error)
 	GetCallingPackage(ctx context.Context, token binder.IBinder) (string, error)
@@ -3380,7 +3408,7 @@ func (w *activityClientControllerStubWrapper) AsBinder() binder.IBinder {
 func (w *activityClientControllerStubWrapper) ActivityIdle(
 	ctx context.Context,
 	token binder.IBinder,
-	config interface{},
+	config res.Configuration,
 	stopProfiling bool,
 ) error {
 	return w.impl.ActivityIdle(ctx, token, config, stopProfiling)
@@ -3552,7 +3580,7 @@ func (w *activityClientControllerStubWrapper) GetTaskForActivity(
 func (w *activityClientControllerStubWrapper) GetTaskConfiguration(
 	ctx context.Context,
 	activityToken binder.IBinder,
-) (interface{}, error) {
+) (res.Configuration, error) {
 	return w.impl.GetTaskConfiguration(ctx, activityToken)
 }
 

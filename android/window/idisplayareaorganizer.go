@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -19,7 +20,7 @@ const (
 
 type IDisplayAreaOrganizer interface {
 	AsBinder() binder.IBinder
-	OnDisplayAreaAppeared(ctx context.Context, displayAreaInfo DisplayAreaInfo, leash interface{}) error
+	OnDisplayAreaAppeared(ctx context.Context, displayAreaInfo DisplayAreaInfo, leash view.SurfaceControl) error
 	OnDisplayAreaVanished(ctx context.Context, displayAreaInfo DisplayAreaInfo) error
 	OnDisplayAreaInfoChanged(ctx context.Context, displayAreaInfo DisplayAreaInfo) error
 }
@@ -43,12 +44,16 @@ var _ IDisplayAreaOrganizer = (*DisplayAreaOrganizerProxy)(nil)
 func (p *DisplayAreaOrganizerProxy) OnDisplayAreaAppeared(
 	ctx context.Context,
 	displayAreaInfo DisplayAreaInfo,
-	leash interface{},
+	leash view.SurfaceControl,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayAreaOrganizer)
 	_data.WriteInt32(1)
 	if _err := displayAreaInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := leash.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -131,7 +136,18 @@ func (s *DisplayAreaOrganizerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_leash interface{}
+		var _arg_leash view.SurfaceControl
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_leash.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnDisplayAreaAppeared(ctx, _arg_displayAreaInfo, _arg_leash)
 		_ = _err
 		return nil, nil
@@ -182,7 +198,7 @@ func (s *DisplayAreaOrganizerStub) OnTransaction(
 // provide to NewDisplayAreaOrganizerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDisplayAreaOrganizerServer interface {
-	OnDisplayAreaAppeared(ctx context.Context, displayAreaInfo DisplayAreaInfo, leash interface{}) error
+	OnDisplayAreaAppeared(ctx context.Context, displayAreaInfo DisplayAreaInfo, leash view.SurfaceControl) error
 	OnDisplayAreaVanished(ctx context.Context, displayAreaInfo DisplayAreaInfo) error
 	OnDisplayAreaInfoChanged(ctx context.Context, displayAreaInfo DisplayAreaInfo) error
 }
@@ -199,7 +215,7 @@ func (w *displayAreaOrganizerStubWrapper) AsBinder() binder.IBinder {
 func (w *displayAreaOrganizerStubWrapper) OnDisplayAreaAppeared(
 	ctx context.Context,
 	displayAreaInfo DisplayAreaInfo,
-	leash interface{},
+	leash view.SurfaceControl,
 ) error {
 	return w.impl.OnDisplayAreaAppeared(ctx, displayAreaInfo, leash)
 }

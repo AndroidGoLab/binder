@@ -2,6 +2,7 @@ package app
 
 import (
 	content "github.com/xaionaro-go/binder/android/content"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,7 +24,7 @@ type ReceiverInfo struct {
 	Ordered         bool
 	Sticky          bool
 	ActivityInfo    interface{}
-	CompatInfo      interface{}
+	CompatInfo      res.CompatibilityInfo
 	Sync            bool
 }
 
@@ -51,6 +52,9 @@ func (s *ReceiverInfo) MarshalParcel(
 	}
 	p.WriteBool(s.Ordered)
 	p.WriteBool(s.Sticky)
+	if _err := s.CompatInfo.MarshalParcel(p); _err != nil {
+		return _err
+	}
 	p.WriteBool(s.Sync)
 
 	parcel.WriteParcelableFooter(p, _headerPos)
@@ -122,6 +126,10 @@ func (s *ReceiverInfo) UnmarshalParcel(
 
 	s.Sticky, _err = p.ReadBool()
 	if _err != nil {
+		return _err
+	}
+
+	if _err = s.CompatInfo.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

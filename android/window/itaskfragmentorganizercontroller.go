@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -25,7 +26,7 @@ type ITaskFragmentOrganizerController interface {
 	AsBinder() binder.IBinder
 	RegisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer, isSystemOrganizer bool, outSavedState interface{}) error
 	UnregisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer) error
-	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition interface{}) error
+	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition view.RemoteAnimationDefinition) error
 	UnregisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer) error
 	SetSavedState(ctx context.Context, organizer ITaskFragmentOrganizer, savedState interface{}) error
 	OnTransactionHandled(ctx context.Context, transactionToken binder.IBinder, wct WindowContainerTransaction, transitionType int32, shouldApplyIndependently bool) error
@@ -106,11 +107,15 @@ func (p *TaskFragmentOrganizerControllerProxy) UnregisterOrganizer(
 func (p *TaskFragmentOrganizerControllerProxy) RegisterRemoteAnimations(
 	ctx context.Context,
 	organizer ITaskFragmentOrganizer,
-	definition interface{},
+	definition view.RemoteAnimationDefinition,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskFragmentOrganizerController)
 	binder.WriteBinderToParcel(ctx, _data, organizer.AsBinder(), p.remote.Transport())
+	_data.WriteInt32(1)
+	if _err := definition.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorITaskFragmentOrganizerController, "registerRemoteAnimations")
 	if _err != nil {
@@ -312,7 +317,18 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_organizer ITaskFragmentOrganizer
 		_ = _arg_organizer
-		var _arg_definition interface{}
+		var _arg_definition view.RemoteAnimationDefinition
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_definition.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.RegisterRemoteAnimations(ctx, _arg_organizer, _arg_definition)
 		_reply := parcel.New()
 		if _err != nil {
@@ -442,7 +458,7 @@ func (s *TaskFragmentOrganizerControllerStub) OnTransaction(
 type ITaskFragmentOrganizerControllerServer interface {
 	RegisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer, isSystemOrganizer bool, outSavedState interface{}) error
 	UnregisterOrganizer(ctx context.Context, organizer ITaskFragmentOrganizer) error
-	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition interface{}) error
+	RegisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer, definition view.RemoteAnimationDefinition) error
 	UnregisterRemoteAnimations(ctx context.Context, organizer ITaskFragmentOrganizer) error
 	SetSavedState(ctx context.Context, organizer ITaskFragmentOrganizer, savedState interface{}) error
 	OnTransactionHandled(ctx context.Context, transactionToken binder.IBinder, wct WindowContainerTransaction, transitionType int32, shouldApplyIndependently bool) error
@@ -477,7 +493,7 @@ func (w *taskFragmentOrganizerControllerStubWrapper) UnregisterOrganizer(
 func (w *taskFragmentOrganizerControllerStubWrapper) RegisterRemoteAnimations(
 	ctx context.Context,
 	organizer ITaskFragmentOrganizer,
-	definition interface{},
+	definition view.RemoteAnimationDefinition,
 ) error {
 	return w.impl.RegisterRemoteAnimations(ctx, organizer, definition)
 }

@@ -3,7 +3,6 @@ package c2
 import (
 	"context"
 	"fmt"
-	c2IConfigurable "github.com/xaionaro-go/binder/android/hardware/media/c2/IConfigurable"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -23,12 +22,12 @@ const (
 
 type IConfigurable interface {
 	AsBinder() binder.IBinder
-	Config(ctx context.Context, inParams Params, mayBlock bool) (c2IConfigurable.ConfigResult, error)
+	Config(ctx context.Context, inParams Params, mayBlock bool) (interface{}, error)
 	GetId(ctx context.Context) (int32, error)
 	GetName(ctx context.Context) (string, error)
-	Query(ctx context.Context, indices []int32, mayBlock bool) (c2IConfigurable.QueryResult, error)
+	Query(ctx context.Context, indices []int32, mayBlock bool) (interface{}, error)
 	QuerySupportedParams(ctx context.Context, start int32, count int32) ([]ParamDescriptor, error)
-	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (c2IConfigurable.QuerySupportedValuesResult, error)
+	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (interface{}, error)
 }
 
 type ConfigurableProxy struct {
@@ -51,8 +50,8 @@ func (p *ConfigurableProxy) Config(
 	ctx context.Context,
 	inParams Params,
 	mayBlock bool,
-) (c2IConfigurable.ConfigResult, error) {
-	var _result c2IConfigurable.ConfigResult
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	_data.WriteInt32(1)
@@ -76,15 +75,6 @@ func (p *ConfigurableProxy) Config(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -150,8 +140,8 @@ func (p *ConfigurableProxy) Query(
 	ctx context.Context,
 	indices []int32,
 	mayBlock bool,
-) (c2IConfigurable.QueryResult, error) {
-	var _result c2IConfigurable.QueryResult
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	if indices == nil {
@@ -179,15 +169,6 @@ func (p *ConfigurableProxy) Query(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -237,8 +218,8 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 	ctx context.Context,
 	inFields []FieldSupportedValuesQuery,
 	mayBlock bool,
-) (c2IConfigurable.QuerySupportedValuesResult, error) {
-	var _result c2IConfigurable.QuerySupportedValuesResult
+) (interface{}, error) {
+	var _result interface{}
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIConfigurable)
 	if inFields == nil {
@@ -268,15 +249,6 @@ func (p *ConfigurableProxy) QuerySupportedValues(
 		return _result, _err
 	}
 
-	_nullIndicator, _err := _reply.ReadInt32()
-	if _err != nil {
-		return _result, _err
-	}
-	if _nullIndicator != 0 {
-		if _err = _result.UnmarshalParcel(_reply); _err != nil {
-			return _result, _err
-		}
-	}
 	return _result, nil
 }
 
@@ -321,10 +293,7 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIConfigurableGetId:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -370,10 +339,7 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	case TransactionIConfigurableQuerySupportedParams:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -415,10 +381,7 @@ func (s *ConfigurableStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_reply.WriteInt32(1)
-		if _err := _result.MarshalParcel(_reply); _err != nil {
-			return nil, _err
-		}
+		_ = _result
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -429,12 +392,12 @@ func (s *ConfigurableStub) OnTransaction(
 // provide to NewConfigurableStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IConfigurableServer interface {
-	Config(ctx context.Context, inParams Params, mayBlock bool) (c2IConfigurable.ConfigResult, error)
+	Config(ctx context.Context, inParams Params, mayBlock bool) (interface{}, error)
 	GetId(ctx context.Context) (int32, error)
 	GetName(ctx context.Context) (string, error)
-	Query(ctx context.Context, indices []int32, mayBlock bool) (c2IConfigurable.QueryResult, error)
+	Query(ctx context.Context, indices []int32, mayBlock bool) (interface{}, error)
 	QuerySupportedParams(ctx context.Context, start int32, count int32) ([]ParamDescriptor, error)
-	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (c2IConfigurable.QuerySupportedValuesResult, error)
+	QuerySupportedValues(ctx context.Context, inFields []FieldSupportedValuesQuery, mayBlock bool) (interface{}, error)
 }
 
 type configurableStubWrapper struct {
@@ -450,7 +413,7 @@ func (w *configurableStubWrapper) Config(
 	ctx context.Context,
 	inParams Params,
 	mayBlock bool,
-) (c2IConfigurable.ConfigResult, error) {
+) (interface{}, error) {
 	return w.impl.Config(ctx, inParams, mayBlock)
 }
 
@@ -470,7 +433,7 @@ func (w *configurableStubWrapper) Query(
 	ctx context.Context,
 	indices []int32,
 	mayBlock bool,
-) (c2IConfigurable.QueryResult, error) {
+) (interface{}, error) {
 	return w.impl.Query(ctx, indices, mayBlock)
 }
 
@@ -486,7 +449,7 @@ func (w *configurableStubWrapper) QuerySupportedValues(
 	ctx context.Context,
 	inFields []FieldSupportedValuesQuery,
 	mayBlock bool,
-) (c2IConfigurable.QuerySupportedValuesResult, error) {
+) (interface{}, error) {
 	return w.impl.QuerySupportedValues(ctx, inFields, mayBlock)
 }
 

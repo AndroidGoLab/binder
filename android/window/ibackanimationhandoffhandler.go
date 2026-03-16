@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IBackAnimationHandoffHandler interface {
 	AsBinder() binder.IBinder
-	HandOffAnimation(ctx context.Context, targets []interface{}, states []WindowAnimationState) error
+	HandOffAnimation(ctx context.Context, targets []view.RemoteAnimationTarget, states []WindowAnimationState) error
 }
 
 type BackAnimationHandoffHandlerProxy struct {
@@ -38,7 +39,7 @@ var _ IBackAnimationHandoffHandler = (*BackAnimationHandoffHandlerProxy)(nil)
 
 func (p *BackAnimationHandoffHandlerProxy) HandOffAnimation(
 	ctx context.Context,
-	targets []interface{},
+	targets []view.RemoteAnimationTarget,
 	states []WindowAnimationState,
 ) error {
 	_data := parcel.New()
@@ -47,6 +48,11 @@ func (p *BackAnimationHandoffHandlerProxy) HandOffAnimation(
 		_data.WriteInt32(-1)
 	} else {
 		_data.WriteInt32(int32(len(targets)))
+		for _, _item := range targets {
+			if _err := _item.MarshalParcel(_data); _err != nil {
+				return _err
+			}
+		}
 	}
 	if states == nil {
 		_data.WriteInt32(-1)
@@ -87,7 +93,7 @@ func (s *BackAnimationHandoffHandlerStub) OnTransaction(
 			return nil, _err
 		}
 		// TODO: array/list param unmarshaling not yet supported in stubs
-		var _arg_targets []interface{}
+		var _arg_targets []view.RemoteAnimationTarget
 		_ = _arg_targets
 		// TODO: array/list param unmarshaling not yet supported in stubs
 		var _arg_states []WindowAnimationState
@@ -104,7 +110,7 @@ func (s *BackAnimationHandoffHandlerStub) OnTransaction(
 // provide to NewBackAnimationHandoffHandlerStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IBackAnimationHandoffHandlerServer interface {
-	HandOffAnimation(ctx context.Context, targets []interface{}, states []WindowAnimationState) error
+	HandOffAnimation(ctx context.Context, targets []view.RemoteAnimationTarget, states []WindowAnimationState) error
 }
 
 type backAnimationHandoffHandlerStubWrapper struct {
@@ -118,7 +124,7 @@ func (w *backAnimationHandoffHandlerStubWrapper) AsBinder() binder.IBinder {
 
 func (w *backAnimationHandoffHandlerStubWrapper) HandOffAnimation(
 	ctx context.Context,
-	targets []interface{},
+	targets []view.RemoteAnimationTarget,
 	states []WindowAnimationState,
 ) error {
 	return w.impl.HandOffAnimation(ctx, targets, states)

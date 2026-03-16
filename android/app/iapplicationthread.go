@@ -5,6 +5,7 @@ import (
 	"fmt"
 	servertransaction "github.com/xaionaro-go/binder/android/app/servertransaction"
 	content "github.com/xaionaro-go/binder/android/content"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	instrumentation "github.com/xaionaro-go/binder/android/os/instrumentation"
 	autofill "github.com/xaionaro-go/binder/android/view/autofill"
 	translation "github.com/xaionaro-go/binder/android/view/translation"
@@ -86,11 +87,11 @@ const (
 
 type IApplicationThread interface {
 	AsBinder() binder.IBinder
-	ScheduleReceiver(ctx context.Context, intent content.Intent, info interface{}, compatInfo interface{}, resultCode int32, data string, extras interface{}, ordered bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
+	ScheduleReceiver(ctx context.Context, intent content.Intent, info interface{}, compatInfo res.CompatibilityInfo, resultCode int32, data string, extras interface{}, ordered bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
 	ScheduleReceiverList(ctx context.Context, info []ReceiverInfo) error
-	ScheduleCreateService(ctx context.Context, token binder.IBinder, info interface{}, compatInfo interface{}, processState int32) error
+	ScheduleCreateService(ctx context.Context, token binder.IBinder, info interface{}, compatInfo res.CompatibilityInfo, processState int32) error
 	ScheduleStopService(ctx context.Context, token binder.IBinder) error
-	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config interface{}, compatInfo interface{}, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, loggableCompatChanges []int64, serializedSystemFontMap interface{}, applicationSharedMemoryFd interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
+	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, loggableCompatChanges []int64, serializedSystemFontMap interface{}, applicationSharedMemoryFd interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
 	RunIsolatedEntryPoint(ctx context.Context, entryPoint string, entryPointArgs []string) error
 	ScheduleExit(ctx context.Context) error
 	ScheduleServiceArgs(ctx context.Context, token binder.IBinder, args interface{}) error
@@ -115,7 +116,7 @@ type IApplicationThread interface {
 	ClearDnsCache(ctx context.Context) error
 	UpdateHttpProxy(ctx context.Context) error
 	SetCoreSettings(ctx context.Context, coreSettings interface{}) error
-	UpdatePackageCompatibilityInfo(ctx context.Context, pkg string, info interface{}) error
+	UpdatePackageCompatibilityInfo(ctx context.Context, pkg string, info res.CompatibilityInfo) error
 	ScheduleTrimMemory(ctx context.Context, level int32) error
 	DumpMemInfo(ctx context.Context, fd int32, mem interface{}, checkin bool, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, dumpAllocatorLogs bool, args []string) error
 	DumpMemInfoProto(ctx context.Context, fd int32, mem interface{}, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, args []string) error
@@ -172,7 +173,7 @@ func (p *ApplicationThreadProxy) ScheduleReceiver(
 	ctx context.Context,
 	intent content.Intent,
 	info interface{},
-	compatInfo interface{},
+	compatInfo res.CompatibilityInfo,
 	resultCode int32,
 	data string,
 	extras interface{},
@@ -187,6 +188,10 @@ func (p *ApplicationThreadProxy) ScheduleReceiver(
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteInt32(1)
 	if _err := intent.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := compatInfo.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	_data.WriteInt32(resultCode)
@@ -237,12 +242,16 @@ func (p *ApplicationThreadProxy) ScheduleCreateService(
 	ctx context.Context,
 	token binder.IBinder,
 	info interface{},
-	compatInfo interface{},
+	compatInfo res.CompatibilityInfo,
 	processState int32,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
+	_data.WriteInt32(1)
+	if _err := compatInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	_data.WriteInt32(processState)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "scheduleCreateService")
@@ -289,8 +298,8 @@ func (p *ApplicationThreadProxy) BindApplication(
 	trackAllocation bool,
 	restrictedBackupMode bool,
 	persistent bool,
-	config interface{},
-	compatInfo interface{},
+	config res.Configuration,
+	compatInfo res.CompatibilityInfo,
 	services map[interface{}]interface{},
 	coreSettings interface{},
 	buildSerial string,
@@ -324,6 +333,14 @@ func (p *ApplicationThreadProxy) BindApplication(
 	_data.WriteBool(trackAllocation)
 	_data.WriteBool(restrictedBackupMode)
 	_data.WriteBool(persistent)
+	_data.WriteInt32(1)
+	if _err := config.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := compatInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 	if services == nil {
 		_data.WriteInt32(-1)
 	} else {
@@ -882,11 +899,15 @@ func (p *ApplicationThreadProxy) SetCoreSettings(
 func (p *ApplicationThreadProxy) UpdatePackageCompatibilityInfo(
 	ctx context.Context,
 	pkg string,
-	info interface{},
+	info res.CompatibilityInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIApplicationThread)
 	_data.WriteString16(pkg)
+	_data.WriteInt32(1)
+	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIApplicationThread, "updatePackageCompatibilityInfo")
 	if _err != nil {
@@ -1665,7 +1686,18 @@ func (s *ApplicationThreadStub) OnTransaction(
 			}
 		}
 		var _arg_info interface{}
-		var _arg_compatInfo interface{}
+		var _arg_compatInfo res.CompatibilityInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_compatInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_resultCode, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1720,7 +1752,18 @@ func (s *ApplicationThreadStub) OnTransaction(
 		var _arg_token binder.IBinder
 		_ = _arg_token
 		var _arg_info interface{}
-		var _arg_compatInfo interface{}
+		var _arg_compatInfo res.CompatibilityInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_compatInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_arg_processState, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -1811,8 +1854,30 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_config interface{}
-		var _arg_compatInfo interface{}
+		var _arg_config res.Configuration
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_config.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
+		var _arg_compatInfo res.CompatibilityInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_compatInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: map param unmarshaling not yet supported in stubs
 		var _arg_services map[interface{}]interface{}
 		_ = _arg_services
@@ -2271,7 +2336,18 @@ func (s *ApplicationThreadStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_info interface{}
+		var _arg_info res.CompatibilityInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_info.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.UpdatePackageCompatibilityInfo(ctx, _arg_pkg, _arg_info)
 		_ = _err
 		return nil, nil
@@ -2834,11 +2910,11 @@ func (s *ApplicationThreadStub) OnTransaction(
 // provide to NewApplicationThreadStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IApplicationThreadServer interface {
-	ScheduleReceiver(ctx context.Context, intent content.Intent, info interface{}, compatInfo interface{}, resultCode int32, data string, extras interface{}, ordered bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
+	ScheduleReceiver(ctx context.Context, intent content.Intent, info interface{}, compatInfo res.CompatibilityInfo, resultCode int32, data string, extras interface{}, ordered bool, assumeDelivered bool, sendingUser int32, processState int32, sentFromUid int32, sentFromPackage string) error
 	ScheduleReceiverList(ctx context.Context, info []ReceiverInfo) error
-	ScheduleCreateService(ctx context.Context, token binder.IBinder, info interface{}, compatInfo interface{}, processState int32) error
+	ScheduleCreateService(ctx context.Context, token binder.IBinder, info interface{}, compatInfo res.CompatibilityInfo, processState int32) error
 	ScheduleStopService(ctx context.Context, token binder.IBinder) error
-	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config interface{}, compatInfo interface{}, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, loggableCompatChanges []int64, serializedSystemFontMap interface{}, applicationSharedMemoryFd interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
+	BindApplication(ctx context.Context, packageName string, info interface{}, sdkSandboxClientAppVolumeUuid string, sdkSandboxClientAppPackage string, isSdkInSandbox bool, providerList interface{}, testName content.ComponentName, profilerInfo ProfilerInfo, testArguments interface{}, testWatcher IInstrumentationWatcher, uiAutomationConnection IUiAutomationConnection, debugMode int32, enableBinderTracking bool, trackAllocation bool, restrictedBackupMode bool, persistent bool, config res.Configuration, compatInfo res.CompatibilityInfo, services map[interface{}]interface{}, coreSettings interface{}, buildSerial string, autofillOptions content.AutofillOptions, contentCaptureOptions content.ContentCaptureOptions, disabledCompatChanges []int64, loggableCompatChanges []int64, serializedSystemFontMap interface{}, applicationSharedMemoryFd interface{}, startRequestedElapsedTime int64, startRequestedUptime int64) error
 	RunIsolatedEntryPoint(ctx context.Context, entryPoint string, entryPointArgs []string) error
 	ScheduleExit(ctx context.Context) error
 	ScheduleServiceArgs(ctx context.Context, token binder.IBinder, args interface{}) error
@@ -2863,7 +2939,7 @@ type IApplicationThreadServer interface {
 	ClearDnsCache(ctx context.Context) error
 	UpdateHttpProxy(ctx context.Context) error
 	SetCoreSettings(ctx context.Context, coreSettings interface{}) error
-	UpdatePackageCompatibilityInfo(ctx context.Context, pkg string, info interface{}) error
+	UpdatePackageCompatibilityInfo(ctx context.Context, pkg string, info res.CompatibilityInfo) error
 	ScheduleTrimMemory(ctx context.Context, level int32) error
 	DumpMemInfo(ctx context.Context, fd int32, mem interface{}, checkin bool, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, dumpAllocatorLogs bool, args []string) error
 	DumpMemInfoProto(ctx context.Context, fd int32, mem interface{}, dumpInfo bool, dumpDalvik bool, dumpSummaryOnly bool, dumpUnreachable bool, args []string) error
@@ -2913,7 +2989,7 @@ func (w *applicationThreadStubWrapper) ScheduleReceiver(
 	ctx context.Context,
 	intent content.Intent,
 	info interface{},
-	compatInfo interface{},
+	compatInfo res.CompatibilityInfo,
 	resultCode int32,
 	data string,
 	extras interface{},
@@ -2938,7 +3014,7 @@ func (w *applicationThreadStubWrapper) ScheduleCreateService(
 	ctx context.Context,
 	token binder.IBinder,
 	info interface{},
-	compatInfo interface{},
+	compatInfo res.CompatibilityInfo,
 	processState int32,
 ) error {
 	return w.impl.ScheduleCreateService(ctx, token, info, compatInfo, processState)
@@ -2969,8 +3045,8 @@ func (w *applicationThreadStubWrapper) BindApplication(
 	trackAllocation bool,
 	restrictedBackupMode bool,
 	persistent bool,
-	config interface{},
-	compatInfo interface{},
+	config res.Configuration,
+	compatInfo res.CompatibilityInfo,
 	services map[interface{}]interface{},
 	coreSettings interface{},
 	buildSerial string,
@@ -3188,7 +3264,7 @@ func (w *applicationThreadStubWrapper) SetCoreSettings(
 func (w *applicationThreadStubWrapper) UpdatePackageCompatibilityInfo(
 	ctx context.Context,
 	pkg string,
-	info interface{},
+	info res.CompatibilityInfo,
 ) error {
 	return w.impl.UpdatePackageCompatibilityInfo(ctx, pkg, info)
 }

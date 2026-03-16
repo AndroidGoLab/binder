@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -30,7 +31,7 @@ type ITaskOrganizer interface {
 	RemoveStartingWindow(ctx context.Context, removalInfo StartingWindowRemovalInfo) error
 	CopySplashScreenView(ctx context.Context, taskId int32) error
 	OnAppSplashScreenViewRemoved(ctx context.Context, taskId int32) error
-	OnTaskAppeared(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo, leash interface{}) error
+	OnTaskAppeared(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo, leash view.SurfaceControl) error
 	OnTaskVanished(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
 	OnTaskInfoChanged(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
 	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
@@ -130,12 +131,16 @@ func (p *TaskOrganizerProxy) OnAppSplashScreenViewRemoved(
 func (p *TaskOrganizerProxy) OnTaskAppeared(
 	ctx context.Context,
 	taskInfo app.ActivityManagerRunningTaskInfo,
-	leash interface{},
+	leash view.SurfaceControl,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorITaskOrganizer)
 	_data.WriteInt32(1)
 	if _err := taskInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := leash.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 
@@ -315,7 +320,18 @@ func (s *TaskOrganizerStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_leash interface{}
+		var _arg_leash view.SurfaceControl
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_leash.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err := s.Impl.OnTaskAppeared(ctx, _arg_taskInfo, _arg_leash)
 		_ = _err
 		return nil, nil
@@ -400,7 +416,7 @@ type ITaskOrganizerServer interface {
 	RemoveStartingWindow(ctx context.Context, removalInfo StartingWindowRemovalInfo) error
 	CopySplashScreenView(ctx context.Context, taskId int32) error
 	OnAppSplashScreenViewRemoved(ctx context.Context, taskId int32) error
-	OnTaskAppeared(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo, leash interface{}) error
+	OnTaskAppeared(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo, leash view.SurfaceControl) error
 	OnTaskVanished(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
 	OnTaskInfoChanged(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
 	OnBackPressedOnTaskRoot(ctx context.Context, taskInfo app.ActivityManagerRunningTaskInfo) error
@@ -447,7 +463,7 @@ func (w *taskOrganizerStubWrapper) OnAppSplashScreenViewRemoved(
 func (w *taskOrganizerStubWrapper) OnTaskAppeared(
 	ctx context.Context,
 	taskInfo app.ActivityManagerRunningTaskInfo,
-	leash interface{},
+	leash view.SurfaceControl,
 ) error {
 	return w.impl.OnTaskAppeared(ctx, taskInfo, leash)
 }

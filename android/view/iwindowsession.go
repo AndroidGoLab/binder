@@ -5,9 +5,7 @@ import (
 	"fmt"
 	content "github.com/xaionaro-go/binder/android/content"
 	graphics "github.com/xaionaro-go/binder/android/graphics"
-	os "github.com/xaionaro-go/binder/android/os"
 	inputmethod "github.com/xaionaro-go/binder/android/view/inputmethod"
-	androidWindow "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -83,8 +81,8 @@ type IWindowSession interface {
 	SetShouldZoomOutWallpaper(ctx context.Context, windowToken binder.IBinder, shouldZoom bool) error
 	WallpaperOffsetsComplete(ctx context.Context, window binder.IBinder) error
 	SetWallpaperDisplayOffset(ctx context.Context, windowToken binder.IBinder, x int32, y int32) error
-	SendWallpaperCommand(ctx context.Context, window binder.IBinder, action string, x int32, y int32, z int32, extras os.Bundle, sync bool) error
-	WallpaperCommandComplete(ctx context.Context, window binder.IBinder, result os.Bundle) error
+	SendWallpaperCommand(ctx context.Context, window binder.IBinder, action string, x int32, y int32, z int32, extras interface{}, sync bool) error
+	WallpaperCommandComplete(ctx context.Context, window binder.IBinder, result interface{}) error
 	OnRectangleOnScreenRequested(ctx context.Context, token binder.IBinder, rectangle graphics.Rect) error
 	GetWindowId(ctx context.Context, window binder.IBinder) (IWindowId, error)
 	PokeDrawLock(ctx context.Context, window binder.IBinder) error
@@ -95,11 +93,11 @@ type IWindowSession interface {
 	ReportSystemGestureExclusionChanged(ctx context.Context, window IWindow, exclusionRects []graphics.Rect) error
 	ReportDecorViewGestureInterceptionChanged(ctx context.Context, window IWindow, intercepted bool) error
 	ReportKeepClearAreasChanged(ctx context.Context, window IWindow, restricted []graphics.Rect, unrestricted []graphics.Rect) error
-	GrantInputChannel(ctx context.Context, displayId int32, surface SurfaceControl, clientToken binder.IBinder, hostInputTransferToken *androidWindow.InputTransferToken, flags int32, privateFlags int32, inputFeatures int32, type_ int32, windowToken binder.IBinder, embeddedInputTransferToken androidWindow.InputTransferToken, inputHandleName string, outInputChannel InputChannel) error
+	GrantInputChannel(ctx context.Context, displayId int32, surface SurfaceControl, clientToken binder.IBinder, hostInputTransferToken *interface{}, flags int32, privateFlags int32, inputFeatures int32, type_ int32, windowToken binder.IBinder, embeddedInputTransferToken interface{}, inputHandleName string, outInputChannel InputChannel) error
 	UpdateInputChannel(ctx context.Context, channelToken binder.IBinder, displayId int32, surface SurfaceControl, flags int32, privateFlags int32, inputFeatures int32, region graphics.Region) error
-	GrantEmbeddedWindowFocus(ctx context.Context, window IWindow, inputToken androidWindow.InputTransferToken, grantFocus bool) error
-	GenerateDisplayHash(ctx context.Context, window IWindow, boundsInWindow graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
-	SetOnBackInvokedCallbackInfo(ctx context.Context, window IWindow, callbackInfo androidWindow.OnBackInvokedCallbackInfo) error
+	GrantEmbeddedWindowFocus(ctx context.Context, window IWindow, inputToken interface{}, grantFocus bool) error
+	GenerateDisplayHash(ctx context.Context, window IWindow, boundsInWindow graphics.Rect, hashAlgorithm string, callback interface{}) error
+	SetOnBackInvokedCallbackInfo(ctx context.Context, window IWindow, callbackInfo interface{}) error
 	ClearTouchableRegion(ctx context.Context, window IWindow) error
 	CancelDraw(ctx context.Context, window IWindow) (bool, error)
 	MoveFocusToAdjacentWindow(ctx context.Context, fromWindow IWindow, direction int32) (bool, error)
@@ -805,7 +803,7 @@ func (p *WindowSessionProxy) SendWallpaperCommand(
 	x int32,
 	y int32,
 	z int32,
-	extras os.Bundle,
+	extras interface{},
 	sync bool,
 ) error {
 	_data := parcel.New()
@@ -815,10 +813,6 @@ func (p *WindowSessionProxy) SendWallpaperCommand(
 	_data.WriteInt32(x)
 	_data.WriteInt32(y)
 	_data.WriteInt32(z)
-	_data.WriteInt32(1)
-	if _err := extras.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteBool(sync)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "sendWallpaperCommand")
@@ -833,15 +827,11 @@ func (p *WindowSessionProxy) SendWallpaperCommand(
 func (p *WindowSessionProxy) WallpaperCommandComplete(
 	ctx context.Context,
 	window binder.IBinder,
-	result os.Bundle,
+	result interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	binder.WriteBinderToParcel(ctx, _data, window, p.remote.Transport())
-	_data.WriteInt32(1)
-	if _err := result.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "wallpaperCommandComplete")
 	if _err != nil {
@@ -1124,13 +1114,13 @@ func (p *WindowSessionProxy) GrantInputChannel(
 	displayId int32,
 	surface SurfaceControl,
 	clientToken binder.IBinder,
-	hostInputTransferToken *androidWindow.InputTransferToken,
+	hostInputTransferToken *interface{},
 	flags int32,
 	privateFlags int32,
 	inputFeatures int32,
 	type_ int32,
 	windowToken binder.IBinder,
-	embeddedInputTransferToken androidWindow.InputTransferToken,
+	embeddedInputTransferToken interface{},
 	inputHandleName string,
 	outInputChannel InputChannel,
 ) error {
@@ -1142,22 +1132,11 @@ func (p *WindowSessionProxy) GrantInputChannel(
 		return _err
 	}
 	binder.WriteBinderToParcel(ctx, _data, clientToken, p.remote.Transport())
-	if hostInputTransferToken != nil {
-		if _err := (*hostInputTransferToken).MarshalParcel(_data); _err != nil {
-			return _err
-		}
-	} else {
-		_data.WriteInt32(-1)
-	}
 	_data.WriteInt32(flags)
 	_data.WriteInt32(privateFlags)
 	_data.WriteInt32(inputFeatures)
 	_data.WriteInt32(type_)
 	binder.WriteBinderToParcel(ctx, _data, windowToken, p.remote.Transport())
-	_data.WriteInt32(1)
-	if _err := embeddedInputTransferToken.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteString16(inputHandleName)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "grantInputChannel")
@@ -1219,16 +1198,12 @@ func (p *WindowSessionProxy) UpdateInputChannel(
 func (p *WindowSessionProxy) GrantEmbeddedWindowFocus(
 	ctx context.Context,
 	window IWindow,
-	inputToken androidWindow.InputTransferToken,
+	inputToken interface{},
 	grantFocus bool,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
-	_data.WriteInt32(1)
-	if _err := inputToken.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 	_data.WriteBool(grantFocus)
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "grantEmbeddedWindowFocus")
@@ -1254,7 +1229,7 @@ func (p *WindowSessionProxy) GenerateDisplayHash(
 	window IWindow,
 	boundsInWindow graphics.Rect,
 	hashAlgorithm string,
-	callback os.RemoteCallback,
+	callback interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
@@ -1264,10 +1239,6 @@ func (p *WindowSessionProxy) GenerateDisplayHash(
 		return _err
 	}
 	_data.WriteString16(hashAlgorithm)
-	_data.WriteInt32(1)
-	if _err := callback.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "generateDisplayHash")
 	if _err != nil {
@@ -1281,15 +1252,11 @@ func (p *WindowSessionProxy) GenerateDisplayHash(
 func (p *WindowSessionProxy) SetOnBackInvokedCallbackInfo(
 	ctx context.Context,
 	window IWindow,
-	callbackInfo androidWindow.OnBackInvokedCallbackInfo,
+	callbackInfo interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIWindowSession)
 	binder.WriteBinderToParcel(ctx, _data, window.AsBinder(), p.remote.Transport())
-	_data.WriteInt32(1)
-	if _err := callbackInfo.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIWindowSession, "setOnBackInvokedCallbackInfo")
 	if _err != nil {
@@ -2035,18 +2002,7 @@ func (s *WindowSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_extras os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_extras.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_extras interface{}
 		_arg_sync, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2061,18 +2017,7 @@ func (s *WindowSessionStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_window binder.IBinder
 		_ = _arg_window
-		var _arg_result os.Bundle
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_result.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_result interface{}
 		_err := s.Impl.WallpaperCommandComplete(ctx, _arg_window, _arg_result)
 		_ = _err
 		return nil, nil
@@ -2278,18 +2223,7 @@ func (s *WindowSessionStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_clientToken binder.IBinder
 		_ = _arg_clientToken
-		var _arg_hostInputTransferToken *androidWindow.InputTransferToken
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_hostInputTransferToken.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_hostInputTransferToken *interface{}
 		_arg_flags, _err := _data.ReadInt32()
 		if _err != nil {
 			return nil, _err
@@ -2309,18 +2243,7 @@ func (s *WindowSessionStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_windowToken binder.IBinder
 		_ = _arg_windowToken
-		var _arg_embeddedInputTransferToken androidWindow.InputTransferToken
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_embeddedInputTransferToken.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_embeddedInputTransferToken interface{}
 		_arg_inputHandleName, _err := _data.ReadString16()
 		if _err != nil {
 			return nil, _err
@@ -2391,18 +2314,7 @@ func (s *WindowSessionStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_window IWindow
 		_ = _arg_window
-		var _arg_inputToken androidWindow.InputTransferToken
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_inputToken.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_inputToken interface{}
 		_arg_grantFocus, _err := _data.ReadBool()
 		if _err != nil {
 			return nil, _err
@@ -2438,18 +2350,7 @@ func (s *WindowSessionStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_callback os.RemoteCallback
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_callback.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_callback interface{}
 		_err = s.Impl.GenerateDisplayHash(ctx, _arg_window, _arg_boundsInWindow, _arg_hashAlgorithm, _arg_callback)
 		_ = _err
 		return nil, nil
@@ -2460,18 +2361,7 @@ func (s *WindowSessionStub) OnTransaction(
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_window IWindow
 		_ = _arg_window
-		var _arg_callbackInfo androidWindow.OnBackInvokedCallbackInfo
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_callbackInfo.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_callbackInfo interface{}
 		_err := s.Impl.SetOnBackInvokedCallbackInfo(ctx, _arg_window, _arg_callbackInfo)
 		_ = _err
 		return nil, nil
@@ -2595,8 +2485,8 @@ type IWindowSessionServer interface {
 	SetShouldZoomOutWallpaper(ctx context.Context, windowToken binder.IBinder, shouldZoom bool) error
 	WallpaperOffsetsComplete(ctx context.Context, window binder.IBinder) error
 	SetWallpaperDisplayOffset(ctx context.Context, windowToken binder.IBinder, x int32, y int32) error
-	SendWallpaperCommand(ctx context.Context, window binder.IBinder, action string, x int32, y int32, z int32, extras os.Bundle, sync bool) error
-	WallpaperCommandComplete(ctx context.Context, window binder.IBinder, result os.Bundle) error
+	SendWallpaperCommand(ctx context.Context, window binder.IBinder, action string, x int32, y int32, z int32, extras interface{}, sync bool) error
+	WallpaperCommandComplete(ctx context.Context, window binder.IBinder, result interface{}) error
 	OnRectangleOnScreenRequested(ctx context.Context, token binder.IBinder, rectangle graphics.Rect) error
 	GetWindowId(ctx context.Context, window binder.IBinder) (IWindowId, error)
 	PokeDrawLock(ctx context.Context, window binder.IBinder) error
@@ -2607,11 +2497,11 @@ type IWindowSessionServer interface {
 	ReportSystemGestureExclusionChanged(ctx context.Context, window IWindow, exclusionRects []graphics.Rect) error
 	ReportDecorViewGestureInterceptionChanged(ctx context.Context, window IWindow, intercepted bool) error
 	ReportKeepClearAreasChanged(ctx context.Context, window IWindow, restricted []graphics.Rect, unrestricted []graphics.Rect) error
-	GrantInputChannel(ctx context.Context, displayId int32, surface SurfaceControl, clientToken binder.IBinder, hostInputTransferToken *androidWindow.InputTransferToken, flags int32, privateFlags int32, inputFeatures int32, type_ int32, windowToken binder.IBinder, embeddedInputTransferToken androidWindow.InputTransferToken, inputHandleName string, outInputChannel InputChannel) error
+	GrantInputChannel(ctx context.Context, displayId int32, surface SurfaceControl, clientToken binder.IBinder, hostInputTransferToken *interface{}, flags int32, privateFlags int32, inputFeatures int32, type_ int32, windowToken binder.IBinder, embeddedInputTransferToken interface{}, inputHandleName string, outInputChannel InputChannel) error
 	UpdateInputChannel(ctx context.Context, channelToken binder.IBinder, displayId int32, surface SurfaceControl, flags int32, privateFlags int32, inputFeatures int32, region graphics.Region) error
-	GrantEmbeddedWindowFocus(ctx context.Context, window IWindow, inputToken androidWindow.InputTransferToken, grantFocus bool) error
-	GenerateDisplayHash(ctx context.Context, window IWindow, boundsInWindow graphics.Rect, hashAlgorithm string, callback os.RemoteCallback) error
-	SetOnBackInvokedCallbackInfo(ctx context.Context, window IWindow, callbackInfo androidWindow.OnBackInvokedCallbackInfo) error
+	GrantEmbeddedWindowFocus(ctx context.Context, window IWindow, inputToken interface{}, grantFocus bool) error
+	GenerateDisplayHash(ctx context.Context, window IWindow, boundsInWindow graphics.Rect, hashAlgorithm string, callback interface{}) error
+	SetOnBackInvokedCallbackInfo(ctx context.Context, window IWindow, callbackInfo interface{}) error
 	ClearTouchableRegion(ctx context.Context, window IWindow) error
 	CancelDraw(ctx context.Context, window IWindow) (bool, error)
 	MoveFocusToAdjacentWindow(ctx context.Context, fromWindow IWindow, direction int32) (bool, error)
@@ -2842,7 +2732,7 @@ func (w *windowSessionStubWrapper) SendWallpaperCommand(
 	x int32,
 	y int32,
 	z int32,
-	extras os.Bundle,
+	extras interface{},
 	sync bool,
 ) error {
 	return w.impl.SendWallpaperCommand(ctx, window, action, x, y, z, extras, sync)
@@ -2851,7 +2741,7 @@ func (w *windowSessionStubWrapper) SendWallpaperCommand(
 func (w *windowSessionStubWrapper) WallpaperCommandComplete(
 	ctx context.Context,
 	window binder.IBinder,
-	result os.Bundle,
+	result interface{},
 ) error {
 	return w.impl.WallpaperCommandComplete(ctx, window, result)
 }
@@ -2941,13 +2831,13 @@ func (w *windowSessionStubWrapper) GrantInputChannel(
 	displayId int32,
 	surface SurfaceControl,
 	clientToken binder.IBinder,
-	hostInputTransferToken *androidWindow.InputTransferToken,
+	hostInputTransferToken *interface{},
 	flags int32,
 	privateFlags int32,
 	inputFeatures int32,
 	type_ int32,
 	windowToken binder.IBinder,
-	embeddedInputTransferToken androidWindow.InputTransferToken,
+	embeddedInputTransferToken interface{},
 	inputHandleName string,
 	outInputChannel InputChannel,
 ) error {
@@ -2970,7 +2860,7 @@ func (w *windowSessionStubWrapper) UpdateInputChannel(
 func (w *windowSessionStubWrapper) GrantEmbeddedWindowFocus(
 	ctx context.Context,
 	window IWindow,
-	inputToken androidWindow.InputTransferToken,
+	inputToken interface{},
 	grantFocus bool,
 ) error {
 	return w.impl.GrantEmbeddedWindowFocus(ctx, window, inputToken, grantFocus)
@@ -2981,7 +2871,7 @@ func (w *windowSessionStubWrapper) GenerateDisplayHash(
 	window IWindow,
 	boundsInWindow graphics.Rect,
 	hashAlgorithm string,
-	callback os.RemoteCallback,
+	callback interface{},
 ) error {
 	return w.impl.GenerateDisplayHash(ctx, window, boundsInWindow, hashAlgorithm, callback)
 }
@@ -2989,7 +2879,7 @@ func (w *windowSessionStubWrapper) GenerateDisplayHash(
 func (w *windowSessionStubWrapper) SetOnBackInvokedCallbackInfo(
 	ctx context.Context,
 	window IWindow,
-	callbackInfo androidWindow.OnBackInvokedCallbackInfo,
+	callbackInfo interface{},
 ) error {
 	return w.impl.SetOnBackInvokedCallbackInfo(ctx, window, callbackInfo)
 }

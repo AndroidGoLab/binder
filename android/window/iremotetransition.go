@@ -3,6 +3,7 @@ package window
 import (
 	"context"
 	"fmt"
+	view "github.com/xaionaro-go/binder/android/view"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -20,9 +21,9 @@ const (
 
 type IRemoteTransition interface {
 	AsBinder() binder.IBinder
-	StartAnimation(ctx context.Context, token binder.IBinder, info TransitionInfo, t interface{}, finishCallback IRemoteTransitionFinishedCallback) error
-	MergeAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t interface{}, mergeTarget binder.IBinder, finishCallback IRemoteTransitionFinishedCallback) error
-	TakeOverAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t interface{}, finishCallback IRemoteTransitionFinishedCallback, states []WindowAnimationState) error
+	StartAnimation(ctx context.Context, token binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishCallback IRemoteTransitionFinishedCallback) error
+	MergeAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, mergeTarget binder.IBinder, finishCallback IRemoteTransitionFinishedCallback) error
+	TakeOverAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishCallback IRemoteTransitionFinishedCallback, states []WindowAnimationState) error
 	OnTransitionConsumed(ctx context.Context, transition binder.IBinder, aborted bool) error
 }
 
@@ -46,7 +47,7 @@ func (p *RemoteTransitionProxy) StartAnimation(
 	ctx context.Context,
 	token binder.IBinder,
 	info TransitionInfo,
-	t interface{},
+	t view.SurfaceControlTransaction,
 	finishCallback IRemoteTransitionFinishedCallback,
 ) error {
 	_data := parcel.New()
@@ -54,6 +55,10 @@ func (p *RemoteTransitionProxy) StartAnimation(
 	binder.WriteBinderToParcel(ctx, _data, token, p.remote.Transport())
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := t.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.remote.Transport())
@@ -71,7 +76,7 @@ func (p *RemoteTransitionProxy) MergeAnimation(
 	ctx context.Context,
 	transition binder.IBinder,
 	info TransitionInfo,
-	t interface{},
+	t view.SurfaceControlTransaction,
 	mergeTarget binder.IBinder,
 	finishCallback IRemoteTransitionFinishedCallback,
 ) error {
@@ -80,6 +85,10 @@ func (p *RemoteTransitionProxy) MergeAnimation(
 	binder.WriteBinderToParcel(ctx, _data, transition, p.remote.Transport())
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := t.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	binder.WriteBinderToParcel(ctx, _data, mergeTarget, p.remote.Transport())
@@ -98,7 +107,7 @@ func (p *RemoteTransitionProxy) TakeOverAnimation(
 	ctx context.Context,
 	transition binder.IBinder,
 	info TransitionInfo,
-	t interface{},
+	t view.SurfaceControlTransaction,
 	finishCallback IRemoteTransitionFinishedCallback,
 	states []WindowAnimationState,
 ) error {
@@ -107,6 +116,10 @@ func (p *RemoteTransitionProxy) TakeOverAnimation(
 	binder.WriteBinderToParcel(ctx, _data, transition, p.remote.Transport())
 	_data.WriteInt32(1)
 	if _err := info.MarshalParcel(_data); _err != nil {
+		return _err
+	}
+	_data.WriteInt32(1)
+	if _err := t.MarshalParcel(_data); _err != nil {
 		return _err
 	}
 	binder.WriteBinderToParcel(ctx, _data, finishCallback.AsBinder(), p.remote.Transport())
@@ -182,7 +195,18 @@ func (s *RemoteTransitionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_t interface{}
+		var _arg_t view.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_finishCallback IRemoteTransitionFinishedCallback
 		_ = _arg_finishCallback
@@ -208,7 +232,18 @@ func (s *RemoteTransitionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_t interface{}
+		var _arg_t view.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_mergeTarget binder.IBinder
 		_ = _arg_mergeTarget
@@ -237,7 +272,18 @@ func (s *RemoteTransitionStub) OnTransaction(
 				}
 			}
 		}
-		var _arg_t interface{}
+		var _arg_t view.SurfaceControlTransaction
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		// TODO: interface/IBinder param unmarshaling not yet supported in stubs
 		var _arg_finishCallback IRemoteTransitionFinishedCallback
 		_ = _arg_finishCallback
@@ -270,9 +316,9 @@ func (s *RemoteTransitionStub) OnTransaction(
 // provide to NewRemoteTransitionStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IRemoteTransitionServer interface {
-	StartAnimation(ctx context.Context, token binder.IBinder, info TransitionInfo, t interface{}, finishCallback IRemoteTransitionFinishedCallback) error
-	MergeAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t interface{}, mergeTarget binder.IBinder, finishCallback IRemoteTransitionFinishedCallback) error
-	TakeOverAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t interface{}, finishCallback IRemoteTransitionFinishedCallback, states []WindowAnimationState) error
+	StartAnimation(ctx context.Context, token binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishCallback IRemoteTransitionFinishedCallback) error
+	MergeAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, mergeTarget binder.IBinder, finishCallback IRemoteTransitionFinishedCallback) error
+	TakeOverAnimation(ctx context.Context, transition binder.IBinder, info TransitionInfo, t view.SurfaceControlTransaction, finishCallback IRemoteTransitionFinishedCallback, states []WindowAnimationState) error
 	OnTransitionConsumed(ctx context.Context, transition binder.IBinder, aborted bool) error
 }
 
@@ -289,7 +335,7 @@ func (w *remoteTransitionStubWrapper) StartAnimation(
 	ctx context.Context,
 	token binder.IBinder,
 	info TransitionInfo,
-	t interface{},
+	t view.SurfaceControlTransaction,
 	finishCallback IRemoteTransitionFinishedCallback,
 ) error {
 	return w.impl.StartAnimation(ctx, token, info, t, finishCallback)
@@ -299,7 +345,7 @@ func (w *remoteTransitionStubWrapper) MergeAnimation(
 	ctx context.Context,
 	transition binder.IBinder,
 	info TransitionInfo,
-	t interface{},
+	t view.SurfaceControlTransaction,
 	mergeTarget binder.IBinder,
 	finishCallback IRemoteTransitionFinishedCallback,
 ) error {
@@ -310,7 +356,7 @@ func (w *remoteTransitionStubWrapper) TakeOverAnimation(
 	ctx context.Context,
 	transition binder.IBinder,
 	info TransitionInfo,
-	t interface{},
+	t view.SurfaceControlTransaction,
 	finishCallback IRemoteTransitionFinishedCallback,
 	states []WindowAnimationState,
 ) error {

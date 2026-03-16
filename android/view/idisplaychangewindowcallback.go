@@ -3,7 +3,6 @@ package view
 import (
 	"context"
 	"fmt"
-	window "github.com/xaionaro-go/binder/android/window"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -18,7 +17,7 @@ const (
 
 type IDisplayChangeWindowCallback interface {
 	AsBinder() binder.IBinder
-	ContinueDisplayChange(ctx context.Context, t window.WindowContainerTransaction) error
+	ContinueDisplayChange(ctx context.Context, t interface{}) error
 }
 
 type DisplayChangeWindowCallbackProxy struct {
@@ -39,14 +38,10 @@ var _ IDisplayChangeWindowCallback = (*DisplayChangeWindowCallbackProxy)(nil)
 
 func (p *DisplayChangeWindowCallbackProxy) ContinueDisplayChange(
 	ctx context.Context,
-	t window.WindowContainerTransaction,
+	t interface{},
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIDisplayChangeWindowCallback)
-	_data.WriteInt32(1)
-	if _err := t.MarshalParcel(_data); _err != nil {
-		return _err
-	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIDisplayChangeWindowCallback, "continueDisplayChange")
 	if _err != nil {
@@ -84,18 +79,7 @@ func (s *DisplayChangeWindowCallbackStub) OnTransaction(
 		if _, _err := _data.ReadString16(); _err != nil {
 			return nil, _err
 		}
-		var _arg_t window.WindowContainerTransaction
-		{
-			_nullInd, _err := _data.ReadInt32()
-			if _err != nil {
-				return nil, _err
-			}
-			if _nullInd != 0 {
-				if _err = _arg_t.UnmarshalParcel(_data); _err != nil {
-					return nil, _err
-				}
-			}
-		}
+		var _arg_t interface{}
 		_err := s.Impl.ContinueDisplayChange(ctx, _arg_t)
 		_reply := parcel.New()
 		if _err != nil {
@@ -113,7 +97,7 @@ func (s *DisplayChangeWindowCallbackStub) OnTransaction(
 // provide to NewDisplayChangeWindowCallbackStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IDisplayChangeWindowCallbackServer interface {
-	ContinueDisplayChange(ctx context.Context, t window.WindowContainerTransaction) error
+	ContinueDisplayChange(ctx context.Context, t interface{}) error
 }
 
 type displayChangeWindowCallbackStubWrapper struct {
@@ -127,7 +111,7 @@ func (w *displayChangeWindowCallbackStubWrapper) AsBinder() binder.IBinder {
 
 func (w *displayChangeWindowCallbackStubWrapper) ContinueDisplayChange(
 	ctx context.Context,
-	t window.WindowContainerTransaction,
+	t interface{},
 ) error {
 	return w.impl.ContinueDisplayChange(ctx, t)
 }

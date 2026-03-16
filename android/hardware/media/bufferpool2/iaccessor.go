@@ -3,6 +3,7 @@ package bufferpool2
 import (
 	"context"
 	"fmt"
+	bufferpool2IAccessor "github.com/xaionaro-go/binder/android/hardware/media/bufferpool2/IAccessor"
 	"github.com/xaionaro-go/binder/binder"
 	"github.com/xaionaro-go/binder/parcel"
 )
@@ -17,7 +18,7 @@ const (
 
 type IAccessor interface {
 	AsBinder() binder.IBinder
-	Connect(ctx context.Context, observer IObserver) (interface{}, error)
+	Connect(ctx context.Context, observer IObserver) (bufferpool2IAccessor.ConnectionInfo, error)
 }
 
 type AccessorProxy struct {
@@ -39,8 +40,8 @@ var _ IAccessor = (*AccessorProxy)(nil)
 func (p *AccessorProxy) Connect(
 	ctx context.Context,
 	observer IObserver,
-) (interface{}, error) {
-	var _result interface{}
+) (bufferpool2IAccessor.ConnectionInfo, error) {
+	var _result bufferpool2IAccessor.ConnectionInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIAccessor)
 	binder.WriteBinderToParcel(ctx, _data, observer.AsBinder(), p.remote.Transport())
@@ -60,6 +61,15 @@ func (p *AccessorProxy) Connect(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -91,7 +101,10 @@ func (s *AccessorStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	default:
 		return nil, fmt.Errorf("unknown transaction code %d", code)
@@ -102,7 +115,7 @@ func (s *AccessorStub) OnTransaction(
 // provide to NewAccessorStub. It contains only the business methods,
 // without AsBinder (which is provided by the stub itself).
 type IAccessorServer interface {
-	Connect(ctx context.Context, observer IObserver) (interface{}, error)
+	Connect(ctx context.Context, observer IObserver) (bufferpool2IAccessor.ConnectionInfo, error)
 }
 
 type accessorStubWrapper struct {
@@ -117,7 +130,7 @@ func (w *accessorStubWrapper) AsBinder() binder.IBinder {
 func (w *accessorStubWrapper) Connect(
 	ctx context.Context,
 	observer IObserver,
-) (interface{}, error) {
+) (bufferpool2IAccessor.ConnectionInfo, error) {
 	return w.impl.Connect(ctx, observer)
 }
 

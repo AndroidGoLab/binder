@@ -1,6 +1,7 @@
 package EventPayload
 
 import (
+	sensors "github.com/xaionaro-go/binder/android/hardware/sensors"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,7 +11,7 @@ type Vec3 struct {
 	X      float32
 	Y      float32
 	Z      float32
-	Status interface{}
+	Status sensors.SensorStatus
 }
 
 var _ parcel.Parcelable = (*Vec3)(nil)
@@ -22,6 +23,7 @@ func (s *Vec3) MarshalParcel(
 	p.WriteFloat32(s.X)
 	p.WriteFloat32(s.Y)
 	p.WriteFloat32(s.Z)
+	p.WritePaddedByte(byte(s.Status))
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -49,6 +51,12 @@ func (s *Vec3) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
+
+	_statusRaw, _err := p.ReadPaddedByte()
+	if _err != nil {
+		return _err
+	}
+	s.Status = sensors.SensorStatus(_statusRaw)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

@@ -1,6 +1,7 @@
 package EventPayload
 
 import (
+	sensors "github.com/xaionaro-go/binder/android/hardware/sensors"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -8,7 +9,7 @@ import (
 
 type HeartRate struct {
 	Bpm    float32
-	Status interface{}
+	Status sensors.SensorStatus
 }
 
 var _ parcel.Parcelable = (*HeartRate)(nil)
@@ -18,6 +19,7 @@ func (s *HeartRate) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	p.WriteFloat32(s.Bpm)
+	p.WritePaddedByte(byte(s.Status))
 
 	parcel.WriteParcelableFooter(p, _headerPos)
 	return nil
@@ -35,6 +37,12 @@ func (s *HeartRate) UnmarshalParcel(
 	if _err != nil {
 		return _err
 	}
+
+	_statusRaw, _err := p.ReadPaddedByte()
+	if _err != nil {
+		return _err
+	}
+	s.Status = sensors.SensorStatus(_statusRaw)
 
 	parcel.SkipToParcelableEnd(p, _endPos)
 	return nil

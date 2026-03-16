@@ -5,6 +5,7 @@ import (
 	"fmt"
 	app "github.com/xaionaro-go/binder/android/app"
 	pm "github.com/xaionaro-go/binder/android/content/pm"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -83,7 +84,7 @@ type IStorageManager interface {
 	RegisterListener(ctx context.Context, listener IStorageEventListener) error
 	UnregisterListener(ctx context.Context, listener IStorageEventListener) error
 	Shutdown(ctx context.Context, observer IStorageShutdownObserver) error
-	MountObb(ctx context.Context, rawPath string, canonicalPath string, token IObbActionListener, nonce int32, obbInfo interface{}) error
+	MountObb(ctx context.Context, rawPath string, canonicalPath string, token IObbActionListener, nonce int32, obbInfo res.ObbInfo) error
 	UnmountObb(ctx context.Context, rawPath string, force bool, token IObbActionListener, nonce int32) error
 	IsObbMounted(ctx context.Context, rawPath string) (bool, error)
 	GetMountedObbPath(ctx context.Context, rawPath string) (string, error)
@@ -243,7 +244,7 @@ func (p *StorageManagerProxy) MountObb(
 	canonicalPath string,
 	token IObbActionListener,
 	nonce int32,
-	obbInfo interface{},
+	obbInfo res.ObbInfo,
 ) error {
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIStorageManager)
@@ -251,6 +252,10 @@ func (p *StorageManagerProxy) MountObb(
 	_data.WriteString16(canonicalPath)
 	binder.WriteBinderToParcel(ctx, _data, token.AsBinder(), p.remote.Transport())
 	_data.WriteInt32(nonce)
+	_data.WriteInt32(1)
+	if _err := obbInfo.MarshalParcel(_data); _err != nil {
+		return _err
+	}
 
 	_code, _err := p.remote.ResolveCode(DescriptorIStorageManager, "mountObb")
 	if _err != nil {
@@ -2042,7 +2047,18 @@ func (s *StorageManagerStub) OnTransaction(
 		if _err != nil {
 			return nil, _err
 		}
-		var _arg_obbInfo interface{}
+		var _arg_obbInfo res.ObbInfo
+		{
+			_nullInd, _err := _data.ReadInt32()
+			if _err != nil {
+				return nil, _err
+			}
+			if _nullInd != 0 {
+				if _err = _arg_obbInfo.UnmarshalParcel(_data); _err != nil {
+					return nil, _err
+				}
+			}
+		}
 		_err = s.Impl.MountObb(ctx, _arg_rawPath, _arg_canonicalPath, _arg_token, _arg_nonce, _arg_obbInfo)
 		_reply := parcel.New()
 		if _err != nil {
@@ -3104,7 +3120,7 @@ type IStorageManagerServer interface {
 	RegisterListener(ctx context.Context, listener IStorageEventListener) error
 	UnregisterListener(ctx context.Context, listener IStorageEventListener) error
 	Shutdown(ctx context.Context, observer IStorageShutdownObserver) error
-	MountObb(ctx context.Context, rawPath string, canonicalPath string, token IObbActionListener, nonce int32, obbInfo interface{}) error
+	MountObb(ctx context.Context, rawPath string, canonicalPath string, token IObbActionListener, nonce int32, obbInfo res.ObbInfo) error
 	UnmountObb(ctx context.Context, rawPath string, force bool, token IObbActionListener, nonce int32) error
 	IsObbMounted(ctx context.Context, rawPath string) (bool, error)
 	GetMountedObbPath(ctx context.Context, rawPath string) (string, error)
@@ -3200,7 +3216,7 @@ func (w *storageManagerStubWrapper) MountObb(
 	canonicalPath string,
 	token IObbActionListener,
 	nonce int32,
-	obbInfo interface{},
+	obbInfo res.ObbInfo,
 ) error {
 	return w.impl.MountObb(ctx, rawPath, canonicalPath, token, nonce, obbInfo)
 }

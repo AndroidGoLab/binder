@@ -2,7 +2,6 @@ package IBluetoothAudioProvider
 
 import (
 	audio "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio"
-	IBluetoothAudioProviderLeAudioAseQosConfigurationRequirement "github.com/xaionaro-go/binder/android/hardware/bluetooth/audio/IBluetoothAudioProvider/LeAudioAseQosConfigurationRequirement"
 	"github.com/xaionaro-go/binder/parcel"
 )
 
@@ -10,8 +9,8 @@ import (
 
 type LeAudioAseQosConfigurationRequirement struct {
 	AudioContext            audio.AudioContext
-	SinkAseQosRequirement   IBluetoothAudioProviderLeAudioAseQosConfigurationRequirement.AseQosDirectionRequirement
-	SourceAseQosRequirement IBluetoothAudioProviderLeAudioAseQosConfigurationRequirement.AseQosDirectionRequirement
+	SinkAseQosRequirement   interface{}
+	SourceAseQosRequirement interface{}
 	Flags                   audio.ConfigurationFlags
 }
 
@@ -22,12 +21,6 @@ func (s *LeAudioAseQosConfigurationRequirement) MarshalParcel(
 ) error {
 	_headerPos := parcel.WriteParcelableHeader(p)
 	if _err := s.AudioContext.MarshalParcel(p); _err != nil {
-		return _err
-	}
-	if _err := s.SinkAseQosRequirement.MarshalParcel(p); _err != nil {
-		return _err
-	}
-	if _err := s.SourceAseQosRequirement.MarshalParcel(p); _err != nil {
 		return _err
 	}
 	if _err := s.Flags.MarshalParcel(p); _err != nil {
@@ -47,14 +40,6 @@ func (s *LeAudioAseQosConfigurationRequirement) UnmarshalParcel(
 	}
 
 	if _err = s.AudioContext.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
-	if _err = s.SinkAseQosRequirement.UnmarshalParcel(p); _err != nil {
-		return _err
-	}
-
-	if _err = s.SourceAseQosRequirement.UnmarshalParcel(p); _err != nil {
 		return _err
 	}
 

@@ -3,6 +3,7 @@ package app
 import (
 	"context"
 	"fmt"
+	res "github.com/xaionaro-go/binder/android/content/res"
 	"github.com/xaionaro-go/binder/binder"
 	os "github.com/xaionaro-go/binder/com/android/internal_/os"
 	"github.com/xaionaro-go/binder/parcel"
@@ -23,7 +24,7 @@ type IMediaContainerService interface {
 	AsBinder() binder.IBinder
 	CopyPackage(ctx context.Context, packagePath string, target os.IParcelFileDescriptorFactory) (int32, error)
 	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (interface{}, error)
-	GetObbInfo(ctx context.Context, filename string) (interface{}, error)
+	GetObbInfo(ctx context.Context, filename string) (res.ObbInfo, error)
 	CalculateInstalledSize(ctx context.Context, packagePath string, abiOverride string) (int64, error)
 }
 
@@ -110,8 +111,8 @@ func (p *MediaContainerServiceProxy) GetMinimalPackageInfo(
 func (p *MediaContainerServiceProxy) GetObbInfo(
 	ctx context.Context,
 	filename string,
-) (interface{}, error) {
-	var _result interface{}
+) (res.ObbInfo, error) {
+	var _result res.ObbInfo
 	_data := parcel.New()
 	_data.WriteInterfaceToken(DescriptorIMediaContainerService)
 	_data.WriteString16(filename)
@@ -131,6 +132,15 @@ func (p *MediaContainerServiceProxy) GetObbInfo(
 		return _result, _err
 	}
 
+	_nullIndicator, _err := _reply.ReadInt32()
+	if _err != nil {
+		return _result, _err
+	}
+	if _nullIndicator != 0 {
+		if _err = _result.UnmarshalParcel(_reply); _err != nil {
+			return _result, _err
+		}
+	}
 	return _result, nil
 }
 
@@ -241,7 +251,10 @@ func (s *MediaContainerServiceStub) OnTransaction(
 			return _reply, nil
 		}
 		binder.WriteStatus(_reply, nil)
-		_ = _result
+		_reply.WriteInt32(1)
+		if _err := _result.MarshalParcel(_reply); _err != nil {
+			return nil, _err
+		}
 		return _reply, nil
 	case TransactionIMediaContainerServiceCalculateInstalledSize:
 		if _, _err := _data.ReadString16(); _err != nil {
@@ -275,7 +288,7 @@ func (s *MediaContainerServiceStub) OnTransaction(
 type IMediaContainerServiceServer interface {
 	CopyPackage(ctx context.Context, packagePath string, target os.IParcelFileDescriptorFactory) (int32, error)
 	GetMinimalPackageInfo(ctx context.Context, packagePath string, flags int32, abiOverride string) (interface{}, error)
-	GetObbInfo(ctx context.Context, filename string) (interface{}, error)
+	GetObbInfo(ctx context.Context, filename string) (res.ObbInfo, error)
 	CalculateInstalledSize(ctx context.Context, packagePath string, abiOverride string) (int64, error)
 }
 
@@ -308,7 +321,7 @@ func (w *mediaContainerServiceStubWrapper) GetMinimalPackageInfo(
 func (w *mediaContainerServiceStubWrapper) GetObbInfo(
 	ctx context.Context,
 	filename string,
-) (interface{}, error) {
+) (res.ObbInfo, error) {
 	return w.impl.GetObbInfo(ctx, filename)
 }
 
