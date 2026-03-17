@@ -37,13 +37,22 @@ var emulatorStartedByTest bool
 // onDevice reports whether the test binary is running directly on an
 // Android device (i.e. /dev/binder is accessible). When true, the
 // emulator/adb setup is skipped — on-device tests open /dev/binder
-// directly, and aidlcli tests are skipped.
+// directly, and bindercli tests exec the binary directly.
 var onDevice bool
+
+// bindercliAvailable is true when the bindercli binary exists at
+// deviceBinary. On-device, this requires the binary to have been
+// pushed separately; on-host it is built and pushed by TestMain.
+var bindercliAvailable bool
 
 func TestMain(m *testing.M) {
 	if _, err := os.Stat("/dev/binder"); err == nil {
 		// Running on the device itself — skip emulator setup.
+		// Bindercli tests will exec the binary directly if present.
 		onDevice = true
+		if _, err := os.Stat(deviceBinary); err == nil {
+			bindercliAvailable = true
+		}
 		os.Exit(m.Run())
 	}
 
@@ -199,11 +208,23 @@ func logAndExit(msg string) {
 	os.Exit(1)
 }
 
-// runBindercli executes bindercli on the emulator via `adb -s <serial> shell`.
+// runBindercli executes bindercli and returns stdout, stderr, error.
+// When running on the host, it uses `adb -s <serial> shell` to execute
+// on the emulator. When running on-device, it execs the binary directly.
 // It always injects --format json for machine-parseable output.
-// Arguments are joined into a single shell command string to preserve
-// empty/quoted values across the adb shell boundary.
 func runBindercli(args ...string) (string, string, error) {
+	if onDevice {
+		fullArgs := append([]string{"--format", "json"}, args...)
+		cmd := exec.Command(deviceBinary, fullArgs...)
+		var stdout, stderr bytes.Buffer
+		cmd.Stdout = &stdout
+		cmd.Stderr = &stderr
+		err := cmd.Run()
+		return stdout.String(), stderr.String(), err
+	}
+
+	// Host path: join into a single shell command string to preserve
+	// empty/quoted values across the adb shell boundary.
 	parts := make([]string, 0, len(args)+3)
 	parts = append(parts, deviceBinary, "--format", "json")
 	for _, a := range args {
@@ -230,12 +251,11 @@ func shellQuote(s string) string {
 	return "'" + strings.ReplaceAll(s, "'", "'\\''") + "'"
 }
 
-// runBindercliOrSkip runs bindercli; skips the test when the service is unavailable
-// or when running directly on the device (aidlcli tests require adb from the host).
+// runBindercliOrSkip runs bindercli; skips the test when the service is unavailable.
 func runBindercliOrSkip(t *testing.T, args ...string) string {
 	t.Helper()
-	if onDevice {
-		t.Skip("bindercli tests require adb from host; skipping on-device")
+	if onDevice && !bindercliAvailable {
+		t.Skip("bindercli binary not found on device at " + deviceBinary)
 	}
 	stdout, stderr, err := runBindercli(args...)
 	if err != nil {
@@ -701,8 +721,8 @@ func runBindercliHALOrSkip(
 	args ...string,
 ) string {
 	t.Helper()
-	if onDevice {
-		t.Skip("bindercli tests require adb from host; skipping on-device")
+	if onDevice && !bindercliAvailable {
+		t.Skip("bindercli binary not found on device at " + deviceBinary)
 	}
 	fullArgs := append([]string{serviceName}, args...)
 	stdout, stderr, err := runBindercli(fullArgs...)
@@ -745,8 +765,8 @@ func TestBindercli_ServiceMethods(t *testing.T) {
 }
 
 func TestBindercli_ServiceTransact(t *testing.T) {
-	if onDevice {
-		t.Skip("bindercli tests require adb from host; skipping on-device")
+	if onDevice && !bindercliAvailable {
+		t.Skip("bindercli binary not found on device at " + deviceBinary)
 	}
 
 	// SurfaceFlinger code 1022 (getSchedulingPolicy) is a simple read-only

@@ -122,6 +122,12 @@ var knownServiceNames map[string]string
 // resolving interface types (kindInterfaceType) in other packages.
 var knownInterfaces map[string]*interfaceInfo
 
+// subInterfaceDescriptors is the set of AIDL descriptors that are
+// returned by methods on other interfaces but are NOT registered with
+// ServiceManager. These cannot be discovered by findServiceByDescriptor
+// and are excluded from top-level CLI command generation.
+var subInterfaceDescriptors map[string]bool
+
 func main() {
 	specsDir := flag.String("specs", "specs/", "Directory containing spec YAML files")
 	outputDir := flag.String("output", "cmd/bindercli/", "Output directory for generated files")
@@ -162,8 +168,34 @@ func run(
 	fmt.Fprintf(os.Stderr, "Scanned enum types: %d\n", len(knownEnums))
 	fmt.Fprintf(os.Stderr, "Known service mappings: %d\n", len(knownServiceNames))
 
-	// Phase 2: build interface list.
+	// Phase 2: build interface list and detect sub-interfaces.
+	//
+	// A sub-interface is one that appears as a return type of a method on
+	// another interface but is not registered with ServiceManager. These
+	// cannot be discovered via findServiceByDescriptor and should not get
+	// top-level CLI commands.
 	var interfaces []*interfaceInfo
+
+	// Collect all interface descriptors that appear as method return types.
+	// These are potential sub-interfaces (obtained via a parent, not via
+	// ServiceManager).
+	returnedDescriptors := map[string]bool{}
+	for _, ps := range specs {
+		for _, iface := range ps.Interfaces {
+			for _, m := range iface.Methods {
+				rt := m.ReturnType.Name
+				if rt == "" {
+					continue
+				}
+				// Qualify unqualified names with the current package.
+				if !strings.Contains(rt, ".") && ps.AIDLPackage != "" {
+					rt = ps.AIDLPackage + "." + rt
+				}
+				returnedDescriptors[rt] = true
+			}
+		}
+	}
+
 	for _, ps := range specs {
 		importPath := modulePath + "/" + ps.GoPackage
 		pkgName := filepath.Base(ps.GoPackage)
@@ -178,6 +210,19 @@ func run(
 	sort.Slice(interfaces, func(i, j int) bool {
 		return interfaces[i].Descriptor < interfaces[j].Descriptor
 	})
+
+	// Identify sub-interfaces: descriptors that appear as method return
+	// types but have no ServiceManager registration.
+	subInterfaceDescriptors = map[string]bool{}
+	for _, ii := range interfaces {
+		if _, hasMapping := knownServiceNames[ii.Descriptor]; hasMapping {
+			continue
+		}
+		if returnedDescriptors[ii.Descriptor] {
+			subInterfaceDescriptors[ii.Descriptor] = true
+		}
+	}
+	fmt.Fprintf(os.Stderr, "Sub-interfaces (excluded from CLI): %d\n", len(subInterfaceDescriptors))
 
 	totalMethods := 0
 	commandableMethods := 0
@@ -1007,6 +1052,11 @@ func writeCommandsGen(
 
 	for _, iface := range interfaces {
 		if iface.ImportPath == modulePath {
+			continue
+		}
+		// Skip sub-interfaces: they are obtained via methods on other
+		// interfaces and cannot be discovered by findServiceByDescriptor.
+		if subInterfaceDescriptors[iface.Descriptor] {
 			continue
 		}
 
